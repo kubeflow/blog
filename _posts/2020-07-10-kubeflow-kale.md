@@ -3,6 +3,7 @@ toc: true
 layout: post
 categories: [integrations]
 description: Running pipelines at scale has never been easier.
+comments: true
 title: Kubeflow & Kale simplify building better ML Pipelines with automatic hyperparameter tuning
 author: Stefano Fioravanzo
 ---

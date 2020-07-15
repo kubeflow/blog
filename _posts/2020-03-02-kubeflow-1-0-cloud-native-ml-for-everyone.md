@@ -66,7 +66,33 @@ Distributed training is the norm at Google ([blog](https://ai.googleblog.com/201
 
 When we started Kubeflow, one of our key motivations was to leverage Kubernetes to simplify distributed training. Kubeflow provides Kubernetes custom resources that make distributed training with TensorFlow and PyTorch simple. All a user needs to do is define a TFJob or PyTorch resource like the one illustrated below. The custom controller takes care of spinning up and managing all of the individual processes and configuring them to talk to one another:
 
-<iframe src="https://medium.com/media/cc10a8288bea1288e9e2840a138fbf17" frameborder=0></iframe>
+```yaml
+apiVersion: kubeflow.org/v1
+kind: TFJob
+metadata:
+  name: mnist-train
+spec:
+  tfReplicaSpecs:
+    Chief:
+      replicas: 1
+        spec:
+          containers:
+            image: gcr.io/alice-dev/fairing-job/mnist
+            name: tensorflow
+    Ps:
+      replicas: 1
+      template:
+        spec:
+          containers:
+            image: gcr.io/alice-dev/fairing-job/mnist
+            name: tensorflow
+    Worker:
+      replicas: 10      
+        spec:
+          containers:
+            image: gcr.io/alice-dev/fairing-job/mnist
+            name: tensorflow
+```
 
 ### Monitoring Model Training With TensorBoard
 
@@ -95,7 +121,17 @@ No need to `kubectl port-forward` to individual pods.
 
 Below is an example of a KFServing spec showing how a model can be deployed. All a user has to do is provide the URI of their model file using storageUri:
 
-<iframe src="https://medium.com/media/0421b046cc22ebff67950eb29056b1e9" frameborder=0></iframe>
+```yaml
+apiVersion: "serving.kubeflow.org/v1alpha2"
+kind: "InferenceService"
+metadata:
+  name: "sklearn-iris"
+spec:
+  default:
+    predictor:
+      sklearn:
+        storageUri: "gs://kfserving-samples/models/sklearn/iris"
+```
 
 Check out the [samples ](https://github.com/kubeflow/kfserving/tree/master/docs/samples)to learn how to use the above capabilities.
 

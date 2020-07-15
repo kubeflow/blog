@@ -3,7 +3,7 @@ toc: true
 layout: post
 categories: [integrations, operators]
 title: Introduction to Kubeflow MPI Operator and Industry Adoption
-author: Yuan Tang (Ant Financial), Wei Yan (Ant Financial), and Rong Ou (NVIDIA)
+author: "<a href='https://twitter.com/TerryTangYuan'>Yuan Tang</a> (Ant Financial), <a href='https://www.linkedin.com/in/wei-yan-a6037337'>Wei Yan</a> (Ant Financial), and <a href='https://www.linkedin.com/in/rongou'>Rong Ou</a> (NVIDIA)"
 ---
 
 Kubeflow just [announced its first major 1.0 release recently](https://medium.com/kubeflow/kubeflow-1-0-cloud-native-ml-for-everyone-a3950202751), which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce [MPI Operator](https://github.com/kubeflow/mpi-operator) ([docs](https://www.kubeflow.org/docs/components/training/mpi/)), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes.

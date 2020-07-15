@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Kubeflow 1.0 - Cloud Native ML for Everyone | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Kubeflow 1.0 - Cloud Native ML for Everyone" />
+<meta name="author" content="Thea Lamkin (Google), Jeremy Lewi (Google), Josh Bottum (Arrikto), Elvira Dzhuraeva (Cisco), David Aronchick (Microsoft), Amy Unruh (Google), Animesh Singh (IBM), and Ellis Bigelow (Google)." />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Kubeflow 1.0: Cloud Native ML for Everyone" />
+<meta property="og:description" content="Kubeflow 1.0: Cloud Native ML for Everyone" />
+<link rel="canonical" href="https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html" />
+<meta property="og:url" content="https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-02T00:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Thea Lamkin (Google), Jeremy Lewi (Google), Josh Bottum (Arrikto), Elvira Dzhuraeva (Cisco), David Aronchick (Microsoft), Amy Unruh (Google), Animesh Singh (IBM), and Ellis Bigelow (Google)."},"description":"Kubeflow 1.0: Cloud Native ML for Everyone","@type":"BlogPosting","headline":"Kubeflow 1.0 - Cloud Native ML for Everyone","dateModified":"2020-03-02T00:00:00-06:00","datePublished":"2020-03-02T00:00:00-06:00","url":"https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Kubeflow 1.0 - Cloud Native ML for Everyone | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Kubeflow 1.0 - Cloud Native ML for Everyone" />
+<meta name="author" content="Thea Lamkin (Google), Jeremy Lewi (Google), Josh Bottum (Arrikto), Elvira Dzhuraeva (Cisco), David Aronchick (Microsoft), Amy Unruh (Google), Animesh Singh (IBM), and Ellis Bigelow (Google)." />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Kubeflow 1.0: Cloud Native ML for Everyone" />
+<meta property="og:description" content="Kubeflow 1.0: Cloud Native ML for Everyone" />
+<link rel="canonical" href="https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html" />
+<meta property="og:url" content="https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-02T00:00:00-06:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Thea Lamkin (Google), Jeremy Lewi (Google), Josh Bottum (Arrikto), Elvira Dzhuraeva (Cisco), David Aronchick (Microsoft), Amy Unruh (Google), Animesh Singh (IBM), and Ellis Bigelow (Google)."},"description":"Kubeflow 1.0: Cloud Native ML for Everyone","@type":"BlogPosting","headline":"Kubeflow 1.0 - Cloud Native ML for Everyone","dateModified":"2020-03-02T00:00:00-06:00","datePublished":"2020-03-02T00:00:00-06:00","url":"https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kubeflow 1.0 - Cloud Native ML for Everyone</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-03-02T00:00:00-06:00" itemprop="datePublished">
+        Mar 2, 2020
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Thea Lamkin (Google), Jeremy Lewi (Google), Josh Bottum (Arrikto), Elvira Dzhuraeva (Cisco), David Aronchick (Microsoft), Amy Unruh (Google), Animesh Singh (IBM), and Ellis Bigelow (Google).</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#releases">releases</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#kubeflow-10-cloud-native-ml-for-everyone">Kubeflow 1.0: Cloud Native ML for Everyone</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#develop-build-train-and-deploy-with-kubeflow">Develop, Build, Train, and Deploy with Kubeflow</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#getting-started-with-ml-on-kubernetes">Getting Started with ML on Kubernetes</a></li>
+<li class="toc-entry toc-h3"><a href="#jupyter-on-kubernetes">Jupyter on Kubernetes</a></li>
+<li class="toc-entry toc-h3"><a href="#training-faster-with-distributed-training">Training faster with distributed training</a></li>
+<li class="toc-entry toc-h3"><a href="#monitoring-model-training-with-tensorboard">Monitoring Model Training With TensorBoard</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#deploying-models">Deploying Models</a></li>
+<li class="toc-entry toc-h2"><a href="#solutions-are-more-than-models">Solutions are More Than Models</a></li>
+<li class="toc-entry toc-h2"><a href="#whats-coming-in-kubeflow">What’s coming in Kubeflow</a></li>
+<li class="toc-entry toc-h2"><a href="#user-testimonials">User testimonials</a></li>
+<li class="toc-entry toc-h2"><a href="#thank-you">Thank You!</a></li>
+<li class="toc-entry toc-h2"><a href="#an-open-community">An Open Community</a></li>
+</ul>
+</li>
+</ul><h1 id="kubeflow-10-cloud-native-ml-for-everyone">
+<a class="anchor" href="#kubeflow-10-cloud-native-ml-for-everyone" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kubeflow 1.0: Cloud Native ML for Everyone</h1>
+
+<p>On behalf of the entire community, we are proud to announce Kubeflow 1.0, our first major release. Kubeflow was open sourced at Kubecon USA in December 2017, and during the last two years the Kubeflow Project has grown beyond our wildest expectations. There are now hundreds of contributors from over 30 <a href="https://github.com/kubeflow/community/blob/master/member_organizations.yaml">participating organizations</a>.</p>
+
+<p>Kubeflow’s goal is to make it easy for machine learning (ML) engineers and data scientists to leverage cloud assets (public or on-premise) for ML workloads. You can use Kubeflow on any Kubernetes-conformant cluster.</p>
+
+<p>With 1.0, we are graduating a core set of stable applications needed to develop, build, train, and deploy models on Kubernetes efficiently. (Read more in Kubeflow’s <a href="https://www.kubeflow.org/docs/reference/version-policy/">versioning policies</a> and <a href="https://github.com/kubeflow/community/blob/master/guidelines/application_requirements.md">application requirements</a> for graduation.)</p>
+
+<p>Graduating applications include:</p>
+
+<ul>
+  <li>
+    <p>Kubeflow’s UI, the <a href="https://www.kubeflow.org/docs/components/central-dash/overview/">central dashboard</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/kubeflow/kubeflow/tree/master/components/notebook-controller">Jupyter notebook controller</a> and <a href="https://www.kubeflow.org/docs/notebooks/why-use-jupyter-notebook/">web app</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.kubeflow.org/docs/components/training/tftraining/">Tensorflow Operator</a> (TFJob) and <a href="https://www.kubeflow.org/docs/components/training/pytorch/">PyTorch Operator</a> for distributed training</p>
+  </li>
+  <li>
+    <p><a href="https://www.kubeflow.org/docs/other-guides/kustomize/">kfctl</a> for deployment and upgrades</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/kubeflow/kubeflow/tree/master/components/profile-controller">Profile controller</a> and UI for multiuser management</p>
+  </li>
+</ul>
+
+<p><em>Hear more about Kubeflow’s mission and 1.0 release in <a href="http://kubernetespodcast.com/episode/093-kubeflow-1.0/">this</a> interview with Kubeflow founder and core contributor Jeremy Lewi on the Kubernetes Podcast.</em></p>
+
+<h2 id="develop-build-train-and-deploy-with-kubeflow">
+<a class="anchor" href="#develop-build-train-and-deploy-with-kubeflow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Develop, Build, Train, and Deploy with Kubeflow</h2>
+
+<p><img src="https://cdn-images-1.medium.com/max/3200/0*tBPpU3UqM_MeJ0-P" alt="Kubeflow’s 1.0 applications that make up our develop, build, train, deploy critical user journey."><em>Kubeflow’s 1.0 applications that make up our develop, build, train, deploy critical user journey.</em></p>
+
+<p>With Kubeflow 1.0, users can use Jupyter to develop models. They can then use Kubeflow tools like <a href="https://www.kubeflow.org/docs/fairing/">fairing</a> (Kubeflow’s python SDK) to build containers and create Kubernetes resources to train their models. Once they have a model, they can use <a href="https://github.com/kubeflow/kfserving">KFServing</a> to create and deploy a server for inference.</p>
+
+<h3 id="getting-started-with-ml-on-kubernetes">
+<a class="anchor" href="#getting-started-with-ml-on-kubernetes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started with ML on Kubernetes</h3>
+
+<p>Kubernetes is an amazing platform for leveraging infrastructure (whether on public cloud or on-premises), but deploying Kubernetes optimized for ML and integrated with your cloud is no easy task. With 1.0 we are providing a CLI and configuration files so you can deploy Kubeflow with one command:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kfctl apply -f [kfctl_gcp_iap.v1.0.0.yaml](https://github.com/kubeflow/manifests/blob/master/kfdef/kfctl_gcp_iap.yaml)
+
+kfctl apply -f [kfctl_k8s_istio.v1.0.0.yaml](https://github.com/kubeflow/manifests/blob/master/kfdef/kfctl_gcp_iap.yaml)
+
+kfctl apply -f [kfctl_aws_cognito.v1.0.0.yaml](https://github.com/kubeflow/manifests/blob/master/kfdef/kfctl_gcp_iap.yaml)
+
+kfctl apply -f [kfctl_ibm.v1.0.0.yaml](https://github.com/kubeflow/manifests/blob/master/kfdef/kfctl_gcp_iap.yaml)
+</code></pre></div></div>
+
+<h3 id="jupyter-on-kubernetes">
+<a class="anchor" href="#jupyter-on-kubernetes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Jupyter on Kubernetes</h3>
+
+<p>In Kubeflow’s <a href="https://medium.com/kubeflow/kubeflow-community-user-survey-fall-2019-a84776c71743">user surveys</a>, data scientists have consistently expressed the importance of Jupyter notebooks. Further, they need the ability to integrate isolated Jupyter notebooks with the efficiencies of Kubernetes on Cloud to train larger models using GPUs and run multiple experiments in parallel. Kubeflow makes it easy to leverage Kubernetes for resource management and put the full power of your datacenter at the fingertips of your data scientist.</p>
+
+<p>With Kubeflow, each data scientist or team can be given their own namespace in which to run their workloads. Namespaces provide security and resource isolation. Using <a href="https://kubernetes.io/docs/concepts/policy/resource-quotas/#compute-resource-quota">Kubernetes resource quotas</a>, platform administrators can easily limit how much resources an individual or team can consume to ensure fair scheduling.</p>
+
+<p>After deploying Kubeflow, users can leverage Kubeflow’s central dashboard for launching notebooks:</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/2000/0*a0fExGwBs6pbAUDC" alt="Kubeflow’s UI for managing notebooks: view and connect to existing notebooks or launch a new one."><em>Kubeflow’s UI for managing notebooks: view and connect to existing notebooks or launch a new one.</em></p>
+
+<p>In the Kubeflow UI users can easily launch new notebooks by choosing one of the pre-built docker images for Jupyter or entering the URL of a custom image. Next, users can set how many CPUs and GPUs to attach to their notebook. Notebooks can also include configuration and secrets parameters which simplify access to external repositories and databases.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/2000/0*U4dUF2N-w5LBxaJk" alt=""></p>
+
+<h3 id="training-faster-with-distributed-training">
+<a class="anchor" href="#training-faster-with-distributed-training" aria-hidden="true"><span class="octicon octicon-link"></span></a>Training faster with distributed training</h3>
+
+<p>Distributed training is the norm at Google (<a href="https://ai.googleblog.com/2016/04/announcing-tensorflow-08-now-with.html">blog</a>), and one of the most exciting and requested features for deep learning frameworks like TensorFlow and PyTorch.</p>
+
+<p>When we started Kubeflow, one of our key motivations was to leverage Kubernetes to simplify distributed training. Kubeflow provides Kubernetes custom resources that make distributed training with TensorFlow and PyTorch simple. All a user needs to do is define a TFJob or PyTorch resource like the one illustrated below. The custom controller takes care of spinning up and managing all of the individual processes and configuring them to talk to one another:</p>
+
+<iframe src="https://medium.com/media/cc10a8288bea1288e9e2840a138fbf17" frameborder="0"></iframe>
+
+<h3 id="monitoring-model-training-with-tensorboard">
+<a class="anchor" href="#monitoring-model-training-with-tensorboard" aria-hidden="true"><span class="octicon octicon-link"></span></a>Monitoring Model Training With TensorBoard</h3>
+
+<p>To train high quality models, data scientists need to debug and monitor the training process with tools like <a href="https://www.tensorflow.org/tensorboard">Tensorboard</a>. With Kubernetes and Kubeflow, userscan easily deploy TensorBoard on their Kubernetes cluster by creating YAML files like the ones below. When deploying TensorBoard on Kubeflow, users can take advantage of Kubeflow’s AuthN and AuthZ integration to securely access TensorBoard behind Kubeflow’s ingress on public clouds:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// On GCP: [https://${KFNAME}.endpoints.${PROJECT}.cloud.goog/mnist/kubeflow-mnist/tensorboard/](https://${KFNAME}.endpoints.${PROJECT}.cloud.goog/mnist/kubeflow-mnist/tensorboard/)
+
+// On AWS:
+[http://8fb34ebe-istiosystem-istio-2af2-925939634.us-west-2.elb.amazonaws.com/mnist/anonymous/tensorboard/](http://8fb34ebe-istiosystem-istio-2af2-925939634.us-west-2.elb.amazonaws.com/mnist/anonymous/tensorboard/)
+</code></pre></div></div>
+
+<p>No need to <code class="highlighter-rouge">kubectl port-forward</code> to individual pods.</p>
+
+<h2 id="deploying-models">
+<a class="anchor" href="#deploying-models" aria-hidden="true"><span class="octicon octicon-link"></span></a>Deploying Models</h2>
+
+<p><a href="https://www.kubeflow.org/docs/components/serving/kfserving/">KFServing</a> is a custom resource built on top of <a href="https://knative.dev/">Knative</a> for deploying and managing ML models. KFServing offers the following capabilities not provided by lower level primitives (e.g. Deployment):</p>
+
+<ol>
+  <li>
+    <p>Deploy your model using out-of-the-box model servers (no need to write your own flask app)</p>
+  </li>
+  <li>
+    <p>Auto-scaling based on load, even for models served on GPUs</p>
+  </li>
+  <li>
+    <p>Safe, controlled model rollout</p>
+  </li>
+  <li>
+    <p>Explainability (alpha)</p>
+  </li>
+  <li>
+    <p>Payload logging (alpha)</p>
+  </li>
+</ol>
+
+<p>Below is an example of a KFServing spec showing how a model can be deployed. All a user has to do is provide the URI of their model file using storageUri:</p>
+
+<iframe src="https://medium.com/media/0421b046cc22ebff67950eb29056b1e9" frameborder="0"></iframe>
+
+<p>Check out the <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples">samples </a>to learn how to use the above capabilities.</p>
+
+<h2 id="solutions-are-more-than-models">
+<a class="anchor" href="#solutions-are-more-than-models" aria-hidden="true"><span class="octicon octicon-link"></span></a>Solutions are More Than Models</h2>
+
+<p>A model gathering dust in object storage isn’t doing your organization any good. To put ML to work, you typically need to incorporate that model into an application – whether it’s a web application, mobile app, or part of some backend reporting pipeline.</p>
+
+<p>Frameworks like flask and bootstrap make it easy for data scientists to create rich, visually appealing web applications that put their models to work. Below is a screenshot of the UI we built for Kubeflow’s <a href="https://github.com/kubeflow/examples/tree/master/mnist">mnist example</a>.</p>
+
+<p>With Kubeflow, there is no need for data scientists to learn new concepts or platforms to deploy their applications, or to deal with ingress, networking certificates, etc. They can deploy their application just like TensorBoard; the only thing that changes is the Docker image and flags.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/2000/0*l3uPs-HtSF2TH3t0" alt=""></p>
+
+<p>If this sounds like just what you are looking for we recommend:</p>
+
+<ol>
+  <li>
+    <p>Visiting our <a href="https://www.kubeflow.org/">docs</a> to learn how to deploy Kubeflow on your public or private cloud.</p>
+  </li>
+  <li>
+    <p>Walking through the <a href="https://github.com/kubeflow/examples/tree/master/mnist">mnist tutorial </a>to try our core applications yourself.</p>
+  </li>
+</ol>
+
+<h2 id="whats-coming-in-kubeflow">
+<a class="anchor" href="#whats-coming-in-kubeflow" aria-hidden="true"><span class="octicon octicon-link"></span></a>What’s coming in Kubeflow</h2>
+
+<p>There’s much more to Kubeflow than what we’ve covered in this blog post. In addition to the applications listed here, we have a number of applications under development:</p>
+
+<ul>
+  <li>
+    <p><a href="https://www.kubeflow.org/docs/pipelines/overview/pipelines-overview/">Pipelines</a> (beta) for defining complex ML workflows</p>
+  </li>
+  <li>
+    <p><a href="https://www.kubeflow.org/docs/components/metadata/">Metadata</a> (beta) for tracking datasets, jobs, and models,</p>
+  </li>
+  <li>
+    <p><a href="https://www.kubeflow.org/docs/components/hyperparameter-tuning/hyperparameter/">Katib</a> (beta) for hyper-parameter tuning</p>
+  </li>
+  <li>
+    <p>Distributed operators for other frameworks like <a href="https://github.com/kubeflow/xgboost-operator">xgboost</a></p>
+  </li>
+</ul>
+
+<p>In future releases we will be graduating these applications to 1.0.</p>
+
+<h2 id="user-testimonials">
+<a class="anchor" href="#user-testimonials" aria-hidden="true"><span class="octicon octicon-link"></span></a>User testimonials</h2>
+
+<p>All this would be nothing without feedback from and collaboration with our users. Some feedback from people using Kubeflow in production include:</p>
+
+<p>*“The Kubeflow 1.0 release is a significant milestone as it positions Kubeflow to be a viable ML Enterprise platform. Kubeflow 1.0 delivers material productivity enhancements for ML researchers.” — *Jeff Fogarty, AVP ML / Cloud Engineer, <strong>US Bank</strong></p>
+
+<p>*“Kubeflow’s data and model storage allows for smooth integration into CI/CD processes, allowing for a much faster and more agile delivery of machine learning models into applications.” — *Laura Schornack<strong>, **Shared Services Architect,</strong> Chase Commercial Bank**</p>
+
+<p>*“With the launch of Kubeflow 1.0 we now have a feature complete end-to-end open source machine learning platform, allowing everyone from small teams to large unicorns like Gojek to run ML at scale.” — *Willem Pienaar, Engineering Lead, Data Science Platform, <strong>GoJek</strong></p>
+
+<p>*“Kubeflow provides a seamless interface to a great set of tools that together manages the complexity of ML workflows and encourages best practices. The Data Science and Machine Learning teams at Volvo Cars are able to iterate and deliver reproducible, production grade services with ease.”— *Leonard Aukea, <strong>Volvo Cars</strong></p>
+
+<p><em>“With Kubeflow at the heart of our ML platform, our small company has been able to stack models in production to improve CR, find new customers, and present the right product to the right customer at the right time.”</em> *— *Senior Director, <strong>One Technologies</strong></p>
+
+<p><em>“Kubeflow is helping GroupBy in standardizing ML workflows and simplifying very complicated deployments!”</em> *— *Mohamed Elsaied, Machine Learning Team Lead, <strong>GroupBy</strong></p>
+
+<h2 id="thank-you">
+<a class="anchor" href="#thank-you" aria-hidden="true"><span class="octicon octicon-link"></span></a>Thank You!</h2>
+
+<p>None of this would have been possible without the tens of organizations and hundreds of individuals that have been developing, testing, and evangelizing Kubeflow.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/2000/0*KJc62AjAF91qNTyS" alt=""></p>
+
+<h2 id="an-open-community">
+<a class="anchor" href="#an-open-community" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>An Open Community</strong>
+</h2>
+
+<p>We could not have achieved our milestone without an incredibly active community. Please come aboard!</p>
+
+<ul>
+  <li>
+    <p>Join the <a href="https://kubeflow.slack.com/join/shared_invite/enQtNDg5MTM4NTQyNjczLTdkNTVhMjg1ZTExOWI0N2QyYTQ2MTIzNTJjMWRiOTFjOGRlZWEzODc1NzMwNTMwM2EzNjY1MTFhODczNjk4MTk">Kubeflow Slack channel</a></p>
+  </li>
+  <li>
+    <p>Join the <a href="https://groups.google.com/forum/#!forum/kubeflow-discuss">kubeflow-discuss</a> mailing list</p>
+  </li>
+  <li>
+    <p>Attend a <a href="https://github.com/kubeflow/community">weekly community meeting</a></p>
+  </li>
+  <li>
+    <p>If you have questions, run into issues, please leverage the Slack channel and/or submit bugs via Kubeflow on GitHub.</p>
+  </li>
+</ul>
+
+<p>Thank you all so much — onward!</p>
+
+  </div><a class="u-url" href="/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

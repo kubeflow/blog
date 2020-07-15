@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Introduction to Kubeflow MPI Operator and Industry Adoption | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Introduction to Kubeflow MPI Operator and Industry Adoption" />
+<meta name="author" content="Yuan Tang (Ant Financial), Wei Yan (Ant Financial), and Rong Ou (NVIDIA)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Kubeflow just announced its first major 1.0 release recently, which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce MPI Operator (docs), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes." />
+<meta property="og:description" content="Kubeflow just announced its first major 1.0 release recently, which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce MPI Operator (docs), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes." />
+<link rel="canonical" href="https://blog.kubeflow.org/integrations/operators/2020/03/16/mpi-operator.html" />
+<meta property="og:url" content="https://blog.kubeflow.org/integrations/operators/2020/03/16/mpi-operator.html" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-16T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Yuan Tang (Ant Financial), Wei Yan (Ant Financial), and Rong Ou (NVIDIA)"},"description":"Kubeflow just announced its first major 1.0 release recently, which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce MPI Operator (docs), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes.","@type":"BlogPosting","headline":"Introduction to Kubeflow MPI Operator and Industry Adoption","dateModified":"2020-03-16T00:00:00-05:00","datePublished":"2020-03-16T00:00:00-05:00","url":"https://blog.kubeflow.org/integrations/operators/2020/03/16/mpi-operator.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/integrations/operators/2020/03/16/mpi-operator.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Introduction to Kubeflow MPI Operator and Industry Adoption | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Introduction to Kubeflow MPI Operator and Industry Adoption" />
+<meta name="author" content="Yuan Tang (Ant Financial), Wei Yan (Ant Financial), and Rong Ou (NVIDIA)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Kubeflow just announced its first major 1.0 release recently, which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce MPI Operator (docs), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes." />
+<meta property="og:description" content="Kubeflow just announced its first major 1.0 release recently, which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce MPI Operator (docs), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes." />
+<link rel="canonical" href="https://blog.kubeflow.org/integrations/operators/2020/03/16/mpi-operator.html" />
+<meta property="og:url" content="https://blog.kubeflow.org/integrations/operators/2020/03/16/mpi-operator.html" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-03-16T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Yuan Tang (Ant Financial), Wei Yan (Ant Financial), and Rong Ou (NVIDIA)"},"description":"Kubeflow just announced its first major 1.0 release recently, which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce MPI Operator (docs), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes.","@type":"BlogPosting","headline":"Introduction to Kubeflow MPI Operator and Industry Adoption","dateModified":"2020-03-16T00:00:00-05:00","datePublished":"2020-03-16T00:00:00-05:00","url":"https://blog.kubeflow.org/integrations/operators/2020/03/16/mpi-operator.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/integrations/operators/2020/03/16/mpi-operator.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Introduction to Kubeflow MPI Operator and Industry Adoption</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-03-16T00:00:00-05:00" itemprop="datePublished">
+        Mar 16, 2020
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Yuan Tang (Ant Financial), Wei Yan (Ant Financial), and Rong Ou (NVIDIA)</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#integrations">integrations</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#operators">operators</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#example-api-spec">Example API Spec</a></li>
+<li class="toc-entry toc-h2"><a href="#architecture">Architecture</a></li>
+<li class="toc-entry toc-h2"><a href="#industry-adoption">Industry Adoption</a></li>
+<li class="toc-entry toc-h2"><a href="#ant-financial">Ant Financial</a></li>
+<li class="toc-entry toc-h2"><a href="#bloomberg">Bloomberg</a></li>
+<li class="toc-entry toc-h2"><a href="#caicloud">Caicloud</a></li>
+<li class="toc-entry toc-h2"><a href="#iguazio">Iguazio</a></li>
+<li class="toc-entry toc-h2"><a href="#polyaxon">Polyaxon</a></li>
+<li class="toc-entry toc-h2"><a href="#community-and-call-for-contributions">Community and Call for Contributions</a></li>
+</ul><p>Kubeflow just <a href="https://medium.com/kubeflow/kubeflow-1-0-cloud-native-ml-for-everyone-a3950202751">announced its first major 1.0 release recently</a>, which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce <a href="https://github.com/kubeflow/mpi-operator">MPI Operator</a> (<a href="https://www.kubeflow.org/docs/components/training/mpi/">docs</a>), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes.</p>
+
+<p>There are two major distributed training strategies nowadays: one based on parameter servers and the other based on collective communication primitives such as allreduce.</p>
+
+<p>Parameter server based distribution strategy relies on centralized parameter servers for coordination between workers, responsible for collecting gradients from workers and sending updated parameters to workers. The diagram below shows the interaction between parameter servers and worker nodes under this distributed training strategy.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/3200/0*6oB0bnWO3FApfM0U" alt=""></p>
+
+<p>While distributed training based on parameter servers can support training very large models and datasets by adding more workers and parameter servers, there are additional challenges involved in order to optimize the performance:</p>
+
+<ul>
+  <li>
+    <p>It is not easy to identify the right ratio of the number of workers to the number of parameter servers. For example, if only a small number of parameter servers are used, network communication will likely become the bottleneck for training.</p>
+  </li>
+  <li>
+    <p>If many parameter servers are used, the communication may saturate network interconnects.</p>
+  </li>
+  <li>
+    <p>The memory quota of workers and parameter servers requires fine tuning to avoid out-of-memory errors or memory waste.</p>
+  </li>
+  <li>
+    <p>If the model could fit within the computational resources of each worker, additional maintenance and communication overheads are introduced when the model is partitioned to multiple parameter servers.</p>
+  </li>
+  <li>
+    <p>We need to replicate the model on each parameter server in order to support fault-tolerance, which requires additional computational and storage resources.</p>
+  </li>
+</ul>
+
+<p>In contrast, distributed training based on collective communication primitives such as <a href="https://mpitutorial.com/tutorials/mpi-reduce-and-allreduce/">allreduce</a> could be more efficient and easier to use in certain use cases. Under allreduce-based distributed training strategy, each worker stores a complete set of model parameters. In other words, no parameter server is needed. Allreduce-based distributed training could address many of the challenges mentioned above:</p>
+
+<ul>
+  <li>
+    <p>Each worker stores a complete set of model parameters, no parameter server is needed, so it’s straightforward to add more workers when necessary.</p>
+  </li>
+  <li>
+    <p>Failures among the workers can be recovered easily by restarting the failed workers and then load the current model from any of the existing workers. Model does not need to be replicated to support fault-tolerance.</p>
+  </li>
+  <li>
+    <p>The model can be updated more efficiently by fully leveraging the network structure and collective communication algorithms. For example, in <a href="http://research.baidu.com/bringing-hpc-techniques-deep-learning/">ring-allreduce algorithm</a>, each of the N workers only needs to communicate with two of its peer workers 2 * (N − 1) times to update all the model parameters completely.</p>
+  </li>
+  <li>
+    <p>Scaling up and down the number of workers is as easy as reconstructing the underlying allreduce communicator and re-assigning the ranks among the workers.</p>
+  </li>
+</ul>
+
+<p>There are many existing technologies available that provide implementations for these collective communication primitives such as <a href="https://github.com/NVIDIA/nccl">NCCL</a>, <a href="https://github.com/facebookincubator/gloo/">Gloo</a>, and many different implementations of <a href="https://www.mpi-forum.org/">MPI</a>.</p>
+
+<p>MPI Operator provides a common <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions">Custom Resource Definition (CRD)</a> for defining a training job on a single CPU/GPU, multiple CPU/GPUs, and multiple nodes. It also implements a custom controller to manage the CRD, create dependent resources, and reconcile the desired states.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/3200/0*bXT4CVqbfJEPIQxD" alt=""></p>
+
+<p>Unlike other operators in Kubeflow such as <a href="https://github.com/kubeflow/tf-operator">TF Operator</a> and <a href="https://github.com/kubeflow/pytorch-operator">PyTorch Operator</a> that only supports for one machine learning framework, MPI operator is decoupled from underlying framework so it can work well with many frameworks such as <a href="https://github.com/horovod/horovod/">Horovod</a>, <a href="https://www.tensorflow.org/">TensorFlow</a>, <a href="https://pytorch.org/">PyTorch</a>, <a href="https://mxnet.apache.org/">Apache MXNet</a>, and various collective communication implementations such as <a href="https://www.open-mpi.org/">OpenMPI</a>.</p>
+
+<p>For more details on comparisons between different distributed training strategies, various Kubeflow operators, please check out <a href="https://kccnceu19.sched.com/event/MPaT">our presentation at KubeCon Europe 2019</a>.</p>
+
+<h2 id="example-api-spec">
+<a class="anchor" href="#example-api-spec" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example API Spec</h2>
+
+<p>We’ve been working closely with the community and industry adopters to improve the API spec for MPI Operator so it’s suitable for many different use cases. Below is an example:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kubeflow.org/v1alpha2</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">MPIJob</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">tensorflow-benchmarks</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">slotsPerWorker</span><span class="pi">:</span> <span class="m">1</span>
+  <span class="na">cleanPodPolicy</span><span class="pi">:</span> <span class="s">Running</span>
+  <span class="na">mpiReplicaSpecs</span><span class="pi">:</span>
+    <span class="na">Launcher</span><span class="pi">:</span>
+      <span class="na">replicas</span><span class="pi">:</span> <span class="m">1</span>
+      <span class="na">template</span><span class="pi">:</span>
+         <span class="na">spec</span><span class="pi">:</span>
+           <span class="na">containers</span><span class="pi">:</span>
+           <span class="pi">-</span> <span class="na">image</span><span class="pi">:</span> <span class="s">mpioperator/tensorflow-benchmarks:latest</span>
+             <span class="na">name</span><span class="pi">:</span> <span class="s">tensorflow-benchmarks</span>
+             <span class="na">command</span><span class="pi">:</span>
+             <span class="pi">-</span> <span class="s">mpirun</span>
+             <span class="pi">-</span> <span class="s">python</span>
+             <span class="pi">-</span> <span class="s">scripts/tf_cnn_benchmarks/tf_cnn_benchmarks.py</span>
+             <span class="pi">-</span> <span class="s">--model=resnet101</span>
+             <span class="pi">-</span> <span class="s">--batch_size=64</span>
+             <span class="pi">-</span> <span class="s">--variable_update=horovod</span>
+    <span class="na">Worker</span><span class="pi">:</span>
+      <span class="na">replicas</span><span class="pi">:</span> <span class="m">2</span>
+      <span class="na">template</span><span class="pi">:</span>
+        <span class="na">spec</span><span class="pi">:</span>
+          <span class="na">containers</span><span class="pi">:</span>
+          <span class="pi">-</span> <span class="na">image</span><span class="pi">:</span> <span class="s">mpioperator/tensorflow-benchmarks:latest</span>
+            <span class="na">name</span><span class="pi">:</span> <span class="s">tensorflow-benchmarks</span>
+            <span class="na">resources</span><span class="pi">:</span>
+              <span class="na">limits</span><span class="pi">:</span>
+                <span class="s">nvidia.com/gpu</span><span class="pi">:</span> <span class="m">1</span>
+</code></pre></div></div>
+
+<p>Note that MPI Operator provides a flexible but user-friendly API that’s consistent across other Kubeflow operators.</p>
+
+<p>Users can easily customize their launcher and worker pod specs by modifying the relevant sections in the template. For example, customizing to use various types of computational resources such as CPUs, GPUs, memory, etc.</p>
+
+<p>In addition, below is an example spec that performs distributed TensorFlow training job using ImageNet data in <a href="https://www.tensorflow.org/tutorials/load_data/tfrecord">TFRecords</a> format stored in a <a href="https://kubernetes.io/docs/reference/glossary/?all=true#term-volume">Kubernetes volume</a>:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kubeflow.org/v1alpha2</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">MPIJob</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">tensorflow-benchmarks</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">slotsPerWorker</span><span class="pi">:</span> <span class="m">1</span>
+  <span class="na">cleanPodPolicy</span><span class="pi">:</span> <span class="s">Running</span>
+  <span class="na">mpiReplicaSpecs</span><span class="pi">:</span>
+    <span class="na">Launcher</span><span class="pi">:</span>
+      <span class="na">replicas</span><span class="pi">:</span> <span class="m">1</span>
+      <span class="na">template</span><span class="pi">:</span>
+         <span class="na">spec</span><span class="pi">:</span>
+           <span class="na">containers</span><span class="pi">:</span>
+           <span class="pi">-</span> <span class="na">image</span><span class="pi">:</span> <span class="s">mpioperator/tensorflow-benchmarks:latest</span>
+             <span class="na">name</span><span class="pi">:</span> <span class="s">tensorflow-benchmarks</span>
+             <span class="na">command</span><span class="pi">:</span>
+             <span class="pi">-</span> <span class="s">mpirun</span>
+             <span class="pi">-</span> <span class="s">python</span>
+             <span class="pi">-</span> <span class="s">scripts/tf_cnn_benchmarks/tf_cnn_benchmarks.py</span>
+             <span class="pi">-</span> <span class="s">--model=resnet101</span>
+             <span class="pi">-</span> <span class="s">--batch_size=64</span>
+             <span class="pi">-</span> <span class="s">--variable_update=horovod</span>
+    <span class="na">Worker</span><span class="pi">:</span>
+      <span class="na">replicas</span><span class="pi">:</span> <span class="m">2</span>
+      <span class="na">template</span><span class="pi">:</span>
+        <span class="na">spec</span><span class="pi">:</span>
+          <span class="na">containers</span><span class="pi">:</span>
+          <span class="pi">-</span> <span class="na">image</span><span class="pi">:</span> <span class="s">mpioperator/tensorflow-benchmarks:latest</span>
+            <span class="na">name</span><span class="pi">:</span> <span class="s">tensorflow-benchmarks</span>
+            <span class="na">resources</span><span class="pi">:</span>
+              <span class="na">limits</span><span class="pi">:</span>
+                <span class="s">nvidia.com/gpu</span><span class="pi">:</span> <span class="m">1</span>
+</code></pre></div></div>
+
+<h2 id="architecture">
+<a class="anchor" href="#architecture" aria-hidden="true"><span class="octicon octicon-link"></span></a>Architecture</h2>
+
+<p>MPI Operator contains a custom controller that listens for changes in MPIJob resources. When a new MPIJob is created, the controller goes through the following <em>logical</em> steps:</p>
+
+<ol>
+  <li>Create a <a href="https://kubernetes.io/docs/reference/glossary/?all=true#term-configmap">ConfigMap</a> that contains:</li>
+</ol>
+
+<ul>
+  <li>
+    <p>A helper shell script that can be used by mpirun in place of ssh. It invokes kubectl exec for remote execution.</p>
+  </li>
+  <li>
+    <p>A hostfile that lists the pods in the worker <a href="https://kubernetes.io/docs/reference/glossary/?all=true#term-statefulset">StatefulSet</a> (in the form of ${job-id}-worker-0, ${job-id}-worker-1, …), and the available slots (CPUs/GPUs) in each pod.</p>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p>Create the <a href="https://kubernetes.io/docs/reference/glossary/?all=true#term-rbac">RBAC</a> resources (Role, ServiceAccount, RoleBinding) to allow remote execution (pods/exec).</p>
+  </li>
+  <li>
+    <p>Wait for the worker pods to be ready.</p>
+  </li>
+  <li>
+    <p>Create the launcher job. It runs under the <a href="https://kubernetes.io/docs/reference/glossary/?all=true#term-service-account">ServiceAccount</a> created in step 2, and sets up the necessary environment variables for executing mpirun commands remotely. The <a href="https://kubernetes.io/docs/reference/kubectl/overview/">kubectl</a> binary is delivered to an emptyDir volume through an init container.</p>
+  </li>
+  <li>
+    <p>After the launcher job finishes, set the replicas to 0 in the worker StatefulSet.</p>
+  </li>
+</ol>
+
+<p><img src="https://cdn-images-1.medium.com/max/2000/0*zUNFtd8-7u37Fos2" alt=""></p>
+
+<p>For more details, please check out <a href="https://github.com/kubeflow/community/blob/master/proposals/mpi-operator-proposal.md">the design doc for MPI Operator</a>.</p>
+
+<h2 id="industry-adoption">
+<a class="anchor" href="#industry-adoption" aria-hidden="true"><span class="octicon octicon-link"></span></a>Industry Adoption</h2>
+
+<p>At the time of writing, there are <a href="https://github.com/kubeflow/mpi-operator/blob/master/ADOPTERS.md">13 disclosed industry adopters</a> and many others who’ve been working closely with the community to reach where we are today. We’d like to showcase some of the use cases of MPI Operator in several companies. If your company would like to be included in the list of adopters, please send us a pull request <a href="https://github.com/kubeflow/mpi-operator">on GitHub</a>!</p>
+
+<h2 id="ant-financial">
+<a class="anchor" href="#ant-financial" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ant Financial</h2>
+
+<p>At <a href="https://www.antfin.com/">Ant Financial</a>, <a href="https://kubernetes.io/case-studies/ant-financial/">we manage Kubernetes clusters with tens of thousands of nodes</a> and have deployed the MPI Operator along with other Kubeflow operators. The MPI Operator leverages the network structure and collective communication algorithms so that users don’t have to worry about the right ratio between the number of workers and parameter servers to obtain the best performance. Users can focus on building out their model architectures without spending time on tuning the downstream infrastructure for distributed training.</p>
+
+<p>The models produced have been widely deployed in production and battle-tested in many different real life scenarios. One notable use case is <a href="https://yq.aliyun.com/articles/563095">Saofu</a> — a mobile app for users to scan any “<a href="https://zh.wikipedia.org/wiki/%E7%A6%8F%E5%AD%97">福</a>” (Chinese character that represents fortune) through augmented reality to enter a lucky draw where each user would receive a virtual red envelope with a portion of a significant amount of money.</p>
+
+<h2 id="bloomberg">
+<a class="anchor" href="#bloomberg" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bloomberg</h2>
+
+<p><a href="https://www.bloomberg.com/">Bloomberg</a>, the global business and financial information and news leader, possesses an enormous amount of data — from historical news to real-time market data and everything in between. Bloomberg’s Data Science Platform was built to allow the company’s internal machine learning engineers and data scientists to more easily leverage data and algorithmic models in their daily work, including when training jobs and automatic machine learning models used in the state-of-the-art solutions they’re building.</p>
+
+<p>“The Data Science Platform at Bloomberg offers a TensorFlowJob CRD similar to Kubeflow’s own TFJob, enabling the company’s data scientists to easily train neural network models. Recently, the Data Science Platform team enabled Horovod-based distributed training in its TensorFlowJob via the MPI Operator as an implementation detail. Using MPIJob in the back-end has allowed the Bloomberg Data Science Platform team to quickly offer its machine learning engineers a robust way to train a <a href="https://arxiv.org/abs/1810.04805">BERT model</a> within hours using the company’s large corpus of text data’’, says Chengjian Zheng, software engineer from Bloomberg.</p>
+
+<h2 id="caicloud">
+<a class="anchor" href="#caicloud" aria-hidden="true"><span class="octicon octicon-link"></span></a>Caicloud</h2>
+
+<p><a href="https://intl.caicloud.io/products/clever">Caicloud Clever</a> is an artificial intelligence cloud platform based on Caicloud container cloud platform with powerful hardware resource management and efficient model development capabilities. Caicloud products have been deployed in many 500 China Fortune companies.</p>
+
+<p>“Caicloud Clever supports multiple frameworks of AI model training including TensorFlow, Apache MXNet, Caffe, PyTorch with the help of Kubeflow tf-operator, pytorch-operator and others”, says Ce Gao, AI infrastructure engineer from Caicloud Clever team. “While RingAllReduce distributed training support is requested for improved customer maturity.”</p>
+
+<p>Kubeflow MPI operator is a Kubernetes Operator for allreduce-style distributed training. Caicloud Clever team adopts MPI Operator’s v1alpha2 API. The Kubernetes native API makes it easy to work with the existing systems in the platform.</p>
+
+<h2 id="iguazio">
+<a class="anchor" href="#iguazio" aria-hidden="true"><span class="octicon octicon-link"></span></a>Iguazio</h2>
+
+<p><a href="https://www.iguazio.com/">Iguazio</a> provides a cloud-native data science platform with emphasis on automation, performance, scalability, and use of open-source tools.</p>
+
+<p>According to Yaron Haviv, the Founder and CTO of Iguazio, “We evaluated various mechanisms which will allow us to scale deep learning frameworks with minimal developer effort and found that using the combination of Horovod with the MPI Operator over Kubernetes is the best tool for the job since it enable horizontal scalability, supports multiple frameworks such as TensorFlow and PyTorch and doesn’t require too much extra coding or the complex use of parameter servers.”</p>
+
+<p>Iguazio have integrated the MPI Operator into its managed service offering and its fast data layer for maximum scalability, and work to simplify the usage through open source projects like <a href="https://github.com/mlrun/mlrun">MLRun</a> (for ML automation and tracking). Check out <a href="https://towardsdatascience.com/gpu-as-a-service-on-kubeflow-fast-scalable-and-efficient-ml-c5783b95d192">this blog post</a> with an example application that demonstrates Iguazio’s usage of the MPI Operator.</p>
+
+<h2 id="polyaxon">
+<a class="anchor" href="#polyaxon" aria-hidden="true"><span class="octicon octicon-link"></span></a>Polyaxon</h2>
+
+<p><a href="https://polyaxon.com/">Polyaxon</a> is a platform for reproducible and scalable machine learning on Kubernetes, it allows users to iterate faster on their research and model creation. Polyaxon provides a simple abstraction for data scientists and machine learning engineers to streamline their experimentation workflow, and provides a very cohesive abstraction for training and tracking models using popular frameworks such as Scikit-learn, TensorFlow, PyTorch, Apache MXNet, Caffe, etc.</p>
+
+<p>“Several Polyaxon users and customers were requesting an easy way to perform an allreduce-style distributed training, the MPI Operator was the perfect solution to provide such abstraction. Polyaxon is deployed at several companies and research institutions, and the public docker hub has over 9 million downloads.”, says Mourad Mourafiq, the Co-founder of Polyxagon.</p>
+
+<h2 id="community-and-call-for-contributions">
+<a class="anchor" href="#community-and-call-for-contributions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Community and Call for Contributions</h2>
+
+<p>We are grateful for <a href="https://github.com/kubeflow/mpi-operator/graphs/contributors">over 28 individual contributors from over 11 organizations</a>, namely Alibaba Cloud, Amazon Web Services, Ant Financial, Bloomberg, Caicloud, Google Cloud, Huawei, Iguazio, NVIDIA, Polyaxon, and Tencent, that have contributed directly to MPI Operator’s codebase and many others who’ve filed issues or helped resolve them, asked and answered questions, and were part of inspiring discussions. We’ve put together a <a href="https://github.com/kubeflow/mpi-operator/blob/master/ROADMAP.md">roadmap</a> that provides a high-level overview of where the MPI Operator will grow in future releases and we welcome any contributions from the community!</p>
+
+<p>We could not have achieved our milestones without an incredibly active community. Check out our <a href="https://www.kubeflow.org/docs/about/community/">community page</a> to learn more about how to join the Kubeflow community!</p>
+
+<p><em>Originally published at <a href="https://terrytangyuan.github.io/2020/03/17/introduction-to-kubeflow-mpi-operator-and-industry-adoption/">https://terrytangyuan.github.io</a> on March 17, 2020.</em></p>
+
+  </div><a class="u-url" href="/integrations/operators/2020/03/16/mpi-operator.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

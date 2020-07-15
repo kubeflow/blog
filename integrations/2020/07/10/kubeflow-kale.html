@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Kubeflow &amp; Kale simplify building better ML Pipelines with automatic hyperparameter tuning | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Kubeflow &amp; Kale simplify building better ML Pipelines with automatic hyperparameter tuning" />
+<meta name="author" content="Stefano Fioravanzo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Running pipelines at scale has never been easier." />
+<meta property="og:description" content="Running pipelines at scale has never been easier." />
+<link rel="canonical" href="https://blog.kubeflow.org/integrations/2020/07/10/kubeflow-kale.html" />
+<meta property="og:url" content="https://blog.kubeflow.org/integrations/2020/07/10/kubeflow-kale.html" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-10T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Stefano Fioravanzo"},"description":"Running pipelines at scale has never been easier.","@type":"BlogPosting","headline":"Kubeflow &amp; Kale simplify building better ML Pipelines with automatic hyperparameter tuning","dateModified":"2020-07-10T00:00:00-05:00","datePublished":"2020-07-10T00:00:00-05:00","url":"https://blog.kubeflow.org/integrations/2020/07/10/kubeflow-kale.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/integrations/2020/07/10/kubeflow-kale.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Kubeflow &amp; Kale simplify building better ML Pipelines with automatic hyperparameter tuning | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Kubeflow &amp; Kale simplify building better ML Pipelines with automatic hyperparameter tuning" />
+<meta name="author" content="Stefano Fioravanzo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Running pipelines at scale has never been easier." />
+<meta property="og:description" content="Running pipelines at scale has never been easier." />
+<link rel="canonical" href="https://blog.kubeflow.org/integrations/2020/07/10/kubeflow-kale.html" />
+<meta property="og:url" content="https://blog.kubeflow.org/integrations/2020/07/10/kubeflow-kale.html" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-10T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Stefano Fioravanzo"},"description":"Running pipelines at scale has never been easier.","@type":"BlogPosting","headline":"Kubeflow &amp; Kale simplify building better ML Pipelines with automatic hyperparameter tuning","dateModified":"2020-07-10T00:00:00-05:00","datePublished":"2020-07-10T00:00:00-05:00","url":"https://blog.kubeflow.org/integrations/2020/07/10/kubeflow-kale.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/integrations/2020/07/10/kubeflow-kale.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kubeflow &amp; Kale simplify building better ML Pipelines with automatic hyperparameter tuning</h1><p class="page-description">Running pipelines at scale has never been easier.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-07-10T00:00:00-05:00" itemprop="datePublished">
+        Jul 10, 2020
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Stefano Fioravanzo</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      6 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#integrations">integrations</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#running-pipelines-at-scale-has-never-been-easier">Running pipelines at scale has never been easier</a></li>
+<li class="toc-entry toc-h2"><a href="#new-face">New Face</a></li>
+<li class="toc-entry toc-h2"><a href="#hyperparameter-tuning">Hyperparameter Tuning</a></li>
+<li class="toc-entry toc-h2"><a href="#new-features">New features</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#pipeline-parameters-and-metrics">Pipeline parameters and metrics</a></li>
+<li class="toc-entry toc-h3"><a href="#rich-notebook-outputs">Rich notebook outputs</a></li>
+<li class="toc-entry toc-h3"><a href="#mlmd-integration">MLMD Integration</a></li>
+<li class="toc-entry toc-h3"><a href="#run-on-gpu">Run on GPU</a></li>
+<li class="toc-entry toc-h3"><a href="#overall-ui-and-performance-improvements">Overall UI and performance improvements</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#hands-on">Hands-On</a></li>
+<li class="toc-entry toc-h2"><a href="#road-ahead">Road Ahead</a></li>
+</ul><p>Running pipelines at scale has never been easier.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/2880/0*FJeDeyRWItzxlvXQ" alt="Kubeflow’s Kale is maturing and fast becoming the superfood that glues together the main Kubeflow components to provide a cohesive and seamless data science experience."><em>Kubeflow’s Kale is maturing and fast becoming the superfood that glues together the main Kubeflow components to provide a cohesive and seamless data science experience.</em></p>
+
+<p><em>TL;DR: Convert Notebook to Kubeflow Pipelines, run them as hyperparameter tuning experiments, track executions and artifacts with MLMD, cache and maintain an immutable history of executions: Kale brings all of this on the table in a unified workflow tool, simple to use.</em></p>
+
+<h3 id="running-pipelines-at-scale-has-never-been-easier">
+<a class="anchor" href="#running-pipelines-at-scale-has-never-been-easier" aria-hidden="true"><span class="octicon octicon-link"></span></a>Running pipelines at scale has never been easier</h3>
+
+<p>Kubeflow’s Kale is maturing and fast becoming the superfood that glues together the main Kubeflow components to provide a cohesive and seamless data science experience. With its <a href="https://github.com/kubeflow-kale/kale/releases/tag/v0.5.0">newest release</a>, Kale provides an end-to-end workflow that encompasses Jupyter Notebooks, Kubeflow Pipelines, hyperparameter tuning with Katib, metadata tracking with ML Metadata (MLMD), and faster pipeline executions with caching.</p>
+
+<p>If you are new to Kale, head over to this <a href="https://medium.com/kubeflow/automating-jupyter-notebook-deployments-to-kubeflow-pipelines-with-kale-a4ede38bea1f">short introduction</a> to get started!</p>
+
+<p>In this blog post, you will learn about the features that Kale is bringing to the Machine Learning community with version 0.5, and learn how to get started with a curated example.</p>
+
+<h2 id="new-face">
+<a class="anchor" href="#new-face" aria-hidden="true"><span class="octicon octicon-link"></span></a>New Face</h2>
+
+<p>First off, we are excited to reveal the new Kale logo. Kudos to Konstantinos Palaiologos (Arrikto) for designing the brand new, modern Kale leaf. This will be the new face of the project from now on.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/2880/0*r_FtjDyHMT5xkAra" alt=""></p>
+
+<h2 id="hyperparameter-tuning">
+<a class="anchor" href="#hyperparameter-tuning" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hyperparameter Tuning</h2>
+
+<p>The major new addition in v0.5 is the support for running pipelines with<a href="https://www.kubeflow.org/docs/components/hyperparameter-tuning/"> Katib</a>. Katib is Kubeflow’s component to run general purpose hyperparameter tuning jobs. Just as you would press a single button to convert a notebook to a pipeline, you can now press a button and let Kale start a hyperparameter Job on that pipeline. All you need to do is tell Kale what the HP tuning job should search for.</p>
+
+<p>Running hyperparameter tuning jobs gives you a dramatic boost in delivering good results for your project. The *manual *tuning process of running your model countless times, using different parameters combinations, aggregating them and comparing them, is error-prone and inefficient. Delegating this work to an automated process allows you to become faster, more efficient and accurate.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/2000/0*LFgPeIs7oMO0AQCz" alt="Parametrize the HP tuning Job directly from the notebook"><em>Parametrize the HP tuning Job directly from the notebook</em></p>
+
+<p>Katib does not know anything about the jobs that it is actually running (called Trials in the Katib jargon). Katib supports running Trials as simple Jobs (that is, Pods), BatchJobs, <a href="https://www.kubeflow.org/docs/components/training/tftraining/">TFJobs</a>, and <a href="https://www.kubeflow.org/docs/components/training/pytorch/">PyTorchJobs</a>. Kale 0.5 integrates Katib with Kubeflow Pipelines. This enables Katib trails to run as pipelines in KFP. The metrics from the pipeline runs are provided to help in model performance analysis and debugging. All Kale needs to know from the user is the search space, the optimization algorithm, and the search goal.</p>
+
+<p>Kale will also make sure that all the runs of a Katib experiment, end up unified and grouped, under a single KFP experiment, to make it easy to search and isolate a particular job.</p>
+
+<p>Kale will also show a <strong>live view</strong> of the running experiments, directly in the notebook, so you will know how many pipelines are still running and, upon completion, which one performed best.</p>
+
+<h2 id="new-features">
+<a class="anchor" href="#new-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>New features</h2>
+
+<h3 id="pipeline-parameters-and-metrics">
+<a class="anchor" href="#pipeline-parameters-and-metrics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pipeline parameters and metrics</h3>
+
+<p>In order to run pipelines with hyperparameter tuning, the pipeline needs to be able to accept arguments and produce metrics. Enabling the pipeline to do this, is now tremendously easy. Kale provides two new cell tags: pipeline-parameters and pipeline-metrics.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/2000/0*3Tix4kBJyfgy1YtG" alt=""></p>
+
+<p>Assigning the pipeline-parameters tag on any cell that contains some variables will instruct Kale to transform them to pipeline parameters. These values will then be passed to the pipeline steps that actually make use of them.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/2000/0*dtzxRAyAzLRlxQij" alt=""></p>
+
+<p>If you want the pipeline to produce some metrics, just print them at the end of the notebook and assign the pipeline-metrics tag to the cell. Kale will take care of understanding which steps produce the metrics and you will see them appear in the KFP dashboard.</p>
+
+<h3 id="rich-notebook-outputs">
+<a class="anchor" href="#rich-notebook-outputs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rich notebook outputs</h3>
+
+<p>Having your pipelines produce rich outputs (like plots, tables, metrics, …) that can be captured and displayed by the Kubeflow Pipelines dashboard has always been somewhat cumbersome. You would need to write some KFP-specific code to produce json artifacts that would then be interpreted by KFP.</p>
+
+<p>What if you could just write plain Python in your Notebook using your favourite plotting library, and have the plots auto-magically appear as KFP outputs, when the Notebook gets compiled into a pipeline?</p>
+
+<p>Now, when running your notebook code inside a pipeline step, Kale will wrap it and feed it to an ipython kernel, so that all the nice artifacts produced in the notebook, will be produced in the pipeline as well. Kale will capture all these rich outputs automatically and instruct KFP to display them in the dashboard. Effectively, whatever happens in the notebook, now happens in the pipeline as well. The execution context is <strong>exactly the same</strong>.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/2712/1*C-tT0FY8pdz7GdAy6meO2A.png" alt="Any rich output that is visible in the notebook gets captured by Kale and exposed in the KFP dashboard."><em>Any rich output that is visible in the notebook gets captured by Kale and exposed in the KFP dashboard.</em></p>
+
+<h3 id="mlmd-integration">
+<a class="anchor" href="#mlmd-integration" aria-hidden="true"><span class="octicon octicon-link"></span></a>MLMD Integration</h3>
+
+<p>An important part of running reproducible Machine Learning collaboratively and at scale, is being able to track pipeline executions, their inputs, their outputs and how these are connected together. Kubeflow provides an ML Metadata service which serves this exact purpose. This service also includes a lineage view to enable the user to have a deep insight into the whole history of events.</p>
+
+<p>Kale is now fully integrated with this service, logging each new execution automatically alongside all the artifacts produced by the pipeline.</p>
+
+<h3 id="run-on-gpu">
+<a class="anchor" href="#run-on-gpu" aria-hidden="true"><span class="octicon octicon-link"></span></a>Run on GPU</h3>
+
+<p>If you need to run a particular step on a GPU node, Kale has you covered too. You can now annotate steps with a dedicated dialog, directly from the notebook and each step can have its own annotations. This is just the first iteration, Kale will support adding any kind of K8s limits or annotations to pipeline steps in the near future.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/2000/0*_gRl8SEBKs-WqKPX" alt=""></p>
+
+<h3 id="overall-ui-and-performance-improvements">
+<a class="anchor" href="#overall-ui-and-performance-improvements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overall UI and performance improvements</h3>
+
+<p>The new version of Kale’s JupyterLab brings tons of performance improvements and UI enhancements. Updating the notebook cells’ annotations will now be easier and faster. We covered many corner cases and solved tons of bugs. The UI of the cell’s annotation editor is more consistent with the overall Jupyter style and much more intuitive and easy to use. A big shoutout to Tasos Alexiou (Arrikto) for having spent countless hours in understanding the Jupyter internals and improving our application lifecycle.</p>
+
+<h2 id="hands-on">
+<a class="anchor" href="#hands-on" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hands-On</h2>
+
+<p>To start playing-around with Kale v0.5, head over to the GitHub repository and follow the installation instructions. If you are already running Kubeflow (either in your own cluster or on MiniKF), spin up a new Notebook Server using the image gcr.io/arrikto/jupyter-kale:v0.5.0.</p>
+
+<p>Note: Kale v0.5 needs to run on Kubeflow ≥ 1.0. Also, make sure that the following Kubeflow components are updated as follows:</p>
+
+<ul>
+  <li>
+    <p>Katib controller: gcr.io/arrikto/katib-controller:40b5b51a</p>
+  </li>
+  <li>
+    <p>Katib Chocolate service: gcr.io/arrikto/suggestion-chocolate:40b5b51a</p>
+  </li>
+</ul>
+
+<p>We will release a new version of MiniKF <em>very soon,</em> containing a lot of improvements that will make the Kale experience even better. You will also be able to go through a new Codelab to try out the Kale-Katib integration yourself. Stay tuned for updates on the Arrikto channels.</p>
+
+<h2 id="road-ahead">
+<a class="anchor" href="#road-ahead" aria-hidden="true"><span class="octicon octicon-link"></span></a>Road Ahead</h2>
+
+<p>We are always looking to improve Kale and help data scientists have a seamless ML workflow from writing code to training, optimizing, and serving their models.</p>
+
+<p>We are excited to have the ML community try out this new version of Kale and the coming MiniKF update.</p>
+
+<p><em>A special mention must go to the various members of the Arrikto team (Ilias Katsakioris, Chris Pavlou, Kostis Lolos, Tasos Alexiou) who contributed to delivering all these new features.</em></p>
+
+  </div><a class="u-url" href="/integrations/2020/07/10/kubeflow-kale.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -26,7 +26,7 @@ This blog is built with [fastpages](https://github.com/fastai/fastpages).  Resou
 - The [fastpages Troubleshooting guide](https://github.com/fastai/fastpages/blob/master/_fastpages_docs/TROUBLESHOOTING.md): contains instructions on how to troubleshoot issues with fastpages.
 - The [fastai blogging forums](https://forums.fast.ai/c/fastai-users/nbdev/48) is a good place to search for issues or questions. 
 
-## Blog Submission Procedure
+## Blog Submission Instructions
 
 1. Propose your idea for a blog by [opening an issue](https://github.com/kubeflow/community/issues/new/choose) in this repo.
 2. Write your blog post, in markdown or notebook format.

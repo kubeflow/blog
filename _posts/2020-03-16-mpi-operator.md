@@ -3,6 +3,7 @@ toc: true
 layout: post
 categories: [integrations, operators]
 title: Introduction to Kubeflow MPI Operator and Industry Adoption
+comments: true
 author: "<a href='https://twitter.com/TerryTangYuan'>Yuan Tang</a> (Ant Financial), <a href='https://www.linkedin.com/in/wei-yan-a6037337'>Wei Yan</a> (Ant Financial), and <a href='https://www.linkedin.com/in/rongou'>Rong Ou</a> (NVIDIA)"
 ---
 

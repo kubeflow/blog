@@ -2,6 +2,7 @@
 toc: true
 layout: post
 categories: [releases]
+comments: true
 title: Kubeflow 1.0 - Cloud Native ML for Everyone
 author: Thea Lamkin (Google), Jeremy Lewi (Google), Josh Bottum (Arrikto), Elvira Dzhuraeva (Cisco), David Aronchick (Microsoft), Amy Unruh (Google), Animesh Singh (IBM), and Ellis Bigelow (Google).
 ---

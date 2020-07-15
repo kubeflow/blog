@@ -95,7 +95,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      7 min read
+      8 min read
     
 </span></p>
 
@@ -204,7 +204,32 @@ kfctl apply -f [kfctl_ibm.v1.0.0.yaml](https://github.com/kubeflow/manifests/blo
 
 <p>When we started Kubeflow, one of our key motivations was to leverage Kubernetes to simplify distributed training. Kubeflow provides Kubernetes custom resources that make distributed training with TensorFlow and PyTorch simple. All a user needs to do is define a TFJob or PyTorch resource like the one illustrated below. The custom controller takes care of spinning up and managing all of the individual processes and configuring them to talk to one another:</p>
 
-<iframe src="https://medium.com/media/cc10a8288bea1288e9e2840a138fbf17" frameborder="0"></iframe>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kubeflow.org/v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">TFJob</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">mnist-train</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">tfReplicaSpecs</span><span class="pi">:</span>
+    <span class="na">Chief</span><span class="pi">:</span>
+      <span class="na">replicas</span><span class="pi">:</span> <span class="m">1</span>
+        <span class="na">spec</span><span class="pi">:</span>
+          <span class="na">containers</span><span class="pi">:</span>
+            <span class="na">image</span><span class="pi">:</span> <span class="s">gcr.io/alice-dev/fairing-job/mnist</span>
+            <span class="na">name</span><span class="pi">:</span> <span class="s">tensorflow</span>
+    <span class="na">Ps</span><span class="pi">:</span>
+      <span class="na">replicas</span><span class="pi">:</span> <span class="m">1</span>
+      <span class="na">template</span><span class="pi">:</span>
+        <span class="na">spec</span><span class="pi">:</span>
+          <span class="na">containers</span><span class="pi">:</span>
+            <span class="na">image</span><span class="pi">:</span> <span class="s">gcr.io/alice-dev/fairing-job/mnist</span>
+            <span class="na">name</span><span class="pi">:</span> <span class="s">tensorflow</span>
+    <span class="na">Worker</span><span class="pi">:</span>
+      <span class="na">replicas</span><span class="pi">:</span> <span class="s">10</span>      
+        <span class="s">spec</span><span class="pi">:</span>
+          <span class="na">containers</span><span class="pi">:</span>
+            <span class="na">image</span><span class="pi">:</span> <span class="s">gcr.io/alice-dev/fairing-job/mnist</span>
+            <span class="na">name</span><span class="pi">:</span> <span class="s">tensorflow</span>
+</code></pre></div></div>
 
 <h3 id="monitoring-model-training-with-tensorboard">
 <a class="anchor" href="#monitoring-model-training-with-tensorboard" aria-hidden="true"><span class="octicon octicon-link"></span></a>Monitoring Model Training With TensorBoard</h3>
@@ -244,7 +269,16 @@ kfctl apply -f [kfctl_ibm.v1.0.0.yaml](https://github.com/kubeflow/manifests/blo
 
 <p>Below is an example of a KFServing spec showing how a model can be deployed. All a user has to do is provide the URI of their model file using storageUri:</p>
 
-<iframe src="https://medium.com/media/0421b046cc22ebff67950eb29056b1e9" frameborder="0"></iframe>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s2">"</span><span class="s">serving.kubeflow.org/v1alpha2"</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s2">"</span><span class="s">InferenceService"</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s2">"</span><span class="s">sklearn-iris"</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">default</span><span class="pi">:</span>
+    <span class="na">predictor</span><span class="pi">:</span>
+      <span class="na">sklearn</span><span class="pi">:</span>
+        <span class="na">storageUri</span><span class="pi">:</span> <span class="s2">"</span><span class="s">gs://kfserving-samples/models/sklearn/iris"</span>
+</code></pre></div></div>
 
 <p>Check out the <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples">samples </a>to learn how to use the above capabilities.</p>
 

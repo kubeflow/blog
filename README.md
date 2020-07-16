@@ -33,4 +33,4 @@ This blog is built with [fastpages](https://github.com/fastai/fastpages).  Resou
 3. Test your blog post locally to ensure that it renders appropriately.
 4. Open a pull request referencing your issue.
 2. A group of designated subject matter experts will review.
-3. A Google representitive will provide the final approval.
+3. A Google representative will provide the final approval.

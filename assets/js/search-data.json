@@ -73,7 +73,7 @@
   
       ,"page1": {
           "title": "About",
-          "content": "This is where you put the contents of your About page. Like all your pages, it’s in Markdown format. . This website is powered by fastpages 1. . a blogging platform that natively supports Jupyter notebooks in addition to other formats. &#8617; . |",
+          "content": "This blog is hosted on GitHub Pages, via the kubeflow/blog repo. Instructions on contributing to this blog can be found there. . This website is powered by fastpages. .",
           "url": "https://blog.kubeflow.org/about/",
           "relUrl": "/about/",
           "date": ""

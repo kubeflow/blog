@@ -1,6 +1,19 @@
-## Data Science Meets Devops: MLOps with Jupyter, Git, & Kubernetes:
+---
+title: "Data Science Meets Devops: MLOps with Jupyter, Git, & Kubernetes"
+description: "An end-to-end example of deploying a machine learning product using Jupyter, Papermill, Tekton, GitOps and Kubeflow."
+layout: post
+toc: true
+comments: true
+image: images/2020-08-01-data-science-meets-devops/fig2.ci-cd.png
+hide: false
+search_exclude: false
+categories: [jupyter, mlops, tekton, gitops]
+permalink: /mlops/
+---
 
-An end-to-end example of deploying a machine learning product using Jupyter, Papermill, Tekton, GitOps and Kubeflow.
+## :
+
+
 
 
 [Jeremy Lewi](https://www.linkedin.com/in/jeremy-lewi-600aaa8/), [Hamel Husain](https://hamel.dev/)

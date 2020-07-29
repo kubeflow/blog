@@ -9,6 +9,7 @@ hide: false
 search_exclude: false
 categories: [jupyter, mlops, tekton, gitops]
 permalink: /mlops/
+author: "<a href='https://www.linkedin.com/in/jeremy-lewi-600aaa8/'>Jeremy Lewi</a>, <a href='https://hamel.dev/'>Hamel Husain</a>"
 ---
 
 ## :

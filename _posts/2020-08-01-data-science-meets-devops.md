@@ -22,7 +22,7 @@ Due to Kubeflow’s explosive popularity, we receive a large influx of GitHub is
 <img src="/images/2020-08-01-data-science-meets-devops/fig1.num-issues.png" width="" alt="Number of Kubeflow Issues" title="">
 <figcaption><strong>Figure 1:</strong>Number of Kubeflow Issues</figcaption>
 
-To keep up with this influx, we started investing in a Github App called [Issue Label Bot](https://github.com/marketplace/issue-label-bot) that used machine learning to auto label issues.  Our [first model](https://github.com/marketplace/issue-label-bot) was trained using a collection of popular public repositories on GitHub and only predicted generic labels.  Subsequently, we started using [Google AutoML](https://cloud.google.com/automl/docs) to train a Kubeflow specific model. The new model was able to predict Kubeflow specific labels with average precision of 72% and average recall of 50%. This significantly reduced the toil associated with issue management for Kubeflow maintainers. The table below contains evaluation metrics for Kubeflow specific labels on a holdout set.  The precision and recall below coincide with prediction thresholds that we calibrated to suit our needs.
+To keep up with this influx, we started investing in a Github App called [Issue Label Bot](https://github.com/marketplace/issue-label-bot) that used machine learning to auto label issues.  Our [first model](https://github.com/marketplace/issue-label-bot) was trained using a collection of popular public repositories on GitHub and only predicted generic labels.  Subsequently, we started using [Google AutoML](https://cloud.google.com/automl/docs) to train a Kubeflow specific model.[^1] The new model was able to predict Kubeflow specific labels with average precision of 72% and average recall of 50%. This significantly reduced the toil associated with issue management for Kubeflow maintainers. The table below contains evaluation metrics for Kubeflow specific labels on a holdout set.  The [precision and recall](https://en.wikipedia.org/wiki/Precision_and_recall) below coincide with prediction thresholds that we calibrated to suit our needs.
 
 Label | Precision | Recall
 -- | -- | --
@@ -68,18 +68,9 @@ Our CI/CD solution is illustrated in [Figure 2](#fig2). We don’t explicitly cr
 
 The first controller, the Trainer, (left hand side of Figure 2) is a controller which checks if our model needs to be retrained. At the moment, this controller retrains the model after a set time period. When the model becomes stale, the controller  executes a [notebook ](https://github.com/kubeflow/code-intelligence/blob/master/Label_Microservice/notebooks/automl.ipynb) programmatically using [papermill.](https://github.com/nteract/papermill)  This notebook fetches GitHub Issues data [from BigQuery](https://medium.com/google-cloud/analyzing-github-issues-and-comments-with-bigquery-c41410d3308) and launches an [AutoML](https://cloud.google.com/automl) job to train a model. 
 
-AutoML allowed us to focus on infrastructure and engineering rather than spending too much time building and tuning models.  Furthermore, AutoML provides a competitive baseline for us to improve upon.  We may revisit these models in the future.
-
 The second component, the Deployer, (right hand side of Figure 2) determines which model should be live and if needed, automatically opens a pull request to update our model. Once the pull request is merged [Anthos Config Mesh](https://cloud.google.com/anthos/config-management) automatically rolls it out to production.
 
 ## Further Details
-
-### Background
-
-Before diving into the details of our solution we want to provide some context around:
-
-1. What reconcilers are and why we use them
-2. What GitOps is and why we adopted this pattern
 
 ### Building Resilient Systems With Reconcilers
 
@@ -102,7 +93,7 @@ The declarative nature of controllers means data can flow through a series of co
  
 This reconciler-based paradigm offers the following benefits over many traditional DAG-based workflows:
 
-*   **Resilience against failures**:  the system continuously seeks to achieve and maintain the desired state.  This state refers to both infrastructure (via Kubernetes manifests) and computation to be performed.  This is important in machine learning workflows where infrastructure is often strongly coupled with code (i.e. GPUs, databases, etc).
+*   **Resilience against failures**:  the system continuously seeks to achieve and maintain the desired state.
 *   **Increased autonomy of engineering teams:** each team is free to choose the tools and infrastructure that suit their needs.  The reconciler framework only requires a minimal amount of coupling between controllers while still allowing one to write expressive workflows.
 *   **Battle tested patterns and tools**:  This reconciler based framework does not invent something new.  Kubernetes has a rich ecosystem that makes building controllers super simple. The popularity of Kubernetes
 means there is a large and growing community familiar with this pattern and supporting tools.
@@ -111,7 +102,6 @@ means there is a large and growing community familiar with this pattern and supp
 ### GitOps: Operation By Pull Request
 
 GitOps, Figure 5, is a pattern for managing infrastructure. The core idea of GitOps is that source control (doesn’t have to be git) should be the source of truth for configuration files  describing your infrastructure. Controllers can then monitor source control and automatically update your infrastructure as your config changes. This means to make a change (or undo a change) you just open a pull request.
-
 
 <img src="/images/2020-08-01-data-science-meets-devops/fig5.gitops.png" width="" alt="alt_text" title="">
 
@@ -159,7 +149,7 @@ We picked Tekton because the primary challenge we faced was sequentially running
 
 #### The Control Loop
 
-Finally, we needed to build a control loop that would periodically invoke our lambdas and launch our Tekton pipelines as needed. We used kubebuilder to create a [simple custom controller](https://github.com/kubeflow/code-intelligence/tree/master/Label_Microservice/go). Our controller’s reconcile loop will call our lambda to determines whether a sync is needed and if so with what parameters. If a sync is needed the controller fires off a Tekton pipeline to perform the actual update. An example of our custom resource is illustrated below
+Finally, we needed to build a control loop that would periodically invoke our lambdas and launch our Tekton pipelines as needed. We used kubebuilder to create a [simple custom controller](https://github.com/kubeflow/code-intelligence/tree/master/Label_Microservice/go). Our controller’s reconcile loop will call our lambda to determines whether a sync is needed and if so with what parameters. If a sync is needed the controller fires off a Tekton pipeline to perform the actual update. An example of our [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) is illustrated below:
 
 
 ```yaml
@@ -260,3 +250,8 @@ To maximize each team’s autonomy and reduce dependencies on tools, our  CI/CD 
 If you’d like to learn more about GitOps we suggest this [guide](https://www.weave.works/technologies/gitops/) from Weaveworks. 
 
 To learn how to build your own Kubernetes controllers the [kubebuilder book](https://book.kubebuilder.io/) walks through an E2E example.
+
+## Footnotes
+
+
+[^1]: AutoML allowed us to focus on infrastructure and engineering rather than spending too much time building and tuning models.  Furthermore, AutoML provides a competitive baseline for us to improve upon.  We may revisit these models in the future.

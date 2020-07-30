@@ -12,7 +12,7 @@ permalink: /mlops/
 author: "<a href='https://www.linkedin.com/in/jeremy-lewi-600aaa8/'>Jeremy Lewi</a>, <a href='https://hamel.dev/'>Hamel Husain</a>"
 ---
 
-## The Problem
+# The Problem
 
 [Kubeflow](https://www.kubeflow.org/) is a fast-growing open source project that makes it easy to deploy and manage machine learning on Kubernetes.  
 
@@ -55,7 +55,7 @@ platform-gcp | 0.8 | 0.6
 Given the rate at which new issues are arriving, retraining our model periodically became a priority. We believe continuously retraining and deploying our model to leverage this new data is critical to maintaining the efficacy of our models.  
 
 
-## Our Solution
+# Our Solution
 
 Our CI/CD solution is illustrated in [Figure 2](#fig2). We don’t explicitly create a directed acyclic graph (DAG)  to connect the steps in an ML workflow (e.g. preprocessing, training, validation, deployment, etc…). Rather, we use a set of independent controllers. Each controller declaratively describes the desired state of the world and takes  actions necessary to make the actual state of the world match. This independence makes it easy for us to use whatever tools make the most sense for each step. More specifically we use
 
@@ -70,9 +70,9 @@ The first controller, the Trainer, (left hand side of Figure 2) is a controller 
 
 The second component, the Deployer, (right hand side of Figure 2) determines which model should be live and if needed, automatically opens a pull request to update our model. Once the pull request is merged [Anthos Config Mesh](https://cloud.google.com/anthos/config-management) automatically rolls it out to production.
 
-## Further Details
+# Background
 
-### Building Resilient Systems With Reconcilers
+## Building Resilient Systems With Reconcilers
 
 A reconciler is a control pattern that has proven to be immensely useful for building resilient systems. The reconcile pattern is [at the heart of how Kubernetes works](https://book.kubebuilder.io/cronjob-tutorial/controller-overview.html). Figure 3 illustrates how a reconciler works. A reconciler works by first observing the state of the world; e.g. what model is currently deployed. The reconciler then compares this against the desired state of the world and computes the diff; e.g the model with label “version=20200724” should be deployed, but the model currently deployed has label “version=20200700”. The reconciler then takes the action necessary to drive the world to the desired state; e.g. open a pull request to change the deployed model.
 
@@ -82,7 +82,7 @@ A reconciler is a control pattern that has proven to be immensely useful for bui
 Reconcilers have proven immensely useful for building resilient systems because a well implemented reconciler provides a high degree of confidence that no matter how a system is perturbed it will eventually return to the desired state.
 
 
-### There Are No DAGs
+## There Are No DAGs
 
 The declarative nature of controllers means data can flow through a series of controllers  without needing to explicitly create a DAG. In lieu of a DAG, a series of data processing steps can instead be expressed as a set of desired states, as illustrated in Figure 4 below:
 
@@ -99,7 +99,7 @@ This reconciler-based paradigm offers the following benefits over many tradition
 means there is a large and growing community familiar with this pattern and supporting tools.
 
 
-### GitOps: Operation By Pull Request
+## GitOps: Operation By Pull Request
 
 GitOps, Figure 5, is a pattern for managing infrastructure. The core idea of GitOps is that source control (doesn’t have to be git) should be the source of truth for configuration files  describing your infrastructure. Controllers can then monitor source control and automatically update your infrastructure as your config changes. This means to make a change (or undo a change) you just open a pull request.
 
@@ -107,7 +107,7 @@ GitOps, Figure 5, is a pattern for managing infrastructure. The core idea of Git
 
 <figcaption><strong>Figure 5:</strong> To push a new model for Label Bot we create a PR updating the config map storing the id of the Auto ML model we want to use. When the PR is merged, <a href="https://cloud.google.com/anthos-config-management/docs">Anthos Config Management(ACM</a>) automatically rolls out those changes to our GKE cluster. As a result, subsequent predictions are made using the new model. (Image courtesy of <a href="https://www.weave.works/blog/automate-kubernetes-with-gitops">Weaveworks</a>)</figcaption>
 
-### Putting It Together: Reconciler + GitOps = CI/CD for ML
+# Putting It Together: Reconciler + GitOps = CI/CD for ML
 
 With that background out of the way, let’s dive into how we built CI/CD for ML by combining the Reconciler and GitOps patterns.
 
@@ -117,7 +117,7 @@ There were three problems we needed to solve
 2. How do we affect the changes needed to make the actual state match the desired state?
 3. How do we build a control loop to continuously run 1 & 2?
 
-#### Computing Diffs
+## Computing Diffs
 
 To compute the diffs we just write lambdas that do exactly what we want. So in this case we wrote two lambas
 
@@ -126,19 +126,22 @@ To compute the diffs we just write lambdas that do exactly what we want. So in t
 
 We wrap these lambdas in a simple web server and deploy on Kubernetes. One reason we chose this approach is because we wanted to rely on Kubernetes’ [git-sync](https://github.com/kubernetes/git-sync) to mirror our repository to a pod volume. This makes our lambdas super simple because all the git management is taken care of by a side-car running [git-sync](https://github.com/kubernetes/git-sync).
 
-#### Actuation
+## Actuation
 
 To apply the changes necessary, we use Tekton to glue together various CLIs that we use to perform the various steps.
 
-To train our model we have a [Tekton task ](https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/tekton/tasks/run-notebook-task.yaml#L34)that
+### Training
+
+To train our model we have a [Tekton task ](https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/tekton/tasks/run-notebook-task.yaml#L34) that:
 
 
 1. Runs our notebook using [papermill](https://github.com/nteract/papermill).
 2. Converts the notebook to html using [nbconvert](https://nbconvert.readthedocs.io/en/latest/).
 3. Uploads the ipynb and html files to GCS using [gsutil](https://cloud.google.com/storage/docs/gsutil)
 
-To deploy our model we have a [Tekton task](https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/tekton/tasks/update-model-pr-task.yaml#L68) that
+### Model Deployment
 
+To deploy our model we have a [Tekton task](https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/tekton/tasks/update-model-pr-task.yaml#L68) that:
 
 1. Uses kpt to update our configmap with the desired value
 2. Runs git to push our changes to a branch
@@ -147,7 +150,7 @@ To deploy our model we have a [Tekton task](https://github.com/kubeflow/code-int
 We picked Tekton because the primary challenge we faced was sequentially running a series of CLIs in various containers. Tekton is perfect for this. Importantly, all the steps in a Tekton task run on the same pod which allows data to be shared between steps using a pod volume. 
 
 
-#### The Control Loop
+## The Control Loop
 
 Finally, we needed to build a control loop that would periodically invoke our lambdas and launch our Tekton pipelines as needed. We used kubebuilder to create a [simple custom controller](https://github.com/kubeflow/code-intelligence/tree/master/Label_Microservice/go). Our controller’s reconcile loop will call our lambda to determines whether a sync is needed and if so with what parameters. If a sync is needed the controller fires off a Tekton pipeline to perform the actual update. An example of our [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) is illustrated below:
 
@@ -195,7 +198,7 @@ spec:
 The custom resource specifies the endpoint, **needsSyncUrl**, for the lambda that computes whether a sync is needed and a Tekton PipelineRun, **pipelineRunTemplate**, describing the pipeline run to create when a sync is needed. The controller takes cares of the details; e.g. ensuring only 1 pipeline per resource is running at a time, garbage collecting old runs, etc… All of the heavy lifting is taken care of for us by Kubernetes and kubebuilder.
 
 
-## Build Your Own CI/CD pipelines
+# Build Your Own CI/CD pipelines
 
 Our code base is a long way from being polished, easily reusable tooling. Nonetheless it is all public  and could be a useful starting point for trying to build your own pipelines. 
 
@@ -217,10 +220,10 @@ Here are some pointers to get you started
  If you’d like to see us clean it up and include it in a future Kubeflow release please chime in on issue [kubeflow/kubeflow#5167](https://github.com/kubeflow/kubeflow/issues/5167).
 
 
-## What’s Next
+# What’s Next
 
 
-### Lineage Tracking
+## Lineage Tracking
 
 Since we do not have an explicit DAG representing the sequence of steps in our CI/CD pipeline understanding the lineage of our models can be challenging. Fortunately, Kubeflow Metadata solves this by making it easy for each step to record information about what outputs it produced using what code and inputs. Kubeflow metadata can easily recover and plot the lineage graph. The figure below shows an example of the lineage graph from our [xgboost example](https://github.com/kubeflow/examples/blob/master/xgboost_synthetic/build-train-deploy.ipynb).
 
@@ -233,7 +236,7 @@ Since we do not have an explicit DAG representing the sequence of steps in our C
 Our plan is to have our controller automatically write lineage tracking information to the metadata server so we can easily understand the lineage of what’s in production.
 
 
-## Conclusion
+# Conclusion
 
 Building ML products is a team effort. In order to move a model from a proof of concept to a shipped product, data scientists and devops engineers need to collaborate. To foster this collaboration, we believe it is important to allow data scientists and devops engineers to use their preferred tools.    Concretely, we wanted to support the following tools for Data Scientists, Devops Engineers, and [SRE](https://en.wikipedia.org/wiki/Site_Reliability_Engineering)s:
 
@@ -245,13 +248,13 @@ Building ML products is a team effort. In order to move a model from a proof of 
 To maximize each team’s autonomy and reduce dependencies on tools, our  CI/CD process follows a decentralized approach. Rather than explicitly define a DAG that connects the steps, our approach relies on a series of controllers that can be defined and administered independently. We think this maps naturally to enterprises where responsibilities might be split across teams; a data engineering team might be responsible for turning weblogs into features, a modeling team might be responsible for producing models from the features, and a deployments team might be responsible for rolling those models into production. 
 
 
-## Further Reading
+# Further Reading
 
 If you’d like to learn more about GitOps we suggest this [guide](https://www.weave.works/technologies/gitops/) from Weaveworks. 
 
 To learn how to build your own Kubernetes controllers the [kubebuilder book](https://book.kubebuilder.io/) walks through an E2E example.
 
-## Footnotes
+# Footnotes
 
 
 [^1]: AutoML allowed us to focus on infrastructure and engineering rather than spending too much time building and tuning models.  Furthermore, AutoML provides a competitive baseline for us to improve upon.  We may revisit these models in the future.

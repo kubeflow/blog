@@ -205,7 +205,7 @@ spec:
 
 ```
 
-The custom resource specifies the endpoint, **needsSyncUrl**, for the lambda that computes whether a sync is needed and a Tekton PipelineRun, **pipelineRunTemplate**, describing the pipeline run to create when a sync is needed. The controller takes cares of the details; e.g. ensuring only 1 pipeline per resource is running at a time, garbage collecting old runs, etc… All of the heavy lifting is taken care of for us by Kubernetes and kubebuilder.
+The custom resource specifies the endpoint, **needsSyncUrl**, for the lambda that computes whether a sync is needed and a Tekton PipelineRun, **pipelineRunTemplate**, describing the pipeline run to create when a sync is needed. The controller takes care of the details; e.g. ensuring only 1 pipeline per resource is running at a time, garbage collecting old runs, etc… All of the heavy lifting is taken care of for us by Kubernetes and kubebuilder.
 
 Note, for historical reasons the kind, **ModelSync**, and apiVersion **automl.cloudai.kubeflow.org** are not reflective of what the controller actually does. We plan on fixing this in the future.
 

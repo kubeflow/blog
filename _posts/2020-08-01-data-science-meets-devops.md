@@ -241,11 +241,9 @@ Here are some pointers to get you started
 Since we do not have an explicit DAG representing the sequence of steps in our CI/CD pipeline understanding the lineage of our models can be challenging. Fortunately, Kubeflow Metadata solves this by making it easy for each step to record information about what outputs it produced using what code and inputs. Kubeflow metadata can easily recover and plot the lineage graph. The figure below shows an example of the lineage graph from our [xgboost example](https://github.com/kubeflow/examples/blob/master/xgboost_synthetic/build-train-deploy.ipynb).
 
 
-![alt_text](/images/2020-08-01-data-science-meets-devops/fig6.lineage.png "image_tooltip")
-
 <img src="/images/2020-08-01-data-science-meets-devops/fig6.lineage.png" width="" alt="alt_text" title="">
 
-<figcaption><strong>Figure 6:</strong> screenshot of the lineage tracking UI for our <a href="https://github.com/kubeflow/examples/blob/master/xgboost_synthetic/build-train-deploy.ipynb"xgboost example</a>)</figcaption>
+<figcaption><strong>Figure 6:</strong> screenshot of the lineage tracking UI for our <a href="https://github.com/kubeflow/examples/blob/master/xgboost_synthetic/build-train-deploy.ipynb">xgboost example</a>)</figcaption>
 
 
 Our plan is to have our controller automatically write lineage tracking information to the metadata server so we can easily understand the lineage of what’s in production.

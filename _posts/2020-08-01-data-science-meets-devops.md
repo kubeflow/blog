@@ -66,9 +66,7 @@ Our CI/CD solution is illustrated in [Figure 2](#fig2). We don’t explicitly cr
 <img id="fig2" src="/images/2020-08-01-data-science-meets-devops/fig2.ci-cd.png" width="" alt="alt_text" title="">
 <figcaption><strong>Figure 2:</strong> illustrates how we do CI/CD. Our pipeline today consists of two independently operating controllers. We configure the Trainer (left hand side) by describing what models we want to exist; i.e. what it means for our models to be “fresh”.  The Trainer periodically checks whether the set of trained models are sufficiently fresh and if not trains a new model. We likewise configure the Deployer (right hand side) to define what it means for the deployed model to be in sync with the set of trained models. If the correct model is not deployed it will deploy a new model.</figcaption>
 
-The first controller, the Trainer, (left hand side of Figure 2) is a controller which checks if our model needs to be retrained. At the moment, this controller retrains the model after a set time period. When the model becomes stale, the controller  executes a [notebook ](https://github.com/kubeflow/code-intelligence/blob/master/Label_Microservice/notebooks/automl.ipynb) programmatically using [papermill](https://github.com/nteract/papermill) to train our model. 
-
-The second component, the Deployer, (right hand side of Figure 2) determines which model should be live and if needed, automatically opens a pull request to update our model. Once the pull request is merged [Anthos Config Mesh](https://cloud.google.com/anthos/config-management) automatically rolls it out to production.
+For more details on model training and deployment refer to the [Actuation section below](#actuation).
 
 # Background
 
@@ -95,8 +93,7 @@ This reconciler-based paradigm offers the following benefits over many tradition
 
 *   **Resilience against failures**:  the system continuously seeks to achieve and maintain the desired state.
 *   **Increased autonomy of engineering teams:** each team is free to choose the tools and infrastructure that suit their needs.  The reconciler framework only requires a minimal amount of coupling between controllers while still allowing one to write expressive workflows.
-*   **Battle tested patterns and tools**:  This reconciler based framework does not invent something new.  Kubernetes has a rich ecosystem that makes building controllers super simple. The popularity of Kubernetes
-means there is a large and growing community familiar with this pattern and supporting tools.
+*   **Battle tested patterns and tools**:  This reconciler based framework does not invent something new.  Kubernetes has a rich ecosystem of tools that aim to make it easy to build controllers. The popularity of Kubernetes means there is a large and growing community familiar with this pattern and supporting tools.
 
 
 ## GitOps: Operation By Pull Request
@@ -130,7 +127,7 @@ We wrap these lambdas in a simple web server and deploy on Kubernetes. One reaso
 
 To apply the changes necessary, we use Tekton to glue together various CLIs that we use to perform the various steps.
 
-### Training
+### Model Training
 
 To train our model we have a [Tekton task ](https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/tekton/tasks/run-notebook-task.yaml#L34) that:
 
@@ -139,11 +136,17 @@ To train our model we have a [Tekton task ](https://github.com/kubeflow/code-int
 2. Converts the notebook to html using [nbconvert](https://nbconvert.readthedocs.io/en/latest/).
 3. Uploads the ipynb and html files to GCS using [gsutil](https://cloud.google.com/storage/docs/gsutil)
 
-This notebook fetches GitHub Issues data [from BigQuery](https://medium.com/google-cloud/analyzing-github-issues-and-comments-with-bigquery-c41410d3308) and launches an [AutoML](https://cloud.google.com/automl) job to train a model. 
+This notebook fetches GitHub Issues data [from BigQuery](https://medium.com/google-cloud/analyzing-github-issues-and-comments-with-bigquery-c41410d3308) and generates CSV files on GCS
+suitable for import into [Google AutoML](https://cloud.google.com/automl). The notebook
+then launches an [AutoML](https://cloud.google.com/automl) job to train a model. 
 
-AutoML allowed us to focus on infrastructure and engineering rather than spending too much time building and tuning models.  Furthermore, AutoML provides a competitive baseline for us to improve upon.  We may revisit these models in the future.
+We chose AutoML because we wanted to focus on building a complete end to end solution rather than iterating on the model. 
+AutoML provides a competitive baseline that we may try to improve upon in the future.
 
-To easily view the executed notebook we convert it to html and upload it to GCS.
+To easily view the executed notebook we convert it to html and upload it to [GCS which makes it easy to 
+serve public, static content](https://cloud.google.com/storage/docs/hosting-static-website). 
+This allows us to use notebooks to generate rich visualizations
+to evaluate our model.
 
 ### Model Deployment
 
@@ -156,6 +159,9 @@ To deploy our model we have a [Tekton task](https://github.com/kubeflow/code-int
 The controller ensures there is only one Tekton pipeline running at a time. We configure our pipelines
 to always push to the same branch. This ensures we only ever open one PR to update the model because
 GitHub doesn't allow multiple PRs to be created from the same branch.
+
+Once the PR is merged [Anthos Config Mesh](https://cloud.google.com/anthos/config-management) automatically applies
+the Kubernetes manifests to our Kubernetes cluster. 
 
 ### Why Tekton
 
@@ -208,8 +214,10 @@ spec:
 
 ```
 
-
 The custom resource specifies the endpoint, **needsSyncUrl**, for the lambda that computes whether a sync is needed and a Tekton PipelineRun, **pipelineRunTemplate**, describing the pipeline run to create when a sync is needed. The controller takes cares of the details; e.g. ensuring only 1 pipeline per resource is running at a time, garbage collecting old runs, etc… All of the heavy lifting is taken care of for us by Kubernetes and kubebuilder.
+
+Note, for historical reasons the kind, **ModelSync**, and apiVersion **automl.cloudai.kubeflow.org** are not reflective of what
+the controller actually does. We plan on fixing this in the future.
 
 
 # Build Your Own CI/CD pipelines

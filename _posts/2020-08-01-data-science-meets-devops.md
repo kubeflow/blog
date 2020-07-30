@@ -243,7 +243,7 @@ Since we do not have an explicit DAG representing the sequence of steps in our C
 
 <img src="/images/2020-08-01-data-science-meets-devops/fig6.lineage.png" width="" alt="alt_text" title="">
 
-<figcaption><strong>Figure 6:</strong> screenshot of the lineage tracking UI for our <a href="https://github.com/kubeflow/examples/blob/master/xgboost_synthetic/build-train-deploy.ipynb">xgboost example</a>)</figcaption>
+<figcaption><strong>Figure 6:</strong> screenshot of the lineage tracking UI for our <a href="https://github.com/kubeflow/examples/blob/master/xgboost_synthetic/build-train-deploy.ipynb">xgboost example</a>.</figcaption>
 
 
 Our plan is to have our controller automatically write lineage tracking information to the metadata server so we can easily understand the lineage of what’s in production.

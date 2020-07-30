@@ -22,7 +22,7 @@ Due to Kubeflow’s explosive popularity, we receive a large influx of GitHub is
 <img src="/images/2020-08-01-data-science-meets-devops/fig1.num-issues.png" width="" alt="Number of Kubeflow Issues" title="">
 <figcaption><strong>Figure 1:</strong>Number of Kubeflow Issues</figcaption>
 
-To keep up with this influx, we started investing in a Github App called [Issue Label Bot](https://github.com/marketplace/issue-label-bot) that used machine learning to auto label issues.  Our [first model](https://github.com/marketplace/issue-label-bot) was trained using a collection of popular public repositories on GitHub and only predicted generic labels.  Subsequently, we started using [Google AutoML](https://cloud.google.com/automl/docs) to train a Kubeflow specific model.[^1] The new model was able to predict Kubeflow specific labels with average precision of 72% and average recall of 50%. This significantly reduced the toil associated with issue management for Kubeflow maintainers. The table below contains evaluation metrics for Kubeflow specific labels on a holdout set.  The [precision and recall](https://en.wikipedia.org/wiki/Precision_and_recall) below coincide with prediction thresholds that we calibrated to suit our needs.
+To keep up with this influx, we started investing in a Github App called [Issue Label Bot](https://github.com/marketplace/issue-label-bot) that used machine learning to auto label issues.  Our [first model](https://github.com/marketplace/issue-label-bot) was trained using a collection of popular public repositories on GitHub and only predicted generic labels.  Subsequently, we started using [Google AutoML](https://cloud.google.com/automl/docs) to train a Kubeflow specific model. The new model was able to predict Kubeflow specific labels with average precision of 72% and average recall of 50%. This significantly reduced the toil associated with issue management for Kubeflow maintainers. The table below contains evaluation metrics for Kubeflow specific labels on a holdout set.  The [precision and recall](https://en.wikipedia.org/wiki/Precision_and_recall) below coincide with prediction thresholds that we calibrated to suit our needs.
 
 Label | Precision | Recall
 -- | -- | --
@@ -66,7 +66,7 @@ Our CI/CD solution is illustrated in [Figure 2](#fig2). We don’t explicitly cr
 <img id="fig2" src="/images/2020-08-01-data-science-meets-devops/fig2.ci-cd.png" width="" alt="alt_text" title="">
 <figcaption><strong>Figure 2:</strong> illustrates how we do CI/CD. Our pipeline today consists of two independently operating controllers. We configure the Trainer (left hand side) by describing what models we want to exist; i.e. what it means for our models to be “fresh”.  The Trainer periodically checks whether the set of trained models are sufficiently fresh and if not trains a new model. We likewise configure the Deployer (right hand side) to define what it means for the deployed model to be in sync with the set of trained models. If the correct model is not deployed it will deploy a new model.</figcaption>
 
-The first controller, the Trainer, (left hand side of Figure 2) is a controller which checks if our model needs to be retrained. At the moment, this controller retrains the model after a set time period. When the model becomes stale, the controller  executes a [notebook ](https://github.com/kubeflow/code-intelligence/blob/master/Label_Microservice/notebooks/automl.ipynb) programmatically using [papermill.](https://github.com/nteract/papermill)  This notebook fetches GitHub Issues data [from BigQuery](https://medium.com/google-cloud/analyzing-github-issues-and-comments-with-bigquery-c41410d3308) and launches an [AutoML](https://cloud.google.com/automl) job to train a model. 
+The first controller, the Trainer, (left hand side of Figure 2) is a controller which checks if our model needs to be retrained. At the moment, this controller retrains the model after a set time period. When the model becomes stale, the controller  executes a [notebook ](https://github.com/kubeflow/code-intelligence/blob/master/Label_Microservice/notebooks/automl.ipynb) programmatically using [papermill](https://github.com/nteract/papermill) to train our model. 
 
 The second component, the Deployer, (right hand side of Figure 2) determines which model should be live and if needed, automatically opens a pull request to update our model. Once the pull request is merged [Anthos Config Mesh](https://cloud.google.com/anthos/config-management) automatically rolls it out to production.
 
@@ -139,6 +139,12 @@ To train our model we have a [Tekton task ](https://github.com/kubeflow/code-int
 2. Converts the notebook to html using [nbconvert](https://nbconvert.readthedocs.io/en/latest/).
 3. Uploads the ipynb and html files to GCS using [gsutil](https://cloud.google.com/storage/docs/gsutil)
 
+This notebook fetches GitHub Issues data [from BigQuery](https://medium.com/google-cloud/analyzing-github-issues-and-comments-with-bigquery-c41410d3308) and launches an [AutoML](https://cloud.google.com/automl) job to train a model. 
+
+AutoML allowed us to focus on infrastructure and engineering rather than spending too much time building and tuning models.  Furthermore, AutoML provides a competitive baseline for us to improve upon.  We may revisit these models in the future.
+
+To easily view the executed notebook we convert it to html and upload it to GCS.
+
 ### Model Deployment
 
 To deploy our model we have a [Tekton task](https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/tekton/tasks/update-model-pr-task.yaml#L68) that:
@@ -147,8 +153,16 @@ To deploy our model we have a [Tekton task](https://github.com/kubeflow/code-int
 2. Runs git to push our changes to a branch
 3. Uses a wrapper around the [GitHub CLI](https://github.com/cli/cli) (gh) to create a PR
 
+The controller ensures there is only one Tekton pipeline running at a time. We configure our pipelines
+to always push to the same branch. This ensures we only ever open one PR to update the model because
+GitHub doesn't allow multiple PRs to be created from the same branch.
+
+### Why Tekton
+
 We picked Tekton because the primary challenge we faced was sequentially running a series of CLIs in various containers. Tekton is perfect for this. Importantly, all the steps in a Tekton task run on the same pod which allows data to be shared between steps using a pod volume. 
 
+Furthermore, since Tekton resources are Kubernetes resources we can adopt the same GitOps pattern and tooling to 
+update our pipeline definitions.
 
 ## The Control Loop
 
@@ -254,7 +268,3 @@ If you’d like to learn more about GitOps we suggest this [guide](https://www.w
 
 To learn how to build your own Kubernetes controllers the [kubebuilder book](https://book.kubebuilder.io/) walks through an E2E example.
 
-# Footnotes
-
-
-[^1]: AutoML allowed us to focus on infrastructure and engineering rather than spending too much time building and tuning models.  Furthermore, AutoML provides a competitive baseline for us to improve upon.  We may revisit these models in the future.

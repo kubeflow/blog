@@ -24,152 +24,31 @@ Due to Kubeflow’s explosive popularity, we receive a large influx of GitHub is
 
 To keep up with this influx, we started investing in a Github App called [Issue Label Bot](https://github.com/marketplace/issue-label-bot) that used machine learning to auto label issues.  Our [first model](https://github.com/marketplace/issue-label-bot) was trained using a collection of popular public repositories on GitHub and only predicted generic labels.  Subsequently, we started using [Google AutoML](https://cloud.google.com/automl/docs) to train a Kubeflow specific model. The new model was able to predict Kubeflow specific labels with average precision of 72% and average recall of 50%. This significantly reduced the toil associated with issue management for Kubeflow maintainers. The table below contains evaluation metrics for Kubeflow specific labels on a holdout set.  The precision and recall below coincide with prediction thresholds that we calibrated to suit our needs.
 
-<table style="margin-left: 28.5%;">
-  <thead>
-    <tr>
-      <th>Label</th>
-      <th>Precision</th>
-      <th>Recall</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>area-api</td>
-      <td>1.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <td>area-backend</td>
-      <td>0.6</td>
-      <td>0.4</td>
-    </tr>
-    <tr>
-      <td>area-bootstrap</td>
-      <td>0.3</td>
-      <td>0.1</td>
-    </tr>
-    <tr>
-      <td>area-build-release</td>
-      <td>1.0</td>
-      <td>0.2</td>
-    </tr>
-    <tr>
-      <td>area-centraldashboard</td>
-      <td>0.6</td>
-      <td>0.6</td>
-    </tr>
-    <tr>
-      <td>area-components</td>
-      <td>0.5</td>
-      <td>0.3</td>
-    </tr>
-    <tr>
-      <td>area-docs</td>
-      <td>0.8</td>
-      <td>0.7</td>
-    </tr>
-    <tr>
-      <td>area-engprod</td>
-      <td>0.8</td>
-      <td>0.5</td>
-    </tr>
-    <tr>
-      <td>area-example-code_search</td>
-      <td>1.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <td>area-front-end</td>
-      <td>0.7</td>
-      <td>0.5</td>
-    </tr>
-    <tr>
-      <td>area-frontend</td>
-      <td>0.7</td>
-      <td>0.4</td>
-    </tr>
-    <tr>
-      <td>area-inference</td>
-      <td>0.9</td>
-      <td>0.5</td>
-    </tr>
-    <tr>
-      <td>area-istio</td>
-      <td>1.0</td>
-      <td>0.3</td>
-    </tr>
-    <tr>
-      <td>area-jupyter</td>
-      <td>0.9</td>
-      <td>0.7</td>
-    </tr>
-    <tr>
-      <td>area-katib</td>
-      <td>0.8</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <td>area-kfctl</td>
-      <td>0.8</td>
-      <td>0.7</td>
-    </tr>
-    <tr>
-      <td>area-kustomize</td>
-      <td>0.3</td>
-      <td>0.1</td>
-    </tr>
-    <tr>
-      <td>area-operator</td>
-      <td>0.8</td>
-      <td>0.7</td>
-    </tr>
-    <tr>
-      <td>area-pipelines</td>
-      <td>0.7</td>
-      <td>0.4</td>
-    </tr>
-    <tr>
-      <td>area-samples</td>
-      <td>0.5</td>
-      <td>0.5</td>
-    </tr>
-    <tr>
-      <td>area-sdk</td>
-      <td>0.7</td>
-      <td>0.4</td>
-    </tr>
-    <tr>
-      <td>area-sdk-dsl</td>
-      <td>0.6</td>
-      <td>0.4</td>
-    </tr>
-    <tr>
-      <td>area-sdk-dsl-compiler</td>
-      <td>0.6</td>
-      <td>0.4</td>
-    </tr>
-    <tr>
-      <td>area-testing</td>
-      <td>0.7</td>
-      <td>0.7</td>
-    </tr>
-    <tr>
-      <td>area-tfjob</td>
-      <td>0.4</td>
-      <td>0.4</td>
-    </tr>
-    <tr>
-      <td>platform-aws</td>
-      <td>0.8</td>
-      <td>0.5</td>
-    </tr>
-    <tr>
-      <td>platform-gcp</td>
-      <td>0.8</td>
-      <td>0.6</td>
-    </tr>
-  </tbody>
-</table>
+Label | Precision | Recall
+-- | -- | --
+area-backend | 0.6 | 0.4
+area-bootstrap | 0.3 | 0.1
+area-centraldashboard | 0.6 | 0.6
+area-components | 0.5 | 0.3
+area-docs | 0.8 | 0.7
+area-engprod | 0.8 | 0.5
+area-front-end | 0.7 | 0.5
+area-frontend | 0.7 | 0.4
+area-inference | 0.9 | 0.5
+area-jupyter | 0.9 | 0.7
+area-katib | 0.8 | 1.0
+area-kfctl | 0.8 | 0.7
+area-kustomize | 0.3 | 0.1
+area-operator | 0.8 | 0.7
+area-pipelines | 0.7 | 0.4
+area-samples | 0.5 | 0.5
+area-sdk | 0.7 | 0.4
+area-sdk-dsl | 0.6 | 0.4
+area-sdk-dsl-compiler | 0.6 | 0.4
+area-testing | 0.7 | 0.7
+area-tfjob | 0.4 | 0.4
+platform-aws | 0.8 | 0.5
+platform-gcp | 0.8 | 0.6
 
 <figcaption><strong>Table 1:</strong> Evaluation metrics for various Kubeflow labels.</figcaption>
 

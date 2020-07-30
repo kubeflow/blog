@@ -108,7 +108,7 @@ GitOps, Figure 5, is a pattern for managing infrastructure. The core idea of Git
 
 With that background out of the way, let’s dive into how we built CI/CD for ML by combining the Reconciler and GitOps patterns.
 
-There were three problems we needed to solve
+There were three problems we needed to solve:
 
 1. How do we compute the diff between the desired and actual state of the world?
 2. How do we affect the changes needed to make the actual state match the desired state?
@@ -116,7 +116,7 @@ There were three problems we needed to solve
 
 ## Computing Diffs
 
-To compute the diffs we just write lambdas that do exactly what we want. So in this case we wrote two lambas
+To compute the diffs we just write lambdas that do exactly what we want. So in this case we wrote two lambdas:
 
 1. The [first lambda](https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/Label_Microservice/go/cmd/automl/pkg/server/server.go#L109) determines whether we need to retrain based on the age of the most recent model
 2. The [second lambda](https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/Label_Microservice/go/cmd/automl/pkg/server/server.go#L49) determines whether the model needs to be updated by comparing the most recently trained model to the model listed in a config map checked into source control.
@@ -134,34 +134,25 @@ To train our model we have a [Tekton task ](https://github.com/kubeflow/code-int
 
 1. Runs our notebook using [papermill](https://github.com/nteract/papermill).
 2. Converts the notebook to html using [nbconvert](https://nbconvert.readthedocs.io/en/latest/).
-3. Uploads the ipynb and html files to GCS using [gsutil](https://cloud.google.com/storage/docs/gsutil)
+3. Uploads the `.ipynb` and `.html` files to GCS using [gsutil](https://cloud.google.com/storage/docs/gsutil)
 
-This notebook fetches GitHub Issues data [from BigQuery](https://medium.com/google-cloud/analyzing-github-issues-and-comments-with-bigquery-c41410d3308) and generates CSV files on GCS
-suitable for import into [Google AutoML](https://cloud.google.com/automl). The notebook
-then launches an [AutoML](https://cloud.google.com/automl) job to train a model. 
+This notebook fetches GitHub Issues data [from BigQuery](https://medium.com/google-cloud/analyzing-github-issues-and-comments-with-bigquery-c41410d3308) and generates CSV files on GCS suitable for import into [Google AutoML](https://cloud.google.com/automl). The notebook then launches an [AutoML](https://cloud.google.com/automl) job to train a model.
 
-We chose AutoML because we wanted to focus on building a complete end to end solution rather than iterating on the model. 
-AutoML provides a competitive baseline that we may try to improve upon in the future.
+We chose AutoML because we wanted to focus on building a complete end to end solution rather than iterating on the model. AutoML provides a competitive baseline that we may try to improve upon in the future.
 
-To easily view the executed notebook we convert it to html and upload it to [GCS which makes it easy to 
-serve public, static content](https://cloud.google.com/storage/docs/hosting-static-website). 
-This allows us to use notebooks to generate rich visualizations
-to evaluate our model.
+To easily view the executed notebook we convert it to html and upload it to [GCS which makes it easy to serve public, static content](https://cloud.google.com/storage/docs/hosting-static-website). This allows us to use notebooks to generate rich visualizations to evaluate our model.
 
 ### Model Deployment
 
 To deploy our model we have a [Tekton task](https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/tekton/tasks/update-model-pr-task.yaml#L68) that:
 
-1. Uses kpt to update our configmap with the desired value
-2. Runs git to push our changes to a branch
-3. Uses a wrapper around the [GitHub CLI](https://github.com/cli/cli) (gh) to create a PR
+1. Uses kpt to update our configmap with the desired value.
+2. Runs git to push our changes to a branch.
+3. Uses a wrapper around the [GitHub CLI](https://github.com/cli/cli) (gh) to create a PR.
 
-The controller ensures there is only one Tekton pipeline running at a time. We configure our pipelines
-to always push to the same branch. This ensures we only ever open one PR to update the model because
-GitHub doesn't allow multiple PRs to be created from the same branch.
+The controller ensures there is only one Tekton pipeline running at a time. We configure our pipelines to always push to the same branch. This ensures we only ever open one PR to update the model because GitHub doesn't allow multiple PRs to be created from the same branch.
 
-Once the PR is merged [Anthos Config Mesh](https://cloud.google.com/anthos/config-management) automatically applies
-the Kubernetes manifests to our Kubernetes cluster. 
+Once the PR is merged [Anthos Config Mesh](https://cloud.google.com/anthos/config-management) automatically applies the Kubernetes manifests to our Kubernetes cluster.
 
 ### Why Tekton
 
@@ -216,47 +207,40 @@ spec:
 
 The custom resource specifies the endpoint, **needsSyncUrl**, for the lambda that computes whether a sync is needed and a Tekton PipelineRun, **pipelineRunTemplate**, describing the pipeline run to create when a sync is needed. The controller takes cares of the details; e.g. ensuring only 1 pipeline per resource is running at a time, garbage collecting old runs, etc… All of the heavy lifting is taken care of for us by Kubernetes and kubebuilder.
 
-Note, for historical reasons the kind, **ModelSync**, and apiVersion **automl.cloudai.kubeflow.org** are not reflective of what
-the controller actually does. We plan on fixing this in the future.
+Note, for historical reasons the kind, **ModelSync**, and apiVersion **automl.cloudai.kubeflow.org** are not reflective of what the controller actually does. We plan on fixing this in the future.
 
 
 # Build Your Own CI/CD pipelines
 
-Our code base is a long way from being polished, easily reusable tooling. Nonetheless it is all public  and could be a useful starting point for trying to build your own pipelines. 
+Our code base is a long way from being polished, easily reusable tooling. Nonetheless it is all public  and could be a useful starting point for trying to build your own pipelines.
 
-Here are some pointers to get you started
+Here are some pointers to get you started:
 
 1. Use the Dockerfile to build your own [ModelSync controller](https://github.com/kubeflow/code-intelligence/blob/master/Label_Microservice/go/Dockerfile)
 2. [Modify the kustomize package](https://github.com/kubeflow/code-intelligence/tree/master/Label_Microservice/go/config/default) to use your image and deploy the controller
 3. Define one or more lambdas as needed for your use cases
-    *   You can use our [Lambda server](https://github.com/kubeflow/code-intelligence/blob/master/Label_Microservice/go/cmd/automl/pkg/server/server.go) as an example
-    *    We wrote ours in go but you can use any language and web framework you like (e.g. flask)
+    *  You can use our [Lambda server](https://github.com/kubeflow/code-intelligence/blob/master/Label_Microservice/go/cmd/automl/pkg/server/server.go) as an example
+    *  We wrote ours in go but you can use any language and web framework you like (e.g. flask)
 4. Define Tekton pipelines suitable for your use cases; our pipelines(linked below) might be a useful starting point
-    *   [Notebook Tekton task ](https://github.com/kubeflow/code-intelligence/blob/master/tekton/tasks/run-notebook-task.yaml) - Run notebook with papermill and upload to GCS
-    *   [PR Tekton Task](https://github.com/kubeflow/code-intelligence/blob/master/tekton/tasks/update-model-pr-task.yaml) - Tekton task to open GitHub PRs
+    *  [Notebook Tekton task ](https://github.com/kubeflow/code-intelligence/blob/master/tekton/tasks/run-notebook-task.yaml) - Run notebook with papermill and upload to GCS
+    *  [PR Tekton Task](https://github.com/kubeflow/code-intelligence/blob/master/tekton/tasks/update-model-pr-task.yaml) - Tekton task to open GitHub PRs
 5. Define ModelSync resources for your use case; you can refer to ours as an example
-*   [ModelSync Deploy Spec](https://github.com/kubeflow/code-intelligence/blob/master/Label_Microservice/auto-update/prod/modelsync.yaml) - YAML to continuously deploy label bot
-*   [ModelSync Train Spec](https://github.com/kubeflow/code-intelligence/blob/master/Label_Microservice/auto-update/prod/retrain-model.yaml) - YAML to continuously train our model
+*  [ModelSync Deploy Spec](https://github.com/kubeflow/code-intelligence/blob/master/Label_Microservice/auto-update/prod/modelsync.yaml) - YAML to continuously deploy label bot
+*  [ModelSync Train Spec](https://github.com/kubeflow/code-intelligence/blob/master/Label_Microservice/auto-update/prod/retrain-model.yaml) - YAML to continuously train our model
 
- 
  If you’d like to see us clean it up and include it in a future Kubeflow release please chime in on issue [kubeflow/kubeflow#5167](https://github.com/kubeflow/kubeflow/issues/5167).
 
-
 # What’s Next
-
 
 ## Lineage Tracking
 
 Since we do not have an explicit DAG representing the sequence of steps in our CI/CD pipeline understanding the lineage of our models can be challenging. Fortunately, Kubeflow Metadata solves this by making it easy for each step to record information about what outputs it produced using what code and inputs. Kubeflow metadata can easily recover and plot the lineage graph. The figure below shows an example of the lineage graph from our [xgboost example](https://github.com/kubeflow/examples/blob/master/xgboost_synthetic/build-train-deploy.ipynb).
 
-
 <img src="/images/2020-08-01-data-science-meets-devops/fig6.lineage.png" width="" alt="alt_text" title="">
 
 <figcaption><strong>Figure 6:</strong> screenshot of the lineage tracking UI for our <a href="https://github.com/kubeflow/examples/blob/master/xgboost_synthetic/build-train-deploy.ipynb">xgboost example</a>.</figcaption>
 
-
 Our plan is to have our controller automatically write lineage tracking information to the metadata server so we can easily understand the lineage of what’s in production.
-
 
 # Conclusion
 
@@ -267,12 +251,10 @@ Building ML products is a team effort. In order to move a model from a proof of 
 *   GitOps for continuous integration and deployment. 
 *   Kubernetes and managed cloud services for underlying infrastructure.  
 
-To maximize each team’s autonomy and reduce dependencies on tools, our  CI/CD process follows a decentralized approach. Rather than explicitly define a DAG that connects the steps, our approach relies on a series of controllers that can be defined and administered independently. We think this maps naturally to enterprises where responsibilities might be split across teams; a data engineering team might be responsible for turning weblogs into features, a modeling team might be responsible for producing models from the features, and a deployments team might be responsible for rolling those models into production. 
-
+To maximize each team’s autonomy and reduce dependencies on tools, our  CI/CD process follows a decentralized approach. Rather than explicitly define a DAG that connects the steps, our approach relies on a series of controllers that can be defined and administered independently. We think this maps naturally to enterprises where responsibilities might be split across teams; a data engineering team might be responsible for turning weblogs into features, a modeling team might be responsible for producing models from the features, and a deployments team might be responsible for rolling those models into production.
 
 # Further Reading
 
 If you’d like to learn more about GitOps we suggest this [guide](https://www.weave.works/technologies/gitops/) from Weaveworks. 
 
 To learn how to build your own Kubernetes controllers the [kubebuilder book](https://book.kubebuilder.io/) walks through an E2E example.
-

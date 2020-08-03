@@ -80,10 +80,7 @@ A reconciler is a control pattern that has proven to be immensely useful for bui
 Reconcilers have proven immensely useful for building resilient systems because a well implemented reconciler provides a high degree of confidence that no matter how a system is perturbed it will eventually return to the desired state.
 
 
-## There Are No DAGs
-
-<img src="/images/2020-08-01-data-science-meets-devops/meme.png" width="" alt="alt_text" title="">
-
+## There is no DAG
 
 The declarative nature of controllers means data can flow through a series of controllers  without needing to explicitly create a DAG. In lieu of a DAG, a series of data processing steps can instead be expressed as a set of desired states, as illustrated in Figure 4 below:
 
@@ -246,6 +243,8 @@ Since we do not have an explicit DAG representing the sequence of steps in our C
 Our plan is to have our controller automatically write lineage tracking information to the metadata server so we can easily understand the lineage of what’s in production.
 
 # Conclusion
+
+<img src="/images/2020-08-01-data-science-meets-devops/meme.png" width="" alt="alt_text" title="">
 
 Building ML products is a team effort. In order to move a model from a proof of concept to a shipped product, data scientists and devops engineers need to collaborate. To foster this collaboration, we believe it is important to allow data scientists and devops engineers to use their preferred tools.    Concretely, we wanted to support the following tools for Data Scientists, Devops Engineers, and [SRE](https://en.wikipedia.org/wiki/Site_Reliability_Engineering)s:
 

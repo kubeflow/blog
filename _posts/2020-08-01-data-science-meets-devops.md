@@ -245,7 +245,7 @@ Our plan is to have our controller automatically write lineage tracking informat
 
 # Conclusion
 
-<img src="/images/2020-08-01-data-science-meets-devops/meme.png" width="100%" alt="alt_text" title="">
+<img src="/images/2020-08-01-data-science-meets-devops/meme.png" width="" alt="alt_text" title="">
 
 Building ML products is a team effort. In order to move a model from a proof of concept to a shipped product, data scientists and devops engineers need to collaborate. To foster this collaboration, we believe it is important to allow data scientists and devops engineers to use their preferred tools.    Concretely, we wanted to support the following tools for Data Scientists, Devops Engineers, and [SRE](https://en.wikipedia.org/wiki/Site_Reliability_Engineering)s:
 

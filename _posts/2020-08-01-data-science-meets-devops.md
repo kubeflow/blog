@@ -118,7 +118,7 @@ There were three problems we needed to solve:
 
 To compute the diffs we just write lambdas that do exactly what we want. So in this case we wrote two lambdas:
 
-1. The [first lambda](https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/Label_Microservice/go/cmd/automl/pkg/server/server.go#L109) determines whether we need to retrain based on the age of the most recent model
+1. The [first lambda](https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/Label_Microservice/go/cmd/automl/pkg/server/server.go#L109) determines whether we need to retrain based on the age of the most recent model.
 2. The [second lambda](https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/Label_Microservice/go/cmd/automl/pkg/server/server.go#L49) determines whether the model needs to be updated by comparing the most recently trained model to the model listed in a config map checked into source control.
 
 We wrap these lambdas in a simple web server and deploy on Kubernetes. One reason we chose this approach is because we wanted to rely on Kubernetes’ [git-sync](https://github.com/kubernetes/git-sync) to mirror our repository to a pod volume. This makes our lambdas super simple because all the git management is taken care of by a side-car running [git-sync](https://github.com/kubernetes/git-sync).

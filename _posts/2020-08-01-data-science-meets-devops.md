@@ -20,7 +20,7 @@ Due to Kubeflow’s explosive popularity, we receive a large influx of GitHub is
 
 
 <img src="/images/2020-08-01-data-science-meets-devops/fig1.num-issues.png" width="" alt="Number of Kubeflow Issues" title="">
-<figcaption><strong>Figure 1:</strong>Number of Kubeflow Issues</figcaption>
+<figcaption><strong>Figure 1:</strong> Number of Kubeflow Issues</figcaption>
 
 To keep up with this influx, we started investing in a Github App called [Issue Label Bot](https://github.com/marketplace/issue-label-bot) that used machine learning to auto label issues.  Our [first model](https://github.com/marketplace/issue-label-bot) was trained using a collection of popular public repositories on GitHub and only predicted generic labels.  Subsequently, we started using [Google AutoML](https://cloud.google.com/automl/docs) to train a Kubeflow specific model. The new model was able to predict Kubeflow specific labels with average precision of 72% and average recall of 50%. This significantly reduced the toil associated with issue management for Kubeflow maintainers. The table below contains evaluation metrics for Kubeflow specific labels on a holdout set.  The [precision and recall](https://en.wikipedia.org/wiki/Precision_and_recall) below coincide with prediction thresholds that we calibrated to suit our needs.
 

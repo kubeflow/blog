@@ -75,7 +75,8 @@ For more details on model training and deployment refer to the [Actuation sectio
 A reconciler is a control pattern that has proven to be immensely useful for building resilient systems. The reconcile pattern is [at the heart of how Kubernetes works](https://book.kubebuilder.io/cronjob-tutorial/controller-overview.html). Figure 3 illustrates how a reconciler works. A reconciler works by first observing the state of the world; e.g. what model is currently deployed. The reconciler then compares this against the desired state of the world and computes the diff; e.g the model with label “version=20200724” should be deployed, but the model currently deployed has label “version=20200700”. The reconciler then takes the action necessary to drive the world to the desired state; e.g. open a pull request to change the deployed model.
 
 
-<img src="/images/2020-08-01-data-science-meets-devops/fig3.reconciler.png" width="" alt="Figure 3" title="Figure 3. Illustration of the reconciler pattern as applied by our deployer.">
+<img src="/images/2020-08-01-data-science-meets-devops/fig3.reconciler.png" width="" alt="Figure 3" title="">
+<figcaption><strong>Figure 3.</strong> Illustration of the reconciler pattern as applied by our deployer.</figcaption>
 
 Reconcilers have proven immensely useful for building resilient systems because a well implemented reconciler provides a high degree of confidence that no matter how a system is perturbed it will eventually return to the desired state.
 

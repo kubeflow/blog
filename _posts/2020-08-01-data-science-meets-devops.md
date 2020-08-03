@@ -16,7 +16,7 @@ author: "<a href='https://www.linkedin.com/in/jeremy-lewi-600aaa8/'>Jeremy Lewi<
 
 [Kubeflow](https://www.kubeflow.org/) is a fast-growing open source project that makes it easy to deploy and manage machine learning on Kubernetes.  
 
-Due to Kubeflow’s explosive popularity, we receive a large influx of GitHub issues that must be triaged androuted to the appropriate subject matter expert.  The below chart illustrates the number of new issues opened for the past year:
+Due to Kubeflow’s explosive popularity, we receive a large influx of GitHub issues that must be triaged and routed to the appropriate subject matter expert.  The below chart illustrates the number of new issues opened for the past year:
 
 
 <img src="/images/2020-08-01-data-science-meets-devops/fig1.num-issues.png" width="" alt="Number of Kubeflow Issues" title="">

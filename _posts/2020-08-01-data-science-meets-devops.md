@@ -82,6 +82,9 @@ Reconcilers have proven immensely useful for building resilient systems because 
 
 ## There Are No DAGs
 
+<img src="/images/2020-08-01-data-science-meets-devops/meme.png" width="" alt="alt_text" title="">
+
+
 The declarative nature of controllers means data can flow through a series of controllers  without needing to explicitly create a DAG. In lieu of a DAG, a series of data processing steps can instead be expressed as a set of desired states, as illustrated in Figure 4 below:
 
 

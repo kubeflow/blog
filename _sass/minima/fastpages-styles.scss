@@ -202,8 +202,10 @@ table {
   display: block !important;
   overflow-x: auto;
   white-space: nowrap;
-  font-size: 75%;
+  font-size: 100%;
   border:none;
+  margin: auto;
+  width: fit-content;
   th{
     text-align: center! important;
   }

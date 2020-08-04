@@ -4,7 +4,7 @@ description: "An end-to-end example of deploying a machine learning product usin
 layout: post
 toc: true
 comments: true
-image: images/2020-08-01-data-science-meets-devops/smallmeme.png
+image: images/2020-08-01-data-science-meets-devops/meme.png
 hide: false
 search_exclude: false
 categories: [jupyter, mlops, tekton, gitops]

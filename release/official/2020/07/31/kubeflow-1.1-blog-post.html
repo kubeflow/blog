@@ -126,11 +126,27 @@ window.onload = wrap_img;
     </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p>The Kubeflow Community’s delivery of Kubeflow 1.1 offers users valuable ML workflow automation with Fairing and Kale along with MXNet, MPI and XGBoost distributed training operators. It extends isolation and security through the delivery of multi-user pipelines, CVE scanning, and support for Google’s Private GKE and Anthos. 1.1 provides a foundation for consistent and repeatable installation and operations using GitOps methodologies powered by blueprints and kpt primitives.</p>
+    <p>The Kubeflow Community’s delivery of Kubeflow 1.1 offers users valuable ML workflow automation with Fairing and Kale along with MXNet, MPI and XGBoost distributed training operators. It extends isolation and security through the delivery of multi-user pipelines, CVE scanning, and support for Google’s Private GKE and Anthos. 1.1 also improves Katib’s hyperparameter tuning features by offering new frameworks &amp; algorithms, and enables flexible configuration &amp; tuning options. 1.1 provides a foundation for consistent and repeatable installation and operations using GitOps methodologies powered by blueprints and kpt primitives.</p>
 
 <p>The ML productivity enhancements in 1.1 include end-to-end workflows using Fairing and Kale. The Fairing workflow enables users to build, train and deploy models from a notebook and <a href="https://github.com/kubeflow/fairing/releases/tag/v1.0.1">Fairing improvements</a> include the support of configuring environment variables and mounting secrets. Fairing also added a config map for a deployer and bug fixes for TensorRTSpec. The workflows enabled by <a href="https://github.com/kubeflow-kale/kale">Kale</a> include the ability to write model code in a notebook and then automatically build a Kubeflow pipeline that deploys, trains and tunes that model efficiently, using Katib and cached pipeline steps. Kubeflow 1.1 also delivers stable release deliveries of <a href="https://github.com/kubeflow/common/issues/97">MXNet, MPI and XGBoost operators</a>, which simplify distributed training on multiple nodes and speeds model creation.</p>
 
 <p>The isolation and security feature deliveries include Private GKE and Anthos support, a stable version of Kubeflow Pipelines with <a href="https://www.kubeflow.org/docs/pipelines/multi-user/">Multi-User Kubeflow Pipelines</a> support, and a process for Kubeflow container image scanning, <a href="https://docs.google.com/spreadsheets/d/1ijWIyjGQpDy68-vjBmLyFY0U1oGCT--A0nVGgzLGDhU/edit#gid=0">CVE reporting</a>, and an optional process for distroless image creation. 1.1 also includes <a href="https://github.com/kubeflow/kubeflow/issues/4960">options for authentication and authorization</a>. This includes the option for administrators to turn off self-service namespace creation mode, as admins may have other processes for namespace creation. The Community also developed a best practice to build user authorization in Kubeflow web apps using subject access review.</p>
+
+<p>The 1.1 Katib improvements deliver new frameworks &amp; algorithms, and flexible configuration &amp; tuning options.  The new frameworks &amp; algorithms include:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>• Integrate goptuna framework with (CMA-ES) Covariance Matrix Adaptation Evolution Strategy algorithm.
+• DARTS (Differentiable Architecture Search) algorithm implementation.
+• Better support for HP frameworks (chocolate, hyperopt, skopt).
+</code></pre></div></div>
+
+<p>Katib also adds these flexible configuration &amp; tuning options:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>• Implements a python SDK to run Katib experiments from Kubeflow notebooks.
+• Enables users to run experiments without the goal defined.
+• Provides a new trial template UI editor.
+• Enables users to view experiment and suggestion status in the UI, during the experiment run.
+• Adds a resume policy for experiments to clean-up suggestion resources.
+</code></pre></div></div>
 
 <p>The installation and operations of Kubeflow have been enhanced to support GitOps methodologies. Several Kubeflow platform providers and software support vendors are developing time-saving GitOps processes to simplify and codify the installation, configuration and operations of the various layers in the Kubeflow 1.1 hardware and software stack. Some examples are provided in the next section.</p>
 
@@ -170,7 +186,8 @@ window.onload = wrap_img;
 
 <p>If you have questions, run into issues, please leverage the Slack channel and/or submit bugs via <a href="https://github.com/kubeflow">Kubeflow on GitHub</a>. Thanks from all of us in the Community, and we look forward to your success with Kubeflow 1.1.</p>
 
-<p>Special thanks to Yuan Tang (Ant Group), Josh Bottum (Arrikto), Constantinos Venetsanopoulos (Arrikto), Yannis Zarkadas (Arrikto), Jiaxin Shan (AWS), Dan Sun (Bloomberg), Hamel Husain (GitHub), Willem Pienaar (GoJek), Yuan Gong (Google), Jeremy Lewi (Google), Animesh Singh (IBM) and Clive Cox (Seldon) for their help on this post.</p>
+<p>Special thanks to Yuan Tang (Ant Group), Josh Bottum (Arrikto), Constantinos Venetsanopoulos (Arrikto), Yannis Zarkadas (Arrikto), Jiaxin Shan (AWS), Dan Sun (Bloomberg), Andrey Velichkevich (Cisco), Krishna Durai (Cisco), Hamel Husain (GitHub), Willem Pienaar (GoJek), Yuan Gong (Google), Jeremy Lewi (Google), Animesh Singh (IBM) and Clive Cox (Seldon) for their help on this post.</p>
+
 
   </div><!-- from https://github.com/utterance/utterances -->
 <script src="https://utteranc.es/client.js"

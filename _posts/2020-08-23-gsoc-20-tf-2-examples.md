@@ -17,7 +17,7 @@ Open source software development and [Google Summer of Code](https://summerofcod
 
 # Aim
 
-[Kubernetes](https://kubernetes.io/) is already an industry-standard in managing cloud resources. Kubeflow is on its path to become an industry standard in managing machine learning workflows on cloud. Examples that illustrate Kubeflow functionalities using latest industry technologies make Kubeflow easier to use and more accessible to all potential users. This project has aimed at building samples for Jupyter notebook to Kubeflow deployment using Tensorflow 2.0 Keras for backend training code, illustrating customer user journey (CUJ) in the process. This project has also served as an hands-on to large scale application of machine learning bringing in the elements of DevOps and SRE and this has kept me motivated throughout the project.
+[Kubernetes](https://kubernetes.io/) is already an industry-standard in managing cloud resources. [Kubeflow](https://www.kubeflow.org/) is on its path to become an industry standard in managing machine learning workflows on cloud. Examples that illustrate Kubeflow functionalities using latest industry technologies make Kubeflow easier to use and more accessible to all potential users. This project has aimed at building samples for Jupyter notebook to Kubeflow deployment using Tensorflow 2.0 Keras for backend training code, illustrating customer user journey (CUJ) in the process. This project has also served as an hands-on to large scale application of machine learning bringing in the elements of DevOps and SRE and this has kept me motivated throughout the project.
 
 # The Kubeflow Community
 
@@ -50,9 +50,9 @@ I created a [repo](https://github.com/yashjakhotiya/kubeflow-gsoc-2020) under my
 
 7. `tekton-pipeline-with-python-sdk.ipynb` - [Kubeflow Pipeline](https://www.kubeflow.org/docs/pipelines/overview/pipelines-overview/) is a platform that lets you build, manage and deploy end-to-end machine learning workflows. This is a Jupyter notebook which bundles Katib hyperparameter tuning and TFJob distributed training into one Kubeflow pipeline. The pipeline used here uses [Tekton](https://cloud.google.com/tekton) in its backend. Tekton is a Kubernetes resource to create efficient [continuous integration and delivery](https://opensource.com/article/18/8/what-cicd) (CI/CD) systems.
 
-## Final Merge PR
+## Merged PR
 
-I copied these built notebooks and the final work product into a directory created in my fork of the [kubeflow/examples](https://github.com/kubeflow/examples) repo and created a [PR](https://github.com/kubeflow/examples/pull/816) to add these notebooks in Kubeflow's official repo. The PR got merged and the code currently resides in [kubeflow/examples/tensorflow_cuj](https://github.com/kubeflow/examples/tree/master/tensorflow_cuj) directory.
+I copied these built notebooks and the final work product into a directory created in my fork of the [kubeflow/examples](https://github.com/kubeflow/examples) repo and created a [PR](https://github.com/kubeflow/examples/pull/816) to add these notebooks in Kubeflow's official repo. The PR got merged and the code currently resides in [kubeflow/examples/tensorflow_cuj](https://github.com/kubeflow/examples/tree/master/tensorflow_cuj) directory marking the completion of the project.
 
 # Special Thanks
 

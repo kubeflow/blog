@@ -1,5 +1,5 @@
 ---
-title: "GSoC '20: Notebook to Kubeflow Samples with TF 2.0 Keras"
+title: "GSoC '20: Notebook to Kubeflow Samples with TF 2.x Keras"
 description: "An important milestone in my journey of open source"
 layout: post
 toc: true
@@ -15,7 +15,7 @@ author: "<a href='https://www.linkedin.com/in/yash-jakhotiya/'>Yash Jakhotiya</a
 
 Open source software development and [Google Summer of Code](https://summerofcode.withgoogle.com/), both started long before the summer of 2020. When the world was starting to grapple with the realities of [remote work](https://www.entrepreneur.com/article/354872), open source community was already thriving on it. Over the course of my college years, I have found out three things that I am passionate about - open source, machine learning and [SRE](https://landing.google.com/sre/). [Kubeflow](https://www.kubeflow.org/) has managed to incorporate all of these into one and doing a project with this organisation has been a dream come true!
 
-# Aim
+# Goal
 
 [Kubernetes](https://kubernetes.io/) is already an industry-standard in managing cloud resources. [Kubeflow](https://www.kubeflow.org/) is on its path to become an industry standard in managing machine learning workflows on cloud. Examples that illustrate Kubeflow functionalities using latest industry technologies make Kubeflow easier to use and more accessible to all potential users. This project has aimed at building samples for Jupyter notebook to Kubeflow deployment using Tensorflow 2.0 Keras for backend training code, illustrating customer user journey (CUJ) in the process. This project has also served as an hands-on to large scale application of machine learning bringing in the elements of DevOps and SRE and this has kept me motivated throughout the project.
 
@@ -25,9 +25,11 @@ The [Kubeflow community](https://www.kubeflow.org/docs/about/community/) is a hi
 
 # The Project
 
+![](/images/2020-08-23-gsoc-20-tf-2-examples/kubeflow_components.png "Kubeflow Components")
+
 Examples created as part of this project needed to be easily reproducible to serve their purpose. Initially the underlying model decided to demonstrate Kubeflow functionalities was a BiDirectional RNN to be trained on IMDB large movie review [dataset](http://ai.stanford.edu/%7Eamaas/data/sentiment/) for sentiment analysis based on a [tensorflow tutorial](https://www.tensorflow.org/tutorials/text/text_classification_rnn). Over the course of time, we decided to also add another set of examples using  a neural machine translation model in its backend trained on a Spanish to English [dataset](http://www.manythings.org/anki/) based on another [tensorflow tutorial](https://www.tensorflow.org/tutorials/text/nmt_with_attention).
 
-The reasons for choosing these models were -
+The reasons for choosing these models were:
 * The [kubeflow/examples](https://github.com/kubeflow/examples) repo needed more NLP-related tasks.
 * These were more of *hello world* tasks in the field of NLP. So that users who go through these samples need not worry about training code and focus more on Kubeflow's functionalities.
 * These are based on tensorflow tutorials. Kubeflow tutorials based on Tensorflow tutorials show better coupling between the two.
@@ -50,13 +52,15 @@ I created a [repo](https://github.com/yashjakhotiya/kubeflow-gsoc-2020) under my
 
 7. `tekton-pipeline-with-python-sdk.ipynb` - [Kubeflow Pipeline](https://www.kubeflow.org/docs/pipelines/overview/pipelines-overview/) is a platform that lets you build, manage and deploy end-to-end machine learning workflows. This is a Jupyter notebook which bundles Katib hyperparameter tuning and TFJob distributed training into one Kubeflow pipeline. The pipeline used here uses [Tekton](https://cloud.google.com/tekton) in its backend. Tekton is a Kubernetes resource to create efficient [continuous integration and delivery](https://opensource.com/article/18/8/what-cicd) (CI/CD) systems.
 
-## Merged PR
+## Merged PRs
 
-I copied these built notebooks and the final work product into a directory created in my fork of the [kubeflow/examples](https://github.com/kubeflow/examples) repo and created a [PR](https://github.com/kubeflow/examples/pull/816) to add these notebooks in Kubeflow's official repo. The PR got merged and the code currently resides in [kubeflow/examples/tensorflow_cuj](https://github.com/kubeflow/examples/tree/master/tensorflow_cuj) directory marking the completion of the project.
+In the community bonding period, I opened numerous small issues and PRs solving these issues, as I encountered them when reading documentation or implementing an example. This was done in an effort to know more about the Kubeflow community.
+
+For the main project, I copied these built notebooks and the final work product into a directory created in my fork of the [kubeflow/examples](https://github.com/kubeflow/examples) repo and created a [PR](https://github.com/kubeflow/examples/pull/816) to add these notebooks in Kubeflow's official repo. The PR got merged and the code currently resides in [kubeflow/examples/tensorflow_cuj](https://github.com/kubeflow/examples/tree/master/tensorflow_cuj) directory marking the completion of the project.
 
 # Special Thanks
 
 Special thanks are due to -
 * My mentors for their valuable guidance throughout the project.
-* [Jeremy](https://www.linkedin.com/in/jeremy-lewi-600aaa8/) and [Sarah](https://www.linkedin.com/in/sarahmaddox/?originalSubdomain=au) for smooth conduction of the Kubeflow GSoC program.
+* [Jeremy](https://www.linkedin.com/in/jeremy-lewi-600aaa8/) and [Sarah](https://www.linkedin.com/in/sarahmaddox/) for smooth conduction of the Kubeflow GSoC program.
 * The GSoC Discord [Server](https://discord.com/channels/708636399666069514/708636400097951744) and the GSoC Telegram [Channel](https://web.telegram.org/#/im?p=s1263176603_5411849872541551939) for the help, casual talks and a strong global student community.

@@ -1,5 +1,5 @@
 ---
-title: "GSoC '20: Notebook to Kubeflow Samples with TF 2.x Keras"
+title: "GSoC '20: Kubeflow Customer User Journey Notebooks with Tensorflow 2.x Keras"
 description: "An important milestone in my journey of open source"
 layout: post
 toc: true

@@ -23,7 +23,6 @@ jobs:
       if: |
         (github.event.issue.author_association != 'OWNER') && 
         (github.event.issue.author_association != 'COLLABORATOR') &&
-        (github.event.issue.author_association != 'CONTRIBUTOR') &&
         (github.event.issue.author_association != 'MEMBER')
       uses: actions/github-script@0.6.0
       with:
@@ -53,7 +52,7 @@ jobs:
     if: |
       (github.repository != 'fastai/fastpages') &&
       (github.event.issue.title == '[fastpages] Automated Upgrade') &&
-      (github.event.issue.author_association == 'OWNER' || github.event.issue.author_association == 'COLLABORATOR' || github.event.issue.author_association == 'MEMBER' || github.event.issue.author_association == 'CONTRIBUTOR')
+      (github.event.issue.author_association == 'OWNER' || github.event.issue.author_association == 'COLLABORATOR' || github.event.issue.author_association == 'MEMBER')
     runs-on: ubuntu-latest
     steps:
     
@@ -104,7 +103,6 @@ jobs:
         rm *.md CNAME action.yml _config.yml index.html LICENSE
         rm _pages/*.md
         rm .github/workflows/chatops.yaml
-        rm .github/workflows/docker-nbdev.yaml
         rm .github/workflows/docker.yaml
         rm .github/ISSUE_TEMPLATE/bug.md .github/ISSUE_TEMPLATE/feature_request.md
         
@@ -116,7 +114,12 @@ jobs:
             cp -r $file ../current_files;
           fi
         done
-        
+
+        # copy custom-variables.scss if doesn't exist
+        if [ ! -f "../current_files/_sass/minima/custom-variables.scss" ]; then
+          cp _sass/minima/custom-variables.scss ../current_files/_sass/minima/
+        fi
+
         # copy select files in assets and _sass
         cp -r assets/js ../current_files/assets
         cp -r assets/badges ../current_files/assets

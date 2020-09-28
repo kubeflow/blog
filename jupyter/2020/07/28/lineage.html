@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Record metadata on Kubeflow from Notebooks | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Record metadata on Kubeflow from Notebooks" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Demonstration of how lineage tracking works" />
+<meta property="og:description" content="Demonstration of how lineage tracking works" />
+<link rel="canonical" href="https://blog.kubeflow.org/jupyter/2020/07/28/lineage.html" />
+<meta property="og:url" content="https://blog.kubeflow.org/jupyter/2020/07/28/lineage.html" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-28T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Demonstration of how lineage tracking works","url":"https://blog.kubeflow.org/jupyter/2020/07/28/lineage.html","@type":"BlogPosting","headline":"Record metadata on Kubeflow from Notebooks","dateModified":"2020-07-28T00:00:00-05:00","datePublished":"2020-07-28T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/jupyter/2020/07/28/lineage.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Record metadata on Kubeflow from Notebooks</h1><p class="page-description">Demonstration of how lineage tracking works</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-07-28T00:00:00-05:00" itemprop="datePublished">
+        Jul 28, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#jupyter">jupyter</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/kubeflow/blog/tree/master/_notebooks/2020-07-28-lineage.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/kubeflow/blog/master?filepath=_notebooks%2F2020-07-28-lineage.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/kubeflow/blog/blob/master/_notebooks/2020-07-28-lineage.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Lineage-Tracking">Lineage Tracking </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#Install-the-Kubeflow-metadata-library">Install the Kubeflow-metadata library </a></li>
+<li class="toc-entry toc-h2"><a href="#Create-a-new-Workspace-and-Run-in-a-workspace">Create a new Workspace and Run in a workspace </a></li>
+<li class="toc-entry toc-h2"><a href="#Create-an-execution-in-a-run">Create an execution in a run </a></li>
+<li class="toc-entry toc-h2"><a href="#Log-a-data-set-and-a-model">Log a data set and a model </a></li>
+<li class="toc-entry toc-h2"><a href="#Log-the-evaluation-of-a-model">Log the evaluation of a model </a></li>
+<li class="toc-entry toc-h2"><a href="#Add-Metadata-for-serving-the-model">Add Metadata for serving the model </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#Plot-the-lineage-graph">Plot the lineage graph </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-07-28-lineage.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Lineage-Tracking">
+<a class="anchor" href="#Lineage-Tracking" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lineage Tracking<a class="anchor-link" href="#Lineage-Tracking"> </a>
+</h1>
+<ul>
+<li>This blog post will first guide you through the metadata SDK API, to create a notebook and log several actions to the metadata DB. Afterwards, you will be able to navigate to the Kubeflow UI and the resulting lineage graph, which gives you a graphical representation of the dependencies between the objects you logged using the SDK.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Install-the-Kubeflow-metadata-library">
+<a class="anchor" href="#Install-the-Kubeflow-metadata-library" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install the <em>Kubeflow-metadata</em> library<a class="anchor-link" href="#Install-the-Kubeflow-metadata-library"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip install kubeflow-metadata --user
+<span class="c1"># Install other packages:</span>
+<span class="o">!</span>pip install pandas --user
+<span class="c1"># Then restart the Notebook kernel.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">from</span> <span class="nn">kubeflow.metadata</span> <span class="kn">import</span> <span class="n">metadata</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">uuid</span> <span class="kn">import</span> <span class="n">uuid4</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered celltag_parameters">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">METADATA_STORE_HOST</span> <span class="o">=</span> <span class="s2">"metadata-grpc-service.kubeflow"</span> <span class="c1"># default DNS of Kubeflow Metadata gRPC serivce.</span>
+<span class="n">METADATA_STORE_PORT</span> <span class="o">=</span> <span class="mi">8080</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Create-a-new-Workspace-and-Run-in-a-workspace">
+<a class="anchor" href="#Create-a-new-Workspace-and-Run-in-a-workspace" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create a new Workspace and Run in a workspace<a class="anchor-link" href="#Create-a-new-Workspace-and-Run-in-a-workspace"> </a>
+</h2>
+<ul>
+<li>A <a href="https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L92">Workspace</a> groups a set of pipelines or notebooks runs, and their related artifacts and executions</li>
+<li>
+<a href="https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L59">Store</a> is an object that provides a connection to the Metadata gRPC service</li>
+<li>The <a href="https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L227">Run</a> object captures a pipeline or notebook run in a workspace</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ws1</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">Workspace</span><span class="p">(</span>
+    <span class="c1"># Connect to metadata service in namespace kubeflow in k8s cluster.</span>
+    <span class="n">store</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">Store</span><span class="p">(</span><span class="n">grpc_host</span><span class="o">=</span><span class="n">METADATA_STORE_HOST</span><span class="p">,</span> <span class="n">grpc_port</span><span class="o">=</span><span class="n">METADATA_STORE_PORT</span><span class="p">),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"xgboost-synthetic"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"workspace for xgboost-synthetic artifacts and executions"</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"n1"</span><span class="p">:</span> <span class="s2">"v1"</span><span class="p">})</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">Run</span><span class="p">(</span>
+    <span class="n">workspace</span><span class="o">=</span><span class="n">ws1</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"xgboost-synthetic-faring-run"</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="s2">"T"</span><span class="p">)</span> <span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"a notebook run"</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Create-an-execution-in-a-run">
+<a class="anchor" href="#Create-an-execution-in-a-run" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create an execution in a run<a class="anchor-link" href="#Create-an-execution-in-a-run"> </a>
+</h2>
+<ul>
+<li>An <a href="https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L251">Execution</a> is a specific instance of a run, and you can bind specific input/output artifacts to this instance. Execution also serves as object for logging artifacts as its input or output</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">exec</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">Execution</span><span class="p">(</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"execution"</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(</span><span class="s2">"T"</span><span class="p">)</span> <span class="p">,</span>
+    <span class="n">workspace</span><span class="o">=</span><span class="n">ws1</span><span class="p">,</span>
+    <span class="n">run</span><span class="o">=</span><span class="n">r</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"execution for training xgboost-synthetic"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"An execution was created with id </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">exec</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>An execution was created with id 290
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Log-a-data-set-and-a-model">
+<a class="anchor" href="#Log-a-data-set-and-a-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Log a data set and a model<a class="anchor-link" href="#Log-a-data-set-and-a-model"> </a>
+</h2>
+<ul>
+<li>A <a href="https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L319">Log_input</a> log an artifact as an input of this execution. Here exec.log_input accept an artifact class as an argument, a <a href="https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L412">DataSet</a> is an artifact. Every artifacts has different paramenters such as name, uri, query. The way to create DataSet artifact is calling ready-to-use APIs metadata.DataSet and provide arguments</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">date_set_version</span> <span class="o">=</span> <span class="s2">"data_set_version_"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid4</span><span class="p">())</span>
+<span class="n">data_set</span> <span class="o">=</span> <span class="n">exec</span><span class="o">.</span><span class="n">log_input</span><span class="p">(</span>
+        <span class="n">metadata</span><span class="o">.</span><span class="n">DataSet</span><span class="p">(</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"xgboost synthetic data"</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">"synthetic-data"</span><span class="p">,</span>
+            <span class="n">owner</span><span class="o">=</span><span class="s2">"someone@kubeflow.org"</span><span class="p">,</span>
+            <span class="n">uri</span><span class="o">=</span><span class="s2">"file://path/to/dataset"</span><span class="p">,</span>
+            <span class="n">version</span><span class="o">=</span><span class="s2">"v1.0.0"</span><span class="p">,</span>
+            <span class="n">query</span><span class="o">=</span><span class="s2">"SELECT * FROM mytable"</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Data set id is </span><span class="si">{0.id}</span><span class="s2"> with version '</span><span class="si">{0.version}</span><span class="s2">'"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_set</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Data set id is 171 with version 'data_set_version_cbebc757-0d76-4e1e-bbd9-02b065e4c3ea'
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>A <a href="https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L337">Log_output</a> log an artifact as a output of this execution. Here exec.log_output accept an artifact class as an argument, a <a href="https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L518">Model</a> is an artifact. Every artifacts has different paramenters such as name, uri, hyperparameters. The way to create Model artifact is calling ready-to-use APIs metadata.Model and provide arguments</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model_version</span> <span class="o">=</span> <span class="s2">"model_version_"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid4</span><span class="p">())</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">exec</span><span class="o">.</span><span class="n">log_output</span><span class="p">(</span>
+    <span class="n">metadata</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">"MNIST"</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"model to recognize handwritten digits"</span><span class="p">,</span>
+            <span class="n">owner</span><span class="o">=</span><span class="s2">"someone@kubeflow.org"</span><span class="p">,</span>
+            <span class="n">uri</span><span class="o">=</span><span class="s2">"gcs://my-bucket/mnist"</span><span class="p">,</span>
+            <span class="n">model_type</span><span class="o">=</span><span class="s2">"neural network"</span><span class="p">,</span>
+            <span class="n">training_framework</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"tensorflow"</span><span class="p">,</span>
+                <span class="s2">"version"</span><span class="p">:</span> <span class="s2">"v1.0"</span>
+            <span class="p">},</span>
+            <span class="n">hyperparameters</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">"learning_rate"</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+                <span class="s2">"layers"</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                <span class="s2">"early_stop"</span><span class="p">:</span> <span class="kc">True</span>
+            <span class="p">},</span>
+            <span class="n">version</span><span class="o">=</span><span class="n">model_version</span><span class="p">,</span>
+            <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"mylabel"</span><span class="p">:</span> <span class="s2">"l1"</span><span class="p">}))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Model id is </span><span class="si">{0.id}</span><span class="s2"> and version is </span><span class="si">{0.version}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">model</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>kubeflow.metadata.metadata.Model(workspace=None, name='MNIST', description='model to recognize handwritten digits', owner='someone@kubeflow.org', uri='gcs://my-bucket/mnist', version='model_version_50b419e2-af69-4c0e-a251-78246d4c0578', model_type='neural network', training_framework={'name': 'tensorflow', 'version': 'v1.0'}, hyperparameters={'learning_rate': 0.5, 'layers': [10, 3, 1], 'early_stop': True}, labels={'mylabel': 'l1'}, id=172, create_time='2019-12-04T00:44:49.444411Z', kwargs={})
+
+Model id is 172 and version is model_version_50b419e2-af69-4c0e-a251-78246d4c0578
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Log-the-evaluation-of-a-model">
+<a class="anchor" href="#Log-the-evaluation-of-a-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Log the evaluation of a model<a class="anchor-link" href="#Log-the-evaluation-of-a-model"> </a>
+</h2>
+<ul>
+<li>
+<a href="https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L639">Metrics</a> captures an evaluation metrics of a model on a data set</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">metrics</span> <span class="o">=</span> <span class="n">exec</span><span class="o">.</span><span class="n">log_output</span><span class="p">(</span>
+    <span class="n">metadata</span><span class="o">.</span><span class="n">Metrics</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">"MNIST-evaluation"</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"validating the MNIST model to recognize handwritten digits"</span><span class="p">,</span>
+            <span class="n">owner</span><span class="o">=</span><span class="s2">"someone@kubeflow.org"</span><span class="p">,</span>
+            <span class="n">uri</span><span class="o">=</span><span class="s2">"gcs://my-bucket/mnist-eval.csv"</span><span class="p">,</span>
+            <span class="n">data_set_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">data_set</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+            <span class="n">model_id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+            <span class="n">metrics_type</span><span class="o">=</span><span class="n">metadata</span><span class="o">.</span><span class="n">Metrics</span><span class="o">.</span><span class="n">VALIDATION</span><span class="p">,</span>
+            <span class="n">values</span><span class="o">=</span><span class="p">{</span><span class="s2">"accuracy"</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">},</span>
+            <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s2">"mylabel"</span><span class="p">:</span> <span class="s2">"l1"</span><span class="p">}))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Metrics id is </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">metrics</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Metrics id is 173
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Add-Metadata-for-serving-the-model">
+<a class="anchor" href="#Add-Metadata-for-serving-the-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Add Metadata for serving the model<a class="anchor-link" href="#Add-Metadata-for-serving-the-model"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">serving_application</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">Execution</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"serving model"</span><span class="p">,</span>
+    <span class="n">workspace</span><span class="o">=</span><span class="n">ws1</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"an execution to represent model serving component"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># Noticed we use model name, version, uri to uniquely identify existing model.</span>
+<span class="n">served_model</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"MNIST"</span><span class="p">,</span>
+    <span class="n">uri</span><span class="o">=</span><span class="s2">"gcs://my-bucket/mnist"</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">m</span><span class="o">=</span><span class="n">serving_application</span><span class="o">.</span><span class="n">log_input</span><span class="p">(</span><span class="n">served_model</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Found the mode with id </span><span class="si">{0.id}</span><span class="s2"> and version '</span><span class="si">{0.version}</span><span class="s2">'."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Found the mode with id 172 and version 'model_version_50b419e2-af69-4c0e-a251-78246d4c0578'.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Plot-the-lineage-graph">
+<a class="anchor" href="#Plot-the-lineage-graph" aria-hidden="true"><span class="octicon octicon-link"></span></a>Plot the lineage graph<a class="anchor-link" href="#Plot-the-lineage-graph"> </a>
+</h1>
+<p><img src="/images/copied_from_nb/images-lineage/lineage.png" alt=""></p>
+<ul>
+<li>The figure above shows an example of the lineage graph from our xgboost example. Follow below steps for you to try out:</li>
+</ul>
+<ol>
+<li>Follow the guide to <a href="https://www.kubeflow.org/docs/notebooks/setup/">setting up your Jupyter notebooks in Kubeflow</a>
+</li>
+<li>Go back to your Jupyter notebook server in the Kubeflow UI. (If you’ve moved away from the notebooks section in Kubeflow, click Notebook Servers in the left-hand navigation panel to get back there.)</li>
+<li>In the Jupyter notebook UI, click Upload and follow the prompts to upload the <a href="https://github.com/kubeflow/examples/blob/master/xgboost_synthetic/build-train-deploy.ipynb">xgboost example</a> notebook.</li>
+<li>Click the notebook name (build-train-deploy.ipynb.ipynb) to open the notebook in your Kubeflow cluster.</li>
+<li>Run the steps in the notebook to install and use the Metadata SDK.</li>
+<li>Click Artifact Store in the left-hand navigation panel on the Kubeflow UI.</li>
+<li>Select Pipelines -&gt; Artifacts</li>
+<li>Navigate to xgboost-synthetic-traing-eval</li>
+<li>Click on Lineage explorer</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/jupyter/2020/07/28/lineage.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

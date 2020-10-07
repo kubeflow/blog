@@ -189,7 +189,7 @@ Iguazio have integrated the MPI Operator into its managed service offering and i
 
 ## Community and Call for Contributions
 
-We are grateful for [over 28 individual contributors from over 11 organizations](https://github.com/kubeflow/mpi-operator/graphs/contributors), namely Alibaba Cloud, Amazon Web Services, Ant Financial, Bloomberg, Caicloud, Google Cloud, Huawei, Iguazio, NVIDIA, Polyaxon, and Tencent, that have contributed directly to MPI Operator’s codebase and many others who’ve filed issues or helped resolve them, asked and answered questions, and were part of inspiring discussions. We’ve put together a [roadmap](https://github.com/kubeflow/mpi-operator/blob/master/ROADMAP.md) that provides a high-level overview of where the MPI Operator will grow in future releases and we welcome any contributions from the community!
+We are grateful for [over 28 individual contributors from over 11 organizations](https://github.com/kubeflow/mpi-operator/graphs/contributors), namely Alibaba Cloud, Amazon Web Services, Ant Group, Bloomberg, Caicloud, Google Cloud, Huawei, Iguazio, NVIDIA, Polyaxon, and Tencent, that have contributed directly to MPI Operator’s codebase and many others who’ve filed issues or helped resolve them, asked and answered questions, and were part of inspiring discussions. We’ve put together a [roadmap](https://github.com/kubeflow/mpi-operator/blob/master/ROADMAP.md) that provides a high-level overview of where the MPI Operator will grow in future releases and we welcome any contributions from the community!
 
 We could not have achieved our milestones without an incredibly active community. Check out our [community page](https://www.kubeflow.org/docs/about/community/) to learn more about how to join the Kubeflow community!
 

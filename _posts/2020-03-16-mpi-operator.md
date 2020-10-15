@@ -4,7 +4,7 @@ layout: post
 categories: [integrations, operators]
 title: Introduction to Kubeflow MPI Operator and Industry Adoption
 comments: true
-author: "<a href='https://twitter.com/TerryTangYuan'>Yuan Tang</a> (Ant Financial), <a href='https://www.linkedin.com/in/wei-yan-a6037337'>Wei Yan</a> (Ant Financial), and <a href='https://www.linkedin.com/in/rongou'>Rong Ou</a> (NVIDIA)"
+author: "<a href='https://twitter.com/TerryTangYuan'>Yuan Tang</a> (Ant Group), <a href='https://www.linkedin.com/in/wei-yan-a6037337'>Wei Yan</a> (Ant Group), and <a href='https://www.linkedin.com/in/rongou'>Rong Ou</a> (NVIDIA)"
 ---
 
 Kubeflow just [announced its first major 1.0 release recently](https://medium.com/kubeflow/kubeflow-1-0-cloud-native-ml-for-everyone-a3950202751), which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce [MPI Operator](https://github.com/kubeflow/mpi-operator) ([docs](https://www.kubeflow.org/docs/components/training/mpi/)), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes.
@@ -153,9 +153,9 @@ For more details, please check out [the design doc for MPI Operator](https://git
 
 At the time of writing, there are [13 disclosed industry adopters](https://github.com/kubeflow/mpi-operator/blob/master/ADOPTERS.md) and many others who’ve been working closely with the community to reach where we are today. We’d like to showcase some of the use cases of MPI Operator in several companies. If your company would like to be included in the list of adopters, please send us a pull request [on GitHub](https://github.com/kubeflow/mpi-operator)!
 
-## Ant Financial
+## Ant Group
 
-At [Ant Financial](https://www.antfin.com/), [we manage Kubernetes clusters with tens of thousands of nodes](https://kubernetes.io/case-studies/ant-financial/) and have deployed the MPI Operator along with other Kubeflow operators. The MPI Operator leverages the network structure and collective communication algorithms so that users don’t have to worry about the right ratio between the number of workers and parameter servers to obtain the best performance. Users can focus on building out their model architectures without spending time on tuning the downstream infrastructure for distributed training.
+At [Ant Group](https://www.antgroup.com/), [we manage Kubernetes clusters with tens of thousands of nodes](https://kubernetes.io/case-studies/ant-financial/) and have deployed the MPI Operator along with other Kubeflow operators. The MPI Operator leverages the network structure and collective communication algorithms so that users don’t have to worry about the right ratio between the number of workers and parameter servers to obtain the best performance. Users can focus on building out their model architectures without spending time on tuning the downstream infrastructure for distributed training.
 
 The models produced have been widely deployed in production and battle-tested in many different real life scenarios. One notable use case is [Saofu](https://yq.aliyun.com/articles/563095) — a mobile app for users to scan any “[福](https://zh.wikipedia.org/wiki/%E7%A6%8F%E5%AD%97)” (Chinese character that represents fortune) through augmented reality to enter a lucky draw where each user would receive a virtual red envelope with a portion of a significant amount of money.
 
@@ -189,7 +189,7 @@ Iguazio have integrated the MPI Operator into its managed service offering and i
 
 ## Community and Call for Contributions
 
-We are grateful for [over 28 individual contributors from over 11 organizations](https://github.com/kubeflow/mpi-operator/graphs/contributors), namely Alibaba Cloud, Amazon Web Services, Ant Financial, Bloomberg, Caicloud, Google Cloud, Huawei, Iguazio, NVIDIA, Polyaxon, and Tencent, that have contributed directly to MPI Operator’s codebase and many others who’ve filed issues or helped resolve them, asked and answered questions, and were part of inspiring discussions. We’ve put together a [roadmap](https://github.com/kubeflow/mpi-operator/blob/master/ROADMAP.md) that provides a high-level overview of where the MPI Operator will grow in future releases and we welcome any contributions from the community!
+We are grateful for [over 28 individual contributors from over 11 organizations](https://github.com/kubeflow/mpi-operator/graphs/contributors), namely Alibaba Cloud, Amazon Web Services, Ant Group, Bloomberg, Caicloud, Google Cloud, Huawei, Iguazio, NVIDIA, Polyaxon, and Tencent, that have contributed directly to MPI Operator’s codebase and many others who’ve filed issues or helped resolve them, asked and answered questions, and were part of inspiring discussions. We’ve put together a [roadmap](https://github.com/kubeflow/mpi-operator/blob/master/ROADMAP.md) that provides a high-level overview of where the MPI Operator will grow in future releases and we welcome any contributions from the community!
 
 We could not have achieved our milestones without an incredibly active community. Check out our [community page](https://www.kubeflow.org/docs/about/community/) to learn more about how to join the Kubeflow community!
 

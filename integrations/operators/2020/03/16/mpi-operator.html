@@ -7,7 +7,7 @@
 <title>Introduction to Kubeflow MPI Operator and Industry Adoption | Kubeflow</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Introduction to Kubeflow MPI Operator and Industry Adoption" />
-<meta name="author" content="<a href='https://twitter.com/TerryTangYuan'>Yuan Tang</a> (Ant Financial), <a href='https://www.linkedin.com/in/wei-yan-a6037337'>Wei Yan</a> (Ant Financial), and <a href='https://www.linkedin.com/in/rongou'>Rong Ou</a> (NVIDIA)" />
+<meta name="author" content="<a href='https://twitter.com/TerryTangYuan'>Yuan Tang</a> (Ant Group), <a href='https://www.linkedin.com/in/wei-yan-a6037337'>Wei Yan</a> (Ant Group), and <a href='https://www.linkedin.com/in/rongou'>Rong Ou</a> (NVIDIA)" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Kubeflow just announced its first major 1.0 release recently, which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce MPI Operator (docs), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes." />
 <meta property="og:description" content="Kubeflow just announced its first major 1.0 release recently, which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce MPI Operator (docs), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes." />
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-03-16T00:00:00-05:00" />
 <script type="application/ld+json">
-{"description":"Kubeflow just announced its first major 1.0 release recently, which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce MPI Operator (docs), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes.","url":"https://blog.kubeflow.org/integrations/operators/2020/03/16/mpi-operator.html","@type":"BlogPosting","headline":"Introduction to Kubeflow MPI Operator and Industry Adoption","dateModified":"2020-03-16T00:00:00-05:00","datePublished":"2020-03-16T00:00:00-05:00","author":{"@type":"Person","name":"<a href='https://twitter.com/TerryTangYuan'>Yuan Tang</a> (Ant Financial), <a href='https://www.linkedin.com/in/wei-yan-a6037337'>Wei Yan</a> (Ant Financial), and <a href='https://www.linkedin.com/in/rongou'>Rong Ou</a> (NVIDIA)"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/integrations/operators/2020/03/16/mpi-operator.html"},"@context":"https://schema.org"}</script>
+{"description":"Kubeflow just announced its first major 1.0 release recently, which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce MPI Operator (docs), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes.","url":"https://blog.kubeflow.org/integrations/operators/2020/03/16/mpi-operator.html","@type":"BlogPosting","headline":"Introduction to Kubeflow MPI Operator and Industry Adoption","dateModified":"2020-03-16T00:00:00-05:00","datePublished":"2020-03-16T00:00:00-05:00","author":{"@type":"Person","name":"<a href='https://twitter.com/TerryTangYuan'>Yuan Tang</a> (Ant Group), <a href='https://www.linkedin.com/in/wei-yan-a6037337'>Wei Yan</a> (Ant Group), and <a href='https://www.linkedin.com/in/rongou'>Rong Ou</a> (NVIDIA)"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/integrations/operators/2020/03/16/mpi-operator.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -82,7 +82,7 @@ window.onload = wrap_img;
         Mar 16, 2020
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-            <span class="p-author h-card" itemprop="name"><a href='https://twitter.com/TerryTangYuan'>Yuan Tang</a> (Ant Financial), <a href='https://www.linkedin.com/in/wei-yan-a6037337'>Wei Yan</a> (Ant Financial), and <a href='https://www.linkedin.com/in/rongou'>Rong Ou</a> (NVIDIA)</span></span>
+            <span class="p-author h-card" itemprop="name"><a href='https://twitter.com/TerryTangYuan'>Yuan Tang</a> (Ant Group), <a href='https://www.linkedin.com/in/wei-yan-a6037337'>Wei Yan</a> (Ant Group), and <a href='https://www.linkedin.com/in/rongou'>Rong Ou</a> (NVIDIA)</span></span>
        • <span class="read-time" title="Estimated read time">
     
     
@@ -109,7 +109,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#example-api-spec">Example API Spec</a></li>
 <li class="toc-entry toc-h2"><a href="#architecture">Architecture</a></li>
 <li class="toc-entry toc-h2"><a href="#industry-adoption">Industry Adoption</a></li>
-<li class="toc-entry toc-h2"><a href="#ant-financial">Ant Financial</a></li>
+<li class="toc-entry toc-h2"><a href="#ant-group">Ant Group</a></li>
 <li class="toc-entry toc-h2"><a href="#bloomberg">Bloomberg</a></li>
 <li class="toc-entry toc-h2"><a href="#caicloud">Caicloud</a></li>
 <li class="toc-entry toc-h2"><a href="#iguazio">Iguazio</a></li>
@@ -291,10 +291,10 @@ window.onload = wrap_img;
 
 <p>At the time of writing, there are <a href="https://github.com/kubeflow/mpi-operator/blob/master/ADOPTERS.md">13 disclosed industry adopters</a> and many others who’ve been working closely with the community to reach where we are today. We’d like to showcase some of the use cases of MPI Operator in several companies. If your company would like to be included in the list of adopters, please send us a pull request <a href="https://github.com/kubeflow/mpi-operator">on GitHub</a>!</p>
 
-<h2 id="ant-financial">
-<a class="anchor" href="#ant-financial" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ant Financial</h2>
+<h2 id="ant-group">
+<a class="anchor" href="#ant-group" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ant Group</h2>
 
-<p>At <a href="https://www.antfin.com/">Ant Financial</a>, <a href="https://kubernetes.io/case-studies/ant-financial/">we manage Kubernetes clusters with tens of thousands of nodes</a> and have deployed the MPI Operator along with other Kubeflow operators. The MPI Operator leverages the network structure and collective communication algorithms so that users don’t have to worry about the right ratio between the number of workers and parameter servers to obtain the best performance. Users can focus on building out their model architectures without spending time on tuning the downstream infrastructure for distributed training.</p>
+<p>At <a href="https://www.antgroup.com/">Ant Group</a>, <a href="https://kubernetes.io/case-studies/ant-financial/">we manage Kubernetes clusters with tens of thousands of nodes</a> and have deployed the MPI Operator along with other Kubeflow operators. The MPI Operator leverages the network structure and collective communication algorithms so that users don’t have to worry about the right ratio between the number of workers and parameter servers to obtain the best performance. Users can focus on building out their model architectures without spending time on tuning the downstream infrastructure for distributed training.</p>
 
 <p>The models produced have been widely deployed in production and battle-tested in many different real life scenarios. One notable use case is <a href="https://yq.aliyun.com/articles/563095">Saofu</a> — a mobile app for users to scan any “<a href="https://zh.wikipedia.org/wiki/%E7%A6%8F%E5%AD%97">福</a>” (Chinese character that represents fortune) through augmented reality to enter a lucky draw where each user would receive a virtual red envelope with a portion of a significant amount of money.</p>
 
@@ -333,7 +333,7 @@ window.onload = wrap_img;
 <h2 id="community-and-call-for-contributions">
 <a class="anchor" href="#community-and-call-for-contributions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Community and Call for Contributions</h2>
 
-<p>We are grateful for <a href="https://github.com/kubeflow/mpi-operator/graphs/contributors">over 28 individual contributors from over 11 organizations</a>, namely Alibaba Cloud, Amazon Web Services, Ant Financial, Bloomberg, Caicloud, Google Cloud, Huawei, Iguazio, NVIDIA, Polyaxon, and Tencent, that have contributed directly to MPI Operator’s codebase and many others who’ve filed issues or helped resolve them, asked and answered questions, and were part of inspiring discussions. We’ve put together a <a href="https://github.com/kubeflow/mpi-operator/blob/master/ROADMAP.md">roadmap</a> that provides a high-level overview of where the MPI Operator will grow in future releases and we welcome any contributions from the community!</p>
+<p>We are grateful for <a href="https://github.com/kubeflow/mpi-operator/graphs/contributors">over 28 individual contributors from over 11 organizations</a>, namely Alibaba Cloud, Amazon Web Services, Ant Group, Bloomberg, Caicloud, Google Cloud, Huawei, Iguazio, NVIDIA, Polyaxon, and Tencent, that have contributed directly to MPI Operator’s codebase and many others who’ve filed issues or helped resolve them, asked and answered questions, and were part of inspiring discussions. We’ve put together a <a href="https://github.com/kubeflow/mpi-operator/blob/master/ROADMAP.md">roadmap</a> that provides a high-level overview of where the MPI Operator will grow in future releases and we welcome any contributions from the community!</p>
 
 <p>We could not have achieved our milestones without an incredibly active community. Check out our <a href="https://www.kubeflow.org/docs/about/community/">community page</a> to learn more about how to join the Kubeflow community!</p>
 

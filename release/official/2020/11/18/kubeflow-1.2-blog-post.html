@@ -132,7 +132,7 @@ window.onload = wrap_img;
 
 <p>The Community has started discussions on Kubeflow 1.3. Arrikto has agreed to lead the 1.3 Release Management process and the Community will continue to capture input from users and contributors as features are defined, developed and delivered. Onward and upward!</p>
 
-<p>Special thanks to Constantinos Venetsanopoulos (Arrikto), Animesh Singh (IBM), Jiaxin Shan (AWS),  Yao Xiao (AWS), David Aronchick (Azure), Dan Sun (Bloomberg), Andrey Velichkevich (Cisco), Matthew Wicks (Eliiza), Willem Pienaar (Feast), Yuan Gong (Google), James Wu (Google), Jeremy Lewi (Google), Josh Bottum (Arrikto), Rui Vasconcelos (Canonical), Jeff Fogarty (US Bank) , Karl Shriek (AlexanderThamm), and Clive Cox (Seldon) for their help on 1.2 and this post.</p>
+<p>Special thanks to Constantinos Venetsanopoulos (Arrikto), Animesh Singh (IBM), Jiaxin Shan (AWS),  Yao Xiao (AWS), David Aronchick (Azure), Dan Sun (Bloomberg), Andrey Velichkevich (Cisco), Matthew Wicks (Eliiza), Willem Pienaar (Feast), Yuan Gong (Google), James Wu (Google), Jeremy Lewi (Google), Josh Bottum (Arrikto), Chris Pavlou (Arrikto), Kimonas Sotirchos (Arrikto), Rui Vasconcelos (Canonical), Jeff Fogarty (US Bank) , Karl Shriek (AlexanderThamm), and Clive Cox (Seldon) for their help on 1.2 and this post.</p>
 
 <h2 id="release-highlights-section">Release Highlights Section</h2>
 
@@ -232,13 +232,19 @@ window.onload = wrap_img;
 
 <h3 id="working-group-notebooks">Working Group: Notebooks</h3>
 
-<p>Working Group Meeting Notes: TBD</p>
+<p>Working Group Meeting Notes: coming soon</p>
 
 <p>Overall benefit: Interactive, experimental coding environment for model development</p>
 
 <p>Overall description: Notebooks provide an advanced, interactive coding environment that users and teams can share and leverage kubernetes namespaces for isolation and resource utilization</p>
 
-<h4 id="feature-name-refactor-notebook">Feature Name: Refactor Notebook</h4>
+<h4 id="feature-name-affinitytoleration-configs-5237">Feature Name: Affinity/Toleration configs, <a href="https://github.com/kubeflow/kubeflow/pull/5237">#5237</a></h4>
+
+<p>Feature Description: Adds the ability for Kubeflow administrators to set groups of Affinity/Toleration configs which users can pick from a dropdown.</p>
+
+<p>Feature Benefit: Allows more fine-grained selection of how Notebook pods are scheduled.</p>
+
+<h4 id="feature-name-refactor-notebooks-web-app">Feature Name: Refactor Notebooks Web App</h4>
 
 <p>Feature Description: The details of the refactoring are defined in these deliveries:</p>
 
@@ -251,15 +257,16 @@ window.onload = wrap_img;
 
 <p>Feature Benefit : Refactoring will enable an easier future integration with other web apps - Tensorboard, volume manager.</p>
 
-<h4 id="feature-name-stop-and-restart-notebooks-while-maintaining-state-4857">Feature Name: Stop and Restart Notebooks while maintaining state, <a href="https://github.com/kubeflow/kubeflow/issues/4857">#4857</a></h4>
+<h4 id="feature-name-stop-and-restart-notebooks-while-maintaining-state-4857-5332">Feature Name: Stop and Restart Notebooks while maintaining state, <a href="https://github.com/kubeflow/kubeflow/issues/4857">#4857</a> <a href="https://github.com/kubeflow/kubeflow/pull/5332">#5332</a></h4>
+<h5 id="note-the-artifacts-for-the-updated-notebooks-web-app-will-be-available-in-121-or-later">NOTE: The artifacts for the updated Notebooks web app will be available in 1.2.1 or later</h5>
 
-<p>Feature Description: Implementation of a “shut down server” button in the central dashboard that scales the stateful set for the server down to zero and a “start server” button that scales it back up again.   Note - this feature will be supported in 1.2.1 or later.</p>
+<p>Feature Description: Implementation of a “shut down server” button in the central dashboard that scales the stateful set for the server down to zero and a “start server” button that scales it back up again.</p>
 
 <p>Feature Benefit: Save work, save infrastructure resources</p>
 
 <h3 id="working-group-training-operators">Working Group: Training-Operators</h3>
 
-<p>Working Group Meeting Notes: TBD</p>
+<p>Working Group Meeting Notes: coming soon</p>
 
 <p>Overall benefit: Faster model development using operators that simplify distributed computing</p>
 
@@ -395,7 +402,7 @@ window.onload = wrap_img;
 
 <h3 id="platform-azure">Platform: Azure</h3>
 
-<p>Description: We added<a href="https://www.kubeflow.org/docs/azure/authentication-oidc/"> instructions for deploying Kubeflow with multi-tenancy backed by Azure Active Directory</a>. Additionally, we documented the <a href="https://www.kubeflow.org/docs/azure/azuremysql/">steps to replace the Metadata store with a managed Azure MySQL datatabase instance</a>..</p>
+<p>Description: We added <a href="https://www.kubeflow.org/docs/azure/authentication-oidc/">instructions for deploying Kubeflow with multi-tenancy backed by Azure Active Directory</a>. Additionally, we documented the <a href="https://www.kubeflow.org/docs/azure/azuremysql/">steps to replace the Metadata store with a managed Azure MySQL datatabase instance</a>.</p>
 
 <h3 id="platform-openshift">Platform: OpenShift</h3>
 

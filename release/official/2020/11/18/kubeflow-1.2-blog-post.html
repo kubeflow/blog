@@ -132,7 +132,7 @@ window.onload = wrap_img;
 
 <p>The Community has started discussions on Kubeflow 1.3. Arrikto has agreed to lead the 1.3 Release Management process and the Community will continue to capture input from users and contributors as features are defined, developed and delivered. Onward and upward!</p>
 
-<p>Special thanks to Constantinos Venetsanopoulos (Arrikto), Animesh Singh (IBM), Jiaxin Shan (AWS),  Yao Xiao (AWS), David Aronchick (Azure), Dan Sun (Bloomberg), Andrey Velichkevich (Cisco), Matthew Wicks (Eliiza), Willem Pienaar (Feast), Yuan Gong (Google), James Wu (Google), Jeremy Lewi (Google), Josh Bottum (Arrikto), Chris Pavlou (Arrikto), Kimonas Sotirchos (Arrikto), Rui Vasconcelos (Canonical), Jeff Fogarty (US Bank) , Karl Shriek (AlexanderThamm), and Clive Cox (Seldon) for their help on 1.2 and this post.</p>
+<p>Special thanks to Constantinos Venetsanopoulos (Arrikto), Animesh Singh (IBM), Jiaxin Shan (ByteDance),  Yao Xiao (AWS), David Aronchick (Azure), Dan Sun (Bloomberg), Andrey Velichkevich (Cisco), Matthew Wicks (Eliiza), Willem Pienaar (Feast), Yuan Gong (Google), James Wu (Google), Jeremy Lewi (Google), Josh Bottum (Arrikto), Chris Pavlou (Arrikto), Kimonas Sotirchos (Arrikto), Rui Vasconcelos (Canonical), Jeff Fogarty (US Bank) , Karl Shriek (AlexanderThamm), and Clive Cox (Seldon) for their help on 1.2 and this post.</p>
 
 <h2 id="release-highlights-section">Release Highlights Section</h2>
 
@@ -273,10 +273,13 @@ window.onload = wrap_img;
 <h4 id="feature-name-the-training-operator-contributors-provided-the-following-fixes-and-improvements-in-kubeflow-12">Feature Name: The Training Operator contributors provided the following fixes and improvements in Kubeflow 1.2:</h4>
 
 <ul>
-  <li>Add mxnet-operator to aws kfdefs (<a href="https://github.com/kubeflow/manifests/pull/1327">#1327</a>, <a href="https://github.com/Jeffwan">@Jeffwan</a>)</li>
   <li>Update mxnet-operator manifest to v1 (<a href="https://github.com/kubeflow/manifests/pull/1326">#1326</a>, <a href="https://github.com/Jeffwan">@Jeffwan</a>)</li>
   <li>Correct XGBoostJob CRD group name and add singular name (<a href="https://github.com/kubeflow/manifests/pull/1313">#1313</a>, <a href="https://github.com/terrytangyuan">@terrytangyuan</a>)</li>
   <li>Fix XGBoost Operator manifest issue (<a href="https://github.com/kubeflow/manifests/pull/1463">#1463</a>, <a href="https://github.com/Jeffwan">@Jeffwan</a>)</li>
+  <li>Move Pytorch operator e2e tests to AWS Prow (<a href="https://github.com/kubeflow/pytorch-operator/pull/305">#305</a>, <a href="https://github.com/Jeffwan">@Jeffwan</a>)</li>
+  <li>Support BytePS in MXNet Operator (<a href="https://github.com/kubeflow/mxnet-operator/pull/82">#82</a>, <a href="https://github.com/jasonliu747">@jasonliu747</a>)</li>
+  <li>Fix error when conditions is empty in tf-operator (<a href="https://github.com/kubeflow/tf-operator/pull/1185">#1185</a>, <a href="https://github.com/Corea">@Corea</a>)</li>
+  <li>Fix successPolicy logic in MXNet Operator (<a href="https://github.com/kubeflow/mxnet-operator/pull/85">#85</a>, <a href="https://github.com/jasonliu747">@jasonliu747</a>)</li>
 </ul>
 
 <h3 id="sig-model-management">SIG: Model Management</h3>

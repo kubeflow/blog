@@ -1,0 +1,16 @@
+updates:
+- assignees:
+  - kramachandran
+  directory: _action_files
+  open-pull-requests-limit: 10
+  package-ecosystem: docker
+  schedule:
+    interval: daily
+- assignees:
+  - kramachandran
+  directory: .
+  open-pull-requests-limit: 10
+  package-ecosystem: bundler
+  schedule:
+    interval: daily
+version: 2

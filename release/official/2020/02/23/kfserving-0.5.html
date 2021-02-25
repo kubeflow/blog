@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Operationalize, Scale and Infuse Trust in AI Models using KFServing | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Operationalize, Scale and Infuse Trust in AI Models using KFServing" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="KFServing 0.5 Blog Post" />
+<meta property="og:description" content="KFServing 0.5 Blog Post" />
+<link rel="canonical" href="https://blog.kubeflow.org/release/official/2020/02/23/kfserving-0.5.html" />
+<meta property="og:url" content="https://blog.kubeflow.org/release/official/2020/02/23/kfserving-0.5.html" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-02-23T00:00:00-06:00" />
+<script type="application/ld+json">
+{"description":"KFServing 0.5 Blog Post","url":"https://blog.kubeflow.org/release/official/2020/02/23/kfserving-0.5.html","@type":"BlogPosting","headline":"Operationalize, Scale and Infuse Trust in AI Models using KFServing","dateModified":"2020-02-23T00:00:00-06:00","datePublished":"2020-02-23T00:00:00-06:00","image":"https://blog.kubeflow.org/images/logo.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/release/official/2020/02/23/kfserving-0.5.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Operationalize, Scale and Infuse Trust in AI Models using KFServing</h1><p class="page-description">KFServing 0.5 Blog Post</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-02-23T00:00:00-06:00" itemprop="datePublished">
+        Feb 23, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      6 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#release">release</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#official">official</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h4 id="by-animesh-singh-and-dan-sun">By <strong>Animesh Singh</strong> and <strong>Dan Sun</strong></h4>
+
+<p>With inputs from : KFServing WG, including Yuzhui Liu, Tommy Li, Paul Vaneck, Andrew Butler, Srinivasan Parthasarathy etc.</p>
+
+<p>Machine Learning has become a key technology in a wide range of industries and organizations. One key aspect in ML landscape is that more and more models are getting produced, but are they actually getting deployed? And if they are getting deployed, are there enough robust operational mechanisms in place to understand model predictions, and monitor for drift, accuracy, anamoly, bias etc.? One key aspect of deploying models in production is being able to monitor the predictions for various metrics, and explaining the decisions the model is making, and producing quality metrics, more so in regulated insustries like finance, healthcare, government sector etc. Additionally based on those metrics do we have a technology in place to understand the metrics and take corrective actions e.g. doing canary rollouts?</p>
+
+<p><a href="https://github.com/kubeflow/kfserving"><u>KFServing</u></a>, a project which originated in the Kubeflow community, has been hard at work solving production model serving use cases by providing performant, high abstraction interfaces for common ML frameworks like Tensorflow, XGBoost, ScikitLearn, PyTorch, and ONNX. It encapsulates the complexity of autoscaling, networking, health checking, and server configuration to bring cutting edge serving features like GPU Autoscaling, Scale to Zero, and Canary Rollouts to model deployments. We just released KFServing v0.5 with other various features to address the model operationalization and trust needs. Additionally, the team has been hard at work to make AI explainability a core construct of the deployed models, by integrating with various industry leading technologies.</p>
+
+<h3 id="kfserving-beta-api-and-v2-next-gen-inference-protocol"><strong>KFServing Beta API and V2 (next gen) Inference Protocol</strong></h3>
+
+<p>KFServing 0.5 has promoted the control plane API from v1alpha2 to <a href="https://github.com/kubeflow/kfserving/blob/master/docs/apis/v1beta1/README.md"><u>stable v1beta1</u></a> and started to support the data plane <a href="https://github.com/kubeflow/kfserving/tree/master/docs/predict-api/v2"><u>V2 inference protocol</u></a>. The v1beta1 control plane API enables a simple, data scientist-friendly interface, while providing the flexibility of specifying container and pod template fields for pre-packaged model servers. The V2 inference protocol pushes a standard and easy-to-use high performance REST/gRPC API across multiple model servers, such as Triton and MLServer, to increase the portability of the model ensuring the client/server can operate seamlessly.</p>
+
+<p>KFServing 0.5 also introduces an optional model agent for request/response logging, request batching, and model pulling. The model agent sits alongside as a sidecar to the model server. Pre-packaged Model servers plugged onto KFServing can benefit from these common model serving features, as well as the model servers built using custom frameworks.</p>
+
+<p><img src="/images/2020-02-23-kfserving-0.5/image1.png" style="width:6.5in;height:3.26389in" /></p>
+
+<h4 id="whats-new">What’s New?</h4>
+
+<ul>
+  <li>
+    <p><a href="https://twitter.com/PyTorch/status/1346466660744511492"><u>TorchServe integration</u></a>: TorchServe now is used as implementation for KFServing PyTorch model server, it also enables model explanability with <a href="https://captum.ai/"><u>Captum</u></a>, see TorchServe examples <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/torchserve"><u>here</u></a>.</p>
+  </li>
+  <li>
+    <p>Triton Inference Server V2 inference REST/gRPC protocol support, see examples of serving <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/triton/bert"><u>bert</u></a> and <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/triton/torchscript"><u>torchscript</u></a> models on GPUs.</p>
+  </li>
+  <li>
+    <p>Tensorflow <u>gRPC support</u>.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/sklearn"><u>SKLearn</u></a>/<u>XGBoost</u> model server now uses <a href="https://github.com/SeldonIO/MLServer"><u>MLServer</u></a> which supports v2 inference protocol.</p>
+  </li>
+  <li>
+    <p>New model servers added for <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/pmml"><u>pmml</u></a> and <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/lightgbm"><u>lightgbm</u></a>.</p>
+  </li>
+  <li>
+    <p>You can now specify container or pod template level fields on the pre-packaged model servers (e.g., <a href="https://github.com/kubeflow/kfserving/blob/master/docs/samples/v1beta1/triton/torchscript/torchscript.yaml"><u>env variables</u></a>, <a href="https://github.com/kubeflow/kfserving/blob/master/docs/samples/v1beta1/advanced/probes.yaml"><u>readiness/liveness probes</u></a>).</p>
+  </li>
+  <li>
+    <p>Allow specifying <a href="https://github.com/kubeflow/kfserving/blob/master/docs/samples/v1beta1/advanced/timeout.yaml"><u>timeouts on the component spec</u></a>.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/rollout"><u>Simplified canary rollout</u></a>, you no longer need to specify both the default and canary specs on the InferenceService spec; KFServing now automatically tracks the last rolled out revision and automatically splits the traffic between the latest ready revision and last rolled out revision.</p>
+  </li>
+  <li>
+    <p>The transformer to predictor call now defaults to using <a href="https://github.com/kubeflow/kfserving/blob/master/python/kfserving/kfserving/kfmodel.py#L59"><u>AsyncIO</u></a>, which significantly improves the latency/throughput for high concurrent workload use cases.</p>
+  </li>
+</ul>
+
+<h3 id="kfserving-multi-model-serving-to-enable-massive-scalability"><strong>KFServing Multi-Model Serving to enable massive scalability</strong></h3>
+
+<p>With machine learning approaches becoming more widely adopted in organizations, there is a trend to deploy a large number of models. The original design of KFServing deploys one model per InferenceService. But when dealing with a large number of models, its ‘one model, one server’ paradigm presents challenges on a Kubernetes cluster to deploy hundreds of thousands of models. To scale the number of models, we have to scale the number of InferenceServices, something that can quickly challenge the cluster’s limits.</p>
+
+<p>Multi-model serving is an <a href="https://kubernetes.io/docs/reference/using-api/#api-versioning"><u>alpha</u></a> feature added in 0.5 to increase KFServing’s scalability. To learn more about multi-model serving motivations and implementation deatils, <a href="https://github.com/kubeflow/kfserving/blob/master/docs/MULTIMODELSERVING_GUIDE.md">dive into the details in KFServing github</a>. Please assume that the interface is subject to change. The experimental feature must be enabled from the inference service configmap.</p>
+
+<p><img src="/images/2020-02-23-kfserving-0.5/image2.png" style="width:6.5in;height:2.31944in" /></p>
+
+<p>Multi-model serving will work with any model server that implements KFServing’s <a href="https://github.com/triton-inference-server/server/tree/master/docs/protocol"><u>V2 protocol</u></a>. More specifically, if the model server implements the <a href="https://github.com/triton-inference-server/server/blob/master/docs/protocol/extension_model_repository.md#load"><u>load</u></a> and <a href="https://github.com/triton-inference-server/server/blob/master/docs/protocol/extension_model_repository.md#unload"><u>unload</u></a> endpoint, then it can use KFServing’s TrainedModel. Currently, the supported model servers are Triton, SKLearn, and XGBoost. Click on <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/triton/multimodel"><u>Triton</u></a> or <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/sklearn/multimodel"><u>SKLearn</u></a> for examples on how to run Multi-Model Serving.</p>
+
+<h3 id="kfserving-on-openshift"><strong>KFServing on OpenShift</strong></h3>
+
+<p>RedHat OpenShift is a market leader for enterprise Kubernetes distribution, and by enabling KFServing for OpenShift we have ensured that enterprises running battle hardened OpenShift platform can leverage KFServing to bring serverless model inferencing on OpenShift, including how to leverage OpenShift Service Mesh. Please follow the details here to get <a href="https://github.com/kubeflow/kfserving/blob/master/docs/OPENSHIFT_GUIDE.md"><u>KFServing running on OpenShift</u></a></p>
+
+<p><img src="/images/2020-02-23-kfserving-0.5/image3.png" style="width:6.5in;height:2.86111in" /></p>
+
+<h3 id="lfai-trusted-ai-projects-on-ai-explainability-and-adversarial-robustness-in-kfserving"><strong>LFAI Trusted AI Projects on AI Explainability and Adversarial Robustness in KFServing</strong></h3>
+
+<p>Trust and responsibility should be core principles of AI. <a href="https://lfaidata.foundation/projects/trusted-ai/"><u>The LF AI &amp; Data Trusted AI Committee</u></a> is a global group working on policies, guidelines, tools and projects to ensure the development of trustworthy AI solutions, and we have integrated LFAI AI Explainability 360, Adversarial Robustness 360 in KFServing to provide production level trusted AI capabilities. Please find more details on these integration in the following links</p>
+
+<p><a href="https://github.com/kubeflow/kfserving/blob/master/docs/samples/explanation/aix/mnist/README.md"><u>AI Explainability 360-KFServing Integration</u></a></p>
+
+<p><a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/explanation/art/mnist"><u>Adversarial Robustness Toolbox-KFServing Integration</u></a></p>
+
+<p><img src="/images/2020-02-23-kfserving-0.5/image4.png" style="width:6.5in;height:2.63889in" /></p>
+
+<h3 id="metrics-driven-automated-rollouts-using-iter8-in-kfserving"><strong>Metrics driven automated rollouts using Iter8 in KFServing</strong></h3>
+
+<p>Iter8-KFServing enables metrics-driven experiments, progressive delivery, and automated rollouts for ML models served over Kubernetes and OpenShift clusters. Iter8 <em>experiments</em> can be used to safely expose competing versions of a model to traffic while gathering and assessing metrics to intelligently shift traffic to the <em>winning</em> version of your model. Discover how to set it up and get it running in the <a href="https://github.com/iter8-tools/iter8-kfserving"><u>Iter8-KFServing repository</u></a></p>
+
+<p><img src="/images/2020-02-23-kfserving-0.5/image5.png" style="width:6.5in;height:3.65278in" /></p>
+
+<h3 id="join-us-to-build-trusted-model-inferencing-platform-on-kubernetes"><strong>Join us to build Trusted Model Inferencing Platform on Kubernetes</strong></h3>
+
+<p>Please join us on the <a href="https://github.com/kubeflow/kfserving"><u>KFServing GitHub repository</u></a>, try it out, give feedback, and raise issues. Additionally, you can connect with us via the following:</p>
+
+<ul>
+  <li>
+    <p>To contribute and build an enterprise-grade, end-to-end machine learning platform on OpenShift and Kubernetes, please <a href="https://www.kubeflow.org/"><u>join the Kubeflow community</u></a> and reach out with any questions, comments, and feedback!</p>
+  </li>
+  <li>
+    <p>If you want help deploying and managing Kubeflow on your on-premises Kubernetes platform, OpenShift, or on IBM Cloud, please <a href="https://mail.google.com/mail/u/0/?view=cm&amp;fs=1&amp;tf=1&amp;source=mailto&amp;su=Kubeflow%25sInquiry&amp;to=singhan@us.ibm.com"><u>connect with us</u></a>.</p>
+  </li>
+  <li>
+    <p><a href="https://opendatahub.io/"><u>Check out the OpenDataHub</u></a> if you are interested in open source projects in the Data and AI portfolio, namely Kubeflow, Kafka, Hive, Hue, and Spark, and how to bring them together in a cloud-native way.</p>
+  </li>
+</ul>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/release/official/2020/02/23/kfserving-0.5.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

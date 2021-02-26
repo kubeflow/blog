@@ -10,14 +10,14 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="KFServing 0.5 Blog Post" />
 <meta property="og:description" content="KFServing 0.5 Blog Post" />
-<link rel="canonical" href="https://blog.kubeflow.org/release/official/2020/02/23/kfserving-0.5.html" />
-<meta property="og:url" content="https://blog.kubeflow.org/release/official/2020/02/23/kfserving-0.5.html" />
+<link rel="canonical" href="https://blog.kubeflow.org/release/official/2021/03/08/kfserving-0.5.html" />
+<meta property="og:url" content="https://blog.kubeflow.org/release/official/2021/03/08/kfserving-0.5.html" />
 <meta property="og:site_name" content="Kubeflow" />
 <meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-02-23T00:00:00-06:00" />
+<meta property="article:published_time" content="2021-03-08T00:00:00-06:00" />
 <script type="application/ld+json">
-{"description":"KFServing 0.5 Blog Post","url":"https://blog.kubeflow.org/release/official/2020/02/23/kfserving-0.5.html","@type":"BlogPosting","headline":"Operationalize, Scale and Infuse Trust in AI Models using KFServing","dateModified":"2020-02-23T00:00:00-06:00","datePublished":"2020-02-23T00:00:00-06:00","image":"https://blog.kubeflow.org/images/logo.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/release/official/2020/02/23/kfserving-0.5.html"},"@context":"https://schema.org"}</script>
+{"description":"KFServing 0.5 Blog Post","url":"https://blog.kubeflow.org/release/official/2021/03/08/kfserving-0.5.html","@type":"BlogPosting","headline":"Operationalize, Scale and Infuse Trust in AI Models using KFServing","dateModified":"2021-03-08T00:00:00-06:00","datePublished":"2021-03-08T00:00:00-06:00","image":"https://blog.kubeflow.org/images/logo.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/release/official/2021/03/08/kfserving-0.5.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -78,8 +78,8 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Operationalize, Scale and Infuse Trust in AI Models using KFServing</h1><p class="page-description">KFServing 0.5 Blog Post</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-02-23T00:00:00-06:00" itemprop="datePublished">
-        Feb 23, 2020
+    <h1 class="post-title p-name" itemprop="name headline">Operationalize, Scale and Infuse Trust in AI Models using KFServing</h1><p class="page-description">KFServing 0.5 Blog Post</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-03-08T00:00:00-06:00" itemprop="datePublished">
+        Mar 8, 2021
       </time>
        • <span class="read-time" title="Estimated read time">
     
@@ -117,7 +117,7 @@ window.onload = wrap_img;
 
 <p>KFServing 0.5 also introduces an optional model agent for request/response logging, request batching, and model pulling. The model agent sits alongside as a sidecar to the model server. Pre-packaged Model servers plugged onto KFServing can benefit from these common model serving features, as well as the model servers built using custom frameworks.</p>
 
-<p><img src="/images/2020-02-23-kfserving-0.5/image1.png" style="width:6.5in;height:3.26389in" /></p>
+<p><img src="/images/2021-03-08-kfserving-0.5/image1.png" style="width:6.5in;height:3.26389in" /></p>
 
 <h4 id="whats-new">What’s New?</h4>
 
@@ -157,7 +157,7 @@ window.onload = wrap_img;
 
 <p>Multi-model serving is an <a href="https://kubernetes.io/docs/reference/using-api/#api-versioning"><u>alpha</u></a> feature added in 0.5 to increase KFServing’s scalability. To learn more about multi-model serving motivations and implementation deatils, <a href="https://github.com/kubeflow/kfserving/blob/master/docs/MULTIMODELSERVING_GUIDE.md">dive into the details in KFServing github</a>. Please assume that the interface is subject to change. The experimental feature must be enabled from the inference service configmap.</p>
 
-<p><img src="/images/2020-02-23-kfserving-0.5/image2.png" style="width:6.5in;height:2.31944in" /></p>
+<p><img src="/images/2021-03-08-kfserving-0.5/image2.png" style="width:6.5in;height:2.31944in" /></p>
 
 <p>Multi-model serving will work with any model server that implements KFServing’s <a href="https://github.com/triton-inference-server/server/tree/master/docs/protocol"><u>V2 protocol</u></a>. More specifically, if the model server implements the <a href="https://github.com/triton-inference-server/server/blob/master/docs/protocol/extension_model_repository.md#load"><u>load</u></a> and <a href="https://github.com/triton-inference-server/server/blob/master/docs/protocol/extension_model_repository.md#unload"><u>unload</u></a> endpoint, then it can use KFServing’s TrainedModel. Currently, the supported model servers are Triton, SKLearn, and XGBoost. Click on <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/triton/multimodel"><u>Triton</u></a> or <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/sklearn/multimodel"><u>SKLearn</u></a> for examples on how to run Multi-Model Serving.</p>
 
@@ -165,7 +165,7 @@ window.onload = wrap_img;
 
 <p>RedHat OpenShift is a market leader for enterprise Kubernetes distribution, and by enabling KFServing for OpenShift we have ensured that enterprises running battle hardened OpenShift platform can leverage KFServing to bring serverless model inferencing on OpenShift, including how to leverage OpenShift Service Mesh. Please follow the details here to get <a href="https://github.com/kubeflow/kfserving/blob/master/docs/OPENSHIFT_GUIDE.md"><u>KFServing running on OpenShift</u></a></p>
 
-<p><img src="/images/2020-02-23-kfserving-0.5/image3.png" style="width:6.5in;height:2.86111in" /></p>
+<p><img src="/images/2021-03-08-kfserving-0.5/image3.png" style="width:6.5in;height:2.86111in" /></p>
 
 <h3 id="lfai-trusted-ai-projects-on-ai-explainability-and-adversarial-robustness-in-kfserving"><strong>LFAI Trusted AI Projects on AI Explainability and Adversarial Robustness in KFServing</strong></h3>
 
@@ -175,13 +175,13 @@ window.onload = wrap_img;
 
 <p><a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/explanation/art/mnist"><u>Adversarial Robustness Toolbox-KFServing Integration</u></a></p>
 
-<p><img src="/images/2020-02-23-kfserving-0.5/image4.png" style="width:6.5in;height:2.63889in" /></p>
+<p><img src="/images/2021-03-08-kfserving-0.5/image4.png" style="width:6.5in;height:2.63889in" /></p>
 
 <h3 id="metrics-driven-automated-rollouts-using-iter8-in-kfserving"><strong>Metrics driven automated rollouts using Iter8 in KFServing</strong></h3>
 
 <p>Iter8-KFServing enables metrics-driven experiments, progressive delivery, and automated rollouts for ML models served over Kubernetes and OpenShift clusters. Iter8 <em>experiments</em> can be used to safely expose competing versions of a model to traffic while gathering and assessing metrics to intelligently shift traffic to the <em>winning</em> version of your model. Discover how to set it up and get it running in the <a href="https://github.com/iter8-tools/iter8-kfserving"><u>Iter8-KFServing repository</u></a></p>
 
-<p><img src="/images/2020-02-23-kfserving-0.5/image5.png" style="width:6.5in;height:3.65278in" /></p>
+<p><img src="/images/2021-03-08-kfserving-0.5/image5.png" style="width:6.5in;height:3.65278in" /></p>
 
 <h3 id="join-us-to-build-trusted-model-inferencing-platform-on-kubernetes"><strong>Join us to build Trusted Model Inferencing Platform on Kubernetes</strong></h3>
 
@@ -207,7 +207,7 @@ window.onload = wrap_img;
         theme="github-light"
         crossorigin="anonymous"
         async>
-</script><a class="u-url" href="/release/official/2020/02/23/kfserving-0.5.html" hidden></a>
+</script><a class="u-url" href="/release/official/2021/03/08/kfserving-0.5.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">

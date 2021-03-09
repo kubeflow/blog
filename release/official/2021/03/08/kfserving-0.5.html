@@ -126,13 +126,13 @@ window.onload = wrap_img;
     <p><a href="https://twitter.com/PyTorch/status/1346466660744511492"><u>TorchServe integration</u></a>: TorchServe now is used as implementation for KFServing PyTorch model server, it also enables model explanability with <a href="https://captum.ai/"><u>Captum</u></a>, see TorchServe examples <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/torchserve"><u>here</u></a>.</p>
   </li>
   <li>
-    <p>Triton Inference Server V2 inference REST/gRPC protocol support, see examples of serving <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/triton/bert"><u>bert</u></a> and <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/triton/torchscript"><u>torchscript</u></a> models on GPUs.</p>
+    <p>Triton Inference Server V2 inference REST/gRPC protocol support, see examples of serving <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/triton/bert"><u>BERT</u></a> and <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/triton/torchscript"><u>TorchScript</u></a> models on GPUs.</p>
   </li>
   <li>
-    <p>Tensorflow <u>gRPC support</u>.</p>
+    <p>Tensorflow <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/tensorflow#create-the-inferenceservice-with-grpc"><u>gRPC support</u></a>.</p>
   </li>
   <li>
-    <p><a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/sklearn"><u>SKLearn</u></a>/<u>XGBoost</u> model server now uses <a href="https://github.com/SeldonIO/MLServer"><u>MLServer</u></a> which supports v2 inference protocol.</p>
+    <p><a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/sklearn"><u>SKLearn</u></a>/<a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/xgboost"><u>XGBoost</u></a> model server now uses <a href="https://github.com/SeldonIO/MLServer"><u>MLServer</u></a> which supports v2 inference protocol.</p>
   </li>
   <li>
     <p>New model servers added for <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/pmml"><u>pmml</u></a> and <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/lightgbm"><u>lightgbm</u></a>.</p>
@@ -159,7 +159,7 @@ window.onload = wrap_img;
 
 <p><img src="/images/2021-03-08-kfserving-0.5/image2.png" style="width:6.5in;height:2.31944in" /></p>
 
-<p>Multi-model serving will work with any model server that implements KFServing’s <a href="https://github.com/triton-inference-server/server/tree/master/docs/protocol"><u>V2 protocol</u></a>. More specifically, if the model server implements the <a href="https://github.com/triton-inference-server/server/blob/master/docs/protocol/extension_model_repository.md#load"><u>load</u></a> and <a href="https://github.com/triton-inference-server/server/blob/master/docs/protocol/extension_model_repository.md#unload"><u>unload</u></a> endpoint, then it can use KFServing’s TrainedModel. Currently, the supported model servers are Triton, SKLearn, and XGBoost. Click on <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/triton/multimodel"><u>Triton</u></a> or <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/v1beta1/sklearn/multimodel"><u>SKLearn</u></a> for examples on how to run Multi-Model Serving.</p>
+<p>Multi-model serving will work with any model server that implements KFServing’s <a href="https://github.com/triton-inference-server/server/tree/master/docs/protocol"><u>V2 protocol</u></a>. More specifically, if the model server implements the <a href="https://github.com/triton-inference-server/server/blob/master/docs/protocol/extension_model_repository.md#load"><u>load</u></a> and <a href="https://github.com/triton-inference-server/server/blob/master/docs/protocol/extension_model_repository.md#unload"><u>unload</u></a> endpoint, then it can use KFServing’s TrainedModel. Currently, the supported model servers are Triton, SKLearn, and XGBoost. Click on <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/multimodelserving/triton"><u>Triton</u></a> or <a href="https://github.com/kubeflow/kfserving/tree/master/docs/samples/multimodelserving/sklearn"><u>SKLearn</u></a> for examples on how to run Multi-Model Serving.</p>
 
 <h3 id="kfserving-on-openshift"><strong>KFServing on OpenShift</strong></h3>
 
@@ -196,6 +196,94 @@ window.onload = wrap_img;
   </li>
   <li>
     <p><a href="https://opendatahub.io/"><u>Check out the OpenDataHub</u></a> if you are interested in open source projects in the Data and AI portfolio, namely Kubeflow, Kafka, Hive, Hue, and Spark, and how to bring them together in a cloud-native way.</p>
+  </li>
+</ul>
+
+<h3 id="contributor-acknowledgement"><strong>Contributor Acknowledgement</strong></h3>
+
+<p>We’d like to thank all the KFServing contributors for the awesome work!</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/animeshsingh">Animesh Singh</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/jinchihe">Jinchi He</a> </p>
+  </li>
+  <li>
+    <p><a href="https://github.com/cliveseldon">Clive Cox</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/ellistarn">Ellis Tarn</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/pugangxa">Pu Gang</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/Iamlovingit">Qianshan Chen</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/yuzliu">Yuzhui Liu</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/salanki">Peter Salanki</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/jagadeeshi2i">Jagadeesh</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/deadeyegoodwin">David Goodwin</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/ifilonenko">Ilan Filonenko</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/jazzsir">Hanbae Seo</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/ryandawsonuk">Ryan Dawson</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/pvaneck">Paul Van Eck</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/wengyao04">Weng Yao</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/theofpa">Theofilos Papapanagiotou</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/tduffy000">Tom Duffy</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/drewbutlerbb4">Andrew Butler</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/adriangonz">Adrian Gonzalez-Martin</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/njhill">Nick Hill</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/PatrickXYS">Yao Xiao</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/AnyISalIn">AnyISalIn</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/abchoo">Aaron Choo</a></p>
+  </li>
+  <li>
+    <p><a href="http://github.com/mszacillo">Michas Szacillo</a></p>
+  </li>
+  <li>
+    <p><a href="http://github.com/yuzisun">Dan Sun</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/chauhang">Geeta Chauhan</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/Tomcli">Tommy Li</a></p>
   </li>
 </ul>
 

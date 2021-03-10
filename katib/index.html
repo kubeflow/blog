@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Kubeflow Katib: Scalable, Portable and Cloud Native System for AutoML | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Kubeflow Katib: Scalable, Portable and Cloud Native System for AutoML" />
+<meta name="author" content="<a href='https://www.linkedin.com/in/andrey-velichkevich/'>Andrey Velichkevich</a>" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Katib 0.10 Blog Post" />
+<meta property="og:description" content="Katib 0.10 Blog Post" />
+<link rel="canonical" href="https://blog.kubeflow.org/katib/" />
+<meta property="og:url" content="https://blog.kubeflow.org/katib/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-03-10T00:00:00-06:00" />
+<script type="application/ld+json">
+{"description":"Katib 0.10 Blog Post","url":"https://blog.kubeflow.org/katib/","@type":"BlogPosting","headline":"Kubeflow Katib: Scalable, Portable and Cloud Native System for AutoML","dateModified":"2021-03-10T00:00:00-06:00","datePublished":"2021-03-10T00:00:00-06:00","author":{"@type":"Person","name":"<a href='https://www.linkedin.com/in/andrey-velichkevich/'>Andrey Velichkevich</a>"},"image":"https://blog.kubeflow.org/images/logo.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/katib/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kubeflow Katib: Scalable, Portable and Cloud Native System for AutoML</h1><p class="page-description">Katib 0.10 Blog Post</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-03-10T00:00:00-06:00" itemprop="datePublished">
+        Mar 10, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name"><a href='https://www.linkedin.com/in/andrey-velichkevich/'>Andrey Velichkevich</a></span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      8 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#katib">katib</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#release">release</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#automl">automl</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#hyperparameter tuning">hyperparameter tuning</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#system-architecture">System Architecture</a></li>
+<li class="toc-entry toc-h2"><a href="#custom-kubernetes-resources-support">Custom Kubernetes resources support</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#support-new-kubernetes-crd-in-katib">Support new Kubernetes CRD in Katib</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#early-stopping">Early Stopping</a></li>
+<li class="toc-entry toc-h2"><a href="#getting-involved">Getting Involved</a></li>
+</ul><p>As machine learning (ML) architectures are increasing in complexity, it is
+becoming important to find the optimal hyperparameters and architecture for
+ML models. <a href="https://en.wikipedia.org/wiki/Automated_machine_learning">Automated machine learning (AutoML)</a>
+has become a crucial step in the ML lifecycle.
+Katib provides AutoML features in Kubeflow in a Kubernetes native way.</p>
+
+<p>Katib is an open source project which is agnostic to ML frameworks. It can tune
+hyperparameters in applications written in any language of the user’s choice and
+natively supports many ML frameworks, such as TensorFlow, Keras, PyTorch, MPI,
+MXNet, XGBoost, scikit-learn, and others. Katib improves business results by
+efficiently building more accurate models and lowering operational and
+infrastructure costs. Katib can be deployed on local machines, or hosted as a
+service in on-premise data centers, or in private/public clouds.</p>
+
+<p>Katib offers a rich set of features accessible via APIs. By using these APIs,
+Katib is natively integrated to Kubeflow Notebooks and Pipelines. Katib supports
+<a href="https://en.wikipedia.org/wiki/Hyperparameter_optimization">Hyperparameter optimization (HP)</a>,
+<a href="https://en.wikipedia.org/wiki/Neural_architecture_search">Neural Architecture Search (NAS)</a>,
+and <a href="https://en.wikipedia.org/wiki/Early_stopping">Early Stopping</a>. Early Stopping
+feature can be used without any significant changes in the current Katib Experiments.</p>
+
+<p>Furthermore, Katib is a unique system which supports all
+<a href="https://kubernetes.io/docs/concepts/workloads/">Kubernetes workloads</a> and
+Kubernetes <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">custom resource definition (CRD)</a>
+to perform Katib Experiments. Since Katib can execute various Kubernetes resources,
+users are able to run not only ML models optimization Experiments. They can also
+enhance any software, code or program to make it more efficient with optimization
+algorithms provided by Katib.</p>
+
+<p>We are continually working on the new Katib UI to provide a better User
+Experience and native integration with Kubeflow central dashboard.
+Please check <a href="https://youtu.be/OKqx3IS2_G4?list=PLmzRWLV1CK_ypvsQu10SGRmhf2S7mbYL5">this presentation</a>
+to know more about the new UI.</p>
+
+<p>All of the above mentioned features allow users to easily integrate Katib in
+their ML infrastructure pipeline.</p>
+
+<h2 id="system-architecture">
+<a class="anchor" href="#system-architecture" aria-hidden="true"><span class="octicon octicon-link"></span></a>System Architecture</h2>
+
+<p><img src="/images/2021-03-10-katib-0.10/architecture.png" width="" alt="Architecture" title=""></p>
+
+<p>There are 3 main concepts in Katib which are Kubernetes CRDs:</p>
+
+<ul>
+  <li>
+    <p><strong>Experiment</strong> - a single optimization run with objective, search space, and
+search algorithm.</p>
+  </li>
+  <li>
+    <p><strong>Suggestion</strong> - set of hyperparameters, which are produced by a user’s
+selected search algorithm. Katib creates Trials to evaluate them.</p>
+  </li>
+  <li>
+    <p><strong>Trial</strong> - one iteration of the hyperparameters tuning process. Trial runs
+the worker job which corresponds to the training job. Since Trial is an
+abstraction on top of the worker job, any Kubernetes resource can be used to
+perform the training job. For example, <a href="https://github.com/kubeflow/tf-operator"><strong>TFJob</strong></a>,
+<a href="https://github.com/kubeflow/mpi-operator"><strong>MPIJob</strong></a> or even
+<a href="https://github.com/tektoncd/pipeline">Tekton <strong>Pipeline</strong></a>.</p>
+  </li>
+</ul>
+
+<p>By using above resources Katib follows the following steps, which are marked
+in the diagram above:</p>
+
+<ol>
+  <li>
+    <p>Once an Experiment is submitted, the Experiment controller creates an
+appropriate Suggestion object.</p>
+  </li>
+  <li>
+    <p>The Suggestion controller creates an AutoML algorithm service based on this
+Suggestion object. When the algorithm service is ready, the Suggestion controller
+calls the service to get new parameters and appends them to the Suggestion object.</p>
+  </li>
+  <li>
+    <p>The Experiment controller finds that Suggestion object has been updated and
+creates a corresponding Trial object for each set of parameters.</p>
+  </li>
+  <li>
+    <p>The Trial controller generates a worker job for each Trial object and watches
+for the status of each job. The worker job based on the Trial template.</p>
+  </li>
+  <li>
+    <p>Once the worker job has been completed, the metrics collector gets the metrics
+from the job and persists them in the database.</p>
+  </li>
+  <li>
+    <p>The Experiment controller sends the metrics results to the algorithm service
+and gets new parameters from the Suggestion object.</p>
+  </li>
+</ol>
+
+<h2 id="custom-kubernetes-resources-support">
+<a class="anchor" href="#custom-kubernetes-resources-support" aria-hidden="true"><span class="octicon octicon-link"></span></a>Custom Kubernetes resources support</h2>
+
+<p>Katib version 0.10 implements a new feature to support any Kubernetes
+CRDs or Kubernetes workloads as a Katib Trial template. Therefore, there is no
+need to manually modify the Katib controller to use CRD as a Trial. As long as
+the CRD creates Kubernetes Pods, allows injecting the
+<a href="https://kubernetes.io/docs/concepts/workloads/pods/">sidecar container</a>
+on these Pods, and has success and failure status, the CRD can be used in Katib.</p>
+
+<p>Here are the motivations behind this feature:</p>
+
+<ul>
+  <li>
+    <p>Katib Trial template supports only a limited type of Kubernetes resource
+(<a href="https://kubernetes.io/docs/concepts/workloads/controllers/job/"><strong>BatchJob</strong></a>,
+<a href="https://www.kubeflow.org/docs/components/training/tftraining/"><strong>TFJob</strong></a> and
+<a href="https://www.kubeflow.org/docs/components/training/pytorch/"><strong>PyTorchJob</strong></a>).</p>
+  </li>
+  <li>
+    <p>Many Katib users might have their own CRDs which they want to use as a Trial template.
+Thus, the approach of updating the Katib controller for the new CRD is not scalable.</p>
+  </li>
+  <li>
+    <p>Some CRDs might have Go packages versions which are incompatible with the Katib controller
+packages. For such cases, it is impossible to build a Katib controller image.</p>
+  </li>
+  <li>
+    <p>Users have to build and maintain a custom image version for the Katib controller
+if they want to implement a new CRD in Katib.</p>
+  </li>
+</ul>
+
+<p>The above problems led to the creation of a scalable and portable solution for the
+Trial template. This solution allows users to modify Katib components and to add
+their CRDs without changing the Katib controller image.</p>
+
+<p>Katib now supports Tekton <strong>Pipeline</strong> and <strong>MPIJob</strong> in addition to
+<strong>BatchJob</strong>, <strong>TFJob</strong> and <strong>PyTorchJob</strong>. In the case of Tekton <strong>Pipeline</strong>,
+a user is able to build a complex workflow inside the Trial’s worker job.
+The user also can implement data preprocessing and postprocessing with all of
+the Tekton <strong>Pipeline</strong> features. Eventually, Katib’s metrics collector parses
+and saves the appropriate metrics from the training processes to the database.</p>
+
+<h3 id="support-new-kubernetes-crd-in-katib">
+<a class="anchor" href="#support-new-kubernetes-crd-in-katib" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support new Kubernetes CRD in Katib</h3>
+
+<p>To support new Kubernetes CRD, Katib components need to be modified before installing in
+the Kubernetes cluster. To make this modification, it is necessary to know:</p>
+
+<ul>
+  <li>
+    <p>what API group, version, and kind the Kubernetes CRD has, and</p>
+  </li>
+  <li>
+    <p>which Kubernetes resources the CRD’s controller creates.</p>
+  </li>
+</ul>
+
+<p>Check the
+<a href="https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/">Kubernetes guide</a>
+to know more about CRDs.</p>
+
+<p>Follow these two simple steps to integrate new CRD in Katib:</p>
+
+<ol>
+  <li>
+    <p>Modify
+the Katib controller <a href="https://github.com/kubeflow/katib/blob/master/manifests/v1beta1/katib-controller/katib-controller.yaml#L26">Deployment’s arguments</a>
+with the new flag:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>--trial-resources=&lt;object-kind&gt;.&lt;object-API-version&gt;.&lt;object-API-group&gt;
+</code></pre></div>    </div>
+
+    <p>For example, to support Tekton <strong>Pipeline</strong>:</p>
+
+    <div class="language-yaml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="s">. . .</span>
+<span class="na">containers</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">katib-controller</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">docker.io/kubeflowkatib/katib-controller</span>
+    <span class="na">command</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">./katib-controller"</span><span class="pi">]</span>
+    <span class="na">args</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">--webhook-port=8443"</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">--trial-resources=Job.v1.batch"</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">--trial-resources=TFJob.v1.kubeflow.org"</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">--trial-resources=PyTorchJob.v1.kubeflow.org"</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">--trial-resources=MPIJob.v1.kubeflow.org"</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">--trial-resources=PipelineRun.v1beta1.tekton.dev"</span>
+<span class="err"> </span><span class="s">. . .</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Modify the Katib controller
+<a href="https://github.com/kubeflow/katib/blob/master/manifests/v1beta1/katib-controller/rbac.yaml#L5">ClusterRole’s rules</a>
+with the new rule to give Katib an access to all Kubernetes resources that
+are created by the CRD’s controller. To know more about ClusterRole,
+please check the <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole">Kubernetes guide</a>.</p>
+
+    <p>For example, for the Tekton <strong>Pipeline</strong>, Trial creates Tekton <strong>PipelineRun</strong>,
+then Tekton <strong>PipelineRun</strong> creates Tekton <strong>TaskRun</strong>.
+Therefore, Katib controller ClusterRole should have an access to the <em>pipelineruns</em> and <em>taskruns</em>:</p>
+
+    <div class="language-yaml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="na">kind</span><span class="pi">:</span> <span class="s">ClusterRole</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">rbac.authorization.k8s.io/v1</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">katib-controller</span>
+<span class="na">rules</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">apiGroups</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">tekton.dev</span>
+    <span class="na">resources</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">pipelineruns</span>
+      <span class="pi">-</span> <span class="s">taskruns</span>
+    <span class="na">verbs</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">*"</span>
+  <span class="pi">-</span> <span class="na">apiGroups</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">kubeflow.org</span>
+    <span class="na">resources</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">tfjobs</span>
+      <span class="pi">-</span> <span class="s">pytorchjobs</span>
+      <span class="pi">-</span> <span class="s">mpijobs</span>
+    <span class="na">verbs</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">*"</span>
+<span class="s">. . .</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Install Katib by following
+<a href="https://www.kubeflow.org/docs/components/katib/hyperparameter/#installing-katib">the getting started guide</a>.</p>
+  </li>
+</ol>
+
+<p>At this point, the Kubernetes CRD can be used in the Katib Trial template. Check
+<a href="https://github.com/kubeflow/katib/tree/master/examples/v1beta1/tekton">this guide</a>
+to know more about Tekton and Katib integration.</p>
+
+<h2 id="early-stopping">
+<a class="anchor" href="#early-stopping" aria-hidden="true"><span class="octicon octicon-link"></span></a>Early Stopping</h2>
+
+<p>Early Stopping is now supported in the Katib 0.10 release. Early Stopping is one
+of the essential steps for doing HP tuning. It helps to avoid overfitting when
+the model is training during Katib Experiments.</p>
+
+<p>Using Early Stopping helps to save compute resources and to reduce the
+Experiment execution time by stopping the Experiment’s Trials when the target
+metric(s) no longer improves before the training process is complete.</p>
+
+<p>The major advantage of using Early Stopping in Katib is that
+<a href="https://www.kubeflow.org/docs/components/katib/experiment/#packaging-your-training-code-in-a-container-image">the training container package</a>
+doesn’t need to be modified. Basically, the Experiment’s YAML has to be extended
+with the new entity - <code class="language-plaintext highlighter-rouge">earlyStopping</code>, which is similar to the <code class="language-plaintext highlighter-rouge">algorithm</code> YAML section:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s2">"</span><span class="s">kubeflow.org/v1beta1"</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Experiment</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">kubeflow</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">median-stop</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">algorithm</span><span class="pi">:</span>
+    <span class="na">algorithmName</span><span class="pi">:</span> <span class="s">random</span>
+  <span class="na">earlyStopping</span><span class="pi">:</span>
+    <span class="na">algorithmName</span><span class="pi">:</span> <span class="s">medianstop</span>
+    <span class="na">algorithmSettings</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">min_trials_required</span>
+        <span class="na">value</span><span class="pi">:</span> <span class="s2">"</span><span class="s">3"</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">start_step</span>
+        <span class="na">value</span><span class="pi">:</span> <span class="s2">"</span><span class="s">5"</span>
+  <span class="na">objective</span><span class="pi">:</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">maximize</span>
+    <span class="na">goal</span><span class="pi">:</span> <span class="m">0.99</span>
+    <span class="na">objectiveMetricName</span><span class="pi">:</span> <span class="s">Validation-accuracy</span>
+    <span class="na">additionalMetricNames</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">Train-accuracy</span>
+  <span class="na">parallelTrialCount</span><span class="pi">:</span> <span class="m">2</span>
+  <span class="na">maxTrialCount</span><span class="pi">:</span> <span class="m">15</span>
+  <span class="na">maxFailedTrialCount</span><span class="pi">:</span> <span class="m">3</span>
+<span class="s">. . .</span>
+</code></pre></div></div>
+
+<p>Currently, Katib supports the Median Stopping Rule. The Medium Stopping rule
+stops a running Trial at the step <strong>S</strong> if the Trial’s best objective value is
+lower than the median value of all succeeded Trials’ objectives reported up to
+that step <strong>S</strong>. Readers interested in learning more about the Median Stopping
+Rule can check the
+<a href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/46180.pdf">Google Vizier: A Service for Black-Box Optimization</a>
+paper.</p>
+
+<p>To know more about using Early Stopping in Katib please follow the
+<a href="https://www.kubeflow.org/docs/components/katib/early-stopping/">official guide</a>.</p>
+
+<h2 id="getting-involved">
+<a class="anchor" href="#getting-involved" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Involved</h2>
+
+<p>First of all, thanks a lot to our contributors
+(<a href="https://github.com/sperlingxx">Alfred Xu (Nvidia)</a>,
+<a href="https://github.com/andreyvelich">Andrey Velichkevich (Cisco)</a>,
+<a href="https://github.com/akirillov">Anton Kirillov (Mesosphere)</a>,
+<a href="https://github.com/gaocegege">Ce Gao (Tencent Cloud)</a>,
+<a href="https://github.com/ChenjunZou">Chenjun Zou (Alibaba)</a>,
+<a href="https://github.com/eliaskoromilas">Elias Koromilas (InAccel)</a>,
+<a href="https://github.com/xuhdev">Hong Xu (IBM)</a>,
+<a href="https://github.com/johnugeorge">Johnu George (Cisco)</a>,
+<a href="https://github.com/c-bata">Masashi Shibata</a>,
+<a href="https://github.com/vpavlin">Vaclav Pavlin (Red Hat)</a>,
+<a href="https://github.com/PatrickXYS">Yao Xiao (AWS)</a>,
+<a href="https://github.com/terrytangyuan">Yuan Tang (Ant Group)</a>) who helped with the
+0.10 release. Our community is growing and we are inviting new users and AutoML
+enthusiasts to contribute to the Katib project. The following links provide
+information about getting involved in the community:</p>
+
+<ul>
+  <li>
+    <p>Subscribe
+<a href="https://calendar.google.com/calendar/u/0/r?cid=ZDQ5bnNpZWZzbmZna2Y5MW8wdThoMmpoazRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ">to the calendar</a>
+to attend the AutoML WG community meeting.</p>
+  </li>
+  <li>
+    <p>Check
+<a href="https://docs.google.com/document/d/1MChKfzrKAeFRtYqypFbMXL6ZIc_OgijjkvbqmwRV-64/edit">the AutoML WG meeting notes</a>.</p>
+  </li>
+  <li>
+    <p>Join
+<a href="https://kubeflow.slack.com/archives/C018PMV53NW">the AutoML WG Slack channel</a>.</p>
+  </li>
+  <li>
+    <p>Check
+<a href="https://github.com/kubeflow/katib/blob/master/ADOPTERS.md">the Katib adopters list</a>.</p>
+  </li>
+  <li>
+    <p>Learn more about Katib in
+<a href="https://github.com/kubeflow/katib/blob/master/docs/presentations.md">the presentations and demos list</a>.</p>
+  </li>
+</ul>
+
+<p>Please let us know about the active use-cases, feature requests and questions
+in the AutoML Slack channel or submit a new
+<a href="https://github.com/kubeflow/katib/issues/new/choose">GitHub issue</a>. To know
+more about the new Katib UI or to track the current integration process
+please check <a href="https://github.com/kubeflow/katib/projects/1">the GitHub project</a>.
+We are planning to arrange a webinar and tutorial session for using AutoML in
+Kubeflow soon. Please join the
+<a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss mailing list</a>
+to know more about it.</p>
+
+<p>Special Thanks to Amit Saha (Cisco), Ce Gao (Tencent Cloud), Johnu George (Cisco),
+Jorge Castro (Arrikto), Josh Bottum (Arrikto) for their help on this blog.</p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/katib/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

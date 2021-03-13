@@ -283,7 +283,7 @@ to know more about CRDs.</p>
 <ol>
   <li>
     <p>Modify
-the Katib controller <a href="https://github.com/kubeflow/katib/blob/master/manifests/v1beta1/katib-controller/katib-controller.yaml#L26">Deployment’s arguments</a>
+the Katib controller <a href="https://github.com/kubeflow/katib/blob/master/manifests/v1beta1/components/controller/controller.yaml#L26">Deployment’s arguments</a>
 with the new flag:</p>
 
     <div class="language-plaintext highlighter-rouge">
@@ -310,7 +310,7 @@ with the new flag:</p>
   </li>
   <li>
     <p>Modify the Katib controller
-<a href="https://github.com/kubeflow/katib/blob/master/manifests/v1beta1/katib-controller/rbac.yaml#L5">ClusterRole’s rules</a>
+<a href="https://github.com/kubeflow/katib/blob/master/manifests/v1beta1/components/controller/rbac.yaml#L5">ClusterRole’s rules</a>
 with the new rule to give Katib an access to all Kubernetes resources that
 are created by the CRD’s controller. To know more about ClusterRole,
 please check the <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole">Kubernetes guide</a>.</p>

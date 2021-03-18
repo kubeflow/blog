@@ -8,7 +8,7 @@ image: images/logo.png
 hide: false
 categories: [release]
 permalink: /kubeflow-continues-to-move-to-production
-author: "<a href='https://www.linkedin.com/in/joshbottum/'>Josh Bottum</a>", <a href="https://twitter.com/aronchick">David Arronchik</a>
+author: "<a href='https://www.linkedin.com/in/joshbottum/'>Josh Bottum</a>", <a href="https://twitter.com/aronchick">David Arronchik</a>, <a href="https://www.linkedin.com/in/thealamkin">Thea Lamkin</a>
 ---
 
 Kubeflow Users are maturing and the community is growing, forty eight percent of users are supporting deployments in production.
@@ -19,11 +19,11 @@ The Spring 2021 [Kubeflow](http://kubeflow.org/) Community User Survey collected
 
 # Kubeflow Continues to Move Into Production
 
-Forty eight percent of users are supporting deployments that are in production, up from 15% last year. Further, one question that many folks have is “do people upgrade a production deployment or just install a new cluster and start over?”. It appears that the latter is far more common: just 8% have upgraded their environment.
+Forty eight percent of users are supporting deployments that are in production, up from 15% last year. Further, one question that many folks have is “do people upgrade a production deployment or just install a new cluster and start over?” It appears that the latter is far more common: just 8% have upgraded their environment.
 
 ![alt_text](images/2021-03-11-survey/image2.png)
 
-Similar to previous years, Kubeflow Pipelines and Notebooks are the most popular components, but other components are now being widely deployed as well. Interest in TensorBoard has grown, joining KFServing, Katib (Hyperparameter Tuning), and Distributed Training as top additional services.
+Similar to previous years, Kubeflow Pipelines and Notebooks are the most popular components, but other components are now being widely deployed as well. Interest in TensorBoard has grown, joining KFServing, Katib (AutoML), and Distributed Training as top additional services.
 
 ![alt_text](images/2021-03-11-survey/image3.png)
 
@@ -47,7 +47,7 @@ From a gap perspective, the users would like improved documentation, tutorials, 
 
 # Using Kubeflow Goes Beyond Just Training
 
-Users identified that data preprocessing and transformation are both the most time consuming and challenging steps. We also received feedback that pipeline building and feature engineering are both time consuming and challenging. distributed training, model serving and monitoring appear to be more technically challenging than time consuming. 
+Users identified that data preprocessing and transformation are both the most time consuming and challenging steps. We also received feedback that pipeline building and feature engineering are both time consuming and challenging. Distributed training, model serving and monitoring appear to be more technically challenging than time consuming. 
 
 ![alt_text](images/2021-03-11-survey/image8.png)
 
@@ -93,7 +93,7 @@ In addition to learning about how users are operating Kubeflow in production clu
 *   Improvements to the release management process, which is being driven by better inter-Working Group collaboration. This, coupled with core upgrades to Istio and a clean-up of the installation manifests, will improve the testing, documentation, and installation patterns.
 *   Automation of pipeline building and feature engineering tasks, especially with continued integrations of Kubeflow with Kale and Feast, which are enabling new end-to-end workflows and tutorials.
 *   Enhancements for data preprocessing and transformation as well as streamlined connections of Data Pipelines to ML Pipelines.  Additionally, a renewed effort to develop a Spark operator.
-*   Several new UIs are under development i.e. Hyperparameter Tuning, Model Management, Volumes Management and TensorBoard Management, which will help the user experience.
+*   Several new UIs are under development i.e. Katib, Model Management, Volumes Management and TensorBoard Management, which will help the user experience.
 
 For more details on the Community’s and specific Working Group's deliveries, please review the Kubeflow 1.3 Release Blog post.  
 

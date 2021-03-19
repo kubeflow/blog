@@ -57,7 +57,7 @@ As the major player in distributed training framework, Horovod v0.20.0 offers it
   * Update the rank information on existing workers.
 * State is synchronized following a reset event.
  
-When launching an elastic training job, `horovodrun` requires a `discover_hosts.sh` script to detect available hosts and slots in real time. (In the following section, we refer this script as `discover_hosts.sh`. Nevertheless the script needs not to be named as `discover_hosts.sh`. An example of `discover_hosts.sh` can be found [here](https://horovod.readthedocs.io/en/stable/elastic_include.html#running-with-horovodrun).)
+When launching an elastic training job, `horovodrun` requires a `discover_hosts.sh` script to detect available hosts and slots in real time. In the following section, we refer this script as `discover_hosts.sh`. Nevertheless the script needs not to be named as `discover_hosts.sh`. An example of `discover_hosts.sh` can be found [here](https://horovod.readthedocs.io/en/stable/elastic_include.html#running-with-horovodrun).
  
 ## Elastic Horovod on Kubernetes
  

@@ -8,7 +8,7 @@ image: images/logo.png
 hide: false
 categories: [release]
 permalink: /kubeflow-continues-to-move-to-production
-author: "\"<a href='https://www.linkedin.com/in/joshbottum/'>Josh Bottum</a>\", <a href=\"https://twitter.com/aronchick\">David Arronchik</a>, <a href=\"https://www.linkedin.com/in/thealamkin\">Thea Lamkin</a>\n"
+author: "<a href='https://www.linkedin.com/in/joshbottum/'>Josh Bottum</a>, <a href='https://twitter.com/aronchick\'>David Aronchik</a>, <a href='https://www.linkedin.com/in/thealamkin\'>Thea Lamkin</a>"
 ---
 
 Kubeflow Users are maturing and the community is growing, forty eight percent of users are supporting deployments in production.

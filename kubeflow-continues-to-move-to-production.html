@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Kubeflow Continues to Move into Production | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Kubeflow Continues to Move into Production" />
+<meta name="author" content=""<a href='https://www.linkedin.com/in/joshbottum/'>Josh Bottum</a>", <a href="https://twitter.com/aronchick">David Arronchik</a>, <a href="https://www.linkedin.com/in/thealamkin">Thea Lamkin</a>
+" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="2021 State of the Kubeflow World" />
+<meta property="og:description" content="2021 State of the Kubeflow World" />
+<link rel="canonical" href="https://blog.kubeflow.org/kubeflow-continues-to-move-to-production" />
+<meta property="og:url" content="https://blog.kubeflow.org/kubeflow-continues-to-move-to-production" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-03-19T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"2021 State of the Kubeflow World","url":"https://blog.kubeflow.org/kubeflow-continues-to-move-to-production","@type":"BlogPosting","headline":"Kubeflow Continues to Move into Production","dateModified":"2021-03-19T00:00:00-05:00","datePublished":"2021-03-19T00:00:00-05:00","author":{"@type":"Person","name":"\"<a href='https://www.linkedin.com/in/joshbottum/'>Josh Bottum</a>\", <a href=\"https://twitter.com/aronchick\">David Arronchik</a>, <a href=\"https://www.linkedin.com/in/thealamkin\">Thea Lamkin</a>\n"},"image":"https://blog.kubeflow.org/images/logo.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow-continues-to-move-to-production"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kubeflow Continues to Move into Production</h1><p class="page-description">2021 State of the Kubeflow World</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-03-19T00:00:00-05:00" itemprop="datePublished">
+        Mar 19, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">"<a href='https://www.linkedin.com/in/joshbottum/'>Josh Bottum</a>", <a href="https://twitter.com/aronchick">David Arronchik</a>, <a href="https://www.linkedin.com/in/thealamkin">Thea Lamkin</a>
+</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#release">release</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#kubeflow-continues-to-move-into-production">Kubeflow Continues to Move Into Production</a></li>
+<li class="toc-entry toc-h1"><a href="#vs-code-and-jupyter-lead-dev-environments">VS Code and Jupyter Lead Dev Environments</a></li>
+<li class="toc-entry toc-h1"><a href="#using-kubeflow-goes-beyond-just-training">Using Kubeflow Goes Beyond Just Training</a></li>
+<li class="toc-entry toc-h1"><a href="#user-requests">User Requests</a></li>
+<li class="toc-entry toc-h1"><a href="#key-takeaways">Key Takeaways</a></li>
+<li class="toc-entry toc-h1"><a href="#join-the-community">Join the Community</a></li>
+</ul><p>Kubeflow Users are maturing and the community is growing, forty eight percent of users are supporting deployments in production.</p>
+
+<p>The Spring 2021 <a href="http://kubeflow.org/">Kubeflow</a> Community User Survey collected input from Kubeflow users on the benefits, gaps and requirements for machine learning use cases. It is the largest survey to date with 179 responses—a 50% increase from the <a href="https://medium.com/kubeflow/kubeflow-community-user-survey-fall-2019-a84776c71743">Kubeflow 1.0 Community User Survey</a> a year ago. The Survey respondents span a spectrum of skill sets. While 42% are machine learning (ML) engineers, and 24% are ML architects, the titles of the respondents vary from DevOps Engineers to data scientists and product managers.</p>
+
+<p><img src="images/2021-03-11-survey/image1.png" alt="alt_text"></p>
+
+<h1 id="kubeflow-continues-to-move-into-production">
+<a class="anchor" href="#kubeflow-continues-to-move-into-production" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kubeflow Continues to Move Into Production</h1>
+
+<p>Forty eight percent of users are supporting deployments that are in production, up from 15% last year. Further, one question that many folks have is “do people upgrade a production deployment or just install a new cluster and start over?” It appears that the latter is far more common: just 8% have upgraded their environment.</p>
+
+<p><img src="images/2021-03-11-survey/image2.png" alt="alt_text"></p>
+
+<p>Similar to previous years, Kubeflow Pipelines and Notebooks are the most popular components, but other components are now being widely deployed as well. Interest in TensorBoard has grown, joining KFServing, Katib (AutoML), and Distributed Training as top additional services.</p>
+
+<p><img src="images/2021-03-11-survey/image3.png" alt="alt_text"></p>
+
+<p>Although the usage patterns for Kubeflow components are mixed, the vast majority of users need at least two Kubeflow components in their ML Platform.</p>
+
+<p><img src="images/2021-03-11-survey/image4.png" alt="alt_text"></p>
+
+<p>TensorFlow is the leading ML Framework, followed by Scikit-learn, PyTorch, Keras, and XGBoost. However, with Kubeflow’s built-in extensibility, the type of ML tools people use in Kubeflow go beyond just training frameworks, and include MLFlow, Airflow, and Spark.</p>
+
+<p><img src="images/2021-03-11-survey/image5.png" alt="alt_text"></p>
+
+<h1 id="vs-code-and-jupyter-lead-dev-environments">
+<a class="anchor" href="#vs-code-and-jupyter-lead-dev-environments" aria-hidden="true"><span class="octicon octicon-link"></span></a>VS Code and Jupyter Lead Dev Environments</h1>
+
+<p>From an Integrated Development Environment (IDE) perspective, most users are developing models in Jupyter Notebooks and Visual Studio Code, and about one third are using PyCharm.</p>
+
+<p><img src="images/2021-03-11-survey/image6.png" alt="alt_text"></p>
+
+<p>From a gap perspective, the users would like improved documentation, tutorials, and installation, along with more automation, support and security.</p>
+
+<p><img src="images/2021-03-11-survey/image7.png" alt="alt_text"></p>
+
+<h1 id="using-kubeflow-goes-beyond-just-training">
+<a class="anchor" href="#using-kubeflow-goes-beyond-just-training" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using Kubeflow Goes Beyond Just Training</h1>
+
+<p>Users identified that data preprocessing and transformation are both the most time consuming and challenging steps. We also received feedback that pipeline building and feature engineering are both time consuming and challenging. Distributed training, model serving and monitoring appear to be more technically challenging than time consuming.</p>
+
+<p><img src="images/2021-03-11-survey/image8.png" alt="alt_text"></p>
+
+<p>ML model delivery commonly requires multiple teams to work together i.e. data engineers, data scientists, ML engineers and devops engineers. ML workflows often include manual processes and there can be gaps in the handoffs between these groups. In particular, connecting data pipelines to ML pipelines is an example of a process that could be better automated, along with pipeline building and model monitoring.</p>
+
+<p><img src="images/2021-03-11-survey/image9.png" alt="alt_text"></p>
+
+<p>The vast majority of Kubeflow users are self-reliant in solving complex problems:</p>
+
+<p><img src="images/2021-03-11-survey/image10.png" alt="alt_text"></p>
+
+<p>And many are using tutorials created by Cloud Service Providers (i.e. Google, AWS and Azure) and MiniKF from Arrikto.</p>
+
+<p><img src="images/2021-03-11-survey/image11.png" alt="alt_text"></p>
+
+<p>The majority of ML models have a fairly short life: ~50% run in production for 3 months or less. On the other end of the spectrum, 25% of the models remain in production for 6 months or longer.</p>
+
+<p><img src="images/2021-03-11-survey/image12.png" alt="alt_text"></p>
+
+<p>And ~70% of all models take up to 15 iterations to produce  a final model suitable for production.</p>
+
+<p><img src="images/2021-03-11-survey/image13.png" alt="alt_text"></p>
+
+<p>Users have a wide range of success with their models: ~43% are getting more than half of their models to deliver business value. On the other side, 39% are getting a very small percentage (10%) of their models into production and delivering business value.</p>
+
+<p><img src="images/2021-03-11-survey/image14.png" alt="alt_text"></p>
+
+<h1 id="user-requests">
+<a class="anchor" href="#user-requests" aria-hidden="true"><span class="octicon octicon-link"></span></a>User Requests</h1>
+
+<p>We provided a section for free-form responses and we received a great deal of feedback. Here are some good examples of user requests:</p>
+
+<ul>
+  <li>Metadata storage and versioning</li>
+  <li>More robust access control and permission granularity for model/data sharing</li>
+  <li>More visibility on your roadmap</li>
+  <li>Installation patterns, stability, multi tenancy</li>
+  <li>More real life case studies</li>
+  <li>Updated and more in-depth documentation</li>
+</ul>
+
+<h1 id="key-takeaways">
+<a class="anchor" href="#key-takeaways" aria-hidden="true"><span class="octicon octicon-link"></span></a>Key Takeaways</h1>
+
+<p>In addition to learning about how users are operating Kubeflow in production clusters, the Community Survey has given us important data that we can use to enhance our processes:</p>
+
+<ul>
+  <li>Improvements to the release management process, which is being driven by better inter-Working Group collaboration. This, coupled with core upgrades to Istio and a clean-up of the installation manifests, will improve the testing, documentation, and installation patterns.</li>
+  <li>Automation of pipeline building and feature engineering tasks, especially with continued integrations of Kubeflow with Kale and Feast, which are enabling new end-to-end workflows and tutorials.</li>
+  <li>Enhancements for data preprocessing and transformation as well as streamlined connections of Data Pipelines to ML Pipelines.  Additionally, a renewed effort to develop a Spark operator.</li>
+  <li>Several new UIs are under development i.e. Katib, Model Management, Volumes Management and TensorBoard Management, which will help the user experience.</li>
+</ul>
+
+<p>For more details on the Community’s and specific Working Group’s deliveries, please review the Kubeflow 1.3 Release Blog post.</p>
+
+<h1 id="join-the-community">
+<a class="anchor" href="#join-the-community" aria-hidden="true"><span class="octicon octicon-link"></span></a>Join the Community</h1>
+
+<p>We would like to thank everyone for their participation in the survey. As you can see from the survey results, the Kubeflow Community is vibrant and diverse, solving real world problems for organizations around the world.</p>
+
+<p>Want to help? The Kubeflow Community <a href="https://github.com/kubeflow/community/blob/master/wg-list.md">Working Groups</a> hold open meetings, public lists, and are always looking for more volunteers and users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below. We look forward to working with you!</p>
+
+<ul>
+  <li>Visit our<a href="https://www.kubeflow.org/"> Kubeflow website</a> or<a href="https://github.com/kubeflow"> Kubeflow GitHub Page</a>
+</li>
+  <li>Join the<a href="https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg"> Kubeflow Slack channel</a>
+</li>
+  <li>Join the<a href="https://groups.google.com/forum/#!forum/kubeflow-discuss"> kubeflow-discuss</a> mailing list</li>
+  <li>Attend a<a href="https://www.kubeflow.org/docs/about/community/"> weekly community meeting</a>
+</li>
+</ul>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/kubeflow-continues-to-move-to-production" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

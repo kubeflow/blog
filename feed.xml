@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2021-03-30T15:31:48-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow Continues to Move into Production</title><link href="https://blog.kubeflow.org/kubeflow-continues-to-move-to-production" rel="alternate" type="text/html" title="Kubeflow Continues to Move into Production" /><published>2021-03-19T00:00:00-05:00</published><updated>2021-03-19T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-continues-to-move-to-production</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-continues-to-move-to-production">&lt;p&gt;Kubeflow Users are maturing and the community is growing, forty eight percent of users are supporting deployments in production.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2021-04-02T17:26:33-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow Continues to Move into Production</title><link href="https://blog.kubeflow.org/kubeflow-continues-to-move-to-production" rel="alternate" type="text/html" title="Kubeflow Continues to Move into Production" /><published>2021-03-19T00:00:00-05:00</published><updated>2021-03-19T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-continues-to-move-to-production</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-continues-to-move-to-production">&lt;p&gt;Kubeflow Users are maturing and the community is growing, forty eight percent of users are supporting deployments in production.&lt;/p&gt;
 
 &lt;p&gt;The Spring 2021 &lt;a href=&quot;http://kubeflow.org/&quot;&gt;Kubeflow&lt;/a&gt; Community User Survey collected input from Kubeflow users on the benefits, gaps and requirements for machine learning use cases. It is the largest survey to date with 179 responses—a 50% increase from the &lt;a href=&quot;https://medium.com/kubeflow/kubeflow-community-user-survey-fall-2019-a84776c71743&quot;&gt;Kubeflow 1.0 Community User Survey&lt;/a&gt; a year ago. The Survey respondents span a spectrum of skill sets. While 42% are machine learning (ML) engineers, and 24% are ML architects, the titles of the respondents vary from DevOps Engineers to data scientists and product managers.&lt;/p&gt;
 
@@ -99,7 +99,178 @@
   &lt;li&gt;Join the&lt;a href=&quot;https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg&quot;&gt; Kubeflow Slack channel&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Join the&lt;a href=&quot;https://groups.google.com/forum/#!forum/kubeflow-discuss&quot;&gt; kubeflow-discuss&lt;/a&gt; mailing list&lt;/li&gt;
   &lt;li&gt;Attend a&lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt; weekly community meeting&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Josh Bottum, David Aronchick, Thea Lamkin</name></author><category term="release" /><summary type="html">Kubeflow Users are maturing and the community is growing, forty eight percent of users are supporting deployments in production.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Kubeflow Katib: Scalable, Portable and Cloud Native System for AutoML</title><link href="https://blog.kubeflow.org/katib/" rel="alternate" type="text/html" title="Kubeflow Katib: Scalable, Portable and Cloud Native System for AutoML" /><published>2021-03-10T00:00:00-06:00</published><updated>2021-03-10T00:00:00-06:00</updated><id>https://blog.kubeflow.org/katib-0.10</id><content type="html" xml:base="https://blog.kubeflow.org/katib/">&lt;p&gt;As machine learning (ML) architectures are increasing in complexity, it is
+&lt;/ul&gt;</content><author><name>Josh Bottum, David Aronchick, Thea Lamkin</name></author><category term="release" /><summary type="html">Kubeflow Users are maturing and the community is growing, forty eight percent of users are supporting deployments in production.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Elastic Training with MPI Operator and Practice</title><link href="https://blog.kubeflow.org/elastic%20training/operators/2021/03/15/elastic-training.html" rel="alternate" type="text/html" title="Elastic Training with MPI Operator and Practice" /><published>2021-03-15T00:00:00-05:00</published><updated>2021-03-15T00:00:00-05:00</updated><id>https://blog.kubeflow.org/elastic%20training/operators/2021/03/15/elastic-training</id><content type="html" xml:base="https://blog.kubeflow.org/elastic%20training/operators/2021/03/15/elastic-training.html">&lt;p&gt;With increase in the size of dataset and deep learning models, distributed training emerges as the mainstream approach for training neural network models in industry. While it is feasible now to launch a massive distributed training job on Kubernetes with Kubeflow, advanced features like elastic workload and other cost mitigation approaches remain leashed when we talk about deep learning jobs on Kubernetes.&lt;/p&gt;
+
+&lt;p&gt;To address issues on cost and resource utilization, the &lt;a href=&quot;https://intl.cloud.tencent.com/product/tke&quot;&gt;TKE (Tencent Kubernetes Engine)&lt;/a&gt; AI team designs and implements &lt;strong&gt;Elastic Training&lt;/strong&gt; in Kubeflow community.&lt;/p&gt;
+
+&lt;p&gt;Here we present how the elastic training is performed on Kubernetes. Validated with experiments under circumstances, elastic training lowers cost for distributed training on cloud.&lt;/p&gt;
+
+&lt;h2 id=&quot;background&quot;&gt;Background&lt;/h2&gt;
+
+&lt;p&gt;Let’s first recap training deep learning models. When we talk about ‘training’, it refers generally to iteratively optimizing parameters in a neural network model with its gradient descent. Accelerated with GPUs, the training can speed up for 10-100 times.&lt;/p&gt;
+
+&lt;p&gt;When manufacturers try to integrate more computational resources like GPUs into a single machine, to hold training experiments with more and more data or model parameters, the cost grows exponentially. Therefore, after initially proposed by &lt;a href=&quot;https://www.usenix.org/conference/osdi14/technical-sessions/presentation/li_mu&quot;&gt;Mu Li on OSDI’14&lt;/a&gt;, distributed training takes over training on a single machine when researchers play with massive dataset or large model.&lt;/p&gt;
+
+&lt;p&gt;For distributed training in data-parallelism, &lt;a href=&quot;https://github.com/horovod/horovod&quot;&gt;Horovod&lt;/a&gt; is widely adopted given its excellent support on deep learning frameworks like &lt;a href=&quot;https://www.tensorflow.org&quot;&gt;TensorFlow&lt;/a&gt; and &lt;a href=&quot;https://pytorch.org&quot;&gt;PyTorch&lt;/a&gt;, communication optimization and easier programming pattern. In Horovod, all training processes are equal participants, each of which process the gradient calculation and communication.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2021-03-15-elastic-training/horovod-allreduce.png&quot; width=&quot;&quot; alt=&quot;alt_text&quot; title=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Because of significant acceleration of training speed as well as the programming pattern that are easier to understand, data-parallelism distributed training, represented by Horovod, is getting more and more attention. However, there still remain some issues:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The cost of training on the cloud is still the hurdle. While researchers no longer face the complexity when training on cloud thanks to Kubernetes and Kubeflow, the cost of training on cloud quells some users.&lt;/li&gt;
+  &lt;li&gt;Compared with training on a single machine, multi-node distributed training accumulates the probability of training failure. The entire training experiment fails when any of its training process issues an error. This problem becomes even severer when some experiments take days or even weeks.&lt;/li&gt;
+  &lt;li&gt;When collocating training tasks with other workloads (with higher priority), the resources demand fluctuates as the request for these other workloads may change periodically. This unbalance of resources availability throws cold water on the idea of using hybrid-deployment to maximize resource utilization.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;elastic-training&quot;&gt;Elastic Training&lt;/h2&gt;
+
+&lt;p&gt;Researchers and engineers proposed &lt;strong&gt;Elastic Training&lt;/strong&gt; as the key to solve the puzzle.&lt;/p&gt;
+
+&lt;p&gt;Traditionally, the resource configuration for a distributed training job is fixed. Elastic training breaks this rule and enables users to change the number of instances participating in a distributed training job, bringing the following benefits to clusters with distributed training jobs:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Fault Tolerance: any worker instance can fail as long as at least one is surviving.&lt;/li&gt;
+  &lt;li&gt;Resources Utilization: when the resources stress piles, the cluster is able to reduce the replicas of workloads with lower priority (distributed training workloads), releasing resource to other workloads (such as prediction service), ensuring SLA for business; after resources released from workloads, elastic training job is able to absorb these resource by scaling up workload replicas.&lt;/li&gt;
+  &lt;li&gt;Training on Cloud: there is a type of resource on the cloud that is called “spot” or “preemptible” instances; it comes with unexpected low price tags but may be retrieved after guaranteed hour expires.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Elastic training appears a perfect match to public cloud. Combined with spot instances, we cut the cost for GPUs from ¥16.21/hour to ¥1.62/hour, reducing the overall cost for the training job by nearly 70%. Under the same budget, elastic training employs more GPUs and accelerates the training speed by 5 to 10 times.&lt;/p&gt;
+
+&lt;h2 id=&quot;elastic-horovod&quot;&gt;Elastic Horovod&lt;/h2&gt;
+
+&lt;p&gt;As the major player in distributed training framework, Horovod v0.20.0 offers its solution to elastic training, &lt;a href=&quot;https://horovod.readthedocs.io/en/stable/elastic_include.html&quot;&gt;Elastic Horovod&lt;/a&gt;. Here we quotes the architecture differences between Elastic Horovod and existing Horovod from &lt;a href=&quot;https://docs.google.com/document/d/15ZoHA5AeSI_boeyIBapg9WPXKrYXMRvPytPzQWTCTn4/edit#&quot;&gt;RFC Elastic Horovod&lt;/a&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2021-03-15-elastic-training/horovod-elastic.png&quot; width=&quot;&quot; alt=&quot;alt_text&quot; title=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;All collective operations are coordinated within a hvd.elastic.run function.&lt;/li&gt;
+  &lt;li&gt;State is synchronized between workers before the user’s training function is executed.&lt;/li&gt;
+  &lt;li&gt;Worker failure or worker added events will result in a reset event on other workers.&lt;/li&gt;
+  &lt;li&gt;Reset events act as barriers to:
+    &lt;ul&gt;
+      &lt;li&gt;Determine whether the job should continue based on worker exit codes.&lt;/li&gt;
+      &lt;li&gt;Blacklist failing hosts.&lt;/li&gt;
+      &lt;li&gt;Launch workers on new hosts.&lt;/li&gt;
+      &lt;li&gt;Update the rank information on existing workers.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;State is synchronized following a reset event.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;When launching an elastic training job, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;horovodrun&lt;/code&gt; requires a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;discover_hosts.sh&lt;/code&gt; script to detect available hosts and slots in real time. In the following section, we refer this script as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;discover_hosts.sh&lt;/code&gt;. Nevertheless the script needs not to be named as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;discover_hosts.sh&lt;/code&gt;. An example of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;discover_hosts.sh&lt;/code&gt; can be found &lt;a href=&quot;https://horovod.readthedocs.io/en/stable/elastic_include.html#running-with-horovodrun&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;elastic-horovod-on-kubernetes&quot;&gt;Elastic Horovod on Kubernetes&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/kubeflow/mpi-operator&quot;&gt;MPI-Operator&lt;/a&gt; is designed to deploy Horovod jobs on Kubernetes. While the operator releases multiple versions, the general idea stays unchanged. It includes:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2021-03-15-elastic-training/mpi-operator.png&quot; width=&quot;&quot; alt=&quot;alt_text&quot; title=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;MPIJob Controller creates a launcher pod and worker pods according to the replicas configuration in MPIJobs&lt;/li&gt;
+  &lt;li&gt;For each MPIJob, the controller creates a &lt;a href=&quot;https://kubernetes.io/docs/concepts/configuration/configmap/&quot;&gt;ConfigMap&lt;/a&gt;, which delivers two files: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hostfile&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubexec.sh&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;With all worker pods ready, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mpirun&lt;/code&gt; on launcher pod (granted with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pod/exec&lt;/code&gt; permission) uses &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubexec.sh&lt;/code&gt; to launch processes on worker pods&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Launching an Elastic Horovod job is not feasible as there exist several incompatibilities between Elastic Horovod and MPIJob Controller. We take controller-v1 as the example:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;No built-in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;discover_hosts.sh&lt;/code&gt; available on launcher pod&lt;/li&gt;
+  &lt;li&gt;After worker replica number is turned down, worker pods that are no longer wanted will not be deleted by the controller, leaving the size of the distributed training unchanged&lt;/li&gt;
+  &lt;li&gt;After worker replica number is turned up, the controller does not update rule in the &lt;a href=&quot;https://kubernetes.io/docs/reference/access-authn-authz/rbac/&quot;&gt;Role&lt;/a&gt; binded to the launcher pod, preventing the launcher pod from creating processes on newly created pods&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To address these compatibility issues, we pushed multiple pull requests regarding Horovod and MPI-Operator, including &lt;a href=&quot;https://github.com/kubeflow/mpi-operator/pull/335&quot;&gt;mpi-operator-pull-335&lt;/a&gt; and &lt;a href=&quot;https://github.com/horovod/horovod/pull/2199&quot;&gt;horovod-pull-2199&lt;/a&gt;. As providing an MPI-Operator-specific &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;discover_hosts.sh&lt;/code&gt; is most critical to the launcher pod for Elastic Horovod, we consider two scenarios for converting worker pods with a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Running&lt;/code&gt; phase into a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;discover_hosts.sh&lt;/code&gt; script.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;A &lt;strong&gt;dynamic&lt;/strong&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;discover_hosts.sh&lt;/code&gt; composed by MPIJob controller and synchronized to the launcher pod via ConfigMap
+    &lt;ul&gt;
+      &lt;li&gt;MPIJob controller has a podLister, which can be used to list worker pods readily&lt;/li&gt;
+      &lt;li&gt;the controller filters worker pods with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;status.phase == Running&lt;/code&gt; and encode the result into the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;discover_hosts.sh&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;the ConfigMap is updated when &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;discover_hosts.sh&lt;/code&gt; is modified and the change will be propagated to the launcher pod by Kubernetes&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;A &lt;strong&gt;static&lt;/strong&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;discover_hosts.sh&lt;/code&gt; using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubectl&lt;/code&gt; in the launcher pod to list all running worker pods from &lt;a href=&quot;https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/&quot;&gt;APIServer&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Scenario 2 changes the delivery image instead of the controller. However, as we cannot limit how frequently users will execute the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;discover_hosts.sh&lt;/code&gt; script, it poses a potential threat to the APIServer, especially when the count of worker pods is massive.&lt;/p&gt;
+
+&lt;p&gt;An fixture to scenario 2 is to replace the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubectl&lt;/code&gt; with a podLister process, removing extra stress from the APIServer. In this way, we install two processes in launcher pod but lack a proper mechanism to keep the podLister alive. Once the podLister dies, there leaves no elasticity for the training job.&lt;/p&gt;
+
+&lt;p&gt;Therefore we choose the first scenario and map the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;disocver_hosts.sh&lt;/code&gt; under &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/mpi/&lt;/code&gt;. We also fixed the other compatibility issues after the worker replica configuration changes. For users choose non-elastic mode, just simply ignore &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/mpi/discover_hosts.sh&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Concerns comes to scenario 1 as well. There is a delay between the ConfigMap and what &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;horovodrun&lt;/code&gt; sees from the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;discover_hosts.sh&lt;/code&gt; in the launcher pod. This delay, on one hand, can be tweaked by cluster admin and on the other hand, can be considered as tiny compared to the training elapsed time or the time for Elastic Horovod to handle worker changes.&lt;/p&gt;
+
+&lt;h2 id=&quot;demo&quot;&gt;Demo&lt;/h2&gt;
+
+&lt;p&gt;We present a demo to show how to operate an Elastic Horovod job with MPI Operator.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-5.0&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl create &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; ./tensorflow-mnist-elastic.yaml
+mpijob.kubeflow.org/tensorflow-mnist-elastic 
+createdbash-5.0&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl get po
+NAME    READY   STATUS    RESTARTS  AGE
+tensorflow-mnist-elastic-launcher   1/1     Running   0          14s
+tensorflow-mnist-elastic-worker-0   1/1     Running   0          14s
+tensorflow-mnist-elastic-worker-1   1/1     Running   0          14s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The job is created with two workers. After the training begins, we change &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MPIJob.Spec.MPIReplicaSpecs[&quot;Worker&quot;].Replicas&lt;/code&gt; to &lt;strong&gt;3&lt;/strong&gt;, adding another worker. Let’s check how the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;discover_hosts.sh&lt;/code&gt; changes:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-5.0&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;tensorflow-mnist-elastic-launcher &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; /etc/mpi/discover_hosts.sh
+tensorflow-mnist-elastic-worker-0:1
+tensorflow-mnist-elastic-worker-1:1
+bash-5.0&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; ./patch_r3.yaml
+spec:
+  mpiReplicaSpecs:
+    &lt;span class=&quot;s2&quot;&gt;&quot;Worker&quot;&lt;/span&gt;:
+      replicas: 3
+bash-5.0&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl patch mpijob tensorflow-mnist-elastic &lt;span class=&quot;nt&quot;&gt;--patch&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;patch_r3.yaml&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;merge
+mpijob.kubeflow.org/tensorflow-mnist-elastic patched
+bash-5.0&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;tensorflow-mnist-elastic-launcher &lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt; /etc/mpi/discover_hosts.sh
+tensorflow-mnist-elastic-worker-0:1
+tensorflow-mnist-elastic-worker-1:1
+tensorflow-mnist-elastic-worker-2:1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We reduce the replica count to 1, retrieving 2 worker instances.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bash-5.0&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; ./patch_r1.yaml
+spec:
+  mpiReplicaSpecs:
+    &lt;span class=&quot;s2&quot;&gt;&quot;Worker&quot;&lt;/span&gt;:
+      replicas: 1
+bash-5.0&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl patch mpijob tensorflow-mnist-elastic &lt;span class=&quot;nt&quot;&gt;--patch&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;patch_r1.yaml&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;merge
+mpijob.kubeflow.org/tensorflow-mnist-elastic patched
+bash-5.0&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;kubectl get po
+NAME               READY   STATUS        RESTARTS   AGE
+tensorflow-mnist-elastic-launcher   1/1     Running       0          4m48s
+tensorflow-mnist-elastic-worker-0   1/1     Running       0          4m48s
+tensorflow-mnist-elastic-worker-1   1/1     Terminating   0          4m48s
+tensorflow-mnist-elastic-worker-2   1/1     Terminating   0          2m21s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The elastic training persists.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Thu Mar 11 01:53:18 2021[1]&amp;lt;stdout&amp;gt;:Step &lt;span class=&quot;c&quot;&gt;#40    Loss: 0.284265&lt;/span&gt;
+Thu Mar 11 01:53:18 2021[0]&amp;lt;stdout&amp;gt;:Step &lt;span class=&quot;c&quot;&gt;#40    Loss: 0.259497&lt;/span&gt;
+Thu Mar 11 01:53:18 2021[2]&amp;lt;stdout&amp;gt;:Step &lt;span class=&quot;c&quot;&gt;#40    Loss: 0.229993&lt;/span&gt;
+Thu Mar 11 01:54:27 2021[2]&amp;lt;stderr&amp;gt;:command terminated with &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;code 137
+Process 2 &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;with status code 137.
+Thu Mar 11 01:54:27 2021[0]&amp;lt;stderr&amp;gt;:command terminated with &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;code 137
+Process 0 &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;with status code 137.
+Thu Mar 11 01:54:57 2021[1]&amp;lt;stderr&amp;gt;:[2021-03-11 01:54:57.532928: E /tmp/pip-install-2jy0u7mn/horovod/horovod/common/operations.cc:525] Horovod background loop uncaught exception: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;/tmp/pip-install-2jy0u7mn/horovod/third_party/compatible_gloo/gloo/transport/tcp/pair.cc:575] Connection closed by peer &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;10.244.2.27]:54432
+WARNING:root:blacklist failing host: tensorflow-mnist-elastic-worker-2
+WARNING:root:blacklist failing host: tensorflow-mnist-elastic-worker-1
+Thu Mar 11 01:54:58 2021[1]&amp;lt;stdout&amp;gt;:Step &lt;span class=&quot;c&quot;&gt;#50    Loss: 0.207741&lt;/span&gt;
+Thu Mar 11 01:55:00 2021[1]&amp;lt;stdout&amp;gt;:Step &lt;span class=&quot;c&quot;&gt;#60    Loss: 0.119361&lt;/span&gt;
+Thu Mar 11 01:55:02 2021[1]&amp;lt;stdout&amp;gt;:Step &lt;span class=&quot;c&quot;&gt;#70    Loss: 0.131966&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;As we can see, Elastic Horovod on MPI-Operator now supports tweaking worker replicas dynamically. As a future work, we aim to support  &lt;a href=&quot;https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Horizontal Pod Autoscaler&lt;/code&gt;&lt;/a&gt; to MPIJob as well as other features like designated worker deletion.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;When the concept of cloud native and distributed training fuse to elastic training on Kubernetes, it lowers the cost and gives robustness and flexibility. As a team, we are working with PyTorch, Horovod and other communities to propel elastic training. We wish to further introduce our work on elasticity with PS/Worker training mode, optimization for resource and job priority and other topics on cloud native AI.&lt;/p&gt;</content><author><name>&lt;a href='https://www.linkedin.com/in/gaocegege/'&gt;Ce Gao&lt;/a&gt;, &lt;a href='https://www.linkedin.com/in/wang-zhang'&gt;Wang Zhang&lt;/a&gt;</name></author><category term="elastic training" /><category term="operators" /><summary type="html">With increase in the size of dataset and deep learning models, distributed training emerges as the mainstream approach for training neural network models in industry. While it is feasible now to launch a massive distributed training job on Kubernetes with Kubeflow, advanced features like elastic workload and other cost mitigation approaches remain leashed when we talk about deep learning jobs on Kubernetes.</summary></entry><entry><title type="html">Kubeflow Katib: Scalable, Portable and Cloud Native System for AutoML</title><link href="https://blog.kubeflow.org/katib/" rel="alternate" type="text/html" title="Kubeflow Katib: Scalable, Portable and Cloud Native System for AutoML" /><published>2021-03-10T00:00:00-06:00</published><updated>2021-03-10T00:00:00-06:00</updated><id>https://blog.kubeflow.org/katib-0.10</id><content type="html" xml:base="https://blog.kubeflow.org/katib/">&lt;p&gt;As machine learning (ML) architectures are increasing in complexity, it is
 becoming important to find the optimal hyperparameters and architecture for
 ML models. &lt;a href=&quot;https://en.wikipedia.org/wiki/Automated_machine_learning&quot;&gt;Automated machine learning (AutoML)&lt;/a&gt;
 has become a crucial step in the ML lifecycle.
@@ -2079,232 +2250,4 @@ update our pipeline definitions.&lt;/p&gt;
 
 &lt;p&gt;We could not have achieved our milestones without an incredibly active community. Check out our &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;community page&lt;/a&gt; to learn more about how to join the Kubeflow community!&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;Originally published at &lt;a href=&quot;https://terrytangyuan.github.io/2020/03/17/introduction-to-kubeflow-mpi-operator-and-industry-adoption/&quot;&gt;https://terrytangyuan.github.io&lt;/a&gt; on March 17, 2020.&lt;/em&gt;&lt;/p&gt;</content><author><name>&lt;a href='https://twitter.com/TerryTangYuan'&gt;Yuan Tang&lt;/a&gt; (Ant Group), &lt;a href='https://www.linkedin.com/in/wei-yan-a6037337'&gt;Wei Yan&lt;/a&gt; (Ant Group), and &lt;a href='https://www.linkedin.com/in/rongou'&gt;Rong Ou&lt;/a&gt; (NVIDIA)</name></author><category term="integrations" /><category term="operators" /><summary type="html">Kubeflow just announced its first major 1.0 release recently, which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce MPI Operator (docs), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes.</summary></entry><entry><title type="html">Kubeflow 1.0 - Cloud Native ML for Everyone</title><link href="https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html" rel="alternate" type="text/html" title="Kubeflow 1.0 - Cloud Native ML for Everyone" /><published>2020-03-02T00:00:00-06:00</published><updated>2020-03-02T00:00:00-06:00</updated><id>https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone</id><content type="html" xml:base="https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html">&lt;h1 id=&quot;kubeflow-10-cloud-native-ml-for-everyone&quot;&gt;Kubeflow 1.0: Cloud Native ML for Everyone&lt;/h1&gt;
-
-&lt;p&gt;On behalf of the entire community, we are proud to announce Kubeflow 1.0, our first major release. Kubeflow was open sourced at Kubecon USA in December 2017, and during the last two years the Kubeflow Project has grown beyond our wildest expectations. There are now hundreds of contributors from over 30 &lt;a href=&quot;https://github.com/kubeflow/community/blob/master/member_organizations.yaml&quot;&gt;participating organizations&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Kubeflow’s goal is to make it easy for machine learning (ML) engineers and data scientists to leverage cloud assets (public or on-premise) for ML workloads. You can use Kubeflow on any Kubernetes-conformant cluster.&lt;/p&gt;
-
-&lt;p&gt;With 1.0, we are graduating a core set of stable applications needed to develop, build, train, and deploy models on Kubernetes efficiently. (Read more in Kubeflow’s &lt;a href=&quot;https://www.kubeflow.org/docs/reference/version-policy/&quot;&gt;versioning policies&lt;/a&gt; and &lt;a href=&quot;https://github.com/kubeflow/community/blob/master/guidelines/application_requirements.md&quot;&gt;application requirements&lt;/a&gt; for graduation.)&lt;/p&gt;
-
-&lt;p&gt;Graduating applications include:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Kubeflow’s UI, the &lt;a href=&quot;https://www.kubeflow.org/docs/components/central-dash/overview/&quot;&gt;central dashboard&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://github.com/kubeflow/kubeflow/tree/master/components/notebook-controller&quot;&gt;Jupyter notebook controller&lt;/a&gt; and &lt;a href=&quot;https://www.kubeflow.org/docs/notebooks/why-use-jupyter-notebook/&quot;&gt;web app&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://www.kubeflow.org/docs/components/training/tftraining/&quot;&gt;Tensorflow Operator&lt;/a&gt; (TFJob) and &lt;a href=&quot;https://www.kubeflow.org/docs/components/training/pytorch/&quot;&gt;PyTorch Operator&lt;/a&gt; for distributed training&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://www.kubeflow.org/docs/other-guides/kustomize/&quot;&gt;kfctl&lt;/a&gt; for deployment and upgrades&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://github.com/kubeflow/kubeflow/tree/master/components/profile-controller&quot;&gt;Profile controller&lt;/a&gt; and UI for multiuser management&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;em&gt;Hear more about Kubeflow’s mission and 1.0 release in &lt;a href=&quot;http://kubernetespodcast.com/episode/093-kubeflow-1.0/&quot;&gt;this&lt;/a&gt; interview with Kubeflow founder and core contributor Jeremy Lewi on the Kubernetes Podcast.&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;develop-build-train-and-deploy-with-kubeflow&quot;&gt;Develop, Build, Train, and Deploy with Kubeflow&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/3200/0*tBPpU3UqM_MeJ0-P&quot; alt=&quot;Kubeflow’s 1.0 applications that make up our develop, build, train, deploy critical user journey.&quot; /&gt;&lt;em&gt;Kubeflow’s 1.0 applications that make up our develop, build, train, deploy critical user journey.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;With Kubeflow 1.0, users can use Jupyter to develop models. They can then use Kubeflow tools like &lt;a href=&quot;https://www.kubeflow.org/docs/fairing/&quot;&gt;fairing&lt;/a&gt; (Kubeflow’s python SDK) to build containers and create Kubernetes resources to train their models. Once they have a model, they can use &lt;a href=&quot;https://github.com/kubeflow/kfserving&quot;&gt;KFServing&lt;/a&gt; to create and deploy a server for inference.&lt;/p&gt;
-
-&lt;h3 id=&quot;getting-started-with-ml-on-kubernetes&quot;&gt;Getting Started with ML on Kubernetes&lt;/h3&gt;
-
-&lt;p&gt;Kubernetes is an amazing platform for leveraging infrastructure (whether on public cloud or on-premises), but deploying Kubernetes optimized for ML and integrated with your cloud is no easy task. With 1.0 we are providing a CLI and configuration files so you can deploy Kubeflow with one command:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kfctl apply -f [kfctl_gcp_iap.v1.0.0.yaml](https://github.com/kubeflow/manifests/blob/master/kfdef/kfctl_gcp_iap.yaml)
-
-kfctl apply -f [kfctl_k8s_istio.v1.0.0.yaml](https://github.com/kubeflow/manifests/blob/master/kfdef/kfctl_gcp_iap.yaml)
-
-kfctl apply -f [kfctl_aws_cognito.v1.0.0.yaml](https://github.com/kubeflow/manifests/blob/master/kfdef/kfctl_gcp_iap.yaml)
-
-kfctl apply -f [kfctl_ibm.v1.0.0.yaml](https://github.com/kubeflow/manifests/blob/master/kfdef/kfctl_gcp_iap.yaml)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;jupyter-on-kubernetes&quot;&gt;Jupyter on Kubernetes&lt;/h3&gt;
-
-&lt;p&gt;In Kubeflow’s &lt;a href=&quot;https://medium.com/kubeflow/kubeflow-community-user-survey-fall-2019-a84776c71743&quot;&gt;user surveys&lt;/a&gt;, data scientists have consistently expressed the importance of Jupyter notebooks. Further, they need the ability to integrate isolated Jupyter notebooks with the efficiencies of Kubernetes on Cloud to train larger models using GPUs and run multiple experiments in parallel. Kubeflow makes it easy to leverage Kubernetes for resource management and put the full power of your datacenter at the fingertips of your data scientist.&lt;/p&gt;
-
-&lt;p&gt;With Kubeflow, each data scientist or team can be given their own namespace in which to run their workloads. Namespaces provide security and resource isolation. Using &lt;a href=&quot;https://kubernetes.io/docs/concepts/policy/resource-quotas/#compute-resource-quota&quot;&gt;Kubernetes resource quotas&lt;/a&gt;, platform administrators can easily limit how much resources an individual or team can consume to ensure fair scheduling.&lt;/p&gt;
-
-&lt;p&gt;After deploying Kubeflow, users can leverage Kubeflow’s central dashboard for launching notebooks:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/2000/0*a0fExGwBs6pbAUDC&quot; alt=&quot;Kubeflow’s UI for managing notebooks: view and connect to existing notebooks or launch a new one.&quot; /&gt;&lt;em&gt;Kubeflow’s UI for managing notebooks: view and connect to existing notebooks or launch a new one.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In the Kubeflow UI users can easily launch new notebooks by choosing one of the pre-built docker images for Jupyter or entering the URL of a custom image. Next, users can set how many CPUs and GPUs to attach to their notebook. Notebooks can also include configuration and secrets parameters which simplify access to external repositories and databases.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/2000/0*U4dUF2N-w5LBxaJk&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;training-faster-with-distributed-training&quot;&gt;Training faster with distributed training&lt;/h3&gt;
-
-&lt;p&gt;Distributed training is the norm at Google (&lt;a href=&quot;https://ai.googleblog.com/2016/04/announcing-tensorflow-08-now-with.html&quot;&gt;blog&lt;/a&gt;), and one of the most exciting and requested features for deep learning frameworks like TensorFlow and PyTorch.&lt;/p&gt;
-
-&lt;p&gt;When we started Kubeflow, one of our key motivations was to leverage Kubernetes to simplify distributed training. Kubeflow provides Kubernetes custom resources that make distributed training with TensorFlow and PyTorch simple. All a user needs to do is define a TFJob or PyTorch resource like the one illustrated below. The custom controller takes care of spinning up and managing all of the individual processes and configuring them to talk to one another:&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kubeflow.org/v1&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;TFJob&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;mnist-train&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;tfReplicaSpecs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;Chief&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;replicas&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;containers&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gcr.io/alice-dev/fairing-job/mnist&lt;/span&gt;
-            &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tensorflow&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;Ps&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;replicas&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;containers&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gcr.io/alice-dev/fairing-job/mnist&lt;/span&gt;
-            &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tensorflow&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;Worker&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;replicas&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;10&lt;/span&gt;      
-        &lt;span class=&quot;s&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;containers&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gcr.io/alice-dev/fairing-job/mnist&lt;/span&gt;
-            &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tensorflow&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;monitoring-model-training-with-tensorboard&quot;&gt;Monitoring Model Training With TensorBoard&lt;/h3&gt;
-
-&lt;p&gt;To train high quality models, data scientists need to debug and monitor the training process with tools like &lt;a href=&quot;https://www.tensorflow.org/tensorboard&quot;&gt;Tensorboard&lt;/a&gt;. With Kubernetes and Kubeflow, userscan easily deploy TensorBoard on their Kubernetes cluster by creating YAML files like the ones below. When deploying TensorBoard on Kubeflow, users can take advantage of Kubeflow’s AuthN and AuthZ integration to securely access TensorBoard behind Kubeflow’s ingress on public clouds:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;// On GCP: [https://${KFNAME}.endpoints.${PROJECT}.cloud.goog/mnist/kubeflow-mnist/tensorboard/](https://${KFNAME}.endpoints.${PROJECT}.cloud.goog/mnist/kubeflow-mnist/tensorboard/)
-
-// On AWS:
-[http://8fb34ebe-istiosystem-istio-2af2-925939634.us-west-2.elb.amazonaws.com/mnist/anonymous/tensorboard/](http://8fb34ebe-istiosystem-istio-2af2-925939634.us-west-2.elb.amazonaws.com/mnist/anonymous/tensorboard/)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;No need to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubectl port-forward&lt;/code&gt; to individual pods.&lt;/p&gt;
-
-&lt;h2 id=&quot;deploying-models&quot;&gt;Deploying Models&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.kubeflow.org/docs/components/serving/kfserving/&quot;&gt;KFServing&lt;/a&gt; is a custom resource built on top of &lt;a href=&quot;https://knative.dev/&quot;&gt;Knative&lt;/a&gt; for deploying and managing ML models. KFServing offers the following capabilities not provided by lower level primitives (e.g. Deployment):&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Deploy your model using out-of-the-box model servers (no need to write your own flask app)&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Auto-scaling based on load, even for models served on GPUs&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Safe, controlled model rollout&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Explainability (alpha)&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Payload logging (alpha)&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Below is an example of a KFServing spec showing how a model can be deployed. All a user has to do is provide the URI of their model file using storageUri:&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;serving.kubeflow.org/v1alpha2&quot;&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;InferenceService&quot;&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;sklearn-iris&quot;&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;predictor&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;sklearn&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;storageUri&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;gs://kfserving-samples/models/sklearn/iris&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Check out the &lt;a href=&quot;https://github.com/kubeflow/kfserving/tree/master/docs/samples&quot;&gt;samples &lt;/a&gt;to learn how to use the above capabilities.&lt;/p&gt;
-
-&lt;h2 id=&quot;solutions-are-more-than-models&quot;&gt;Solutions are More Than Models&lt;/h2&gt;
-
-&lt;p&gt;A model gathering dust in object storage isn’t doing your organization any good. To put ML to work, you typically need to incorporate that model into an application – whether it’s a web application, mobile app, or part of some backend reporting pipeline.&lt;/p&gt;
-
-&lt;p&gt;Frameworks like flask and bootstrap make it easy for data scientists to create rich, visually appealing web applications that put their models to work. Below is a screenshot of the UI we built for Kubeflow’s &lt;a href=&quot;https://github.com/kubeflow/examples/tree/master/mnist&quot;&gt;mnist example&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;With Kubeflow, there is no need for data scientists to learn new concepts or platforms to deploy their applications, or to deal with ingress, networking certificates, etc. They can deploy their application just like TensorBoard; the only thing that changes is the Docker image and flags.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/2000/0*l3uPs-HtSF2TH3t0&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;If this sounds like just what you are looking for we recommend:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Visiting our &lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;docs&lt;/a&gt; to learn how to deploy Kubeflow on your public or private cloud.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Walking through the &lt;a href=&quot;https://github.com/kubeflow/examples/tree/master/mnist&quot;&gt;mnist tutorial &lt;/a&gt;to try our core applications yourself.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;whats-coming-in-kubeflow&quot;&gt;What’s coming in Kubeflow&lt;/h2&gt;
-
-&lt;p&gt;There’s much more to Kubeflow than what we’ve covered in this blog post. In addition to the applications listed here, we have a number of applications under development:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://www.kubeflow.org/docs/pipelines/overview/pipelines-overview/&quot;&gt;Pipelines&lt;/a&gt; (beta) for defining complex ML workflows&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://www.kubeflow.org/docs/components/metadata/&quot;&gt;Metadata&lt;/a&gt; (beta) for tracking datasets, jobs, and models,&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://www.kubeflow.org/docs/components/hyperparameter-tuning/hyperparameter/&quot;&gt;Katib&lt;/a&gt; (beta) for hyper-parameter tuning&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Distributed operators for other frameworks like &lt;a href=&quot;https://github.com/kubeflow/xgboost-operator&quot;&gt;xgboost&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;In future releases we will be graduating these applications to 1.0.&lt;/p&gt;
-
-&lt;h2 id=&quot;user-testimonials&quot;&gt;User testimonials&lt;/h2&gt;
-
-&lt;p&gt;All this would be nothing without feedback from and collaboration with our users. Some feedback from people using Kubeflow in production include:&lt;/p&gt;
-
-&lt;p&gt;*“The Kubeflow 1.0 release is a significant milestone as it positions Kubeflow to be a viable ML Enterprise platform. Kubeflow 1.0 delivers material productivity enhancements for ML researchers.” — *Jeff Fogarty, AVP ML / Cloud Engineer, &lt;strong&gt;US Bank&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;*“Kubeflow’s data and model storage allows for smooth integration into CI/CD processes, allowing for a much faster and more agile delivery of machine learning models into applications.” — *Laura Schornack&lt;strong&gt;, **Shared Services Architect,&lt;/strong&gt; Chase Commercial Bank**&lt;/p&gt;
-
-&lt;p&gt;*“With the launch of Kubeflow 1.0 we now have a feature complete end-to-end open source machine learning platform, allowing everyone from small teams to large unicorns like Gojek to run ML at scale.” — *Willem Pienaar, Engineering Lead, Data Science Platform, &lt;strong&gt;GoJek&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;*“Kubeflow provides a seamless interface to a great set of tools that together manages the complexity of ML workflows and encourages best practices. The Data Science and Machine Learning teams at Volvo Cars are able to iterate and deliver reproducible, production grade services with ease.”— *Leonard Aukea, &lt;strong&gt;Volvo Cars&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;“With Kubeflow at the heart of our ML platform, our small company has been able to stack models in production to improve CR, find new customers, and present the right product to the right customer at the right time.”&lt;/em&gt; *— *Senior Director, &lt;strong&gt;One Technologies&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;“Kubeflow is helping GroupBy in standardizing ML workflows and simplifying very complicated deployments!”&lt;/em&gt; *— *Mohamed Elsaied, Machine Learning Team Lead, &lt;strong&gt;GroupBy&lt;/strong&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;thank-you&quot;&gt;Thank You!&lt;/h2&gt;
-
-&lt;p&gt;None of this would have been possible without the tens of organizations and hundreds of individuals that have been developing, testing, and evangelizing Kubeflow.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/2000/0*KJc62AjAF91qNTyS&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;an-open-community&quot;&gt;&lt;strong&gt;An Open Community&lt;/strong&gt;&lt;/h2&gt;
-
-&lt;p&gt;We could not have achieved our milestone without an incredibly active community. Please come aboard!&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Join the &lt;a href=&quot;https://kubeflow.slack.com/join/shared_invite/enQtNDg5MTM4NTQyNjczLTdkNTVhMjg1ZTExOWI0N2QyYTQ2MTIzNTJjMWRiOTFjOGRlZWEzODc1NzMwNTMwM2EzNjY1MTFhODczNjk4MTk&quot;&gt;Kubeflow Slack channel&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Join the &lt;a href=&quot;https://groups.google.com/forum/#!forum/kubeflow-discuss&quot;&gt;kubeflow-discuss&lt;/a&gt; mailing list&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Attend a &lt;a href=&quot;https://github.com/kubeflow/community&quot;&gt;weekly community meeting&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;If you have questions, run into issues, please leverage the Slack channel and/or submit bugs via Kubeflow on GitHub.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Thank you all so much — onward!&lt;/p&gt;</content><author><name>Thea Lamkin (Google), Jeremy Lewi (Google), Josh Bottum (Arrikto), Elvira Dzhuraeva (Cisco), David Aronchick (Microsoft), Amy Unruh (Google), Animesh Singh (IBM), and Ellis Bigelow (Google).</name></author><category term="releases" /><summary type="html">Kubeflow 1.0: Cloud Native ML for Everyone</summary></entry></feed>
+&lt;p&gt;&lt;em&gt;Originally published at &lt;a href=&quot;https://terrytangyuan.github.io/2020/03/17/introduction-to-kubeflow-mpi-operator-and-industry-adoption/&quot;&gt;https://terrytangyuan.github.io&lt;/a&gt; on March 17, 2020.&lt;/em&gt;&lt;/p&gt;</content><author><name>&lt;a href='https://twitter.com/TerryTangYuan'&gt;Yuan Tang&lt;/a&gt; (Ant Group), &lt;a href='https://www.linkedin.com/in/wei-yan-a6037337'&gt;Wei Yan&lt;/a&gt; (Ant Group), and &lt;a href='https://www.linkedin.com/in/rongou'&gt;Rong Ou&lt;/a&gt; (NVIDIA)</name></author><category term="integrations" /><category term="operators" /><summary type="html">Kubeflow just announced its first major 1.0 release recently, which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce MPI Operator (docs), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes.</summary></entry></feed>

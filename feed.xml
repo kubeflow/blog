@@ -1,4 +1,166 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2021-04-02T17:26:33-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow Continues to Move into Production</title><link href="https://blog.kubeflow.org/kubeflow-continues-to-move-to-production" rel="alternate" type="text/html" title="Kubeflow Continues to Move into Production" /><published>2021-03-19T00:00:00-05:00</published><updated>2021-03-19T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-continues-to-move-to-production</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-continues-to-move-to-production">&lt;p&gt;Kubeflow Users are maturing and the community is growing, forty eight percent of users are supporting deployments in production.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2021-04-22T20:50:52-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">The Kubeflow 1.3 software release streamlines ML workflows and simplifies ML platform operations</title><link href="https://blog.kubeflow.org/kubeflow-1.3-release/" rel="alternate" type="text/html" title="The Kubeflow 1.3 software release streamlines ML workflows and simplifies ML platform operations" /><published>2021-04-23T00:00:00-05:00</published><updated>2021-04-23T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.3-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.3-release/">&lt;p&gt;The Kubeflow 1.3 release delivers simplified ML workflows and additional Kubernetes integrated features to optimize operational and infrastructure efficiencies. 
+In addition to new User Interfaces (UIs), which improve ML workflows for pipeline building, model tuning, serving and monitoring, 1.3 also enables “headless” GitOps-inspired installation patterns.
+The latest version of Kubeflow provides users with a mature foundation and delivers a modern ML platform with best-in-class Key Performance Indicators (KPIs).&lt;/p&gt;
+
+&lt;p&gt;The Kubeflow user community is growing quickly, which was demonstrated in our recent survey results.  When compared to &lt;a href=&quot;https://www.youtube.com/watch?v=4228OEenuGc&quot;&gt;last year’s survey&lt;/a&gt;, the &lt;a href=&quot;https://blog.kubeflow.org/kubeflow-continues-to-move-to-production&quot;&gt;2021 Survey&lt;/a&gt; showed a 50% increase in responses and a whopping 300% increase in users supporting production deployments.   As shown below, the user survey responses, especially from ML engineers, architects and data scientists, have identified where the Kubeflow contributors should focus their efforts.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://blog.kubeflow.org/kubeflow-continues-to-move-to-production#using-kubeflow-goes-beyond-just-training&quot;&gt;Kubeflow User Survey Results&lt;/a&gt; - March 2021&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2021-04-23-kubeflow-1.3/image1.png&quot; alt=&quot;survey_results&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;streamlined-ml-workflows-delivered-via-new-uis&quot;&gt;Streamlined ML workflows delivered via new UIs&lt;/h2&gt;
+
+&lt;p&gt;Data scientists will like the new and updated user interfaces (UIs) for Katib, TensorBoard, Persistent Volumes, Pipelines and Kale. These new UIs address many of the ML tasks that are time consuming and technically challenging. The UIs reduce the need for a data scientist to learn kfctl or docker CLI commands.&lt;/p&gt;
+
+&lt;p&gt;Below please find details on the UIs’ benefits for ML workflows:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Katib (&lt;a href=&quot;https://www.youtube.com/watch?v=VDINH5WkBhA&quot;&gt;Video Tour&lt;/a&gt;)
+    &lt;ul&gt;
+      &lt;li&gt;The Katib UI is integrated with the central dashboard and streamlines hyperparameter tuning by presenting a visualization graph and a table that compares each trial’s performance along with its hyperparameters. You can also review the details of each trial’s algorithm, metrics collector and yaml. (Project &lt;a href=&quot;https://github.com/kubeflow/katib/projects/1&quot;&gt;1&lt;/a&gt;)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;TensorBoard (&lt;a href=&quot;https://www.youtube.com/watch?v=eMDF2Bk8YRY&quot;&gt;Video tour&lt;/a&gt;)
+    &lt;ul&gt;
+      &lt;li&gt;The TensorBoard UI streamlines the TensorBoard configuration tasks, especially for logging of training jobs which are running in Notebooks or Pipelines. It simplifies accessibility to metrics, which helps you to improve model accuracy , identify performance bottlenecks, and reduce unproductive training jobs.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Volume Manager (&lt;a href=&quot;https://www.youtube.com/watch?v=jU2DtSWahdA&quot;&gt;Video tour&lt;/a&gt;)
+    &lt;ul&gt;
+      &lt;li&gt;The Volume Manager enables you to manage your data and persistent volumes. For the volumes in your namespace, it streamlines the creation and deletion of volumes, which then can be easily attached to your notebooks. PR &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/5684&quot;&gt;5684&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Kale (&lt;a href=&quot;https://www.youtube.com/watch?v=ANBkUySirGg&quot;&gt;Video tour&lt;/a&gt;)
+    &lt;ul&gt;
+      &lt;li&gt;The updated Kale UI, a JupyterLab extension, simplifies your hyperparameter tuning trial set-up. The UI walks you through these steps: enter your hyperparameters as a list or a range, pick your search algorithm (Grid, Random, Bayesian) and the parameter to be optimized i.e. minimize loss. Then with a click of a button, your Katib trials are set-up, snapshotted, tracked, and run.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Kubeflow Pipelines (KFP)
+    &lt;ul&gt;
+      &lt;li&gt;The KFP UI has been reorganized for a more unified experience (PR &lt;a href=&quot;https://github.com/kubeflow/pipelines/pull/4925&quot;&gt;4925&lt;/a&gt;), and includes the ability to manage recurring runs via new “JobsList” and “AllJobslist” pages (PR &lt;a href=&quot;https://github.com/kubeflow/pipelines/pull/5131&quot;&gt;5131&lt;/a&gt;) and simplified view of dependency graphs.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Beyond the UIs, data scientists can also tie Notebooks with Serving more closely than ever before. In addition to the aforementioned integration with TensorBoard, Kubeflow Notebooks also now support first class deployments with TensorFlow 2.0, PyTorch, VS Code and RStudio.&lt;/p&gt;
+
+&lt;p&gt;KFServing enhancements include simplified canary rollouts with traffic splitting at the Knative revisions level. It also delivers extended ML framework support for:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;TorchServe predict and PyTorch Captum Explain&lt;/li&gt;
+  &lt;li&gt;PMMLServer, PR &lt;a href=&quot;https://github.com/kubeflow/kfserving/pull/1141&quot;&gt;1141&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;LightGBM&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;infrastructure-and-operational-efficiencies&quot;&gt;Infrastructure and operational efficiencies&lt;/h2&gt;
+
+&lt;p&gt;ML engineers will like 1.3’s delivery of operational and infrastructure efficiencies, which are coupled with streamlined installation patterns and upgraded Istio version support. The following chart provides a summary of the top production features in 1.3.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tr&gt;
+   &lt;td&gt;&lt;strong&gt;Feature&lt;/strong&gt;
+   &lt;/td&gt;
+   &lt;td&gt;&lt;strong&gt;Benefits&lt;/strong&gt;
+   &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td&gt;&lt;a href=&quot;https://github.com/yuzliu/kfserving/blob/master/docs/MULTIMODELSERVING_GUIDE.md&quot;&gt;Multi-model serving&lt;/a&gt; (Alpha)
+   &lt;/td&gt;
+   &lt;td&gt;More models on same infra and workaround cluster limits        i.e. # of pods &amp;amp; ip addresses
+   &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td&gt;Pod affinity
+   &lt;/td&gt;
+   &lt;td&gt;Avoid unnecessary usage on GPU or large CPU nodes
+   &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td&gt;gRPC support 
+   &lt;/td&gt;
+   &lt;td&gt;Fewer messages, less bandwidth for KFServing workloads
+   &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td&gt;Katib trial templates
+   &lt;/td&gt;
+   &lt;td&gt;Simplifies hyperparameter tuning set-up for custom model types
+   &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td&gt;Katib early stopping
+   &lt;/td&gt;
+   &lt;td&gt;Stops hyperparameter tuning trials that are unproductive 
+   &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td&gt;Pipelines step caching
+   &lt;/td&gt;
+   &lt;td&gt;Re-use results from previously run steps
+   &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td&gt;Multi-user pipelines
+   &lt;/td&gt;
+   &lt;td&gt;User and resource isolation for non-GCP environments.
+   &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td&gt;Manifests refactoring
+   &lt;/td&gt;
+   &lt;td&gt;Simplifies Kubeflow installation and upgrades
+   &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td&gt;Istio upgradability
+   &lt;/td&gt;
+   &lt;td&gt;Improved security, day 2 operations, compatibility and support
+   &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;We are pleased to announce that the user documentation on Kubeflow.org has also been updated (PR &lt;a href=&quot;https://github.com/kubeflow/website/issues/2546&quot;&gt;2546&lt;/a&gt;). Additional detailed documentation, especially on the valuable working group deliveries, can be found here:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Kubeflow Pipeline 1.3 Project (PR &lt;a href=&quot;https://github.com/kubeflow/pipelines/projects/12&quot;&gt;12&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.kubeflow.org/docs/components/pipelines/sdk/pipelines-with-tekton/&quot;&gt;Kubeflow Pipelines SDK with Tekton&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://blog.kubeflow.org/release/official/2021/03/08/kfserving-0.5.html&quot;&gt;Operationalize, scale and infuse trust in AI models using KFServing&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://blog.kubeflow.org/katib/&quot;&gt;Kubeflow Katib: Scalable, portable and cloud native system for AutoML&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;simplified-installation-and-improved-documentation&quot;&gt;Simplified installation and improved documentation&lt;/h2&gt;
+
+&lt;p&gt;ML Engineers, who are installing Kubeflow, have a clear path to installation success as Kubeflow 1.3 includes new manifests and upgraded Istio support. For more information on installation patterns for each distribution, please visit the &lt;a href=&quot;https://www.kubeflow.org/docs/started/installing-kubeflow/&quot;&gt;Getting Started&lt;/a&gt; page on Kubeflow.org. If you are supporting a distribution or just interested in low-level details, please review the Kubeflow 1.3 Manifest &lt;a href=&quot;https://github.com/kubeflow/manifests/tree/v1.3.0-rc.0#readme&quot;&gt;readme&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;kubeflow-13-tutorials&quot;&gt;Kubeflow 1.3 tutorials&lt;/h2&gt;
+
+&lt;p&gt;Kubeflow 1.3 new features are easy to try on these tutorials:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Open Vaccine &lt;a href=&quot;https://arrik.to/democ2p&quot;&gt;Tutorial&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Use the new UIs to build an ML Pipeline, tune your model, and then deploy and monitor it. This tensorflow-based example was modified from a Kaggle tutorial for building a Covid 19 vaccine from bases in an mRNA molecule. The tutorial is easy to run on AWS and GCP in about 1 hour.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Model Risk Management &lt;a href=&quot;https://www.fairly.ai/tutorial-kubeflow&quot;&gt;Tutorial&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;This model produces a SR11-7 compliance report for financial institutions who are regulated by the Federal Reserve. The example provides reporting on bias in a home mortgage lending model. The tutorial is easy to run on AWS and GCP in about 1 hour.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;join-the-community&quot;&gt;Join the community&lt;/h2&gt;
+
+&lt;p&gt;We would like to thank everyone for their efforts on Kubeflow 1.3, especially the code contributors and working group leads. As you can see from the extensive contributions to Kubeflow 1.3, the Kubeflow Community is vibrant and diverse, and solving real world problems for organizations around the world.&lt;/p&gt;
+
+&lt;p&gt;Want to help? The Kubeflow Community &lt;a href=&quot;https://github.com/kubeflow/community/blob/master/wg-list.md&quot;&gt;Working Groups&lt;/a&gt; hold open meetings, public lists, and are always looking for more volunteers and users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below, we look forward to working with you!&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Visit our&lt;a href=&quot;https://www.kubeflow.org/&quot;&gt; Kubeflow website&lt;/a&gt; or&lt;a href=&quot;https://github.com/kubeflow&quot;&gt; Kubeflow GitHub Page&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Join the&lt;a href=&quot;https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg&quot;&gt; Kubeflow Slack channel&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Join the&lt;a href=&quot;https://groups.google.com/forum/#!forum/kubeflow-discuss&quot;&gt; kubeflow-discuss&lt;/a&gt; mailing list&lt;/li&gt;
+  &lt;li&gt;Attend a&lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt; weekly community meeting&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Josh Bottum, Thea Lamkin, David Aronchick</name></author><category term="release" /><summary type="html">The Kubeflow 1.3 release delivers simplified ML workflows and additional Kubernetes integrated features to optimize operational and infrastructure efficiencies. In addition to new User Interfaces (UIs), which improve ML workflows for pipeline building, model tuning, serving and monitoring, 1.3 also enables “headless” GitOps-inspired installation patterns. The latest version of Kubeflow provides users with a mature foundation and delivers a modern ML platform with best-in-class Key Performance Indicators (KPIs).</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Kubeflow Continues to Move into Production</title><link href="https://blog.kubeflow.org/kubeflow-continues-to-move-to-production" rel="alternate" type="text/html" title="Kubeflow Continues to Move into Production" /><published>2021-03-19T00:00:00-05:00</published><updated>2021-03-19T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-continues-to-move-to-production</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-continues-to-move-to-production">&lt;p&gt;Kubeflow Users are maturing and the community is growing, forty eight percent of users are supporting deployments in production.&lt;/p&gt;
 
 &lt;p&gt;The Spring 2021 &lt;a href=&quot;http://kubeflow.org/&quot;&gt;Kubeflow&lt;/a&gt; Community User Survey collected input from Kubeflow users on the benefits, gaps and requirements for machine learning use cases. It is the largest survey to date with 179 responses—a 50% increase from the &lt;a href=&quot;https://medium.com/kubeflow/kubeflow-community-user-survey-fall-2019-a84776c71743&quot;&gt;Kubeflow 1.0 Community User Survey&lt;/a&gt; a year ago. The Survey respondents span a spectrum of skill sets. While 42% are machine learning (ML) engineers, and 24% are ML architects, the titles of the respondents vary from DevOps Engineers to data scientists and product managers.&lt;/p&gt;
 
@@ -2037,217 +2199,4 @@ update our pipeline definitions.&lt;/p&gt;
 
 &lt;p&gt;We are excited to have the ML community try out this new version of Kale and the coming MiniKF update.&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;A special mention must go to the various members of the Arrikto team (Ilias Katsakioris, Chris Pavlou, Kostis Lolos, Tasos Alexiou) who contributed to delivering all these new features.&lt;/em&gt;&lt;/p&gt;</content><author><name>Stefano Fioravanzo</name></author><category term="integrations" /><summary type="html">Running pipelines at scale has never been easier.</summary></entry><entry><title type="html">Introduction to Kubeflow MPI Operator and Industry Adoption</title><link href="https://blog.kubeflow.org/integrations/operators/2020/03/16/mpi-operator.html" rel="alternate" type="text/html" title="Introduction to Kubeflow MPI Operator and Industry Adoption" /><published>2020-03-16T00:00:00-05:00</published><updated>2020-03-16T00:00:00-05:00</updated><id>https://blog.kubeflow.org/integrations/operators/2020/03/16/mpi-operator</id><content type="html" xml:base="https://blog.kubeflow.org/integrations/operators/2020/03/16/mpi-operator.html">&lt;p&gt;Kubeflow just &lt;a href=&quot;https://medium.com/kubeflow/kubeflow-1-0-cloud-native-ml-for-everyone-a3950202751&quot;&gt;announced its first major 1.0 release recently&lt;/a&gt;, which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce &lt;a href=&quot;https://github.com/kubeflow/mpi-operator&quot;&gt;MPI Operator&lt;/a&gt; (&lt;a href=&quot;https://www.kubeflow.org/docs/components/training/mpi/&quot;&gt;docs&lt;/a&gt;), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes.&lt;/p&gt;
-
-&lt;p&gt;There are two major distributed training strategies nowadays: one based on parameter servers and the other based on collective communication primitives such as allreduce.&lt;/p&gt;
-
-&lt;p&gt;Parameter server based distribution strategy relies on centralized parameter servers for coordination between workers, responsible for collecting gradients from workers and sending updated parameters to workers. The diagram below shows the interaction between parameter servers and worker nodes under this distributed training strategy.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/3200/0*6oB0bnWO3FApfM0U&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;While distributed training based on parameter servers can support training very large models and datasets by adding more workers and parameter servers, there are additional challenges involved in order to optimize the performance:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;It is not easy to identify the right ratio of the number of workers to the number of parameter servers. For example, if only a small number of parameter servers are used, network communication will likely become the bottleneck for training.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;If many parameter servers are used, the communication may saturate network interconnects.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;The memory quota of workers and parameter servers requires fine tuning to avoid out-of-memory errors or memory waste.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;If the model could fit within the computational resources of each worker, additional maintenance and communication overheads are introduced when the model is partitioned to multiple parameter servers.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;We need to replicate the model on each parameter server in order to support fault-tolerance, which requires additional computational and storage resources.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;In contrast, distributed training based on collective communication primitives such as &lt;a href=&quot;https://mpitutorial.com/tutorials/mpi-reduce-and-allreduce/&quot;&gt;allreduce&lt;/a&gt; could be more efficient and easier to use in certain use cases. Under allreduce-based distributed training strategy, each worker stores a complete set of model parameters. In other words, no parameter server is needed. Allreduce-based distributed training could address many of the challenges mentioned above:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Each worker stores a complete set of model parameters, no parameter server is needed, so it’s straightforward to add more workers when necessary.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Failures among the workers can be recovered easily by restarting the failed workers and then load the current model from any of the existing workers. Model does not need to be replicated to support fault-tolerance.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;The model can be updated more efficiently by fully leveraging the network structure and collective communication algorithms. For example, in &lt;a href=&quot;http://research.baidu.com/bringing-hpc-techniques-deep-learning/&quot;&gt;ring-allreduce algorithm&lt;/a&gt;, each of the N workers only needs to communicate with two of its peer workers 2 * (N − 1) times to update all the model parameters completely.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Scaling up and down the number of workers is as easy as reconstructing the underlying allreduce communicator and re-assigning the ranks among the workers.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;There are many existing technologies available that provide implementations for these collective communication primitives such as &lt;a href=&quot;https://github.com/NVIDIA/nccl&quot;&gt;NCCL&lt;/a&gt;, &lt;a href=&quot;https://github.com/facebookincubator/gloo/&quot;&gt;Gloo&lt;/a&gt;, and many different implementations of &lt;a href=&quot;https://www.mpi-forum.org/&quot;&gt;MPI&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;MPI Operator provides a common &lt;a href=&quot;https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions&quot;&gt;Custom Resource Definition (CRD)&lt;/a&gt; for defining a training job on a single CPU/GPU, multiple CPU/GPUs, and multiple nodes. It also implements a custom controller to manage the CRD, create dependent resources, and reconcile the desired states.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/3200/0*bXT4CVqbfJEPIQxD&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Unlike other operators in Kubeflow such as &lt;a href=&quot;https://github.com/kubeflow/tf-operator&quot;&gt;TF Operator&lt;/a&gt; and &lt;a href=&quot;https://github.com/kubeflow/pytorch-operator&quot;&gt;PyTorch Operator&lt;/a&gt; that only supports for one machine learning framework, MPI operator is decoupled from underlying framework so it can work well with many frameworks such as &lt;a href=&quot;https://github.com/horovod/horovod/&quot;&gt;Horovod&lt;/a&gt;, &lt;a href=&quot;https://www.tensorflow.org/&quot;&gt;TensorFlow&lt;/a&gt;, &lt;a href=&quot;https://pytorch.org/&quot;&gt;PyTorch&lt;/a&gt;, &lt;a href=&quot;https://mxnet.apache.org/&quot;&gt;Apache MXNet&lt;/a&gt;, and various collective communication implementations such as &lt;a href=&quot;https://www.open-mpi.org/&quot;&gt;OpenMPI&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;For more details on comparisons between different distributed training strategies, various Kubeflow operators, please check out &lt;a href=&quot;https://kccnceu19.sched.com/event/MPaT&quot;&gt;our presentation at KubeCon Europe 2019&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;example-api-spec&quot;&gt;Example API Spec&lt;/h2&gt;
-
-&lt;p&gt;We’ve been working closely with the community and industry adopters to improve the API spec for MPI Operator so it’s suitable for many different use cases. Below is an example:&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kubeflow.org/v1alpha2&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;MPIJob&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tensorflow-benchmarks&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;slotsPerWorker&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;cleanPodPolicy&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Running&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;mpiReplicaSpecs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;Launcher&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;replicas&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-         &lt;span class=&quot;na&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-           &lt;span class=&quot;na&quot;&gt;containers&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-           &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;mpioperator/tensorflow-benchmarks:latest&lt;/span&gt;
-             &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tensorflow-benchmarks&lt;/span&gt;
-             &lt;span class=&quot;na&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-             &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;mpirun&lt;/span&gt;
-             &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;python&lt;/span&gt;
-             &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;scripts/tf_cnn_benchmarks/tf_cnn_benchmarks.py&lt;/span&gt;
-             &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;--model=resnet101&lt;/span&gt;
-             &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;--batch_size=64&lt;/span&gt;
-             &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;--variable_update=horovod&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;Worker&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;replicas&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;containers&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-          &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;mpioperator/tensorflow-benchmarks:latest&lt;/span&gt;
-            &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tensorflow-benchmarks&lt;/span&gt;
-            &lt;span class=&quot;na&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-              &lt;span class=&quot;na&quot;&gt;limits&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-                &lt;span class=&quot;s&quot;&gt;nvidia.com/gpu&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Note that MPI Operator provides a flexible but user-friendly API that’s consistent across other Kubeflow operators.&lt;/p&gt;
-
-&lt;p&gt;Users can easily customize their launcher and worker pod specs by modifying the relevant sections in the template. For example, customizing to use various types of computational resources such as CPUs, GPUs, memory, etc.&lt;/p&gt;
-
-&lt;p&gt;In addition, below is an example spec that performs distributed TensorFlow training job using ImageNet data in &lt;a href=&quot;https://www.tensorflow.org/tutorials/load_data/tfrecord&quot;&gt;TFRecords&lt;/a&gt; format stored in a &lt;a href=&quot;https://kubernetes.io/docs/reference/glossary/?all=true#term-volume&quot;&gt;Kubernetes volume&lt;/a&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kubeflow.org/v1alpha2&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;MPIJob&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tensorflow-benchmarks&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;slotsPerWorker&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;cleanPodPolicy&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Running&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;mpiReplicaSpecs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;Launcher&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;replicas&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-         &lt;span class=&quot;na&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-           &lt;span class=&quot;na&quot;&gt;containers&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-           &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;mpioperator/tensorflow-benchmarks:latest&lt;/span&gt;
-             &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tensorflow-benchmarks&lt;/span&gt;
-             &lt;span class=&quot;na&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-             &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;mpirun&lt;/span&gt;
-             &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;python&lt;/span&gt;
-             &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;scripts/tf_cnn_benchmarks/tf_cnn_benchmarks.py&lt;/span&gt;
-             &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;--model=resnet101&lt;/span&gt;
-             &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;--batch_size=64&lt;/span&gt;
-             &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;--variable_update=horovod&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;Worker&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;replicas&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;containers&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-          &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;mpioperator/tensorflow-benchmarks:latest&lt;/span&gt;
-            &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tensorflow-benchmarks&lt;/span&gt;
-            &lt;span class=&quot;na&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-              &lt;span class=&quot;na&quot;&gt;limits&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-                &lt;span class=&quot;s&quot;&gt;nvidia.com/gpu&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;architecture&quot;&gt;Architecture&lt;/h2&gt;
-
-&lt;p&gt;MPI Operator contains a custom controller that listens for changes in MPIJob resources. When a new MPIJob is created, the controller goes through the following &lt;em&gt;logical&lt;/em&gt; steps:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Create a &lt;a href=&quot;https://kubernetes.io/docs/reference/glossary/?all=true#term-configmap&quot;&gt;ConfigMap&lt;/a&gt; that contains:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;A helper shell script that can be used by mpirun in place of ssh. It invokes kubectl exec for remote execution.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;A hostfile that lists the pods in the worker &lt;a href=&quot;https://kubernetes.io/docs/reference/glossary/?all=true#term-statefulset&quot;&gt;StatefulSet&lt;/a&gt; (in the form of ${job-id}-worker-0, ${job-id}-worker-1, …), and the available slots (CPUs/GPUs) in each pod.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Create the &lt;a href=&quot;https://kubernetes.io/docs/reference/glossary/?all=true#term-rbac&quot;&gt;RBAC&lt;/a&gt; resources (Role, ServiceAccount, RoleBinding) to allow remote execution (pods/exec).&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Wait for the worker pods to be ready.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Create the launcher job. It runs under the &lt;a href=&quot;https://kubernetes.io/docs/reference/glossary/?all=true#term-service-account&quot;&gt;ServiceAccount&lt;/a&gt; created in step 2, and sets up the necessary environment variables for executing mpirun commands remotely. The &lt;a href=&quot;https://kubernetes.io/docs/reference/kubectl/overview/&quot;&gt;kubectl&lt;/a&gt; binary is delivered to an emptyDir volume through an init container.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;After the launcher job finishes, set the replicas to 0 in the worker StatefulSet.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/2000/0*zUNFtd8-7u37Fos2&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;For more details, please check out &lt;a href=&quot;https://github.com/kubeflow/community/blob/master/proposals/mpi-operator-proposal.md&quot;&gt;the design doc for MPI Operator&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;industry-adoption&quot;&gt;Industry Adoption&lt;/h2&gt;
-
-&lt;p&gt;At the time of writing, there are &lt;a href=&quot;https://github.com/kubeflow/mpi-operator/blob/master/ADOPTERS.md&quot;&gt;13 disclosed industry adopters&lt;/a&gt; and many others who’ve been working closely with the community to reach where we are today. We’d like to showcase some of the use cases of MPI Operator in several companies. If your company would like to be included in the list of adopters, please send us a pull request &lt;a href=&quot;https://github.com/kubeflow/mpi-operator&quot;&gt;on GitHub&lt;/a&gt;!&lt;/p&gt;
-
-&lt;h2 id=&quot;ant-group&quot;&gt;Ant Group&lt;/h2&gt;
-
-&lt;p&gt;At &lt;a href=&quot;https://www.antgroup.com/&quot;&gt;Ant Group&lt;/a&gt;, &lt;a href=&quot;https://kubernetes.io/case-studies/ant-financial/&quot;&gt;we manage Kubernetes clusters with tens of thousands of nodes&lt;/a&gt; and have deployed the MPI Operator along with other Kubeflow operators. The MPI Operator leverages the network structure and collective communication algorithms so that users don’t have to worry about the right ratio between the number of workers and parameter servers to obtain the best performance. Users can focus on building out their model architectures without spending time on tuning the downstream infrastructure for distributed training.&lt;/p&gt;
-
-&lt;p&gt;The models produced have been widely deployed in production and battle-tested in many different real life scenarios. One notable use case is &lt;a href=&quot;https://yq.aliyun.com/articles/563095&quot;&gt;Saofu&lt;/a&gt; — a mobile app for users to scan any “&lt;a href=&quot;https://zh.wikipedia.org/wiki/%E7%A6%8F%E5%AD%97&quot;&gt;福&lt;/a&gt;” (Chinese character that represents fortune) through augmented reality to enter a lucky draw where each user would receive a virtual red envelope with a portion of a significant amount of money.&lt;/p&gt;
-
-&lt;h2 id=&quot;bloomberg&quot;&gt;Bloomberg&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.bloomberg.com/&quot;&gt;Bloomberg&lt;/a&gt;, the global business and financial information and news leader, possesses an enormous amount of data — from historical news to real-time market data and everything in between. Bloomberg’s Data Science Platform was built to allow the company’s internal machine learning engineers and data scientists to more easily leverage data and algorithmic models in their daily work, including when training jobs and automatic machine learning models used in the state-of-the-art solutions they’re building.&lt;/p&gt;
-
-&lt;p&gt;“The Data Science Platform at Bloomberg offers a TensorFlowJob CRD similar to Kubeflow’s own TFJob, enabling the company’s data scientists to easily train neural network models. Recently, the Data Science Platform team enabled Horovod-based distributed training in its TensorFlowJob via the MPI Operator as an implementation detail. Using MPIJob in the back-end has allowed the Bloomberg Data Science Platform team to quickly offer its machine learning engineers a robust way to train a &lt;a href=&quot;https://arxiv.org/abs/1810.04805&quot;&gt;BERT model&lt;/a&gt; within hours using the company’s large corpus of text data’’, says Chengjian Zheng, software engineer from Bloomberg.&lt;/p&gt;
-
-&lt;h2 id=&quot;caicloud&quot;&gt;Caicloud&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://intl.caicloud.io/products/clever&quot;&gt;Caicloud Clever&lt;/a&gt; is an artificial intelligence cloud platform based on Caicloud container cloud platform with powerful hardware resource management and efficient model development capabilities. Caicloud products have been deployed in many 500 China Fortune companies.&lt;/p&gt;
-
-&lt;p&gt;“Caicloud Clever supports multiple frameworks of AI model training including TensorFlow, Apache MXNet, Caffe, PyTorch with the help of Kubeflow tf-operator, pytorch-operator and others”, says Ce Gao, AI infrastructure engineer from Caicloud Clever team. “While RingAllReduce distributed training support is requested for improved customer maturity.”&lt;/p&gt;
-
-&lt;p&gt;Kubeflow MPI operator is a Kubernetes Operator for allreduce-style distributed training. Caicloud Clever team adopts MPI Operator’s v1alpha2 API. The Kubernetes native API makes it easy to work with the existing systems in the platform.&lt;/p&gt;
-
-&lt;h2 id=&quot;iguazio&quot;&gt;Iguazio&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.iguazio.com/&quot;&gt;Iguazio&lt;/a&gt; provides a cloud-native data science platform with emphasis on automation, performance, scalability, and use of open-source tools.&lt;/p&gt;
-
-&lt;p&gt;According to Yaron Haviv, the Founder and CTO of Iguazio, “We evaluated various mechanisms which will allow us to scale deep learning frameworks with minimal developer effort and found that using the combination of Horovod with the MPI Operator over Kubernetes is the best tool for the job since it enable horizontal scalability, supports multiple frameworks such as TensorFlow and PyTorch and doesn’t require too much extra coding or the complex use of parameter servers.”&lt;/p&gt;
-
-&lt;p&gt;Iguazio have integrated the MPI Operator into its managed service offering and its fast data layer for maximum scalability, and work to simplify the usage through open source projects like &lt;a href=&quot;https://github.com/mlrun/mlrun&quot;&gt;MLRun&lt;/a&gt; (for ML automation and tracking). Check out &lt;a href=&quot;https://towardsdatascience.com/gpu-as-a-service-on-kubeflow-fast-scalable-and-efficient-ml-c5783b95d192&quot;&gt;this blog post&lt;/a&gt; with an example application that demonstrates Iguazio’s usage of the MPI Operator.&lt;/p&gt;
-
-&lt;h2 id=&quot;polyaxon&quot;&gt;Polyaxon&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://polyaxon.com/&quot;&gt;Polyaxon&lt;/a&gt; is a platform for reproducible and scalable machine learning on Kubernetes, it allows users to iterate faster on their research and model creation. Polyaxon provides a simple abstraction for data scientists and machine learning engineers to streamline their experimentation workflow, and provides a very cohesive abstraction for training and tracking models using popular frameworks such as Scikit-learn, TensorFlow, PyTorch, Apache MXNet, Caffe, etc.&lt;/p&gt;
-
-&lt;p&gt;“Several Polyaxon users and customers were requesting an easy way to perform an allreduce-style distributed training, the MPI Operator was the perfect solution to provide such abstraction. Polyaxon is deployed at several companies and research institutions, and the public docker hub has over 9 million downloads.”, says Mourad Mourafiq, the Co-founder of Polyxagon.&lt;/p&gt;
-
-&lt;h2 id=&quot;community-and-call-for-contributions&quot;&gt;Community and Call for Contributions&lt;/h2&gt;
-
-&lt;p&gt;We are grateful for &lt;a href=&quot;https://github.com/kubeflow/mpi-operator/graphs/contributors&quot;&gt;over 28 individual contributors from over 11 organizations&lt;/a&gt;, namely Alibaba Cloud, Amazon Web Services, Ant Group, Bloomberg, Caicloud, Google Cloud, Huawei, Iguazio, NVIDIA, Polyaxon, and Tencent, that have contributed directly to MPI Operator’s codebase and many others who’ve filed issues or helped resolve them, asked and answered questions, and were part of inspiring discussions. We’ve put together a &lt;a href=&quot;https://github.com/kubeflow/mpi-operator/blob/master/ROADMAP.md&quot;&gt;roadmap&lt;/a&gt; that provides a high-level overview of where the MPI Operator will grow in future releases and we welcome any contributions from the community!&lt;/p&gt;
-
-&lt;p&gt;We could not have achieved our milestones without an incredibly active community. Check out our &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;community page&lt;/a&gt; to learn more about how to join the Kubeflow community!&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Originally published at &lt;a href=&quot;https://terrytangyuan.github.io/2020/03/17/introduction-to-kubeflow-mpi-operator-and-industry-adoption/&quot;&gt;https://terrytangyuan.github.io&lt;/a&gt; on March 17, 2020.&lt;/em&gt;&lt;/p&gt;</content><author><name>&lt;a href='https://twitter.com/TerryTangYuan'&gt;Yuan Tang&lt;/a&gt; (Ant Group), &lt;a href='https://www.linkedin.com/in/wei-yan-a6037337'&gt;Wei Yan&lt;/a&gt; (Ant Group), and &lt;a href='https://www.linkedin.com/in/rongou'&gt;Rong Ou&lt;/a&gt; (NVIDIA)</name></author><category term="integrations" /><category term="operators" /><summary type="html">Kubeflow just announced its first major 1.0 release recently, which makes it easy for machine learning engineers and data scientists to leverage cloud assets (public or on-premise) for machine learning workloads. In this post, we’d like to introduce MPI Operator (docs), one of the core components of Kubeflow, currently in alpha, which makes it easy to run synchronized, allreduce-style distributed training on Kubernetes.</summary></entry></feed>
+&lt;p&gt;&lt;em&gt;A special mention must go to the various members of the Arrikto team (Ilias Katsakioris, Chris Pavlou, Kostis Lolos, Tasos Alexiou) who contributed to delivering all these new features.&lt;/em&gt;&lt;/p&gt;</content><author><name>Stefano Fioravanzo</name></author><category term="integrations" /><summary type="html">Running pipelines at scale has never been easier.</summary></entry></feed>

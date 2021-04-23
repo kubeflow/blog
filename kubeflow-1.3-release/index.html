@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>The Kubeflow 1.3 software release streamlines ML workflows and simplifies ML platform operations | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="The Kubeflow 1.3 software release streamlines ML workflows and simplifies ML platform operations" />
+<meta name="author" content="Josh Bottum, Thea Lamkin, David Aronchick" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The Kubeflow 1.3 release delivers simplified ML workflows and additional Kubernetes integrated features to optimize operational and infrastructure efficiencies. In addition to new User Interfaces (UIs), which improve ML workflows for pipeline building, model tuning, serving and monitoring, 1.3 also enables “headless” GitOps-inspired installation patterns. The latest version of Kubeflow provides users with a mature foundation and delivers a modern ML platform with best-in-class Key Performance Indicators (KPIs)." />
+<meta property="og:description" content="The Kubeflow 1.3 release delivers simplified ML workflows and additional Kubernetes integrated features to optimize operational and infrastructure efficiencies. In addition to new User Interfaces (UIs), which improve ML workflows for pipeline building, model tuning, serving and monitoring, 1.3 also enables “headless” GitOps-inspired installation patterns. The latest version of Kubeflow provides users with a mature foundation and delivers a modern ML platform with best-in-class Key Performance Indicators (KPIs)." />
+<link rel="canonical" href="https://blog.kubeflow.org/kubeflow-1.3-release/" />
+<meta property="og:url" content="https://blog.kubeflow.org/kubeflow-1.3-release/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-04-23T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/kubeflow-1.3-release/","@type":"BlogPosting","headline":"The Kubeflow 1.3 software release streamlines ML workflows and simplifies ML platform operations","dateModified":"2021-04-23T00:00:00-05:00","datePublished":"2021-04-23T00:00:00-05:00","image":"https://blog.kubeflow.org/images/logo.png","author":{"@type":"Person","name":"Josh Bottum, Thea Lamkin, David Aronchick"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow-1.3-release/"},"description":"The Kubeflow 1.3 release delivers simplified ML workflows and additional Kubernetes integrated features to optimize operational and infrastructure efficiencies. In addition to new User Interfaces (UIs), which improve ML workflows for pipeline building, model tuning, serving and monitoring, 1.3 also enables “headless” GitOps-inspired installation patterns. The latest version of Kubeflow provides users with a mature foundation and delivers a modern ML platform with best-in-class Key Performance Indicators (KPIs).","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">The Kubeflow 1.3 software release streamlines ML workflows and simplifies ML platform operations</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-04-23T00:00:00-05:00" itemprop="datePublished">
+        Apr 23, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Josh Bottum, Thea Lamkin, David Aronchick</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#release">release</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#streamlined-ml-workflows-delivered-via-new-uis">Streamlined ML workflows delivered via new UIs</a></li>
+<li class="toc-entry toc-h2"><a href="#infrastructure-and-operational-efficiencies">Infrastructure and operational efficiencies</a></li>
+<li class="toc-entry toc-h2"><a href="#simplified-installation-and-improved-documentation">Simplified installation and improved documentation</a></li>
+<li class="toc-entry toc-h2"><a href="#kubeflow-13-tutorials">Kubeflow 1.3 tutorials</a></li>
+<li class="toc-entry toc-h2"><a href="#join-the-community">Join the community</a></li>
+</ul><p>The Kubeflow 1.3 release delivers simplified ML workflows and additional Kubernetes integrated features to optimize operational and infrastructure efficiencies. 
+In addition to new User Interfaces (UIs), which improve ML workflows for pipeline building, model tuning, serving and monitoring, 1.3 also enables “headless” GitOps-inspired installation patterns.
+The latest version of Kubeflow provides users with a mature foundation and delivers a modern ML platform with best-in-class Key Performance Indicators (KPIs).</p>
+
+<p>The Kubeflow user community is growing quickly, which was demonstrated in our recent survey results.  When compared to <a href="https://www.youtube.com/watch?v=4228OEenuGc">last year’s survey</a>, the <a href="https://blog.kubeflow.org/kubeflow-continues-to-move-to-production">2021 Survey</a> showed a 50% increase in responses and a whopping 300% increase in users supporting production deployments.   As shown below, the user survey responses, especially from ML engineers, architects and data scientists, have identified where the Kubeflow contributors should focus their efforts.</p>
+
+<p><strong><a href="https://blog.kubeflow.org/kubeflow-continues-to-move-to-production#using-kubeflow-goes-beyond-just-training">Kubeflow User Survey Results</a> - March 2021</strong></p>
+
+<p><img src="/images/2021-04-23-kubeflow-1.3/image1.png" alt="survey_results"></p>
+
+<h2 id="streamlined-ml-workflows-delivered-via-new-uis">
+<a class="anchor" href="#streamlined-ml-workflows-delivered-via-new-uis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Streamlined ML workflows delivered via new UIs</h2>
+
+<p>Data scientists will like the new and updated user interfaces (UIs) for Katib, TensorBoard, Persistent Volumes, Pipelines and Kale. These new UIs address many of the ML tasks that are time consuming and technically challenging. The UIs reduce the need for a data scientist to learn kfctl or docker CLI commands.</p>
+
+<p>Below please find details on the UIs’ benefits for ML workflows:</p>
+
+<ul>
+  <li>Katib (<a href="https://www.youtube.com/watch?v=VDINH5WkBhA">Video Tour</a>)
+    <ul>
+      <li>The Katib UI is integrated with the central dashboard and streamlines hyperparameter tuning by presenting a visualization graph and a table that compares each trial’s performance along with its hyperparameters. You can also review the details of each trial’s algorithm, metrics collector and yaml. (Project <a href="https://github.com/kubeflow/katib/projects/1">1</a>)</li>
+    </ul>
+  </li>
+  <li>TensorBoard (<a href="https://www.youtube.com/watch?v=eMDF2Bk8YRY">Video tour</a>)
+    <ul>
+      <li>The TensorBoard UI streamlines the TensorBoard configuration tasks, especially for logging of training jobs which are running in Notebooks or Pipelines. It simplifies accessibility to metrics, which helps you to improve model accuracy , identify performance bottlenecks, and reduce unproductive training jobs.</li>
+    </ul>
+  </li>
+  <li>Volume Manager (<a href="https://www.youtube.com/watch?v=jU2DtSWahdA">Video tour</a>)
+    <ul>
+      <li>The Volume Manager enables you to manage your data and persistent volumes. For the volumes in your namespace, it streamlines the creation and deletion of volumes, which then can be easily attached to your notebooks. PR <a href="https://github.com/kubeflow/kubeflow/pull/5684">5684</a>
+</li>
+    </ul>
+  </li>
+  <li>Kale (<a href="https://www.youtube.com/watch?v=ANBkUySirGg">Video tour</a>)
+    <ul>
+      <li>The updated Kale UI, a JupyterLab extension, simplifies your hyperparameter tuning trial set-up. The UI walks you through these steps: enter your hyperparameters as a list or a range, pick your search algorithm (Grid, Random, Bayesian) and the parameter to be optimized i.e. minimize loss. Then with a click of a button, your Katib trials are set-up, snapshotted, tracked, and run.</li>
+    </ul>
+  </li>
+  <li>Kubeflow Pipelines (KFP)
+    <ul>
+      <li>The KFP UI has been reorganized for a more unified experience (PR <a href="https://github.com/kubeflow/pipelines/pull/4925">4925</a>), and includes the ability to manage recurring runs via new “JobsList” and “AllJobslist” pages (PR <a href="https://github.com/kubeflow/pipelines/pull/5131">5131</a>) and simplified view of dependency graphs.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Beyond the UIs, data scientists can also tie Notebooks with Serving more closely than ever before. In addition to the aforementioned integration with TensorBoard, Kubeflow Notebooks also now support first class deployments with TensorFlow 2.0, PyTorch, VS Code and RStudio.</p>
+
+<p>KFServing enhancements include simplified canary rollouts with traffic splitting at the Knative revisions level. It also delivers extended ML framework support for:</p>
+
+<ul>
+  <li>TorchServe predict and PyTorch Captum Explain</li>
+  <li>PMMLServer, PR <a href="https://github.com/kubeflow/kfserving/pull/1141">1141</a>
+</li>
+  <li>LightGBM</li>
+</ul>
+
+<h2 id="infrastructure-and-operational-efficiencies">
+<a class="anchor" href="#infrastructure-and-operational-efficiencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Infrastructure and operational efficiencies</h2>
+
+<p>ML engineers will like 1.3’s delivery of operational and infrastructure efficiencies, which are coupled with streamlined installation patterns and upgraded Istio version support. The following chart provides a summary of the top production features in 1.3.</p>
+
+<table>
+  <tr>
+   <td>
+<strong>Feature</strong>
+   </td>
+   <td>
+<strong>Benefits</strong>
+   </td>
+  </tr>
+  <tr>
+   <td>
+<a href="https://github.com/yuzliu/kfserving/blob/master/docs/MULTIMODELSERVING_GUIDE.md">Multi-model serving</a> (Alpha)
+   </td>
+   <td>More models on same infra and workaround cluster limits        i.e. # of pods &amp; ip addresses
+   </td>
+  </tr>
+  <tr>
+   <td>Pod affinity
+   </td>
+   <td>Avoid unnecessary usage on GPU or large CPU nodes
+   </td>
+  </tr>
+  <tr>
+   <td>gRPC support 
+   </td>
+   <td>Fewer messages, less bandwidth for KFServing workloads
+   </td>
+  </tr>
+  <tr>
+   <td>Katib trial templates
+   </td>
+   <td>Simplifies hyperparameter tuning set-up for custom model types
+   </td>
+  </tr>
+  <tr>
+   <td>Katib early stopping
+   </td>
+   <td>Stops hyperparameter tuning trials that are unproductive 
+   </td>
+  </tr>
+  <tr>
+   <td>Pipelines step caching
+   </td>
+   <td>Re-use results from previously run steps
+   </td>
+  </tr>
+  <tr>
+   <td>Multi-user pipelines
+   </td>
+   <td>User and resource isolation for non-GCP environments.
+   </td>
+  </tr>
+  <tr>
+   <td>Manifests refactoring
+   </td>
+   <td>Simplifies Kubeflow installation and upgrades
+   </td>
+  </tr>
+  <tr>
+   <td>Istio upgradability
+   </td>
+   <td>Improved security, day 2 operations, compatibility and support
+   </td>
+  </tr>
+</table>
+
+<p>We are pleased to announce that the user documentation on Kubeflow.org has also been updated (PR <a href="https://github.com/kubeflow/website/issues/2546">2546</a>). Additional detailed documentation, especially on the valuable working group deliveries, can be found here:</p>
+
+<ul>
+  <li>Kubeflow Pipeline 1.3 Project (PR <a href="https://github.com/kubeflow/pipelines/projects/12">12</a>)</li>
+  <li><a href="https://www.kubeflow.org/docs/components/pipelines/sdk/pipelines-with-tekton/">Kubeflow Pipelines SDK with Tekton</a></li>
+  <li><a href="https://blog.kubeflow.org/release/official/2021/03/08/kfserving-0.5.html">Operationalize, scale and infuse trust in AI models using KFServing</a></li>
+  <li><a href="https://blog.kubeflow.org/katib/">Kubeflow Katib: Scalable, portable and cloud native system for AutoML</a></li>
+</ul>
+
+<h2 id="simplified-installation-and-improved-documentation">
+<a class="anchor" href="#simplified-installation-and-improved-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simplified installation and improved documentation</h2>
+
+<p>ML Engineers, who are installing Kubeflow, have a clear path to installation success as Kubeflow 1.3 includes new manifests and upgraded Istio support. For more information on installation patterns for each distribution, please visit the <a href="https://www.kubeflow.org/docs/started/installing-kubeflow/">Getting Started</a> page on Kubeflow.org. If you are supporting a distribution or just interested in low-level details, please review the Kubeflow 1.3 Manifest <a href="https://github.com/kubeflow/manifests/tree/v1.3.0-rc.0#readme">readme</a>.</p>
+
+<h2 id="kubeflow-13-tutorials">
+<a class="anchor" href="#kubeflow-13-tutorials" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kubeflow 1.3 tutorials</h2>
+
+<p>Kubeflow 1.3 new features are easy to try on these tutorials:</p>
+
+<ul>
+  <li>Open Vaccine <a href="https://arrik.to/democ2p">Tutorial</a>
+    <ul>
+      <li>Use the new UIs to build an ML Pipeline, tune your model, and then deploy and monitor it. This tensorflow-based example was modified from a Kaggle tutorial for building a Covid 19 vaccine from bases in an mRNA molecule. The tutorial is easy to run on AWS and GCP in about 1 hour.</li>
+    </ul>
+  </li>
+  <li>Model Risk Management <a href="https://www.fairly.ai/tutorial-kubeflow">Tutorial</a>
+    <ul>
+      <li>This model produces a SR11-7 compliance report for financial institutions who are regulated by the Federal Reserve. The example provides reporting on bias in a home mortgage lending model. The tutorial is easy to run on AWS and GCP in about 1 hour.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="join-the-community">
+<a class="anchor" href="#join-the-community" aria-hidden="true"><span class="octicon octicon-link"></span></a>Join the community</h2>
+
+<p>We would like to thank everyone for their efforts on Kubeflow 1.3, especially the code contributors and working group leads. As you can see from the extensive contributions to Kubeflow 1.3, the Kubeflow Community is vibrant and diverse, and solving real world problems for organizations around the world.</p>
+
+<p>Want to help? The Kubeflow Community <a href="https://github.com/kubeflow/community/blob/master/wg-list.md">Working Groups</a> hold open meetings, public lists, and are always looking for more volunteers and users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below, we look forward to working with you!</p>
+
+<ul>
+  <li>Visit our<a href="https://www.kubeflow.org/"> Kubeflow website</a> or<a href="https://github.com/kubeflow"> Kubeflow GitHub Page</a>
+</li>
+  <li>Join the<a href="https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg"> Kubeflow Slack channel</a>
+</li>
+  <li>Join the<a href="https://groups.google.com/forum/#!forum/kubeflow-discuss"> kubeflow-discuss</a> mailing list</li>
+  <li>Attend a<a href="https://www.kubeflow.org/docs/about/community/"> weekly community meeting</a>
+</li>
+</ul>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/kubeflow-1.3-release/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,4 +1,382 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2021-04-22T20:50:52-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">The Kubeflow 1.3 software release streamlines ML workflows and simplifies ML platform operations</title><link href="https://blog.kubeflow.org/kubeflow-1.3-release/" rel="alternate" type="text/html" title="The Kubeflow 1.3 software release streamlines ML workflows and simplifies ML platform operations" /><published>2021-04-23T00:00:00-05:00</published><updated>2021-04-23T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.3-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.3-release/">&lt;p&gt;The Kubeflow 1.3 release delivers simplified ML workflows and additional Kubernetes integrated features to optimize operational and infrastructure efficiencies. 
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2021-05-19T23:31:40-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh</title><link href="https://blog.kubeflow.org/kubeflow/" rel="alternate" type="text/html" title="Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh" /><published>2021-05-03T00:00:00-05:00</published><updated>2021-05-03T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.3-install-post</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow/">&lt;p&gt;Deploying Kubeflow 1.3 in an enterprise with existing Kubernetes infrastructure, a Service Mesh (Istio), and Argo, presents a host of challenges.
+This blog will address how those challenges were overcome while retaining the best practices that both the organization and Kubeflow prescribe.&lt;/p&gt;
+
+&lt;h2 id=&quot;lay-of-the-land-at-intuit&quot;&gt;Lay of the land at Intuit&lt;/h2&gt;
+
+&lt;p&gt;Intuit has invested heavily in building out a robust Kubernetes infrastructure that powers all of Intuit’s products: TurboTax, QuickBooks and Mint. There are thousands of services that run on over a hundred Kubernetes clusters. Managing these clusters is the Intuit Kubernetes Service (IKS) control plane. The IKS control plane provides services such as namespace management, role management and isolation etc. Connecting the services is an advanced, Istio-based service mesh, which complements Intuit’s API Gateway. In combination, they provide robust authentication, authorization, rate limiting and other routing capabilities.&lt;/p&gt;
+
+&lt;p&gt;The Intuit ML Platform is built on this ecosystem, and provides model training, inference and feature management capabilities, leveraging the best of Intuit’s Kubernetes infrastructure and AWS SageMaker. This is the backdrop against which we started exploring Kubeflow to provide advanced orchestration, experimentation and other services.&lt;/p&gt;
+
+&lt;h2 id=&quot;kubeflow-and-istio&quot;&gt;Kubeflow and Istio&lt;/h2&gt;
+
+&lt;p&gt;Our first challenge with running Kubeflow was the compatibility of Kubeflow’s Istio with Intuit’s existing Service Mesh built on top of Istio. Two key problems emerged: version compatibility and operational maintenance.&lt;/p&gt;
+
+&lt;p&gt;Kubeflow v1.3 defaults to Istio (v1.9), and luckily it is compatible with the older versions of Istio (v1.6), which is what Intuit runs on. Running two Istio versions is impractical, as that would defeat the benefit of a large, interconnected existing service mesh. Hence, we wanted Kubeflow to work seamlessly with Intuit’s service mesh running Istio v1.6.&lt;/p&gt;
+
+&lt;p&gt;If you are new to Istio, you might want a primer on these key &lt;a href=&quot;https://istio.io/latest/docs/reference/config/networking/&quot;&gt;Traffic Management Components&lt;/a&gt; and &lt;a href=&quot;https://istio.io/latest/docs/reference/config/security/&quot;&gt;Security Cpmponents&lt;/a&gt;:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;VirtualService&lt;/li&gt;
+  &lt;li&gt;DestinationRule&lt;/li&gt;
+  &lt;li&gt;Gateway&lt;/li&gt;
+  &lt;li&gt;EnvoyFilter&lt;/li&gt;
+  &lt;li&gt;AuthorizationPolicy&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;step-1-remove-default-istio-configurations-and-argo-from-kubeflow&quot;&gt;Step 1: Remove default Istio configurations and Argo from Kubeflow&lt;/h3&gt;
+
+&lt;p&gt;The first step to running Kubeflow was to remove the Istio and Argo bundled with Kubeflow, so that it could be integrated with the Intuit service mesh.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;To Remove Kubeflow’s default Istio&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;We have used Kustomize to build the manifest we need for our Kubeflow installation and we are using &lt;a href=&quot;https://argoproj.github.io/argo-cd/&quot;&gt;ArgoCD&lt;/a&gt; to deploy the Kubeflow Kubernetes manifests.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;.
+├── base                        # Base folder for the kubeflow out of the box manifests
+│   ├── kustomization.yaml      
+│   ├── pipelines               # Folder for Kubeflow Pipelines module
+│   │   ├── kustomization.yaml
+│   ├── other modules           # Similar to Pipeliens module you can bring other modules as well
+│       ├── kustomization.yaml
+├── envs                        # Folder for all the Kubeflow environments
+│   ├── prod               
+│   │   ├── kustomization.yaml
+│   ├── dev               
+│       ├── kustomization.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;base -&amp;gt; kustomization.yaml&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kustomize.config.k8s.io/v1beta1&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Kustomization&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;github.com/kubeflow/manifests/common/kubeflow-roles/base?ref=v1.3.0&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;github.com/kubeflow/manifests/common/kubeflow-namespace/base?ref=v1.3.0&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;github.com/kubeflow/manifests/common/oidc-authservice/base?ref=v1.3.0&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;github.com/kubeflow/manifests/apps/admission-webhook/upstream/overlays/cert-manager?ref=v1.3.0&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;github.com/kubeflow/manifests/apps/profiles/upstream/overlays/kubeflow?ref=v1.3.0&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;github.com/kubeflow/manifests/apps/centraldashboard/upstream/overlays/istio?ref=v1.3.0&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;pipelines&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;base -&amp;gt; pipelines -&amp;gt; kustomization.yaml&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kustomize.config.k8s.io/v1beta1&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Kustomization&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;bases&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;github.com/kubeflow/pipelines/manifests/kustomize/base/installs/multi-user?ref=1.5.0&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;github.com/kubeflow/pipelines/manifests/kustomize/base/metadata/base?ref=1.5.0&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;github.com/kubeflow/pipelines/manifests/kustomize/base/metadata/options/istio?ref=1.5.0&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# To remove the default Argo from Pipelines module&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# - github.com/kubeflow/pipelines/manifests/kustomize/third-party/argo/installs/cluster?ref=1.5.0&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;github.com/kubeflow/pipelines/manifests/kustomize/third-party/mysql/base?ref=1.5.0&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;github.com/kubeflow/pipelines/manifests/kustomize/third-party/mysql/options/istio?ref=1.5.0&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;github.com/kubeflow/pipelines/manifests/kustomize/third-party/minio/base?ref=1.5.0&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;github.com/kubeflow/pipelines/manifests/kustomize/third-party/minio/options/istio?ref=1.5.0&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;github.com/kubeflow/pipelines/manifests/kustomize/third-party/metacontroller/base?ref=1.5.0&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Identifier for application manager to apply ownerReference.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# The ownerReference ensures the resources get garbage collected&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# when application is deleted.&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;commonLabels&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;application-crd-id&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kubeflow-pipelines&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# !!! If you want to customize the namespace,&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# please also update base/cache-deployer/cluster-scoped/cache-deployer-clusterrolebinding.yaml&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;namespace&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kubeflow&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Note: we had to create a separate folder for pipelines because we didn’t want to use Argo, which comes with a Piplines module. If you can use default Argo, then you can simply use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https://github.com/kubeflow/manifests/apps/pipeline/upstream/env/platform-agnostic-multi-user-pns?ref=v1.3.0&lt;/code&gt; instead of the pipelines folder.&lt;/p&gt;
+
+&lt;p&gt;If you don’t want to use ArgoCD, you can build the manifest using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kustomize build&lt;/code&gt; command, which is essentially what ArgoCD does. The configuration above has been tested for Kustomize 3.8.x and 4.0.x, and it works with both.&lt;/p&gt;
+
+&lt;h3 id=&quot;step-2-kustomize-the-kubeflow-manifests&quot;&gt;Step 2: Kustomize the Kubeflow manifests&lt;/h3&gt;
+
+&lt;p&gt;Given the managed Kubernetes ecosystem at Intuit, protocols for service to service communication and namespace isolation is opinionated, and we had to make following changes:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Enable Kubeflow namespace for &lt;a href=&quot;https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection&quot;&gt;Istio injection&lt;/a&gt; by adding the label &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;istio-injection: enabled&lt;/code&gt; in the namespace specification. This label is then used by Istio to add the sidecar into the namespace.&lt;/li&gt;
+  &lt;li&gt;Enable sidecar injection to all the deployments and statefulsets in Kubeflow by adding the annotation &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sidecar.istio.io/inject: &quot;true&quot;&lt;/code&gt;, along with some Intuit-specific custom labels and annotations to the Deployments and StatefulSets.&lt;/li&gt;
+  &lt;li&gt;Intuit’s security policies forbid the direct use of external container registries. Intuit’s internal container registry runs regular vulnerability scans and certifies Docker images for use in various environments. The internal container registry also has an allow list that enables external registries to be proxied and held to the same, high security standards. This was enabled for all Kubeflow containers.&lt;/li&gt;
+  &lt;li&gt;Changes in VirtualService to route all the traffic from one central gateway instead of using Kubeflow gateway.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;We have used &lt;a href=&quot;https://kustomize.io/&quot;&gt;Kustomize&lt;/a&gt; to modify the Kubeflow application manifest.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;For adding labels, we have used LabelTransformer
+    &lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;     &lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;builtin&lt;/span&gt;
+     &lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;LabelTransformer&lt;/span&gt;
+     &lt;span class=&quot;na&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+       &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;deployment-labels&lt;/span&gt;
+     &lt;span class=&quot;na&quot;&gt;labels&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+       &lt;span class=&quot;s&quot;&gt;&amp;lt;Intuit custom labels&amp;gt;&lt;/span&gt;
+       &lt;span class=&quot;s&quot;&gt;istio-injected&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;true&quot;&lt;/span&gt;
+     &lt;span class=&quot;na&quot;&gt;fieldSpecs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+     &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;spec/template/metadata/labels&lt;/span&gt;
+       &lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Deployment&lt;/span&gt;
+       &lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+     &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;spec/template/metadata/labels&lt;/span&gt;
+       &lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;StatefulSet&lt;/span&gt;
+       &lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;For adding annotations, we have used AnnotationsTransformer&lt;/p&gt;
+
+    &lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;builtin&lt;/span&gt;
+ &lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;AnnotationsTransformer&lt;/span&gt;
+ &lt;span class=&quot;na&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;deployment-annotations&lt;/span&gt;
+ &lt;span class=&quot;na&quot;&gt;annotations&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+   &lt;span class=&quot;s&quot;&gt;&amp;lt;Intuit custom annotations&amp;gt;&lt;/span&gt;
+   &lt;span class=&quot;s&quot;&gt;sidecar.istio.io/inject&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;true&quot;&lt;/span&gt;
+ &lt;span class=&quot;na&quot;&gt;fieldSpecs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+ &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;spec/template/metadata/annotations&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Deployment&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+ &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;spec/template/metadata/annotations&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;StatefulSet&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;For replacing docker image urls, we used ImageTagTransformer&lt;/p&gt;
+
+    &lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;builtin&lt;/span&gt;
+ &lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ImageTagTransformer&lt;/span&gt;
+ &lt;span class=&quot;na&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;image-transformer-1&lt;/span&gt;
+ &lt;span class=&quot;na&quot;&gt;imageTag&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;gcr.io/ml-pipeline/cache-deployer&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;newName&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;docker.intuit.com/gcr-rmt/ml-pipeline/cache-deployer&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;For transforming VirtualServices&lt;/p&gt;
+
+    &lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;op&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;remove&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/spec/hosts/0&lt;/span&gt;
+ &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;op&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;replace&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/spec/gateways/0&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;custom gateway&amp;gt;&lt;/span&gt;
+ &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;op&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;add&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/spec/hosts/0&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;kubflow host name&amp;gt;&lt;/span&gt;
+ &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;op&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;add&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/spec/exportTo&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;.&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;To wire everything up, we used Kustomization manifest&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;envs -&amp;gt; prod/dev -&amp;gt; kustomization.yaml&lt;/code&gt;&lt;/p&gt;
+    &lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kustomize.config.k8s.io/v1beta1&lt;/span&gt;
+ &lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Kustomization&lt;/span&gt;
+
+ &lt;span class=&quot;na&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+ &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kubeflow.yaml&lt;/span&gt;
+
+ &lt;span class=&quot;na&quot;&gt;transformers&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+ &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;transformers/image-transformers.yaml&lt;/span&gt;
+ &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;transformers/label-transformers.yaml&lt;/span&gt;
+ &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;transformers/annotations-transformers.yaml&lt;/span&gt;
+
+ &lt;span class=&quot;na&quot;&gt;patchesJson6902&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+ &lt;span class=&quot;c1&quot;&gt;# patch VirtualService with explicit host&lt;/span&gt;
+ &lt;span class=&quot;c1&quot;&gt;# add multiple targets like below for all the VirtualServices which you need&lt;/span&gt;
+ &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;patches/virtual-service-hosts.yaml&lt;/span&gt;
+   &lt;span class=&quot;na&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+     &lt;span class=&quot;na&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;networking.istio.io&lt;/span&gt;
+     &lt;span class=&quot;na&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;v1alpha3&lt;/span&gt;
+     &lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;VirtualService&lt;/span&gt;
+     &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;centraldashboard&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;You might face issues with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;metadata_envoy&lt;/code&gt; service, in our case we were getting following error
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; [debug][init] [external/envoy/source/common/init/watcher_impl.cc:27] init manager Server destroyed
+ unable to bind domain socket with id=0 (see --base-id option)
+ 2021-01-29T23:32:26.680310Z	error	Epoch 0 exited with error: exit status 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;After looking up, we found that, when you run this docker image with Istio Sidecar injection, this problem occurs.
+ The reason is, both these containers are essentially envoyproxy containers and default base-id for both
+ containers is set to 0.&lt;/p&gt;
+
+    &lt;p&gt;So to make it work, we had to change CMD in this &lt;a href=&quot;https://github.com/kubeflow/pipelines/blob/1.4.1/third_party/metadata_envoy/Dockerfile#L27&quot;&gt;Dockerfile&lt;/a&gt;&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; CMD [&quot;/etc/envoy.yaml&quot;, &quot;--base-id&quot;, &quot;1&quot;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;step-3-custom-changes-needed-for-sso&quot;&gt;Step 3: Custom changes needed for SSO&lt;/h3&gt;
+
+&lt;p&gt;There are two major components around authentication using SSO:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Authservice: It is a StatefulSet that runs the oidc-auth service. It runs in istio-system namespace and directly talks to an OIDC service for authentication&lt;/li&gt;
+  &lt;li&gt;Authn-filter: It’s an EnvoyFilter which filters the traffic to authservice and checks the Kubeflow auth header and redirects to authservice if request is not authorized, check the presence of header called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubeflow-userid&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Note: Intuit SSO supports OIDC, so we did not need to use dex for the integration. If your org’s SSO does not support OIDC, then you can use dex in the middle; details can be found &lt;a href=&quot;https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;For our installation, we needed the authservice to be mesh-enabled, and it made more sense to move authservice to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubeflow&lt;/code&gt; namespace as well, which was already enabled for Istio sidecar injection.&lt;/p&gt;
+
+&lt;p&gt;After enabling Istio mesh on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authservice&lt;/code&gt;, some more changes were required in the default manifest for it to work. The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authservice&lt;/code&gt; pod was not able to communicate with the Intuit SSO https url, because outbound traffic from the main container pod is intercepted by Istio sidecar to enforce mtls (default behavior). So, we had to exclude the https port (443) to disable mtls. This can be done using the annotation &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;traffic.sidecar.istio.io/excludeOutboundPorts: &quot;443&quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;step-4-setting-up-ingress&quot;&gt;Step 4: Setting up ingress&lt;/h3&gt;
+
+&lt;p&gt;We exposed the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;istio-ingressgateway&lt;/code&gt; service as LoadBalancer using the following mechanism:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Setting up public hosted zone in Route 53, add host name you would like to use, like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;example.com&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Seting up ACM certificate for the host name you want to use for the Kubeflow installation, host name can be &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubeflow.example.com&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Updating the service manifest by adding afew annotations:
+    &lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Note that the backend talks over HTTP.&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;service.beta.kubernetes.io/aws-load-balancer-backend-protocol&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;http&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# TODO: Fill in with the ARN of your certificate.&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;service.beta.kubernetes.io/aws-load-balancer-ssl-cert&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;cert arn from step 2&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;service.beta.kubernetes.io/aws-load-balancer-security-groups&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;to restrict access within org&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Only run SSL on the port named &quot;https&quot; below.&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;service.beta.kubernetes.io/aws-load-balancer-ssl-ports&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;https&quot;&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;external-dns.alpha.kubernetes.io/hostname&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kubeflow.example.com&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;After applying the new manifest, AWS will automatically add the appropriate A and TXT entries in your hosted zone (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;example.com&lt;/code&gt;) and Kubeflow will be accessible at &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubeflow.example.com&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;To secure the &lt;a href=&quot;https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/#secure-with-https&quot;&gt;Gateway with https&lt;/a&gt;, you can also change the gateway port and add the key and certificate in the Gateway.&lt;/p&gt;
+
+&lt;p&gt;More about these annotations can be found at &lt;a href=&quot;https://aws.amazon.com/premiumsupport/knowledge-center/terminate-https-traffic-eks-acm/&quot;&gt;Terminate HTTPS traffic on Amazon EKS&lt;/a&gt; and &lt;a href=&quot;https://kubernetes.io/docs/concepts/services-networking/service/#ssl-support-on-aws&quot;&gt;SSL support on AWS&lt;/a&gt; blog.&lt;/p&gt;
+
+&lt;h3 id=&quot;step-5-using-an-external-argo-installation&quot;&gt;Step 5: Using an external Argo installation&lt;/h3&gt;
+
+&lt;p&gt;Kubfelow uses Argo workflows internally to run the pipeline in a workflow fashion. Argo generates artifacts after the workflow steps and all we need to do is configure the artifact store if we are planning to use the external Argo:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/argoproj/argo-workflows/blob/master/docs/quick-start.md#install-argo-workflows&quot;&gt;Install argo workflows&lt;/a&gt; in your cluster, it gets installed in a namespace called argo.&lt;/li&gt;
+  &lt;li&gt;Remove all the Argo-related manifests from Kubeflow.&lt;/li&gt;
+  &lt;li&gt;To override the artifact store, you need to change the ConfigMap workflow-controller-configmapwhich comes with the &lt;a href=&quot;https://github.com/kubeflow/manifests/blob/306d02979124bc29e48152272ddd60a59be9306c/argo/base/config-map.yaml&quot;&gt;Kubeflow manifest&lt;/a&gt;. It uses minio as the store but you can configure it to use S3 as well. More details can be found from the &lt;a href=&quot;https://github.com/argoproj/argo-workflows/blob/master/docs/workflow-controller-configmap.md&quot;&gt;Argo&lt;/a&gt;&lt;a href=&quot;https://github.com/argoproj/argo-workflows/blob/master/docs/workflow-controller-configmap.md&quot;&gt;Workflow Controller Configmap github page&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;The latest version of Argo has the option to override &lt;a href=&quot;https://argoproj.github.io/argo-workflows/artifact-repository-ref/&quot;&gt;artifact store for namespace&lt;/a&gt; as well.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;Debugging tricks&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Check if EnvoyFilter is getting applied: you should have the &lt;strong&gt;istioctl&lt;/strong&gt; cmd tool, which makes the job much to install using brew:&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;istioctl proxy-config listeners \&amp;amp;lt;pod name\&amp;amp;gt; --port 15001 -o json&lt;/code&gt;&lt;/p&gt;
+
+    &lt;p&gt;See if the envoy filter is getting listed in the output. More about Istio proxy debugging can be found &lt;a href=&quot;https://istio.io/latest/docs/ops/diagnostic-tools/proxy-cmd/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Check istio-ingressgateway:&lt;/p&gt;
+
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; # Port forward to the first istio-ingressgateway pod
+ kubectl -n istio-system port-forward $(kubectl -n istio-system get pods -listio=ingressgateway -o=jsonpath=&quot;{.items[0].metadata.name}&quot;) 15000
+
+ # Get the http routes from the port-forwarded ingressgateway pod (requires jq)
+ curl --silent http://localhost:15000/config_dump | jq '\''.configs.routes.dynamic_route_configs[].route_config.virtual_hosts[]| {name: .name, domains: .domains, route: .routes[].match.prefix}'\''
+
+ # Get the logs of the first istio-ingressgateway pod
+ # Shows what happens with incoming requests and possible errors
+ kubectl -n istio-system logs $(kubectl -n istio-system get pods -listio=ingressgateway -o=jsonpath=&quot;{.items[0].metadata.name}&quot;) --tail=300
+
+ # Get the logs of the first istio-pilot pod
+ # Shows issues with configurations or connecting to the Envoy proxies
+ kubectl -n istio-system logs $(kubectl -n istio-system get pods -listio=pilot -o=jsonpath=&quot;{.items[0].metadata.name}&quot;) discovery --tail=300
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Check the authservice connectivity: istio-ingressgatewaypod should be able to access authservice. You can check that using the following command:&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubectl -n istio-system exec $(kubectl -n istio-system get pods -listio=pilot -o=jsonpath=&quot;{.items[0].metadata.name}&quot;) -- curl -v http://authservice.istio-system.svc.cluster.local:8080&lt;/code&gt;&lt;/p&gt;
+
+    &lt;p&gt;Also make sure authservice is able to reach dex:&lt;/p&gt;
+
+    &lt;p&gt;In our case, authservice is in the kubeflow namespace so we made changes accordingly using the command below:&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubectl -n kubeflow exec authservice-0 -- wget -q -S -O '-' &amp;lt;oidc auth url&amp;gt;/.well-known/openid-configuration&lt;/code&gt;&lt;/p&gt;
+
+    &lt;p&gt;It should show something like below:&lt;/p&gt;
+    &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;issuer&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;http://dex.kubeflow.svc.cluster.local:5556/dex&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+   &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;authorization_endpoint&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;http://dex.kubeflow.svc.cluster.local:5556/dex/auth&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+   &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;token_endpoint&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;http://dex.kubeflow.svc.cluster.local:5556/dex/token&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+   &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;jwks_uri&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;http://dex.kubeflow.svc.cluster.local:5556/dex/keys&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+   &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;userinfo_endpoint&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;http://dex.kubeflow.svc.cluster.local:5556/dex/userinfo&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+   &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;response_types_supported&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+   &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;subject_types_supported&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;public&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+   &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;id_token_signing_alg_values_supported&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;RS256&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+   &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;scopes_supported&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;openid&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;groups&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;profile&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;offline_access&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+   &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;token_endpoint_auth_methods_supported&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;client_secret_basic&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+   &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;claims_supported&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;aud&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;email_verified&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;exp&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;iat&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;iss&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;locale&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;sub&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Check connectivity between services: try using &lt;strong&gt;curl&lt;/strong&gt; or &lt;strong&gt;wget&lt;/strong&gt; from one service to another. Usually one or the other is always available, otherwise you can always install using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt-get&lt;/code&gt; command. Example use case: from the ml-pipeline deployment pod you can check if pipeline apis are accessible.&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubectl -n kubeflow exec $(kubectl -n kubeflow get pods -lapp=ml-pipeline-ui -o=jsonpath=&quot;{.items[0].metadata.name}&quot;)  -- wget -q -S -O '-' ml-pipeline.kubeflow.svc.cluster.local:8888/apis/v1beta1/pipelines&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;asks-for-the-kubeflow-community&quot;&gt;Asks for the Kubeflow Community&lt;/h2&gt;
+
+&lt;p&gt;The challenges that we encountered at Intuit are not unique, and will be faced by any enterprise that wants to adopt Kubeflow.&lt;/p&gt;
+
+&lt;p&gt;It would be nice to have Kubeflow play well with the available Kubernetes infrastructure in an enterprise, rather than mandating its own set of infrastructure. Here are some suggestions/bugs for improving the ecosystem, some of which Intuit will work with the community to build out:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;We saw Kubeflow manifest repo went through &lt;a href=&quot;https://github.com/kubeflow/manifests/issues/1735&quot;&gt;major folder restructuring&lt;/a&gt; for v1.3 but we think there is still room for improvements.&lt;/li&gt;
+  &lt;li&gt;Multi Cluster / Multi Region support. &lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/5467&quot;&gt;#5467&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Upgrade seems to be an issue in general, should figure out a way to manage this better. &lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/5440&quot;&gt;#5440&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Multi-tenancy with group support. &lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/4188&quot;&gt;#4188&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Installing Kubeflow in any custom namespace. &lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/5647&quot;&gt;#5647&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Existing metadata service is not performant, we did try some settings with more resources and horizontal scaling. Community is already working on &lt;a href=&quot;https://docs.google.com/document/d/1fHU29oScMEKPttDA1Th1ibImAKsFVVt2Ynr4ZME05i0/edit&quot;&gt;KFP v2.0&lt;/a&gt;, which might address alot of concerns around metadata service.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.google.com/document/d/1fHU29oScMEKPttDA1Th1ibImAKsFVVt2Ynr4ZME05i0/edit&quot;&gt;Kubeflow Pipelines (KFP) v2 System Design&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://istio.io/latest/docs/reference/config/networking/&quot;&gt;Traffic Management Components&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://istio.io/v1.6/docs/ops/deployment/architecture/&quot;&gt;Istio 1.6 Architecture&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://istio.io/v1.3/docs/concepts/what-is-istio/#architecture&quot;&gt;Istio 1.3 Architecture&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://aws.amazon.com/premiumsupport/knowledge-center/terminate-https-traffic-eks-acm/&quot;&gt;Terminate HTTPS traffic on Amazon EKS&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://kubernetes.io/docs/concepts/services-networking/service/#ssl-support-on-aws&quot;&gt;SSL support on AWS&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.developermarch.com/developersummit/downloadPDF/Intuit%20Modern%20SaaS%20Platform%20-%20GIDS.pdf&quot;&gt;Intuit’s Modern SaaS Platform&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=EWyNbBn1vns&quot;&gt;Stitching a Service Mesh Across Hundreds of Discrete Networks&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://istio.io/latest/blog/2020/multi-cluster-mesh-automation/&quot;&gt;Multicluster Istio configuration and service discovery using Admiral&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://medium.com/intuit-engineering/genius-of-admiral-3307e63e3ab6&quot;&gt;Genius of Admiral&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>&lt;a href='https://www.linkedin.com/in/deepk2u/'&gt;Deepak Kumar&lt;/a&gt;</name></author><category term="kubeflow" /><category term="kubeflow 1.3" /><category term="install kubeflow" /><category term="kubeflow pipelines" /><category term="intuit" /><category term="istio" /><category term="service mesh" /><category term="argo" /><summary type="html">Deploying Kubeflow 1.3 in an enterprise with existing Kubernetes infrastructure, a Service Mesh (Istio), and Argo, presents a host of challenges. This blog will address how those challenges were overcome while retaining the best practices that both the organization and Kubeflow prescribe.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The Kubeflow 1.3 software release streamlines ML workflows and simplifies ML platform operations</title><link href="https://blog.kubeflow.org/kubeflow-1.3-release/" rel="alternate" type="text/html" title="The Kubeflow 1.3 software release streamlines ML workflows and simplifies ML platform operations" /><published>2021-04-23T00:00:00-05:00</published><updated>2021-04-23T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.3-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.3-release/">&lt;p&gt;The Kubeflow 1.3 release delivers simplified ML workflows and additional Kubernetes integrated features to optimize operational and infrastructure efficiencies. 
 In addition to new User Interfaces (UIs), which improve ML workflows for pipeline building, model tuning, serving and monitoring, 1.3 also enables “headless” GitOps-inspired installation patterns.
 The latest version of Kubeflow provides users with a mature foundation and delivers a modern ML platform with best-in-class Key Performance Indicators (KPIs).&lt;/p&gt;
 
@@ -2102,101 +2480,4 @@ update our pipeline definitions.&lt;/p&gt;
 
 &lt;p&gt;If you have questions, run into issues, please leverage the Slack channel and/or submit bugs via &lt;a href=&quot;https://github.com/kubeflow&quot;&gt;Kubeflow on GitHub&lt;/a&gt;. Thanks from all of us in the Community, and we look forward to your success with Kubeflow 1.1.&lt;/p&gt;
 
-&lt;p&gt;Special thanks to Yuan Tang (Ant Group), Josh Bottum (Arrikto), Constantinos Venetsanopoulos (Arrikto), Yannis Zarkadas (Arrikto), Jiaxin Shan (AWS), Dan Sun (Bloomberg), Andrey Velichkevich (Cisco), Krishna Durai (Cisco), Hamel Husain (GitHub), Willem Pienaar (GoJek), Yuan Gong (Google), Jeremy Lewi (Google), Animesh Singh (IBM) and Clive Cox (Seldon) for their help on this post.&lt;/p&gt;</content><author><name></name></author><category term="release" /><category term="official" /><summary type="html">The Kubeflow Community’s delivery of Kubeflow 1.1 offers users valuable ML workflow automation with Fairing and Kale along with MXNet and XGBoost distributed training operators. It extends isolation and security through the delivery of multi-user pipelines, CVE scanning, and support for Google’s Private GKE and Anthos. 1.1 also improves Katib’s hyperparameter tuning features by offering new frameworks &amp;amp; algorithms, and enables flexible configuration &amp;amp; tuning options. 1.1 provides a foundation for consistent and repeatable installation and operations using GitOps methodologies powered by blueprints and kpt primitives.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Kubeflow &amp;amp; Kale simplify building better ML Pipelines with automatic hyperparameter tuning</title><link href="https://blog.kubeflow.org/integrations/2020/07/10/kubeflow-kale.html" rel="alternate" type="text/html" title="Kubeflow &amp;amp; Kale simplify building better ML Pipelines with automatic hyperparameter tuning" /><published>2020-07-10T00:00:00-05:00</published><updated>2020-07-10T00:00:00-05:00</updated><id>https://blog.kubeflow.org/integrations/2020/07/10/kubeflow-kale</id><content type="html" xml:base="https://blog.kubeflow.org/integrations/2020/07/10/kubeflow-kale.html">&lt;p&gt;Running pipelines at scale has never been easier.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/2880/0*FJeDeyRWItzxlvXQ&quot; alt=&quot;Kubeflow’s Kale is maturing and fast becoming the superfood that glues together the main Kubeflow components to provide a cohesive and seamless data science experience.&quot; /&gt;&lt;em&gt;Kubeflow’s Kale is maturing and fast becoming the superfood that glues together the main Kubeflow components to provide a cohesive and seamless data science experience.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;TL;DR: Convert Notebook to Kubeflow Pipelines, run them as hyperparameter tuning experiments, track executions and artifacts with MLMD, cache and maintain an immutable history of executions: Kale brings all of this on the table in a unified workflow tool, simple to use.&lt;/em&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;running-pipelines-at-scale-has-never-been-easier&quot;&gt;Running pipelines at scale has never been easier&lt;/h3&gt;
-
-&lt;p&gt;Kubeflow’s Kale is maturing and fast becoming the superfood that glues together the main Kubeflow components to provide a cohesive and seamless data science experience. With its &lt;a href=&quot;https://github.com/kubeflow-kale/kale/releases/tag/v0.5.0&quot;&gt;newest release&lt;/a&gt;, Kale provides an end-to-end workflow that encompasses Jupyter Notebooks, Kubeflow Pipelines, hyperparameter tuning with Katib, metadata tracking with ML Metadata (MLMD), and faster pipeline executions with caching.&lt;/p&gt;
-
-&lt;p&gt;If you are new to Kale, head over to this &lt;a href=&quot;https://medium.com/kubeflow/automating-jupyter-notebook-deployments-to-kubeflow-pipelines-with-kale-a4ede38bea1f&quot;&gt;short introduction&lt;/a&gt; to get started!&lt;/p&gt;
-
-&lt;p&gt;In this blog post, you will learn about the features that Kale is bringing to the Machine Learning community with version 0.5, and learn how to get started with a curated example.&lt;/p&gt;
-
-&lt;h2 id=&quot;new-face&quot;&gt;New Face&lt;/h2&gt;
-
-&lt;p&gt;First off, we are excited to reveal the new Kale logo. Kudos to Konstantinos Palaiologos (Arrikto) for designing the brand new, modern Kale leaf. This will be the new face of the project from now on.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/2880/0*r_FtjDyHMT5xkAra&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;hyperparameter-tuning&quot;&gt;Hyperparameter Tuning&lt;/h2&gt;
-
-&lt;p&gt;The major new addition in v0.5 is the support for running pipelines with&lt;a href=&quot;https://www.kubeflow.org/docs/components/hyperparameter-tuning/&quot;&gt; Katib&lt;/a&gt;. Katib is Kubeflow’s component to run general purpose hyperparameter tuning jobs. Just as you would press a single button to convert a notebook to a pipeline, you can now press a button and let Kale start a hyperparameter Job on that pipeline. All you need to do is tell Kale what the HP tuning job should search for.&lt;/p&gt;
-
-&lt;p&gt;Running hyperparameter tuning jobs gives you a dramatic boost in delivering good results for your project. The *manual *tuning process of running your model countless times, using different parameters combinations, aggregating them and comparing them, is error-prone and inefficient. Delegating this work to an automated process allows you to become faster, more efficient and accurate.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/2000/0*LFgPeIs7oMO0AQCz&quot; alt=&quot;Parametrize the HP tuning Job directly from the notebook&quot; /&gt;&lt;em&gt;Parametrize the HP tuning Job directly from the notebook&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Katib does not know anything about the jobs that it is actually running (called Trials in the Katib jargon). Katib supports running Trials as simple Jobs (that is, Pods), BatchJobs, &lt;a href=&quot;https://www.kubeflow.org/docs/components/training/tftraining/&quot;&gt;TFJobs&lt;/a&gt;, and &lt;a href=&quot;https://www.kubeflow.org/docs/components/training/pytorch/&quot;&gt;PyTorchJobs&lt;/a&gt;. Kale 0.5 integrates Katib with Kubeflow Pipelines. This enables Katib trails to run as pipelines in KFP. The metrics from the pipeline runs are provided to help in model performance analysis and debugging. All Kale needs to know from the user is the search space, the optimization algorithm, and the search goal.&lt;/p&gt;
-
-&lt;p&gt;Kale will also make sure that all the runs of a Katib experiment, end up unified and grouped, under a single KFP experiment, to make it easy to search and isolate a particular job.&lt;/p&gt;
-
-&lt;p&gt;Kale will also show a &lt;strong&gt;live view&lt;/strong&gt; of the running experiments, directly in the notebook, so you will know how many pipelines are still running and, upon completion, which one performed best.&lt;/p&gt;
-
-&lt;h2 id=&quot;new-features&quot;&gt;New features&lt;/h2&gt;
-
-&lt;h3 id=&quot;pipeline-parameters-and-metrics&quot;&gt;Pipeline parameters and metrics&lt;/h3&gt;
-
-&lt;p&gt;In order to run pipelines with hyperparameter tuning, the pipeline needs to be able to accept arguments and produce metrics. Enabling the pipeline to do this, is now tremendously easy. Kale provides two new cell tags: pipeline-parameters and pipeline-metrics.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/2000/0*3Tix4kBJyfgy1YtG&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Assigning the pipeline-parameters tag on any cell that contains some variables will instruct Kale to transform them to pipeline parameters. These values will then be passed to the pipeline steps that actually make use of them.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/2000/0*dtzxRAyAzLRlxQij&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;If you want the pipeline to produce some metrics, just print them at the end of the notebook and assign the pipeline-metrics tag to the cell. Kale will take care of understanding which steps produce the metrics and you will see them appear in the KFP dashboard.&lt;/p&gt;
-
-&lt;h3 id=&quot;rich-notebook-outputs&quot;&gt;Rich notebook outputs&lt;/h3&gt;
-
-&lt;p&gt;Having your pipelines produce rich outputs (like plots, tables, metrics, …) that can be captured and displayed by the Kubeflow Pipelines dashboard has always been somewhat cumbersome. You would need to write some KFP-specific code to produce json artifacts that would then be interpreted by KFP.&lt;/p&gt;
-
-&lt;p&gt;What if you could just write plain Python in your Notebook using your favourite plotting library, and have the plots auto-magically appear as KFP outputs, when the Notebook gets compiled into a pipeline?&lt;/p&gt;
-
-&lt;p&gt;Now, when running your notebook code inside a pipeline step, Kale will wrap it and feed it to an ipython kernel, so that all the nice artifacts produced in the notebook, will be produced in the pipeline as well. Kale will capture all these rich outputs automatically and instruct KFP to display them in the dashboard. Effectively, whatever happens in the notebook, now happens in the pipeline as well. The execution context is &lt;strong&gt;exactly the same&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/2712/1*C-tT0FY8pdz7GdAy6meO2A.png&quot; alt=&quot;Any rich output that is visible in the notebook gets captured by Kale and exposed in the KFP dashboard.&quot; /&gt;&lt;em&gt;Any rich output that is visible in the notebook gets captured by Kale and exposed in the KFP dashboard.&lt;/em&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;mlmd-integration&quot;&gt;MLMD Integration&lt;/h3&gt;
-
-&lt;p&gt;An important part of running reproducible Machine Learning collaboratively and at scale, is being able to track pipeline executions, their inputs, their outputs and how these are connected together. Kubeflow provides an ML Metadata service which serves this exact purpose. This service also includes a lineage view to enable the user to have a deep insight into the whole history of events.&lt;/p&gt;
-
-&lt;p&gt;Kale is now fully integrated with this service, logging each new execution automatically alongside all the artifacts produced by the pipeline.&lt;/p&gt;
-
-&lt;h3 id=&quot;run-on-gpu&quot;&gt;Run on GPU&lt;/h3&gt;
-
-&lt;p&gt;If you need to run a particular step on a GPU node, Kale has you covered too. You can now annotate steps with a dedicated dialog, directly from the notebook and each step can have its own annotations. This is just the first iteration, Kale will support adding any kind of K8s limits or annotations to pipeline steps in the near future.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/2000/0*_gRl8SEBKs-WqKPX&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;overall-ui-and-performance-improvements&quot;&gt;Overall UI and performance improvements&lt;/h3&gt;
-
-&lt;p&gt;The new version of Kale’s JupyterLab brings tons of performance improvements and UI enhancements. Updating the notebook cells’ annotations will now be easier and faster. We covered many corner cases and solved tons of bugs. The UI of the cell’s annotation editor is more consistent with the overall Jupyter style and much more intuitive and easy to use. A big shoutout to Tasos Alexiou (Arrikto) for having spent countless hours in understanding the Jupyter internals and improving our application lifecycle.&lt;/p&gt;
-
-&lt;h2 id=&quot;hands-on&quot;&gt;Hands-On&lt;/h2&gt;
-
-&lt;p&gt;To start playing-around with Kale v0.5, head over to the GitHub repository and follow the installation instructions. If you are already running Kubeflow (either in your own cluster or on MiniKF), spin up a new Notebook Server using the image gcr.io/arrikto/jupyter-kale:v0.5.0.&lt;/p&gt;
-
-&lt;p&gt;Note: Kale v0.5 needs to run on Kubeflow ≥ 1.0. Also, make sure that the following Kubeflow components are updated as follows:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Katib controller: gcr.io/arrikto/katib-controller:40b5b51a&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Katib Chocolate service: gcr.io/arrikto/suggestion-chocolate:40b5b51a&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;We will release a new version of MiniKF &lt;em&gt;very soon,&lt;/em&gt; containing a lot of improvements that will make the Kale experience even better. You will also be able to go through a new Codelab to try out the Kale-Katib integration yourself. Stay tuned for updates on the Arrikto channels.&lt;/p&gt;
-
-&lt;h2 id=&quot;road-ahead&quot;&gt;Road Ahead&lt;/h2&gt;
-
-&lt;p&gt;We are always looking to improve Kale and help data scientists have a seamless ML workflow from writing code to training, optimizing, and serving their models.&lt;/p&gt;
-
-&lt;p&gt;We are excited to have the ML community try out this new version of Kale and the coming MiniKF update.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;A special mention must go to the various members of the Arrikto team (Ilias Katsakioris, Chris Pavlou, Kostis Lolos, Tasos Alexiou) who contributed to delivering all these new features.&lt;/em&gt;&lt;/p&gt;</content><author><name>Stefano Fioravanzo</name></author><category term="integrations" /><summary type="html">Running pipelines at scale has never been easier.</summary></entry></feed>
+&lt;p&gt;Special thanks to Yuan Tang (Ant Group), Josh Bottum (Arrikto), Constantinos Venetsanopoulos (Arrikto), Yannis Zarkadas (Arrikto), Jiaxin Shan (AWS), Dan Sun (Bloomberg), Andrey Velichkevich (Cisco), Krishna Durai (Cisco), Hamel Husain (GitHub), Willem Pienaar (GoJek), Yuan Gong (Google), Jeremy Lewi (Google), Animesh Singh (IBM) and Clive Cox (Seldon) for their help on this post.&lt;/p&gt;</content><author><name></name></author><category term="release" /><category term="official" /><summary type="html">The Kubeflow Community’s delivery of Kubeflow 1.1 offers users valuable ML workflow automation with Fairing and Kale along with MXNet and XGBoost distributed training operators. It extends isolation and security through the delivery of multi-user pipelines, CVE scanning, and support for Google’s Private GKE and Anthos. 1.1 also improves Katib’s hyperparameter tuning features by offering new frameworks &amp;amp; algorithms, and enables flexible configuration &amp;amp; tuning options. 1.1 provides a foundation for consistent and repeatable installation and operations using GitOps methodologies powered by blueprints and kpt primitives.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

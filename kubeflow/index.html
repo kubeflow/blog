@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh" />
+<meta name="author" content="<a href='https://www.linkedin.com/in/deepk2u/'>Deepak Kumar</a>" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Installing Kubeflow 1.3 in an existing Kubernetes cluster with Istio service mesh and Argo" />
+<meta property="og:description" content="Installing Kubeflow 1.3 in an existing Kubernetes cluster with Istio service mesh and Argo" />
+<link rel="canonical" href="https://blog.kubeflow.org/kubeflow/" />
+<meta property="og:url" content="https://blog.kubeflow.org/kubeflow/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-05-03T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/kubeflow/","@type":"BlogPosting","headline":"Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh","dateModified":"2021-05-03T00:00:00-05:00","datePublished":"2021-05-03T00:00:00-05:00","image":"https://blog.kubeflow.org/images/logo.png","author":{"@type":"Person","name":"<a href='https://www.linkedin.com/in/deepk2u/'>Deepak Kumar</a>"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow/"},"description":"Installing Kubeflow 1.3 in an existing Kubernetes cluster with Istio service mesh and Argo","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh</h1><p class="page-description">Installing Kubeflow 1.3 in an existing Kubernetes cluster with Istio service mesh and Argo</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-05-03T00:00:00-05:00" itemprop="datePublished">
+        May 3, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name"><a href='https://www.linkedin.com/in/deepk2u/'>Deepak Kumar</a></span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      12 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#kubeflow">kubeflow</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#kubeflow 1.3">kubeflow 1.3</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#install kubeflow">install kubeflow</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#kubeflow pipelines">kubeflow pipelines</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#intuit">intuit</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#istio">istio</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#service mesh">service mesh</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#argo">argo</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#lay-of-the-land-at-intuit">Lay of the land at Intuit</a></li>
+<li class="toc-entry toc-h2"><a href="#kubeflow-and-istio">Kubeflow and Istio</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#step-1-remove-default-istio-configurations-and-argo-from-kubeflow">Step 1: Remove default Istio configurations and Argo from Kubeflow</a></li>
+<li class="toc-entry toc-h3"><a href="#step-2-kustomize-the-kubeflow-manifests">Step 2: Kustomize the Kubeflow manifests</a></li>
+<li class="toc-entry toc-h3"><a href="#step-3-custom-changes-needed-for-sso">Step 3: Custom changes needed for SSO</a></li>
+<li class="toc-entry toc-h3"><a href="#step-4-setting-up-ingress">Step 4: Setting up ingress</a></li>
+<li class="toc-entry toc-h3"><a href="#step-5-using-an-external-argo-installation">Step 5: Using an external Argo installation</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#asks-for-the-kubeflow-community">Asks for the Kubeflow Community</a></li>
+</ul><p>Deploying Kubeflow 1.3 in an enterprise with existing Kubernetes infrastructure, a Service Mesh (Istio), and Argo, presents a host of challenges.
+This blog will address how those challenges were overcome while retaining the best practices that both the organization and Kubeflow prescribe.</p>
+
+<h2 id="lay-of-the-land-at-intuit">
+<a class="anchor" href="#lay-of-the-land-at-intuit" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lay of the land at Intuit</h2>
+
+<p>Intuit has invested heavily in building out a robust Kubernetes infrastructure that powers all of Intuit’s products: TurboTax, QuickBooks and Mint. There are thousands of services that run on over a hundred Kubernetes clusters. Managing these clusters is the Intuit Kubernetes Service (IKS) control plane. The IKS control plane provides services such as namespace management, role management and isolation etc. Connecting the services is an advanced, Istio-based service mesh, which complements Intuit’s API Gateway. In combination, they provide robust authentication, authorization, rate limiting and other routing capabilities.</p>
+
+<p>The Intuit ML Platform is built on this ecosystem, and provides model training, inference and feature management capabilities, leveraging the best of Intuit’s Kubernetes infrastructure and AWS SageMaker. This is the backdrop against which we started exploring Kubeflow to provide advanced orchestration, experimentation and other services.</p>
+
+<h2 id="kubeflow-and-istio">
+<a class="anchor" href="#kubeflow-and-istio" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kubeflow and Istio</h2>
+
+<p>Our first challenge with running Kubeflow was the compatibility of Kubeflow’s Istio with Intuit’s existing Service Mesh built on top of Istio. Two key problems emerged: version compatibility and operational maintenance.</p>
+
+<p>Kubeflow v1.3 defaults to Istio (v1.9), and luckily it is compatible with the older versions of Istio (v1.6), which is what Intuit runs on. Running two Istio versions is impractical, as that would defeat the benefit of a large, interconnected existing service mesh. Hence, we wanted Kubeflow to work seamlessly with Intuit’s service mesh running Istio v1.6.</p>
+
+<p>If you are new to Istio, you might want a primer on these key <a href="https://istio.io/latest/docs/reference/config/networking/">Traffic Management Components</a> and <a href="https://istio.io/latest/docs/reference/config/security/">Security Cpmponents</a>:</p>
+
+<ol>
+  <li>VirtualService</li>
+  <li>DestinationRule</li>
+  <li>Gateway</li>
+  <li>EnvoyFilter</li>
+  <li>AuthorizationPolicy</li>
+</ol>
+
+<h3 id="step-1-remove-default-istio-configurations-and-argo-from-kubeflow">
+<a class="anchor" href="#step-1-remove-default-istio-configurations-and-argo-from-kubeflow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 1: Remove default Istio configurations and Argo from Kubeflow</h3>
+
+<p>The first step to running Kubeflow was to remove the Istio and Argo bundled with Kubeflow, so that it could be integrated with the Intuit service mesh.</p>
+
+<p><strong>To Remove Kubeflow’s default Istio</strong></p>
+
+<p>We have used Kustomize to build the manifest we need for our Kubeflow installation and we are using <a href="https://argoproj.github.io/argo-cd/">ArgoCD</a> to deploy the Kubeflow Kubernetes manifests.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.
+├── base                        # Base folder for the kubeflow out of the box manifests
+│   ├── kustomization.yaml      
+│   ├── pipelines               # Folder for Kubeflow Pipelines module
+│   │   ├── kustomization.yaml
+│   ├── other modules           # Similar to Pipeliens module you can bring other modules as well
+│       ├── kustomization.yaml
+├── envs                        # Folder for all the Kubeflow environments
+│   ├── prod               
+│   │   ├── kustomization.yaml
+│   ├── dev               
+│       ├── kustomization.yaml
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">base -&gt; kustomization.yaml</code></p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kustomize.config.k8s.io/v1beta1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Kustomization</span>
+
+<span class="na">resources</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">github.com/kubeflow/manifests/common/kubeflow-roles/base?ref=v1.3.0</span>
+<span class="pi">-</span> <span class="s">github.com/kubeflow/manifests/common/kubeflow-namespace/base?ref=v1.3.0</span>
+<span class="pi">-</span> <span class="s">github.com/kubeflow/manifests/common/oidc-authservice/base?ref=v1.3.0</span>
+<span class="pi">-</span> <span class="s">github.com/kubeflow/manifests/apps/admission-webhook/upstream/overlays/cert-manager?ref=v1.3.0</span>
+<span class="pi">-</span> <span class="s">github.com/kubeflow/manifests/apps/profiles/upstream/overlays/kubeflow?ref=v1.3.0</span>
+<span class="pi">-</span> <span class="s">github.com/kubeflow/manifests/apps/centraldashboard/upstream/overlays/istio?ref=v1.3.0</span>
+<span class="pi">-</span> <span class="s">pipelines</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">base -&gt; pipelines -&gt; kustomization.yaml</code></p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kustomize.config.k8s.io/v1beta1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Kustomization</span>
+<span class="na">bases</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">github.com/kubeflow/pipelines/manifests/kustomize/base/installs/multi-user?ref=1.5.0</span>
+  <span class="pi">-</span> <span class="s">github.com/kubeflow/pipelines/manifests/kustomize/base/metadata/base?ref=1.5.0</span>
+  <span class="pi">-</span> <span class="s">github.com/kubeflow/pipelines/manifests/kustomize/base/metadata/options/istio?ref=1.5.0</span>
+  <span class="c1"># To remove the default Argo from Pipelines module</span>
+  <span class="c1"># - github.com/kubeflow/pipelines/manifests/kustomize/third-party/argo/installs/cluster?ref=1.5.0</span>
+  <span class="pi">-</span> <span class="s">github.com/kubeflow/pipelines/manifests/kustomize/third-party/mysql/base?ref=1.5.0</span>
+  <span class="pi">-</span> <span class="s">github.com/kubeflow/pipelines/manifests/kustomize/third-party/mysql/options/istio?ref=1.5.0</span>
+  <span class="pi">-</span> <span class="s">github.com/kubeflow/pipelines/manifests/kustomize/third-party/minio/base?ref=1.5.0</span>
+  <span class="pi">-</span> <span class="s">github.com/kubeflow/pipelines/manifests/kustomize/third-party/minio/options/istio?ref=1.5.0</span>
+  <span class="pi">-</span> <span class="s">github.com/kubeflow/pipelines/manifests/kustomize/third-party/metacontroller/base?ref=1.5.0</span>
+
+<span class="c1"># Identifier for application manager to apply ownerReference.</span>
+<span class="c1"># The ownerReference ensures the resources get garbage collected</span>
+<span class="c1"># when application is deleted.</span>
+<span class="na">commonLabels</span><span class="pi">:</span>
+  <span class="na">application-crd-id</span><span class="pi">:</span> <span class="s">kubeflow-pipelines</span>
+
+<span class="c1"># !!! If you want to customize the namespace,</span>
+<span class="c1"># please also update base/cache-deployer/cluster-scoped/cache-deployer-clusterrolebinding.yaml</span>
+<span class="na">namespace</span><span class="pi">:</span> <span class="s">kubeflow</span>
+</code></pre></div></div>
+
+<p>Note: we had to create a separate folder for pipelines because we didn’t want to use Argo, which comes with a Piplines module. If you can use default Argo, then you can simply use <code class="language-plaintext highlighter-rouge">https://github.com/kubeflow/manifests/apps/pipeline/upstream/env/platform-agnostic-multi-user-pns?ref=v1.3.0</code> instead of the pipelines folder.</p>
+
+<p>If you don’t want to use ArgoCD, you can build the manifest using the <code class="language-plaintext highlighter-rouge">kustomize build</code> command, which is essentially what ArgoCD does. The configuration above has been tested for Kustomize 3.8.x and 4.0.x, and it works with both.</p>
+
+<h3 id="step-2-kustomize-the-kubeflow-manifests">
+<a class="anchor" href="#step-2-kustomize-the-kubeflow-manifests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 2: Kustomize the Kubeflow manifests</h3>
+
+<p>Given the managed Kubernetes ecosystem at Intuit, protocols for service to service communication and namespace isolation is opinionated, and we had to make following changes:</p>
+
+<ol>
+  <li>Enable Kubeflow namespace for <a href="https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection">Istio injection</a> by adding the label <code class="language-plaintext highlighter-rouge">istio-injection: enabled</code> in the namespace specification. This label is then used by Istio to add the sidecar into the namespace.</li>
+  <li>Enable sidecar injection to all the deployments and statefulsets in Kubeflow by adding the annotation <code class="language-plaintext highlighter-rouge">sidecar.istio.io/inject: "true"</code>, along with some Intuit-specific custom labels and annotations to the Deployments and StatefulSets.</li>
+  <li>Intuit’s security policies forbid the direct use of external container registries. Intuit’s internal container registry runs regular vulnerability scans and certifies Docker images for use in various environments. The internal container registry also has an allow list that enables external registries to be proxied and held to the same, high security standards. This was enabled for all Kubeflow containers.</li>
+  <li>Changes in VirtualService to route all the traffic from one central gateway instead of using Kubeflow gateway.</li>
+</ol>
+
+<p>We have used <a href="https://kustomize.io/">Kustomize</a> to modify the Kubeflow application manifest.</p>
+
+<ol>
+  <li>For adding labels, we have used LabelTransformer
+    <div class="language-yaml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>     <span class="na">apiVersion</span><span class="pi">:</span> <span class="s">builtin</span>
+     <span class="na">kind</span><span class="pi">:</span> <span class="s">LabelTransformer</span>
+     <span class="na">metadata</span><span class="pi">:</span>
+       <span class="na">name</span><span class="pi">:</span> <span class="s">deployment-labels</span>
+     <span class="na">labels</span><span class="pi">:</span>
+       <span class="s">&lt;Intuit custom labels&gt;</span>
+       <span class="s">istio-injected</span><span class="pi">:</span> <span class="s2">"</span><span class="s">true"</span>
+     <span class="na">fieldSpecs</span><span class="pi">:</span>
+     <span class="pi">-</span> <span class="na">path</span><span class="pi">:</span> <span class="s">spec/template/metadata/labels</span>
+       <span class="na">kind</span><span class="pi">:</span> <span class="s">Deployment</span>
+       <span class="na">create</span><span class="pi">:</span> <span class="no">true</span>
+     <span class="pi">-</span> <span class="na">path</span><span class="pi">:</span> <span class="s">spec/template/metadata/labels</span>
+       <span class="na">kind</span><span class="pi">:</span> <span class="s">StatefulSet</span>
+       <span class="na">create</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>For adding annotations, we have used AnnotationsTransformer</p>
+
+    <div class="language-yaml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="na">apiVersion</span><span class="pi">:</span> <span class="s">builtin</span>
+ <span class="na">kind</span><span class="pi">:</span> <span class="s">AnnotationsTransformer</span>
+ <span class="na">metadata</span><span class="pi">:</span>
+   <span class="na">name</span><span class="pi">:</span> <span class="s">deployment-annotations</span>
+ <span class="na">annotations</span><span class="pi">:</span>
+   <span class="s">&lt;Intuit custom annotations&gt;</span>
+   <span class="s">sidecar.istio.io/inject</span><span class="pi">:</span> <span class="s2">"</span><span class="s">true"</span>
+ <span class="na">fieldSpecs</span><span class="pi">:</span>
+ <span class="pi">-</span> <span class="na">path</span><span class="pi">:</span> <span class="s">spec/template/metadata/annotations</span>
+   <span class="na">kind</span><span class="pi">:</span> <span class="s">Deployment</span>
+   <span class="na">create</span><span class="pi">:</span> <span class="no">true</span>
+ <span class="pi">-</span> <span class="na">path</span><span class="pi">:</span> <span class="s">spec/template/metadata/annotations</span>
+   <span class="na">kind</span><span class="pi">:</span> <span class="s">StatefulSet</span>
+   <span class="na">create</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>For replacing docker image urls, we used ImageTagTransformer</p>
+
+    <div class="language-yaml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="na">apiVersion</span><span class="pi">:</span> <span class="s">builtin</span>
+ <span class="na">kind</span><span class="pi">:</span> <span class="s">ImageTagTransformer</span>
+ <span class="na">metadata</span><span class="pi">:</span>
+   <span class="na">name</span><span class="pi">:</span> <span class="s">image-transformer-1</span>
+ <span class="na">imageTag</span><span class="pi">:</span>
+   <span class="na">name</span><span class="pi">:</span> <span class="s">gcr.io/ml-pipeline/cache-deployer</span>
+   <span class="na">newName</span><span class="pi">:</span> <span class="s">docker.intuit.com/gcr-rmt/ml-pipeline/cache-deployer</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>For transforming VirtualServices</p>
+
+    <div class="language-yaml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="pi">-</span> <span class="na">op</span><span class="pi">:</span> <span class="s">remove</span>
+   <span class="na">path</span><span class="pi">:</span> <span class="s">/spec/hosts/0</span>
+ <span class="pi">-</span> <span class="na">op</span><span class="pi">:</span> <span class="s">replace</span>
+   <span class="na">path</span><span class="pi">:</span> <span class="s">/spec/gateways/0</span>
+   <span class="na">value</span><span class="pi">:</span> <span class="s">&lt;custom gateway&gt;</span>
+ <span class="pi">-</span> <span class="na">op</span><span class="pi">:</span> <span class="s">add</span>
+   <span class="na">path</span><span class="pi">:</span> <span class="s">/spec/hosts/0</span>
+   <span class="na">value</span><span class="pi">:</span> <span class="s">&lt;kubflow host name&gt;</span>
+ <span class="pi">-</span> <span class="na">op</span><span class="pi">:</span> <span class="s">add</span>
+   <span class="na">path</span><span class="pi">:</span> <span class="s">/spec/exportTo</span>
+   <span class="na">value</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">."</span><span class="pi">]</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>To wire everything up, we used Kustomization manifest</p>
+
+    <p><code class="language-plaintext highlighter-rouge">envs -&gt; prod/dev -&gt; kustomization.yaml</code></p>
+    <div class="language-yaml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kustomize.config.k8s.io/v1beta1</span>
+ <span class="na">kind</span><span class="pi">:</span> <span class="s">Kustomization</span>
+
+ <span class="na">resources</span><span class="pi">:</span>
+ <span class="pi">-</span> <span class="s">kubeflow.yaml</span>
+
+ <span class="na">transformers</span><span class="pi">:</span>
+ <span class="pi">-</span> <span class="s">transformers/image-transformers.yaml</span>
+ <span class="pi">-</span> <span class="s">transformers/label-transformers.yaml</span>
+ <span class="pi">-</span> <span class="s">transformers/annotations-transformers.yaml</span>
+
+ <span class="na">patchesJson6902</span><span class="pi">:</span>
+ <span class="c1"># patch VirtualService with explicit host</span>
+ <span class="c1"># add multiple targets like below for all the VirtualServices which you need</span>
+ <span class="pi">-</span> <span class="na">path</span><span class="pi">:</span> <span class="s">patches/virtual-service-hosts.yaml</span>
+   <span class="na">target</span><span class="pi">:</span>
+     <span class="na">group</span><span class="pi">:</span> <span class="s">networking.istio.io</span>
+     <span class="na">version</span><span class="pi">:</span> <span class="s">v1alpha3</span>
+     <span class="na">kind</span><span class="pi">:</span> <span class="s">VirtualService</span>
+     <span class="na">name</span><span class="pi">:</span> <span class="s">centraldashboard</span>
+</code></pre></div>    </div>
+  </li>
+  <li>You might face issues with <code class="language-plaintext highlighter-rouge">metadata_envoy</code> service, in our case we were getting following error
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> [debug][init] [external/envoy/source/common/init/watcher_impl.cc:27] init manager Server destroyed
+ unable to bind domain socket with id=0 (see --base-id option)
+ 2021-01-29T23:32:26.680310Z	error	Epoch 0 exited with error: exit status 1
+</code></pre></div>    </div>
+
+    <p>After looking up, we found that, when you run this docker image with Istio Sidecar injection, this problem occurs.
+ The reason is, both these containers are essentially envoyproxy containers and default base-id for both
+ containers is set to 0.</p>
+
+    <p>So to make it work, we had to change CMD in this <a href="https://github.com/kubeflow/pipelines/blob/1.4.1/third_party/metadata_envoy/Dockerfile#L27">Dockerfile</a></p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> CMD ["/etc/envoy.yaml", "--base-id", "1"]
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="step-3-custom-changes-needed-for-sso">
+<a class="anchor" href="#step-3-custom-changes-needed-for-sso" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 3: Custom changes needed for SSO</h3>
+
+<p>There are two major components around authentication using SSO:</p>
+
+<ol>
+  <li>Authservice: It is a StatefulSet that runs the oidc-auth service. It runs in istio-system namespace and directly talks to an OIDC service for authentication</li>
+  <li>Authn-filter: It’s an EnvoyFilter which filters the traffic to authservice and checks the Kubeflow auth header and redirects to authservice if request is not authorized, check the presence of header called <code class="language-plaintext highlighter-rouge">kubeflow-userid</code>
+</li>
+</ol>
+
+<p>Note: Intuit SSO supports OIDC, so we did not need to use dex for the integration. If your org’s SSO does not support OIDC, then you can use dex in the middle; details can be found <a href="https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/">here</a>.</p>
+
+<p>For our installation, we needed the authservice to be mesh-enabled, and it made more sense to move authservice to the <code class="language-plaintext highlighter-rouge">kubeflow</code> namespace as well, which was already enabled for Istio sidecar injection.</p>
+
+<p>After enabling Istio mesh on <code class="language-plaintext highlighter-rouge">authservice</code>, some more changes were required in the default manifest for it to work. The <code class="language-plaintext highlighter-rouge">authservice</code> pod was not able to communicate with the Intuit SSO https url, because outbound traffic from the main container pod is intercepted by Istio sidecar to enforce mtls (default behavior). So, we had to exclude the https port (443) to disable mtls. This can be done using the annotation <code class="language-plaintext highlighter-rouge">traffic.sidecar.istio.io/excludeOutboundPorts: "443"</code>.</p>
+
+<h3 id="step-4-setting-up-ingress">
+<a class="anchor" href="#step-4-setting-up-ingress" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 4: Setting up ingress</h3>
+
+<p>We exposed the <code class="language-plaintext highlighter-rouge">istio-ingressgateway</code> service as LoadBalancer using the following mechanism:</p>
+
+<ol>
+  <li>Setting up public hosted zone in Route 53, add host name you would like to use, like <code class="language-plaintext highlighter-rouge">example.com</code>
+</li>
+  <li>Seting up ACM certificate for the host name you want to use for the Kubeflow installation, host name can be <code class="language-plaintext highlighter-rouge">kubeflow.example.com</code>
+</li>
+  <li>Updating the service manifest by adding afew annotations:
+    <div class="language-yaml highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># Note that the backend talks over HTTP.</span>
+<span class="s">service.beta.kubernetes.io/aws-load-balancer-backend-protocol</span><span class="pi">:</span> <span class="s">http</span>
+<span class="c1"># TODO: Fill in with the ARN of your certificate.</span>
+<span class="s">service.beta.kubernetes.io/aws-load-balancer-ssl-cert</span><span class="pi">:</span> <span class="s">&lt;cert arn from step 2&gt;</span>
+<span class="s">service.beta.kubernetes.io/aws-load-balancer-security-groups</span><span class="pi">:</span> <span class="s">&lt;to restrict access within org&gt;</span>
+<span class="c1"># Only run SSL on the port named "https" below.</span>
+<span class="s">service.beta.kubernetes.io/aws-load-balancer-ssl-ports</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https"</span>
+<span class="s">external-dns.alpha.kubernetes.io/hostname</span><span class="pi">:</span> <span class="s">kubeflow.example.com</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>After applying the new manifest, AWS will automatically add the appropriate A and TXT entries in your hosted zone (<code class="language-plaintext highlighter-rouge">example.com</code>) and Kubeflow will be accessible at <code class="language-plaintext highlighter-rouge">kubeflow.example.com</code>.</p>
+
+<p>To secure the <a href="https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/#secure-with-https">Gateway with https</a>, you can also change the gateway port and add the key and certificate in the Gateway.</p>
+
+<p>More about these annotations can be found at <a href="https://aws.amazon.com/premiumsupport/knowledge-center/terminate-https-traffic-eks-acm/">Terminate HTTPS traffic on Amazon EKS</a> and <a href="https://kubernetes.io/docs/concepts/services-networking/service/#ssl-support-on-aws">SSL support on AWS</a> blog.</p>
+
+<h3 id="step-5-using-an-external-argo-installation">
+<a class="anchor" href="#step-5-using-an-external-argo-installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 5: Using an external Argo installation</h3>
+
+<p>Kubfelow uses Argo workflows internally to run the pipeline in a workflow fashion. Argo generates artifacts after the workflow steps and all we need to do is configure the artifact store if we are planning to use the external Argo:</p>
+
+<ol>
+  <li>
+<a href="https://github.com/argoproj/argo-workflows/blob/master/docs/quick-start.md#install-argo-workflows">Install argo workflows</a> in your cluster, it gets installed in a namespace called argo.</li>
+  <li>Remove all the Argo-related manifests from Kubeflow.</li>
+  <li>To override the artifact store, you need to change the ConfigMap workflow-controller-configmapwhich comes with the <a href="https://github.com/kubeflow/manifests/blob/306d02979124bc29e48152272ddd60a59be9306c/argo/base/config-map.yaml">Kubeflow manifest</a>. It uses minio as the store but you can configure it to use S3 as well. More details can be found from the <a href="https://github.com/argoproj/argo-workflows/blob/master/docs/workflow-controller-configmap.md">Argo</a><a href="https://github.com/argoproj/argo-workflows/blob/master/docs/workflow-controller-configmap.md">Workflow Controller Configmap github page</a>.</li>
+  <li>The latest version of Argo has the option to override <a href="https://argoproj.github.io/argo-workflows/artifact-repository-ref/">artifact store for namespace</a> as well.</li>
+</ol>
+
+<p><strong>Debugging tricks</strong></p>
+
+<ol>
+  <li>
+    <p>Check if EnvoyFilter is getting applied: you should have the <strong>istioctl</strong> cmd tool, which makes the job much to install using brew:</p>
+
+    <p><code class="language-plaintext highlighter-rouge">istioctl proxy-config listeners \&amp;lt;pod name\&amp;gt; --port 15001 -o json</code></p>
+
+    <p>See if the envoy filter is getting listed in the output. More about Istio proxy debugging can be found <a href="https://istio.io/latest/docs/ops/diagnostic-tools/proxy-cmd/">here</a>.</p>
+  </li>
+  <li>
+    <p>Check istio-ingressgateway:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> # Port forward to the first istio-ingressgateway pod
+ kubectl -n istio-system port-forward $(kubectl -n istio-system get pods -listio=ingressgateway -o=jsonpath="{.items[0].metadata.name}") 15000
+
+ # Get the http routes from the port-forwarded ingressgateway pod (requires jq)
+ curl --silent http://localhost:15000/config_dump | jq '\''.configs.routes.dynamic_route_configs[].route_config.virtual_hosts[]| {name: .name, domains: .domains, route: .routes[].match.prefix}'\''
+
+ # Get the logs of the first istio-ingressgateway pod
+ # Shows what happens with incoming requests and possible errors
+ kubectl -n istio-system logs $(kubectl -n istio-system get pods -listio=ingressgateway -o=jsonpath="{.items[0].metadata.name}") --tail=300
+
+ # Get the logs of the first istio-pilot pod
+ # Shows issues with configurations or connecting to the Envoy proxies
+ kubectl -n istio-system logs $(kubectl -n istio-system get pods -listio=pilot -o=jsonpath="{.items[0].metadata.name}") discovery --tail=300
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Check the authservice connectivity: istio-ingressgatewaypod should be able to access authservice. You can check that using the following command:</p>
+
+    <p><code class="language-plaintext highlighter-rouge">kubectl -n istio-system exec $(kubectl -n istio-system get pods -listio=pilot -o=jsonpath="{.items[0].metadata.name}") -- curl -v http://authservice.istio-system.svc.cluster.local:8080</code></p>
+
+    <p>Also make sure authservice is able to reach dex:</p>
+
+    <p>In our case, authservice is in the kubeflow namespace so we made changes accordingly using the command below:</p>
+
+    <p><code class="language-plaintext highlighter-rouge">kubectl -n kubeflow exec authservice-0 -- wget -q -S -O '-' &lt;oidc auth url&gt;/.well-known/openid-configuration</code></p>
+
+    <p>It should show something like below:</p>
+    <div class="language-javascript highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code> <span class="p">{</span>
+   <span class="dl">"</span><span class="s2">issuer</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://dex.kubeflow.svc.cluster.local:5556/dex</span><span class="dl">"</span><span class="p">,</span>
+   <span class="dl">"</span><span class="s2">authorization_endpoint</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://dex.kubeflow.svc.cluster.local:5556/dex/auth</span><span class="dl">"</span><span class="p">,</span>
+   <span class="dl">"</span><span class="s2">token_endpoint</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://dex.kubeflow.svc.cluster.local:5556/dex/token</span><span class="dl">"</span><span class="p">,</span>
+   <span class="dl">"</span><span class="s2">jwks_uri</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://dex.kubeflow.svc.cluster.local:5556/dex/keys</span><span class="dl">"</span><span class="p">,</span>
+   <span class="dl">"</span><span class="s2">userinfo_endpoint</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://dex.kubeflow.svc.cluster.local:5556/dex/userinfo</span><span class="dl">"</span><span class="p">,</span>
+   <span class="dl">"</span><span class="s2">response_types_supported</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+     <span class="dl">"</span><span class="s2">code</span><span class="dl">"</span>
+   <span class="p">],</span>
+   <span class="dl">"</span><span class="s2">subject_types_supported</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+     <span class="dl">"</span><span class="s2">public</span><span class="dl">"</span>
+   <span class="p">],</span>
+   <span class="dl">"</span><span class="s2">id_token_signing_alg_values_supported</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+     <span class="dl">"</span><span class="s2">RS256</span><span class="dl">"</span>
+   <span class="p">],</span>
+   <span class="dl">"</span><span class="s2">scopes_supported</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+     <span class="dl">"</span><span class="s2">openid</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">email</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">groups</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">profile</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">offline_access</span><span class="dl">"</span>
+   <span class="p">],</span>
+   <span class="dl">"</span><span class="s2">token_endpoint_auth_methods_supported</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+     <span class="dl">"</span><span class="s2">client_secret_basic</span><span class="dl">"</span>
+   <span class="p">],</span>
+   <span class="dl">"</span><span class="s2">claims_supported</span><span class="dl">"</span><span class="p">:</span> <span class="p">[</span>
+     <span class="dl">"</span><span class="s2">aud</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">email</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">email_verified</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">exp</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">iat</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">iss</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">locale</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">,</span>
+     <span class="dl">"</span><span class="s2">sub</span><span class="dl">"</span>
+   <span class="p">]</span>
+ <span class="p">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Check connectivity between services: try using <strong>curl</strong> or <strong>wget</strong> from one service to another. Usually one or the other is always available, otherwise you can always install using the <code class="language-plaintext highlighter-rouge">apt-get</code> command. Example use case: from the ml-pipeline deployment pod you can check if pipeline apis are accessible.</p>
+
+    <p><code class="language-plaintext highlighter-rouge">kubectl -n kubeflow exec $(kubectl -n kubeflow get pods -lapp=ml-pipeline-ui -o=jsonpath="{.items[0].metadata.name}")  -- wget -q -S -O '-' ml-pipeline.kubeflow.svc.cluster.local:8888/apis/v1beta1/pipelines</code></p>
+  </li>
+</ol>
+
+<h2 id="asks-for-the-kubeflow-community">
+<a class="anchor" href="#asks-for-the-kubeflow-community" aria-hidden="true"><span class="octicon octicon-link"></span></a>Asks for the Kubeflow Community</h2>
+
+<p>The challenges that we encountered at Intuit are not unique, and will be faced by any enterprise that wants to adopt Kubeflow.</p>
+
+<p>It would be nice to have Kubeflow play well with the available Kubernetes infrastructure in an enterprise, rather than mandating its own set of infrastructure. Here are some suggestions/bugs for improving the ecosystem, some of which Intuit will work with the community to build out:</p>
+
+<ol>
+  <li>We saw Kubeflow manifest repo went through <a href="https://github.com/kubeflow/manifests/issues/1735">major folder restructuring</a> for v1.3 but we think there is still room for improvements.</li>
+  <li>Multi Cluster / Multi Region support. <a href="https://github.com/kubeflow/kubeflow/issues/5467">#5467</a>
+</li>
+  <li>Upgrade seems to be an issue in general, should figure out a way to manage this better. <a href="https://github.com/kubeflow/kubeflow/issues/5440">#5440</a>
+</li>
+  <li>Multi-tenancy with group support. <a href="https://github.com/kubeflow/kubeflow/issues/4188">#4188</a>
+</li>
+  <li>Installing Kubeflow in any custom namespace. <a href="https://github.com/kubeflow/kubeflow/issues/5647">#5647</a>
+</li>
+  <li>Existing metadata service is not performant, we did try some settings with more resources and horizontal scaling. Community is already working on <a href="https://docs.google.com/document/d/1fHU29oScMEKPttDA1Th1ibImAKsFVVt2Ynr4ZME05i0/edit">KFP v2.0</a>, which might address alot of concerns around metadata service.</li>
+</ol>
+
+<p><strong>References</strong></p>
+
+<ul>
+  <li><a href="https://docs.google.com/document/d/1fHU29oScMEKPttDA1Th1ibImAKsFVVt2Ynr4ZME05i0/edit">Kubeflow Pipelines (KFP) v2 System Design</a></li>
+  <li><a href="https://istio.io/latest/docs/reference/config/networking/">Traffic Management Components</a></li>
+  <li><a href="https://istio.io/v1.6/docs/ops/deployment/architecture/">Istio 1.6 Architecture</a></li>
+  <li><a href="https://istio.io/v1.3/docs/concepts/what-is-istio/#architecture">Istio 1.3 Architecture</a></li>
+  <li><a href="https://aws.amazon.com/premiumsupport/knowledge-center/terminate-https-traffic-eks-acm/">Terminate HTTPS traffic on Amazon EKS</a></li>
+  <li><a href="https://kubernetes.io/docs/concepts/services-networking/service/#ssl-support-on-aws">SSL support on AWS</a></li>
+  <li><a href="https://www.developermarch.com/developersummit/downloadPDF/Intuit%20Modern%20SaaS%20Platform%20-%20GIDS.pdf">Intuit’s Modern SaaS Platform</a></li>
+  <li><a href="https://www.youtube.com/watch?v=EWyNbBn1vns">Stitching a Service Mesh Across Hundreds of Discrete Networks</a></li>
+  <li><a href="https://istio.io/latest/blog/2020/multi-cluster-mesh-automation/">Multicluster Istio configuration and service discovery using Admiral</a></li>
+  <li><a href="https://medium.com/intuit-engineering/genius-of-admiral-3307e63e3ab6">Genius of Admiral</a></li>
+</ul>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/kubeflow/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

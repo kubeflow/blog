@@ -11,14 +11,14 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Installing Kubeflow 1.3 in an existing Kubernetes cluster with Istio service mesh and Argo" />
 <meta property="og:description" content="Installing Kubeflow 1.3 in an existing Kubernetes cluster with Istio service mesh and Argo" />
-<link rel="canonical" href="https://blog.kubeflow.org/kubeflow/" />
-<meta property="og:url" content="https://blog.kubeflow.org/kubeflow/" />
+<link rel="canonical" href="https://blog.kubeflow.org/running-kubeflow-at-intuit/" />
+<meta property="og:url" content="https://blog.kubeflow.org/running-kubeflow-at-intuit/" />
 <meta property="og:site_name" content="Kubeflow" />
 <meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-05-03T00:00:00-05:00" />
 <script type="application/ld+json">
-{"url":"https://blog.kubeflow.org/kubeflow/","@type":"BlogPosting","headline":"Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh","dateModified":"2021-05-03T00:00:00-05:00","datePublished":"2021-05-03T00:00:00-05:00","image":"https://blog.kubeflow.org/images/logo.png","author":{"@type":"Person","name":"<a href='https://www.linkedin.com/in/deepk2u/'>Deepak Kumar</a>"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow/"},"description":"Installing Kubeflow 1.3 in an existing Kubernetes cluster with Istio service mesh and Argo","@context":"https://schema.org"}</script>
+{"url":"https://blog.kubeflow.org/running-kubeflow-at-intuit/","@type":"BlogPosting","headline":"Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh","dateModified":"2021-05-03T00:00:00-05:00","datePublished":"2021-05-03T00:00:00-05:00","image":"https://blog.kubeflow.org/images/logo.png","author":{"@type":"Person","name":"<a href='https://www.linkedin.com/in/deepk2u/'>Deepak Kumar</a>"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/running-kubeflow-at-intuit/"},"description":"Installing Kubeflow 1.3 in an existing Kubernetes cluster with Istio service mesh and Argo","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -370,7 +370,7 @@ This blog will address how those challenges were overcome while retaining the be
 </li>
 </ol>
 
-<p>Note: Intuit SSO supports OIDC, so we did not need to use dex for the integration. If your org’s SSO does not support OIDC, then you can use dex in the middle; details can be found <a href="https://www.kubeflow.org/docs/started/k8s/kfctl-istio-dex/">here</a>.</p>
+<p>Note: Intuit SSO supports OIDC, so we did not need to use dex for the integration. If your org’s SSO does not support OIDC, then you can use dex in the middle; details can be found <a href="https://github.com/kubeflow/manifests#dex">here</a>.</p>
 
 <p>For our installation, we needed the authservice to be mesh-enabled, and it made more sense to move authservice to the <code class="language-plaintext highlighter-rouge">kubeflow</code> namespace as well, which was already enabled for Istio sidecar injection.</p>
 
@@ -415,7 +415,7 @@ This blog will address how those challenges were overcome while retaining the be
   <li>
 <a href="https://github.com/argoproj/argo-workflows/blob/master/docs/quick-start.md#install-argo-workflows">Install argo workflows</a> in your cluster, it gets installed in a namespace called argo.</li>
   <li>Remove all the Argo-related manifests from Kubeflow.</li>
-  <li>To override the artifact store, you need to change the ConfigMap workflow-controller-configmapwhich comes with the <a href="https://github.com/kubeflow/manifests/blob/306d02979124bc29e48152272ddd60a59be9306c/argo/base/config-map.yaml">Kubeflow manifest</a>. It uses minio as the store but you can configure it to use S3 as well. More details can be found from the <a href="https://github.com/argoproj/argo-workflows/blob/master/docs/workflow-controller-configmap.md">Argo</a><a href="https://github.com/argoproj/argo-workflows/blob/master/docs/workflow-controller-configmap.md">Workflow Controller Configmap github page</a>.</li>
+  <li>To override the artifact store, you need to change the ConfigMap <code class="language-plaintext highlighter-rouge">workflow-controller-configmap</code> which comes with the <a href="https://github.com/kubeflow/manifests/blob/v1.3.0/apps/pipeline/upstream/third-party/argo/base/workflow-controller-configmap-patch.yaml">Kubeflow manifest</a>. It uses minio as the store but you can configure it to use S3 as well. More details can be found from the <a href="https://github.com/argoproj/argo-workflows/blob/master/docs/workflow-controller-configmap.md">Argo</a><a href="https://github.com/argoproj/argo-workflows/blob/master/docs/workflow-controller-configmap.md">Workflow Controller Configmap github page</a>.</li>
   <li>The latest version of Argo has the option to override <a href="https://argoproj.github.io/argo-workflows/artifact-repository-ref/">artifact store for namespace</a> as well.</li>
 </ol>
 
@@ -550,7 +550,7 @@ This blog will address how those challenges were overcome while retaining the be
         theme="github-light"
         crossorigin="anonymous"
         async>
-</script><a class="u-url" href="/kubeflow/" hidden></a>
+</script><a class="u-url" href="/running-kubeflow-at-intuit/" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">

@@ -87,7 +87,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      12 min read
+      11 min read
     
 </span></p>
 
@@ -153,7 +153,7 @@ This blog will address how those challenges were overcome while retaining the be
 
 <p>Kubeflow v1.3 defaults to Istio (v1.9), and luckily it is compatible with the older versions of Istio (v1.6), which is what Intuit runs on. Running two Istio versions is impractical, as that would defeat the benefit of a large, interconnected existing service mesh. Hence, we wanted Kubeflow to work seamlessly with Intuit’s service mesh running Istio v1.6.</p>
 
-<p>If you are new to Istio, you might want a primer on these key <a href="https://istio.io/latest/docs/reference/config/networking/">Traffic Management Components</a> and <a href="https://istio.io/latest/docs/reference/config/security/">Security Cpmponents</a>:</p>
+<p>If you are new to Istio, you might want a primer on these key <a href="https://istio.io/latest/docs/reference/config/networking/">Traffic Management Components</a> and <a href="https://istio.io/latest/docs/reference/config/security/">Security Components</a>:</p>
 
 <ol>
   <li>VirtualService</li>
@@ -226,7 +226,7 @@ This blog will address how those challenges were overcome while retaining the be
 <span class="na">namespace</span><span class="pi">:</span> <span class="s">kubeflow</span>
 </code></pre></div></div>
 
-<p>Note: we had to create a separate folder for pipelines because we didn’t want to use Argo, which comes with a Piplines module. If you can use default Argo, then you can simply use <code class="language-plaintext highlighter-rouge">https://github.com/kubeflow/manifests/apps/pipeline/upstream/env/platform-agnostic-multi-user-pns?ref=v1.3.0</code> instead of the pipelines folder.</p>
+<p>Note: we had to create a separate folder for pipelines because we didn’t want to use Argo, which comes with a Pipelines module. If you can use default Argo, then you can simply use <code class="language-plaintext highlighter-rouge">https://github.com/kubeflow/manifests/apps/pipeline/upstream/env/platform-agnostic-multi-user-pns?ref=v1.3.0</code> instead of the pipelines folder.</p>
 
 <p>If you don’t want to use ArgoCD, you can build the manifest using the <code class="language-plaintext highlighter-rouge">kustomize build</code> command, which is essentially what ArgoCD does. The configuration above has been tested for Kustomize 3.8.x and 4.0.x, and it works with both.</p>
 
@@ -384,7 +384,7 @@ This blog will address how those challenges were overcome while retaining the be
 <ol>
   <li>Setting up public hosted zone in Route 53, add host name you would like to use, like <code class="language-plaintext highlighter-rouge">example.com</code>
 </li>
-  <li>Seting up ACM certificate for the host name you want to use for the Kubeflow installation, host name can be <code class="language-plaintext highlighter-rouge">kubeflow.example.com</code>
+  <li>Setting up ACM certificate for the host name you want to use for the Kubeflow installation, host name can be <code class="language-plaintext highlighter-rouge">kubeflow.example.com</code>
 </li>
   <li>Updating the service manifest by adding afew annotations:
     <div class="language-yaml highlighter-rouge">
@@ -423,9 +423,9 @@ This blog will address how those challenges were overcome while retaining the be
 
 <ol>
   <li>
-    <p>Check if EnvoyFilter is getting applied: you should have the <strong>istioctl</strong> cmd tool, which makes the job much to install using brew:</p>
+    <p>Check if EnvoyFilter is getting applied: you should have the <strong>istioctl</strong> cmd tool:</p>
 
-    <p><code class="language-plaintext highlighter-rouge">istioctl proxy-config listeners \&amp;lt;pod name\&amp;gt; --port 15001 -o json</code></p>
+    <p><code class="language-plaintext highlighter-rouge">istioctl proxy-config listeners &lt;pod name&gt; --port 15001 -o json</code></p>
 
     <p>See if the envoy filter is getting listed in the output. More about Istio proxy debugging can be found <a href="https://istio.io/latest/docs/ops/diagnostic-tools/proxy-cmd/">here</a>.</p>
   </li>

@@ -87,7 +87,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      11 min read
+      12 min read
     
 </span></p>
 
@@ -142,9 +142,9 @@ This blog will address how those challenges were overcome while retaining the be
 <h2 id="lay-of-the-land-at-intuit">
 <a class="anchor" href="#lay-of-the-land-at-intuit" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lay of the land at Intuit</h2>
 
-<p>Intuit has invested heavily in building out a robust Kubernetes infrastructure that powers all of Intuit’s products: TurboTax, QuickBooks and Mint. There are thousands of services that run on over a hundred Kubernetes clusters. Managing these clusters is the Intuit Kubernetes Service (IKS) control plane. The IKS control plane provides services such as namespace management, role management and isolation etc. Connecting the services is an advanced, Istio-based service mesh, which complements Intuit’s API Gateway. In combination, they provide robust authentication, authorization, rate limiting and other routing capabilities.</p>
+<p>Intuit has invested heavily in building out a robust Kubernetes infrastructure that powers all of Intuit’s products: TurboTax, QuickBooks, and Mint. There are thousands of services that run on over a hundred Kubernetes clusters. Managing these clusters is the Intuit Kubernetes Service (IKS) control plane. The IKS control plane provides services such as namespace management, role management, and isolation, etc. Connecting the services is an advanced, Istio-based service mesh, which complements Intuit’s API Gateway. In combination, they provide robust authentication, authorization, rate limiting, and other routing capabilities.</p>
 
-<p>The Intuit ML Platform is built on this ecosystem, and provides model training, inference and feature management capabilities, leveraging the best of Intuit’s Kubernetes infrastructure and AWS SageMaker. This is the backdrop against which we started exploring Kubeflow to provide advanced orchestration, experimentation and other services.</p>
+<p>The Intuit ML Platform is built on this ecosystem and provides model training, inference, and feature management capabilities, leveraging the best of Intuit’s Kubernetes infrastructure and AWS SageMaker. This is the backdrop against which we started exploring Kubeflow to provide advanced orchestration, experimentation, and other services.</p>
 
 <h2 id="kubeflow-and-istio">
 <a class="anchor" href="#kubeflow-and-istio" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kubeflow and Istio</h2>
@@ -166,7 +166,7 @@ This blog will address how those challenges were overcome while retaining the be
 <h3 id="step-1-remove-default-istio-configurations-and-argo-from-kubeflow">
 <a class="anchor" href="#step-1-remove-default-istio-configurations-and-argo-from-kubeflow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 1: Remove default Istio configurations and Argo from Kubeflow</h3>
 
-<p>The first step to running Kubeflow was to remove the Istio and Argo bundled with Kubeflow, so that it could be integrated with the Intuit service mesh.</p>
+<p>The first step to running Kubeflow was to remove the Istio and Argo bundled with Kubeflow so that it could be integrated with the Intuit service mesh.</p>
 
 <p><strong>To Remove Kubeflow’s default Istio</strong></p>
 
@@ -177,7 +177,7 @@ This blog will address how those challenges were overcome while retaining the be
 │   ├── kustomization.yaml      
 │   ├── pipelines               # Folder for Kubeflow Pipelines module
 │   │   ├── kustomization.yaml
-│   ├── other modules           # Similar to Pipeliens module you can bring other modules as well
+│   ├── other modules           # Similar to the Pipelines module you can bring other modules as well
 │       ├── kustomization.yaml
 ├── envs                        # Folder for all the Kubeflow environments
 │   ├── prod               
@@ -226,19 +226,19 @@ This blog will address how those challenges were overcome while retaining the be
 <span class="na">namespace</span><span class="pi">:</span> <span class="s">kubeflow</span>
 </code></pre></div></div>
 
-<p>Note: we had to create a separate folder for pipelines because we didn’t want to use Argo, which comes with a Pipelines module. If you can use default Argo, then you can simply use <code class="language-plaintext highlighter-rouge">https://github.com/kubeflow/manifests/apps/pipeline/upstream/env/platform-agnostic-multi-user-pns?ref=v1.3.0</code> instead of the pipelines folder.</p>
+<p>Note: we had to create a separate folder for pipelines because we didn’t want to use Argo, which comes with the Pipelines module. If you can use default Argo, then you can simply use <code class="language-plaintext highlighter-rouge">https://github.com/kubeflow/manifests/apps/pipeline/upstream/env/platform-agnostic-multi-user-pns?ref=v1.3.0</code> instead of the pipelines folder.</p>
 
 <p>If you don’t want to use ArgoCD, you can build the manifest using the <code class="language-plaintext highlighter-rouge">kustomize build</code> command, which is essentially what ArgoCD does. The configuration above has been tested for Kustomize 3.8.x and 4.0.x, and it works with both.</p>
 
 <h3 id="step-2-kustomize-the-kubeflow-manifests">
 <a class="anchor" href="#step-2-kustomize-the-kubeflow-manifests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 2: Kustomize the Kubeflow manifests</h3>
 
-<p>Given the managed Kubernetes ecosystem at Intuit, protocols for service to service communication and namespace isolation is opinionated, and we had to make following changes:</p>
+<p>Given the managed Kubernetes ecosystem at Intuit, protocols for service to service communication and namespace isolation is opinionated, and we had to make the following changes:</p>
 
 <ol>
   <li>Enable Kubeflow namespace for <a href="https://istio.io/latest/docs/setup/additional-setup/sidecar-injection/#automatic-sidecar-injection">Istio injection</a> by adding the label <code class="language-plaintext highlighter-rouge">istio-injection: enabled</code> in the namespace specification. This label is then used by Istio to add the sidecar into the namespace.</li>
   <li>Enable sidecar injection to all the deployments and statefulsets in Kubeflow by adding the annotation <code class="language-plaintext highlighter-rouge">sidecar.istio.io/inject: "true"</code>, along with some Intuit-specific custom labels and annotations to the Deployments and StatefulSets.</li>
-  <li>Intuit’s security policies forbid the direct use of external container registries. Intuit’s internal container registry runs regular vulnerability scans and certifies Docker images for use in various environments. The internal container registry also has an allow list that enables external registries to be proxied and held to the same, high security standards. This was enabled for all Kubeflow containers.</li>
+  <li>Intuit’s security policies forbid the direct use of external container registries. Intuit’s internal container registry runs regular vulnerability scans and certifies Docker images for use in various environments. The internal container registry also has an allow list that enables external registries to be proxied and held to the same, high-security standards. We enabled it for all Kubeflow containers.</li>
   <li>Changes in VirtualService to route all the traffic from one central gateway instead of using Kubeflow gateway.</li>
 </ol>
 
@@ -284,7 +284,7 @@ This blog will address how those challenges were overcome while retaining the be
 </code></pre></div>    </div>
   </li>
   <li>
-    <p>For replacing docker image urls, we used ImageTagTransformer</p>
+    <p>For replacing docker image URLs, we used ImageTagTransformer</p>
 
     <div class="language-yaml highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code> <span class="na">apiVersion</span><span class="pi">:</span> <span class="s">builtin</span>
@@ -295,6 +295,7 @@ This blog will address how those challenges were overcome while retaining the be
    <span class="na">name</span><span class="pi">:</span> <span class="s">gcr.io/ml-pipeline/cache-deployer</span>
    <span class="na">newName</span><span class="pi">:</span> <span class="s">docker.intuit.com/gcr-rmt/ml-pipeline/cache-deployer</span>
 </code></pre></div>    </div>
+    <p>It will be helpful for any organization which has a proxy for accessing the internet, cloning all the container images local to your org is the way to go as the internet will not be required to access those images.</p>
   </li>
   <li>
     <p>For transforming VirtualServices</p>
@@ -314,7 +315,7 @@ This blog will address how those challenges were overcome while retaining the be
 </code></pre></div>    </div>
   </li>
   <li>
-    <p>To wire everything up, we used Kustomization manifest</p>
+    <p>Putting it all together</p>
 
     <p><code class="language-plaintext highlighter-rouge">envs -&gt; prod/dev -&gt; kustomization.yaml</code></p>
     <div class="language-yaml highlighter-rouge">
@@ -322,7 +323,7 @@ This blog will address how those challenges were overcome while retaining the be
  <span class="na">kind</span><span class="pi">:</span> <span class="s">Kustomization</span>
 
  <span class="na">resources</span><span class="pi">:</span>
- <span class="pi">-</span> <span class="s">kubeflow.yaml</span>
+ <span class="pi">-</span> <span class="s">../base</span>
 
  <span class="na">transformers</span><span class="pi">:</span>
  <span class="pi">-</span> <span class="s">transformers/image-transformers.yaml</span>
@@ -340,16 +341,15 @@ This blog will address how those challenges were overcome while retaining the be
      <span class="na">name</span><span class="pi">:</span> <span class="s">centraldashboard</span>
 </code></pre></div>    </div>
   </li>
-  <li>You might face issues with <code class="language-plaintext highlighter-rouge">metadata_envoy</code> service, in our case we were getting following error
+  <li>You might face issues with the <code class="language-plaintext highlighter-rouge">metadata_envoy</code> service, in our case we were getting the following error
     <div class="language-plaintext highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code> [debug][init] [external/envoy/source/common/init/watcher_impl.cc:27] init manager Server destroyed
  unable to bind domain socket with id=0 (see --base-id option)
- 2021-01-29T23:32:26.680310Z	error	Epoch 0 exited with error: exit status 1
+ 2021-01-29T23:32:26.680310Z error Epoch 0 exited with error: exit status 1
 </code></pre></div>    </div>
 
     <p>After looking up, we found that, when you run this docker image with Istio Sidecar injection, this problem occurs.
- The reason is, both these containers are essentially envoyproxy containers and default base-id for both
- containers is set to 0.</p>
+ The reason is, both these containers are essentially envoyproxy containers and the default base-id for both containers is set to 0.</p>
 
     <p>So to make it work, we had to change CMD in this <a href="https://github.com/kubeflow/pipelines/blob/1.4.1/third_party/metadata_envoy/Dockerfile#L27">Dockerfile</a></p>
 
@@ -365,8 +365,8 @@ This blog will address how those challenges were overcome while retaining the be
 <p>There are two major components around authentication using SSO:</p>
 
 <ol>
-  <li>Authservice: It is a StatefulSet that runs the oidc-auth service. It runs in istio-system namespace and directly talks to an OIDC service for authentication</li>
-  <li>Authn-filter: It’s an EnvoyFilter which filters the traffic to authservice and checks the Kubeflow auth header and redirects to authservice if request is not authorized, check the presence of header called <code class="language-plaintext highlighter-rouge">kubeflow-userid</code>
+  <li>Authservice: It is a StatefulSet that runs the oidc-auth service. It runs in the istio-system namespace and directly talks to an OIDC service for authentication</li>
+  <li>Authn-filter: It’s an EnvoyFilter that filters the traffic to authservice and checks the Kubeflow auth header and redirects to authservice if the request is not authorized, check the presence of header called <code class="language-plaintext highlighter-rouge">kubeflow-userid</code>
 </li>
 </ol>
 
@@ -374,7 +374,7 @@ This blog will address how those challenges were overcome while retaining the be
 
 <p>For our installation, we needed the authservice to be mesh-enabled, and it made more sense to move authservice to the <code class="language-plaintext highlighter-rouge">kubeflow</code> namespace as well, which was already enabled for Istio sidecar injection.</p>
 
-<p>After enabling Istio mesh on <code class="language-plaintext highlighter-rouge">authservice</code>, some more changes were required in the default manifest for it to work. The <code class="language-plaintext highlighter-rouge">authservice</code> pod was not able to communicate with the Intuit SSO https url, because outbound traffic from the main container pod is intercepted by Istio sidecar to enforce mtls (default behavior). So, we had to exclude the https port (443) to disable mtls. This can be done using the annotation <code class="language-plaintext highlighter-rouge">traffic.sidecar.istio.io/excludeOutboundPorts: "443"</code>.</p>
+<p>After enabling Istio mesh on <code class="language-plaintext highlighter-rouge">authservice</code>, some more changes were required in the default manifest for it to work. The <code class="language-plaintext highlighter-rouge">authservice</code> pod was not able to communicate with the Intuit SSO HTTPS URL, because outbound traffic from the main container pod is intercepted by Istio sidecar to enforce mtls (default behavior). So, we had to exclude the HTTPS port (443) to disable mtls. This can be done using the annotation <code class="language-plaintext highlighter-rouge">traffic.sidecar.istio.io/excludeOutboundPorts: "443"</code>.</p>
 
 <h3 id="step-4-setting-up-ingress">
 <a class="anchor" href="#step-4-setting-up-ingress" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 4: Setting up ingress</h3>
@@ -382,11 +382,11 @@ This blog will address how those challenges were overcome while retaining the be
 <p>We exposed the <code class="language-plaintext highlighter-rouge">istio-ingressgateway</code> service as LoadBalancer using the following mechanism:</p>
 
 <ol>
-  <li>Setting up public hosted zone in Route 53, add host name you would like to use, like <code class="language-plaintext highlighter-rouge">example.com</code>
+  <li>Setting up public hosted zone in Route 53, add hostname you would like to use, like <code class="language-plaintext highlighter-rouge">example.com</code>
 </li>
-  <li>Setting up ACM certificate for the host name you want to use for the Kubeflow installation, host name can be <code class="language-plaintext highlighter-rouge">kubeflow.example.com</code>
+  <li>Setting up an ACM certificate for the hostname you want to use for the Kubeflow installation, the hostname can be <code class="language-plaintext highlighter-rouge">kubeflow.example.com</code>
 </li>
-  <li>Updating the service manifest by adding afew annotations:
+  <li>Updating the service manifest by adding a few annotations:
     <div class="language-yaml highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code><span class="c1"># Note that the backend talks over HTTP.</span>
 <span class="s">service.beta.kubernetes.io/aws-load-balancer-backend-protocol</span><span class="pi">:</span> <span class="s">http</span>
@@ -413,9 +413,9 @@ This blog will address how those challenges were overcome while retaining the be
 
 <ol>
   <li>
-<a href="https://github.com/argoproj/argo-workflows/blob/master/docs/quick-start.md#install-argo-workflows">Install argo workflows</a> in your cluster, it gets installed in a namespace called argo.</li>
+<a href="https://github.com/argoproj/argo-workflows/blob/master/docs/quick-start.md#install-argo-workflows">Install Argo workflows</a> in your cluster, it gets installed in a namespace called argo.</li>
   <li>Remove all the Argo-related manifests from Kubeflow.</li>
-  <li>To override the artifact store, you need to change the ConfigMap <code class="language-plaintext highlighter-rouge">workflow-controller-configmap</code> which comes with the <a href="https://github.com/kubeflow/manifests/blob/v1.3.0/apps/pipeline/upstream/third-party/argo/base/workflow-controller-configmap-patch.yaml">Kubeflow manifest</a>. It uses minio as the store but you can configure it to use S3 as well. More details can be found from the <a href="https://github.com/argoproj/argo-workflows/blob/master/docs/workflow-controller-configmap.md">Argo</a><a href="https://github.com/argoproj/argo-workflows/blob/master/docs/workflow-controller-configmap.md">Workflow Controller Configmap github page</a>.</li>
+  <li>To override the artifact store, you need to change the ConfigMap <code class="language-plaintext highlighter-rouge">workflow-controller-configmap</code> which comes with the <a href="https://github.com/kubeflow/manifests/blob/v1.3.0/apps/pipeline/upstream/third-party/argo/base/workflow-controller-configmap-patch.yaml">Kubeflow manifest</a>. It uses minio as the store but you can configure it to use S3 as well. More details can be found from the <a href="https://github.com/argoproj/argo-workflows/blob/master/docs/workflow-controller-configmap.md">Argo</a><a href="https://github.com/argoproj/argo-workflows/blob/master/docs/workflow-controller-configmap.md">Workflow Controller Configmap GitHub page</a>.</li>
   <li>The latest version of Argo has the option to override <a href="https://argoproj.github.io/argo-workflows/artifact-repository-ref/">artifact store for namespace</a> as well.</li>
 </ol>
 
@@ -449,17 +449,17 @@ This blog will address how those challenges were overcome while retaining the be
 </code></pre></div>    </div>
   </li>
   <li>
-    <p>Check the authservice connectivity: istio-ingressgatewaypod should be able to access authservice. You can check that using the following command:</p>
+    <p>Check the authservice connectivity: istio-ingressgateway pod should be able to access authservice. You can check that using the following command:</p>
 
     <p><code class="language-plaintext highlighter-rouge">kubectl -n istio-system exec $(kubectl -n istio-system get pods -listio=pilot -o=jsonpath="{.items[0].metadata.name}") -- curl -v http://authservice.istio-system.svc.cluster.local:8080</code></p>
 
-    <p>Also make sure authservice is able to reach dex:</p>
+    <p>Also, make sure authservice can reach dex:</p>
 
     <p>In our case, authservice is in the kubeflow namespace so we made changes accordingly using the command below:</p>
 
     <p><code class="language-plaintext highlighter-rouge">kubectl -n kubeflow exec authservice-0 -- wget -q -S -O '-' &lt;oidc auth url&gt;/.well-known/openid-configuration</code></p>
 
-    <p>It should show something like below:</p>
+    <p>It should look something similar to:</p>
     <div class="language-javascript highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code> <span class="p">{</span>
    <span class="dl">"</span><span class="s2">issuer</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">http://dex.kubeflow.svc.cluster.local:5556/dex</span><span class="dl">"</span><span class="p">,</span>
@@ -501,7 +501,7 @@ This blog will address how those challenges were overcome while retaining the be
 </code></pre></div>    </div>
   </li>
   <li>
-    <p>Check connectivity between services: try using <strong>curl</strong> or <strong>wget</strong> from one service to another. Usually one or the other is always available, otherwise you can always install using the <code class="language-plaintext highlighter-rouge">apt-get</code> command. Example use case: from the ml-pipeline deployment pod you can check if pipeline apis are accessible.</p>
+    <p>Check connectivity between services: try using <strong>curl</strong> or <strong>wget</strong> from one service to another. Usually one or the other is always available, otherwise, you can always install using the <code class="language-plaintext highlighter-rouge">apt-get</code> command. Example use case: from the ml-pipeline deployment pod you can check if pipeline APIs are accessible.</p>
 
     <p><code class="language-plaintext highlighter-rouge">kubectl -n kubeflow exec $(kubectl -n kubeflow get pods -lapp=ml-pipeline-ui -o=jsonpath="{.items[0].metadata.name}")  -- wget -q -S -O '-' ml-pipeline.kubeflow.svc.cluster.local:8888/apis/v1beta1/pipelines</code></p>
   </li>
@@ -510,13 +510,13 @@ This blog will address how those challenges were overcome while retaining the be
 <h2 id="asks-for-the-kubeflow-community">
 <a class="anchor" href="#asks-for-the-kubeflow-community" aria-hidden="true"><span class="octicon octicon-link"></span></a>Asks for the Kubeflow Community</h2>
 
-<p>The challenges that we encountered at Intuit are not unique, and will be faced by any enterprise that wants to adopt Kubeflow.</p>
+<p>The challenges that we encountered at Intuit are not unique and will be faced by any enterprise that wants to adopt Kubeflow.</p>
 
 <p>It would be nice to have Kubeflow play well with the available Kubernetes infrastructure in an enterprise, rather than mandating its own set of infrastructure. Here are some suggestions/bugs for improving the ecosystem, some of which Intuit will work with the community to build out:</p>
 
 <ol>
   <li>We saw Kubeflow manifest repo went through <a href="https://github.com/kubeflow/manifests/issues/1735">major folder restructuring</a> for v1.3 but we think there is still room for improvements.</li>
-  <li>Multi Cluster / Multi Region support. <a href="https://github.com/kubeflow/kubeflow/issues/5467">#5467</a>
+  <li>Multi-Cluster / Multi-Region support. <a href="https://github.com/kubeflow/kubeflow/issues/5467">#5467</a>
 </li>
   <li>Upgrade seems to be an issue in general, should figure out a way to manage this better. <a href="https://github.com/kubeflow/kubeflow/issues/5440">#5440</a>
 </li>
@@ -524,7 +524,7 @@ This blog will address how those challenges were overcome while retaining the be
 </li>
   <li>Installing Kubeflow in any custom namespace. <a href="https://github.com/kubeflow/kubeflow/issues/5647">#5647</a>
 </li>
-  <li>Existing metadata service is not performant, we did try some settings with more resources and horizontal scaling. Community is already working on <a href="https://docs.google.com/document/d/1fHU29oScMEKPttDA1Th1ibImAKsFVVt2Ynr4ZME05i0/edit">KFP v2.0</a>, which might address alot of concerns around metadata service.</li>
+  <li>Existing metadata service is not performant, we did try some settings with more resources and horizontal scaling. The community is already working on <a href="https://docs.google.com/document/d/1fHU29oScMEKPttDA1Th1ibImAKsFVVt2Ynr4ZME05i0/edit">KFP v2.0</a>, which might address a lot of concerns around metadata service.</li>
 </ol>
 
 <p><strong>References</strong></p>

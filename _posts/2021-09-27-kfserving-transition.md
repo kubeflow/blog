@@ -13,9 +13,11 @@ categories: [release, official]
 
 ### **KFServing is now KServe**
 We are excited to announce the next chapter for KFServing.
-The [<u>KFServing GitHub repository</u>](https://github.com/kubeflow/kfserving) has now been transferred to an 
-independent [<u>KServe GitHub organization</u>](https://github.com/kserve/kserve) under the stewardship of the Kubeflow Serving Working Group leads. 
-The project has been rebranded from **KFServing** to **KServe**, and we are planning to graduate the project outside of the Kubeflow project later this year.
+In coordination with the Kubeflow Project Steering Group, the [<u>KFServing GitHub repository</u>](https://github.com/kubeflow/kfserving) has now been
+transferred to an independent [<u>KServe GitHub organization</u>](https://github.com/kserve/kserve) under the stewardship of the Kubeflow Serving Working
+Group leads. 
+
+The project has been rebranded from **KFServing** to **KServe**, and we are planning to graduate the project from Kubeflow Project later this year.
 
 <img src="/images/2021-09-27-kfserving-transition/image1.png" style="width:6.5in;height:4in" />
 
@@ -27,21 +29,20 @@ The project sets out to provide the following features:
 - Complete story for production ML Model Serving including prediction, pre/post-processing, explainability, and monitoring.
 - Support for deploying thousands of models at scale and inference graph capability for multiple models.
 
-KFServing was created to address the challenges of deploying and monitoring ML models on production for organizations.
+KFServing was created to address the challenges of deploying and monitoring machine learning models on production for organizations.
 After publishing the open source project, we’ve seen an explosion in demand for the software, leading to strong adoption and community growth.
-The scope of the project has increased since, and we have developed multiple components along the way including our own documentation website,
-which now demands its own independent GitHub organization.
+The scope of the project has since increaded, and we have developed multiple components along the way, including our own growing body of documentation
+that needs it's own website and independent GitHub organization.
 
 ### **What's Next**
 
-Over the coming weeks, we will be releasing **KServe 0.7** outside of the Kubeflow project and will provide more details on how to migrate from KFServing to KServe with minimal disruptions,
-KFServing 0.5.x/0.6.x releases are still supported in next six months after KServe 0.7 release. We are also working on integrating core Kubeflow APIs and standards for 
-[the conformance program](https://docs.google.com/document/d/1a9ufoe_6DB1eSjpE9eK5nRBoH3ItoSkbPfxRA0AjPIc). 
-
+Over the coming weeks, we will be releasing **KServe 0.7** outside of the Kubeflow Project and will provide more details on how to migrate from KFServing to
+KServe with minimal disruptions. KFServing 0.5.x/0.6.x releases are still supported in next six months after KServe 0.7 release. We are also working on
+integrating core Kubeflow APIs and standards for [the conformance program](https://docs.google.com/document/d/1a9ufoe_6DB1eSjpE9eK5nRBoH3ItoSkbPfxRA0AjPIc). 
 
 For contributors, please follow the KServe [developer](https://github.com/kserve/website/blob/main/docs/developer/developer.md) and 
 [doc contribution](https://github.com/kserve/website/blob/main/docs/help/contributor/mkdocs-contributor-guide.md) guide to make code or doc contributions.
-We are excited to work with you to make KServe better and increase its adoption by more and more users!
+We are excited to work with you to make KServe better and promote its adoption by more and more users!
 
 <img src="/images/2021-09-27-kfserving-transition/kserve.png" style="width:8in;height:4in" />
 

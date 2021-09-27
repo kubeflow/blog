@@ -61,6 +61,10 @@
 <lastmod>2021-05-03T00:00:00-05:00</lastmod>
 </url>
 <url>
+<loc>https://blog.kubeflow.org/release/official/2021/09/27/kfserving-transition.html</loc>
+<lastmod>2021-09-27T00:00:00-05:00</lastmod>
+</url>
+<url>
 <loc>https://blog.kubeflow.org/about/</loc>
 </url>
 <url>
@@ -71,5 +75,8 @@
 </url>
 <url>
 <loc>https://blog.kubeflow.org/categories/</loc>
+</url>
+<url>
+<loc>https://blog.kubeflow.org/page2/</loc>
 </url>
 </urlset>

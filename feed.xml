@@ -1,4 +1,103 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2021-07-20T17:11:08-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh</title><link href="https://blog.kubeflow.org/running-kubeflow-at-intuit/" rel="alternate" type="text/html" title="Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh" /><published>2021-05-03T00:00:00-05:00</published><updated>2021-05-03T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.3-install-post</id><content type="html" xml:base="https://blog.kubeflow.org/running-kubeflow-at-intuit/">&lt;p&gt;Deploying Kubeflow 1.3 in an enterprise with existing Kubernetes infrastructure, a Service Mesh (Istio), and Argo, presents a host of challenges.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2021-09-27T16:37:00-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">KServe: The next generation of KFServing</title><link href="https://blog.kubeflow.org/release/official/2021/09/27/kfserving-transition.html" rel="alternate" type="text/html" title="KServe: The next generation of KFServing" /><published>2021-09-27T00:00:00-05:00</published><updated>2021-09-27T00:00:00-05:00</updated><id>https://blog.kubeflow.org/release/official/2021/09/27/kfserving-transition</id><content type="html" xml:base="https://blog.kubeflow.org/release/official/2021/09/27/kfserving-transition.html">&lt;h4 id=&quot;by-dan-sundsun20bloombergnet-and-animesh-singhsinghanusibmcom-on-behalf-of-the-kubeflow-serving-working-group&quot;&gt;By &lt;strong&gt;Dan Sun(dsun20@bloomberg.net)&lt;/strong&gt; and &lt;strong&gt;Animesh Singh(singhan@us.ibm.com)&lt;/strong&gt; on behalf of the Kubeflow Serving Working Group&lt;/h4&gt;
+
+&lt;h3 id=&quot;kfserving-is-now-kserve&quot;&gt;&lt;strong&gt;KFServing is now KServe&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;We are excited to announce the next chapter for KFServing.
+In coordination with the Kubeflow Project Steering Group, the &lt;a href=&quot;https://github.com/kubeflow/kfserving&quot;&gt;&lt;u&gt;KFServing GitHub repository&lt;/u&gt;&lt;/a&gt; has now been
+transferred to an independent &lt;a href=&quot;https://github.com/kserve/kserve&quot;&gt;&lt;u&gt;KServe GitHub organization&lt;/u&gt;&lt;/a&gt; under the stewardship of the Kubeflow Serving Working
+Group leads.&lt;/p&gt;
+
+&lt;p&gt;The project has been rebranded from &lt;strong&gt;KFServing&lt;/strong&gt; to &lt;strong&gt;KServe&lt;/strong&gt;, and we are planning to graduate the project from Kubeflow Project later this year.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2021-09-27-kfserving-transition/image1.png&quot; style=&quot;width:6.5in;height:4in&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Developed collaboratively by Google, IBM, Bloomberg, NVIDIA, and Seldon in 2019, KFServing was published as open source in early 2019. 
+The project sets out to provide the following features:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;A simple, yet powerful, Kubernetes Custom Resource for deploying machine learning (ML) models on production across ML frameworks.&lt;/li&gt;
+  &lt;li&gt;Provide performant, standardized inference protocol.&lt;/li&gt;
+  &lt;li&gt;Serverless inference according to live traffic patterns, supporting “Scale-to-zero” on both CPUs and GPUs.&lt;/li&gt;
+  &lt;li&gt;Complete story for production ML Model Serving including prediction, pre/post-processing, explainability, and monitoring.&lt;/li&gt;
+  &lt;li&gt;Support for deploying thousands of models at scale and inference graph capability for multiple models.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;KFServing was created to address the challenges of deploying and monitoring machine learning models on production for organizations.
+After publishing the open source project, we’ve seen an explosion in demand for the software, leading to strong adoption and community growth.
+The scope of the project has since increaded, and we have developed multiple components along the way, including our own growing body of documentation
+that needs it’s own website and independent GitHub organization.&lt;/p&gt;
+
+&lt;h3 id=&quot;whats-next&quot;&gt;&lt;strong&gt;What’s Next&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Over the coming weeks, we will be releasing &lt;strong&gt;KServe 0.7&lt;/strong&gt; outside of the Kubeflow Project and will provide more details on how to migrate from KFServing to
+KServe with minimal disruptions. KFServing 0.5.x/0.6.x releases are still supported in next six months after KServe 0.7 release. We are also working on
+integrating core Kubeflow APIs and standards for &lt;a href=&quot;https://docs.google.com/document/d/1a9ufoe_6DB1eSjpE9eK5nRBoH3ItoSkbPfxRA0AjPIc&quot;&gt;the conformance program&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;For contributors, please follow the KServe &lt;a href=&quot;https://github.com/kserve/website/blob/main/docs/developer/developer.md&quot;&gt;developer&lt;/a&gt; and 
+&lt;a href=&quot;https://github.com/kserve/website/blob/main/docs/help/contributor/mkdocs-contributor-guide.md&quot;&gt;doc contribution&lt;/a&gt; guide to make code or doc contributions.
+We are excited to work with you to make KServe better and promote its adoption by more and more users!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2021-09-27-kfserving-transition/kserve.png&quot; style=&quot;width:8in;height:4in&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;kserve-key-links&quot;&gt;&lt;strong&gt;KServe Key Links&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://kserve.github.io/website/&quot;&gt;&lt;u&gt;Website&lt;/u&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kserve/kserve/&quot;&gt;&lt;u&gt;Github&lt;/u&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://kubeflow.slack.com/join/shared_invite/zt-n73pfj05-l206djXlXk5qdQKs4o1Zkg#/&quot;&gt;&lt;u&gt;Slack(#kubeflow-kfserving)&lt;/u&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;contributor-acknowledgement&quot;&gt;&lt;strong&gt;Contributor Acknowledgement&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;We’d like to thank all the KServe contributors for this transition work!&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/andyi2it&quot;&gt;Andrews Arokiam&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/animeshsingh&quot;&gt;Animesh Singh&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/chinhuang007&quot;&gt;Chin Huang&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://github.com/yuzisun&quot;&gt;Dan Sun&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/jagadeeshi2i&quot;&gt;Jagadeesh&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/jinchihe&quot;&gt;Jinchi He&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/njhill&quot;&gt;Nick Hill&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/pvaneck&quot;&gt;Paul Van Eck&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/Iamlovingit&quot;&gt;Qianshan Chen&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/Suresh-Nakkeran&quot;&gt;Suresh Nakkiran&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/sukumargaonkar&quot;&gt;Sukumar Gaonkar&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/theofpa&quot;&gt;Theofilos Papapanagiotou&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/Tomcli&quot;&gt;Tommy Li&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/js-ts&quot;&gt;Vedant Padwal&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/PatrickXYS&quot;&gt;Yao Xiao&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/yuzliu&quot;&gt;Yuzhui Liu&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="release" /><category term="official" /><summary type="html">By Dan Sun(dsun20@bloomberg.net) and Animesh Singh(singhan@us.ibm.com) on behalf of the Kubeflow Serving Working Group</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/2021-09-27-kserve-transition/image1.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/2021-09-27-kserve-transition/image1.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh</title><link href="https://blog.kubeflow.org/running-kubeflow-at-intuit/" rel="alternate" type="text/html" title="Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh" /><published>2021-05-03T00:00:00-05:00</published><updated>2021-05-03T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.3-install-post</id><content type="html" xml:base="https://blog.kubeflow.org/running-kubeflow-at-intuit/">&lt;p&gt;Deploying Kubeflow 1.3 in an enterprise with existing Kubernetes infrastructure, a Service Mesh (Istio), and Argo, presents a host of challenges.
 This blog will address how those challenges were overcome while retaining the best practices that both the organization and Kubeflow prescribe.&lt;/p&gt;
 
 &lt;h2 id=&quot;lay-of-the-land-at-intuit&quot;&gt;Lay of the land at Intuit&lt;/h2&gt;
@@ -2418,66 +2517,4 @@ update our pipeline definitions.&lt;/p&gt;
 
 &lt;p&gt;If you’d like to learn more about GitOps we suggest this &lt;a href=&quot;https://www.weave.works/technologies/gitops/&quot;&gt;guide&lt;/a&gt; from Weaveworks.&lt;/p&gt;
 
-&lt;p&gt;To learn how to build your own Kubernetes controllers the &lt;a href=&quot;https://book.kubebuilder.io/&quot;&gt;kubebuilder book&lt;/a&gt; walks through an E2E example.&lt;/p&gt;</content><author><name>&lt;a href='https://www.linkedin.com/in/jeremy-lewi-600aaa8/'&gt;Jeremy Lewi&lt;/a&gt;, &lt;a href='https://hamel.dev/'&gt;Hamel Husain&lt;/a&gt;</name></author><category term="jupyter" /><category term="mlops" /><category term="tekton" /><category term="gitops" /><summary type="html">The Problem</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/2020-08-01-data-science-meets-devops/meme.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/2020-08-01-data-science-meets-devops/meme.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Kubeflow 1.1 improves ML Workflow Productivity, Isolation &amp;amp; Security, and GitOps</title><link href="https://blog.kubeflow.org/release/official/2020/07/31/kubeflow-1.1-blog-post.html" rel="alternate" type="text/html" title="Kubeflow 1.1 improves ML Workflow Productivity, Isolation &amp;amp; Security, and GitOps" /><published>2020-07-31T00:00:00-05:00</published><updated>2020-07-31T00:00:00-05:00</updated><id>https://blog.kubeflow.org/release/official/2020/07/31/kubeflow-1.1-blog-post</id><content type="html" xml:base="https://blog.kubeflow.org/release/official/2020/07/31/kubeflow-1.1-blog-post.html">&lt;p&gt;The Kubeflow Community’s delivery of Kubeflow 1.1 offers users valuable ML workflow automation with Fairing and Kale along with MXNet and XGBoost distributed training operators. It extends isolation and security through the delivery of multi-user pipelines, CVE scanning, and support for Google’s Private GKE and Anthos. 1.1 also improves Katib’s hyperparameter tuning features by offering new frameworks &amp;amp; algorithms, and enables flexible configuration &amp;amp; tuning options. 1.1 provides a foundation for consistent and repeatable installation and operations using GitOps methodologies powered by blueprints and kpt primitives.&lt;/p&gt;
-
-&lt;p&gt;The ML productivity enhancements in 1.1 include end-to-end workflows using Fairing and Kale. The Fairing workflow enables users to build, train and deploy models from a notebook and &lt;a href=&quot;https://github.com/kubeflow/fairing/releases/tag/v1.0.1&quot;&gt;Fairing improvements&lt;/a&gt; include the support of configuring environment variables and mounting secrets. Fairing also added a config map for a deployer and bug fixes for TensorRTSpec. The workflows enabled by &lt;a href=&quot;https://github.com/kubeflow-kale/kale&quot;&gt;Kale&lt;/a&gt; include the ability to write model code in a notebook and then automatically build a Kubeflow pipeline that deploys, trains and tunes that model efficiently, using Katib and cached pipeline steps. Kubeflow 1.1 also delivers stable release deliveries of &lt;a href=&quot;https://github.com/kubeflow/common/issues/97&quot;&gt;MXNet and XGBoost operators&lt;/a&gt;, which simplify distributed training on multiple nodes and speeds model creation.&lt;/p&gt;
-
-&lt;p&gt;The isolation and security feature deliveries include Private GKE and Anthos support, a stable version of Kubeflow Pipelines with &lt;a href=&quot;https://www.kubeflow.org/docs/pipelines/multi-user/&quot;&gt;Multi-User Kubeflow Pipelines&lt;/a&gt; support, and a process for Kubeflow container image scanning, &lt;a href=&quot;https://docs.google.com/spreadsheets/d/1ijWIyjGQpDy68-vjBmLyFY0U1oGCT--A0nVGgzLGDhU/edit#gid=0&quot;&gt;CVE reporting&lt;/a&gt;, and an optional process for distroless image creation. 1.1 also includes &lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/4960&quot;&gt;options for authentication and authorization&lt;/a&gt;. This includes the option for administrators to turn off self-service namespace creation mode, as admins may have other processes for namespace creation. The Community also developed a best practice to build user authorization in Kubeflow web apps using subject access review.&lt;/p&gt;
-
-&lt;p&gt;The 1.1 Katib improvements deliver new frameworks &amp;amp; algorithms, and flexible configuration &amp;amp; tuning options.  The new frameworks &amp;amp; algorithms include:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Integrate goptuna framework with (CMA-ES) Covariance Matrix Adaptation Evolution Strategy algorithm.&lt;/li&gt;
-  &lt;li&gt;DARTS (Differentiable Architecture Search) algorithm implementation.&lt;/li&gt;
-  &lt;li&gt;Better support for HP frameworks (chocolate, hyperopt, skopt).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Katib also adds these flexible configuration &amp;amp; tuning options:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Implements a python SDK to run Katib experiments from Kubeflow notebooks.&lt;/li&gt;
-  &lt;li&gt;Enables users to run experiments without the goal defined.&lt;/li&gt;
-  &lt;li&gt;Provides a new trial template UI editor.&lt;/li&gt;
-  &lt;li&gt;Enables users to view experiment and suggestion status in the UI, during the experiment run.&lt;/li&gt;
-  &lt;li&gt;Adds a resume policy for experiments to clean-up suggestion resources.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The installation and operations of Kubeflow have been enhanced to support GitOps methodologies. Several Kubeflow platform providers and software support vendors are developing time-saving GitOps processes to simplify and codify the installation, configuration and operations of the various layers in the Kubeflow 1.1 hardware and software stack. Some examples are provided in the next section.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;More details and 1.1 tutorials&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Kubeflow 1.1 includes many technical enhancements, which are being delivered via the Community’s release process. Details on the application feature development can be found in the &lt;a href=&quot;https://github.com/orgs/kubeflow/projects/26&quot;&gt;1.1 KanBan Board&lt;/a&gt; and in the &lt;a href=&quot;https://github.com/kubeflow/kubeflow/blob/master/ROADMAP.md&quot;&gt;Kubeflow Roadmap&lt;/a&gt;. As the Kubeflow application improvements are merged, the platform teams (GCP, AWS, IBM, Red Hat, Azure, and Arrikto MiniKF) are working to validate the feature improvements on their respective environments.&lt;/p&gt;
-
-&lt;p&gt;Kubeflow 1.1 includes KFServing v0.3, where the focus has been on providing more stability by doing a major move to KNative v1 APIs. Additionally, we added GPU support for PyTorch model servers, and pickled model format support for SKLearn. There were other enhancements vis a vis routing, payload logging, bug fixes etc., details of which can be found &lt;a href=&quot;https://github.com/kubeflow/kfserving/releases/tag/v0.3.0&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Kubeflow 1.1 demo scripts and workflow tutorials are available as validated by the individual platforms. Please find those below:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.arrikto.com/model-experimentation/build-an-end-to-end-ml-workflow-from-notebook-to-hp-tuning-to-kubeflow-pipelines-with-kale/&quot;&gt;Kubeflow 1.1 Tutorial for Automated Hyperparameter Tuning, Multi-user Pipelines, Pipeline Caching&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://docs.arrikto.com/integrations/kubeflow.html&quot;&gt;GitOps for Kubeflow 1.1 on AWS EKS&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;1.1 users can also leverage several other Kubeflow ecosystem tools including:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://docs.seldon.io/projects/seldon-core/en/v1.2.1_a/&quot;&gt;Seldon Core 1.1&lt;/a&gt;, which handles scaling to thousands of production ML models and provides advanced ML capabilities including Advanced Metrics, Request Logging, Explainers, Outlier Detectors, A/B Tests, Canaries and more.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://feast.dev/&quot;&gt;Feast&lt;/a&gt;: A feature store that allows teams ML teams to define, manage, discover, and serve ML features to their models.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;What’s Coming and Getting involved&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;The Kubeflow Community has started planning for its next release. Although we have a nice backlog of issues, our process includes discussions and surveys with users and contributors to validate use cases and their value.&lt;/p&gt;
-
-&lt;p&gt;The Community continues to refine its governance and refine this proposal, &lt;a href=&quot;https://bit.ly/kf-governance&quot;&gt;Proposal for Kubeflow WG Guidelines/Governance&lt;/a&gt;. We are actively developing Working Group team charters, tech leads, chairs and members. We look forward to this growth.&lt;/p&gt;
-
-&lt;p&gt;The following provides some helpful links to those looking to get involved with the Kubeflow Community:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Join the &lt;a href=&quot;https://app.slack.com/client/T7QLHSH6U/C7REE0EHK/thread/C7REE0EHK-1554222405.030500&quot;&gt;Kubeflow Slack channel&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Join the &lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss&quot;&gt;kubeflow-discuss mailing list&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Attend a &lt;a href=&quot;https://github.com/kubeflow/community&quot;&gt;weekly community meeting&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;If you have questions, run into issues, please leverage the Slack channel and/or submit bugs via &lt;a href=&quot;https://github.com/kubeflow&quot;&gt;Kubeflow on GitHub&lt;/a&gt;. Thanks from all of us in the Community, and we look forward to your success with Kubeflow 1.1.&lt;/p&gt;
-
-&lt;p&gt;Special thanks to Yuan Tang (Ant Group), Josh Bottum (Arrikto), Constantinos Venetsanopoulos (Arrikto), Yannis Zarkadas (Arrikto), Jiaxin Shan (AWS), Dan Sun (Bloomberg), Andrey Velichkevich (Cisco), Krishna Durai (Cisco), Hamel Husain (GitHub), Willem Pienaar (GoJek), Yuan Gong (Google), Jeremy Lewi (Google), Animesh Singh (IBM) and Clive Cox (Seldon) for their help on this post.&lt;/p&gt;</content><author><name></name></author><category term="release" /><category term="official" /><summary type="html">The Kubeflow Community’s delivery of Kubeflow 1.1 offers users valuable ML workflow automation with Fairing and Kale along with MXNet and XGBoost distributed training operators. It extends isolation and security through the delivery of multi-user pipelines, CVE scanning, and support for Google’s Private GKE and Anthos. 1.1 also improves Katib’s hyperparameter tuning features by offering new frameworks &amp;amp; algorithms, and enables flexible configuration &amp;amp; tuning options. 1.1 provides a foundation for consistent and repeatable installation and operations using GitOps methodologies powered by blueprints and kpt primitives.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;p&gt;To learn how to build your own Kubernetes controllers the &lt;a href=&quot;https://book.kubebuilder.io/&quot;&gt;kubebuilder book&lt;/a&gt; walks through an E2E example.&lt;/p&gt;</content><author><name>&lt;a href='https://www.linkedin.com/in/jeremy-lewi-600aaa8/'&gt;Jeremy Lewi&lt;/a&gt;, &lt;a href='https://hamel.dev/'&gt;Hamel Husain&lt;/a&gt;</name></author><category term="jupyter" /><category term="mlops" /><category term="tekton" /><category term="gitops" /><summary type="html">The Problem</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/2020-08-01-data-science-meets-devops/meme.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/2020-08-01-data-science-meets-devops/meme.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

@@ -9,7 +9,7 @@ hide: false
 categories: [release, official]
 ---
 
-#### By **Dan Sun(dsun20@bloomberg.net)** and **Animesh Singh(singhan@us.ibm.com)** on behalf of the Kubeflow Serving Working Group
+#### By **Dan Sun** and **Animesh Singh** on behalf of the Kubeflow Serving Working Group
 
 ### **KFServing is now KServe**
 We are excited to announce the next chapter for KFServing.

@@ -35,14 +35,17 @@ This blog is built with [fastpages](https://github.com/fastai/fastpages).  Resou
 
 ### Review Process
 
-The review process is two step
+The review process checks for content appropriateness, technical accuracy, and copyediting. The following reviews should be made in order:
 
-1. It should first be reviewed by subject matter experts(SME)
+1. Adherance to the blog submission guidelines. 
+
+2. Technical subject matter expertise(SME)
 
    * To identify SME experts refer to [wg-list.md](https://github.com/kubeflow/community/blob/master/wg-list.md) to identify the relevant work group
    * Ping the GitHub group for the work group leads to assign an appropriate reviewer
    * The group should be named `wg-<name>-leads` in GitHub you can ping them using `@kubeflow/wg-<name>-leads`
 
-1. After SMEs approve it it should be approved by one of the approvers listed in the root OWNERs file
+3. Copyediting to adjust language, and fix typos and formatting errors. 
+
+4. Final approval by one of the approvers listed in the root OWNERs file.
     
-   * This should be a Googler

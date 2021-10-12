@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Kubeflow’s 1.4 release lays the foundation for advanced ML metadata workflows | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Kubeflow’s 1.4 release lays the foundation for advanced ML metadata workflows" />
+<meta name="author" content="Josh Bottum, Kimonas Sotirchos, Thea Lamkin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The Kubeflow 1.4 release lays several important building blocks for the use of advanced metadata workflows. A quick summary of 1.4’s top deliveries includes:" />
+<meta property="og:description" content="The Kubeflow 1.4 release lays several important building blocks for the use of advanced metadata workflows. A quick summary of 1.4’s top deliveries includes:" />
+<link rel="canonical" href="https://blog.kubeflow.org/kubeflow-1.4-release/" />
+<meta property="og:url" content="https://blog.kubeflow.org/kubeflow-1.4-release/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-10-12T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/kubeflow-1.4-release/","@type":"BlogPosting","headline":"Kubeflow’s 1.4 release lays the foundation for advanced ML metadata workflows","dateModified":"2021-10-12T00:00:00-05:00","datePublished":"2021-10-12T00:00:00-05:00","image":"https://blog.kubeflow.org/images/logo.png","author":{"@type":"Person","name":"Josh Bottum, Kimonas Sotirchos, Thea Lamkin"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow-1.4-release/"},"description":"The Kubeflow 1.4 release lays several important building blocks for the use of advanced metadata workflows. A quick summary of 1.4’s top deliveries includes:","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kubeflow&#39;s 1.4 release lays the foundation for advanced ML metadata workflows</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-10-12T00:00:00-05:00" itemprop="datePublished">
+        Oct 12, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Josh Bottum, Kimonas Sotirchos, Thea Lamkin</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#release">release</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#core-improvements-to-code-process-and-documentation">Core improvements to code, process, and documentation</a></li>
+<li class="toc-entry toc-h2"><a href="#simplified-installation">Simplified installation</a></li>
+<li class="toc-entry toc-h2"><a href="#dependencies-change-logs-tracking-issues-and-roadmaps">Dependencies, change logs, tracking issues and roadmaps</a></li>
+<li class="toc-entry toc-h2"><a href="#kubeflow-14-video-update-and-tutorials">Kubeflow 1.4 video update and tutorials</a></li>
+<li class="toc-entry toc-h2"><a href="#whats-coming">What’s coming</a></li>
+<li class="toc-entry toc-h2"><a href="#join-the-community">Join the community</a></li>
+</ul><p>The Kubeflow 1.4 release lays several important building blocks for the use of advanced metadata workflows. A quick summary of
+1.4’s top deliveries includes:</p>
+
+<ul>
+  <li>Advanced metadata workflows with improved metric visualization and pipeline
+step <a href="https://www.kubeflow.org/docs/components/pipelines/caching-v2/">caching</a>
+in Kubeflow Pipelines (KFP) via the KFP Software Development Kit (SDK)</li>
+  <li>A new KFServing
+<a href="https://www.kubeflow.org/docs/components/kfserving/webapp/">model user interface</a>
+that displays ML model status, configuration, yaml, logs, and metrics</li>
+  <li>New <a href="https://github.com/optuna/optuna">Optuna</a> Suggestion Service with
+multivariate TPE algorithm and Sobol’s
+<a href="https://github.com/kubeflow/katib/pull/1523">Quasirandom</a> Sequence support
+for hyperparameter tuning</li>
+  <li>A new, unified training operator that supports all deep learning frameworks
+with a Python SDK, enhanced monitoring and advanced scheduling support</li>
+</ul>
+
+<p>Kubeflow 1.4 enables the use of metadata in advanced machine learning (ML) workflows, especially
+in the Kubeflow Pipelines SDK. With the Pipelines SDK and its new
+<a href="https://www.kubeflow.org/docs/components/pipelines/sdk/v2/v2-compatibility/">V2-compatible mode</a>,
+users can create advanced ML pipelines with Python functions that use the <a href="https://github.com/google/ml-metadata">MLMD</a> as
+input/output arguments. This simplifies
+<a href="https://www.kubeflow.org/docs/components/pipelines/sdk/output-viewer/#v2-sdk-use-sdk-visualization-apis">metrics visualization</a>.</p>
+
+<p>Another enhancement to Pipelines is the option to use the
+<a href="https://www.kubeflow.org/docs/components/pipelines/installation/choose-executor/">Emissary executor</a>
+for non-Docker Kubernetes container runtime requirements. In addition, 1.4 can 
+support metadata-based workflows to streamline the creation of TensorBoard 
+visualizations and to serve ML models.</p>
+
+<h2 id="core-improvements-to-code-process-and-documentation">
+<a class="anchor" href="#core-improvements-to-code-process-and-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Core improvements to code, process, and documentation</h2>
+
+<p>For the Kubeflow Working Groups, 1.4 was primarily a maintenance release, 
+which enabled the Community to concentrate on core improvements to code, 
+process, and documentation. In the
+<a href="https://blog.kubeflow.org/kubeflow-continues-to-move-to-production">2021 Kubeflow User Survey</a>,
+users requested documentation improvements (please see the figure below). The
+Kubeflow 1.4 release cycle included the 1.4 Docs Sprint that generated nearly
+fifty (50) PRs. These PRs were tracked in this
+<a href="https://github.com/kubeflow/website/issues/2879">issue</a> and this
+<a href="https://github.com/orgs/kubeflow/projects/46">Kanban</a> board, and we encourage
+more users to contribute by reading and improving the Kubeflow documentation.</p>
+
+<p><img src="/images/2021-10-12-kubeflow-1.4-release/docs-sprint.png" alt="docs sprint"></p>
+
+<p>The 1.4 release improvements simplify future feature development by reducing
+redundant code, increasing CI/CD, and automating testing. An important delivery
+was the new Unified Training Operator for Tensorflow, PyTorch, MXNet, and
+XGBoost <a href="https://github.com/kubeflow/tf-operator/pull/1302">PR#1302</a>. 1.4 also
+initiated the Community’s adoption of a defined release process in its new
+Kubeflow <a href="https://github.com/kubeflow/manifests/pull/1907">Release Handbook</a>.
+The Handbook defines the stages of the release and contributors’ roles, which
+has helped to improve responsibilities and quality.</p>
+
+<h2 id="simplified-installation">
+<a class="anchor" href="#simplified-installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simplified installation</h2>
+
+<p>As shown in the Kubeflow User Survey (see the figure above), users have also
+asked for installation improvements. In Kubeflow 1.3, the Community refactored
+the Kubeflow deployment pattern to use manifests files (in yaml or json), which
+are stored in Git repositories, and then deployed using the Kustomize
+installation tool. This flexible installation pattern simplifies customization
+by overlaying manifests. This pattern is now being exploited in 1.4.</p>
+
+<p>In 1.4, the Community provides an upstream set of base manifests in the
+Kubeflow manifest repo. Third parties have built custom installation guides
+or distributions with overlays that extend the base manifests. In 1.4, the
+third party overlays were removed from the Kubeflow
+<a href="https://github.com/kubeflow/manifests">manifest repo</a> and moved to the
+repository of their choosing. This pattern provides third parties more
+flexibility to upgrade and document their overlays. You can see a full set of
+installation guides and distributions
+<a href="https://www.kubeflow.org/docs/started/installing-kubeflow/">here</a>.</p>
+
+<p>In addition, on-prem Kubeflow users can use the base installation manifests
+which utilize open source solutions like <a href="https://istio.io/">Istio</a>,
+<a href="https://dexidp.io/">Dex</a>, and
+<a href="https://github.com/arrikto/oidc-authservice">AuthService</a> for authentication.
+The Community and the Manifests Working Group are actively working to provide
+extra overlays and patches to accommodate more advanced use cases and
+installations. For example, we recently
+<a href="https://github.com/kubeflow/manifests/pull/2048">configured</a> Knative to work
+with the AuthService and Dex.</p>
+
+<h2 id="dependencies-change-logs-tracking-issues-and-roadmaps">
+<a class="anchor" href="#dependencies-change-logs-tracking-issues-and-roadmaps" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dependencies, change logs, tracking issues and roadmaps</h2>
+
+<p>Kubeflow has many software dependencies. In 1.4, the top dependencies used in
+testing are defined below:</p>
+
+<table>
+  <tr>
+    <td><strong>Kubeflow Dependency</strong></td>
+    <td><strong>Version</strong></td>
+  </tr>
+  <tr>
+    <td>Kubernetes</td>
+    <td>1.19.0</td>
+  </tr>
+  <tr>
+    <td>Istio</td>
+    <td>1.9.6</td>
+  </tr>
+  <tr>
+    <td>Knative</td>
+    <td>0.22.1</td>
+  </tr>
+  <tr>
+    <td>Kustomize</td>
+    <td>3.2.0</td>
+  </tr>
+</table>
+
+<p>This chart provides links to important details from the Working Groups,
+including their 1.4 tracking issues, change logs, and roadmaps. Please 
+note that the Working Groups use version numbers that are specific to 
+their project. As a result, many Kubeflow components, which have been 
+incorporated and tested in Kubeflow 1.4, may have a different version 
+number than 1.4.</p>
+
+<table>
+  <tr>
+    <td><strong>Working Group</strong></td>
+    <td><strong>Changelog / Release Notes</strong></td>
+    <td><strong>Roadmap</strong></td>
+  </tr>
+  <tr>
+    <td><strong>Notebooks</strong></td>
+    <td>
+      1.4,<br>
+      <a href="https://github.com/kubeflow/kubeflow/releases/tag/v1.4.0">
+        releases/tag/v1.4.0
+      </a>
+    </td>
+    <td>
+      <a href="https://github.com/kubeflow/kubeflow/issues/5978">
+        kubeflow/issues/5978
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Training Operators</strong></td>
+    <td>
+      1.3,<br>
+      <a href="https://github.com/kubeflow/training-operator/blob/master/CHANGELOG.md">
+        Training Operator Changelog
+      </a>
+    </td>
+    <td>
+      <a href="https://github.com/kubeflow/common/blob/master/ROADMAP.md">
+        Training Operators Roadmap
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Katib</strong></td>
+    <td>
+      V0.12,<br>
+      <a href="https://github.com/kubeflow/katib/releases/tag/v0.12.0">
+        Katib Release Notes
+      </a><br>
+      <a href="https://github.com/kubeflow/katib/blob/aa452f07eb8a1f395b76d63fa233a2a01aacdeba/CHANGELOG.md">
+        PR for v0.12  
+      </a>
+    </td>
+    <td>
+      <a href="https://github.com/kubeflow/katib/blob/master/ROADMAP.md">
+        Katib Roadmap
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Kubeflow Pipelines</strong></td>
+    <td>
+      v1.7<br>
+      <a href="https://github.com/kubeflow/pipelines/releases/tag/1.7.0">
+        Release Notes, Changelog
+      </a>
+    </td>
+    <td>
+      <a href="https://github.com/kubeflow/pipelines/blob/master/ROADMAP.md">
+        Pipelines Roadmap
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>KFServing</strong></td>
+    <td>
+      v0.6.1,<br>
+      <a href="https://github.com/kubeflow/kfserving/releases/tag/v0.6.1">
+        kfserving/releases/tag/v0.6.1
+      </a>
+    </td>
+    <td>
+      <a href="https://github.com/kubeflow/kfserving/blob/master/ROADMAP.md">
+        KFServing Roadmap
+      </a>
+    </td>
+  </tr>
+</table>
+
+<h2 id="kubeflow-14-video-update-and-tutorials">
+<a class="anchor" href="#kubeflow-14-video-update-and-tutorials" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kubeflow 1.4 video update and tutorials</h2>
+
+<p>The Kubeflow Working Group representatives have recorded a
+<a href="https://youtu.be/gG61gHw4J14">presentation</a> on Kubeflow 1.4’s new
+features, which you can find on the
+<a href="https://www.youtube.com/kubeflow">Kubeflow YouTube channel</a>. Additionally,
+Kubeflow 1.4’s new features are easy to try in these tutorials:</p>
+
+<ul>
+  <li>AutoML <a href="https://codelabs.arrikto.com/codelabs/minikf-kale-automl/index.html?index=../..index#0">Tutorial</a>
+with metadata based workflows to build TensorBoards and to serve models</li>
+  <li>Run Katib from your <strong>local laptop</strong> by following <a href="https://github.com/kubeflow/katib/tree/master/examples/v1beta1/kind-cluster">this example</a>.</li>
+  <li>KFP <a href="https://www.kubeflow.org/docs/components/pipelines/sdk/v2/build-pipeline/">Tutorial</a>
+using Pipelines SDK v2 to orchestrate your ML workflow as a pipeline</li>
+  <li>KFServing <a href="https://github.com/kserve/kserve/tree/release-0.6/docs/samples">Tutorial</a>
+</li>
+  <li>Training Operator <a href="https://github.com/kubeflow/training-operator/tree/master/examples">Tutorial</a>
+</li>
+</ul>
+
+<h2 id="whats-coming">
+<a class="anchor" href="#whats-coming" aria-hidden="true"><span class="octicon octicon-link"></span></a>What’s coming</h2>
+
+<p>The Kubeflow Community is working on Kubeflow 1.5 planning and the Kubeflow
+Conformance Program <a href="https://github.com/kubeflow/community/pull/524">proposal</a>.
+Please watch <a href="https://blog.kubeflow.org/">blog.kubeflow.org</a> for updates on
+these topics and more.</p>
+
+<h2 id="join-the-community">
+<a class="anchor" href="#join-the-community" aria-hidden="true"><span class="octicon octicon-link"></span></a>Join the community</h2>
+
+<p>We would like to thank everyone for their efforts on Kubeflow 1.4, especially
+the users, code contributors and working group leads. As you can see from the
+extensive contributions to Kubeflow 1.4, the Kubeflow Community is vibrant and
+diverse, and solving real world problems for organizations around the world.</p>
+
+<p>Want to help? The Kubeflow Community
+<a href="https://github.com/kubeflow/community/blob/master/wg-list.md">Working Groups</a>
+hold open meetings, public lists, and are always looking for more volunteers
+and users to unlock the potential of machine learning. If you’re interested in
+becoming a Kubeflow contributor, please feel free to check out the resources
+below. We look forward to working with you!</p>
+
+<ul>
+  <li>Visit our <a href="https://www.kubeflow.org/">Kubeflow website</a> or
+<a href="https://github.com/kubeflow">Kubeflow GitHub page</a>
+</li>
+  <li>Join the <a href="https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg">Kubeflow Slack channel</a>
+</li>
+  <li>Join the
+<a href="https://groups.google.com/forum/#!forum/kubeflow-discuss">kubeflow-discuss</a>
+mailing list</li>
+  <li>Attend a
+<a href="https://www.kubeflow.org/docs/about/community/">weekly community meeting</a>
+</li>
+</ul>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/kubeflow-1.4-release/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

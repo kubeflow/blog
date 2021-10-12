@@ -1,4 +1,252 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2021-10-12T13:32:09-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">KServe: The next generation of KFServing</title><link href="https://blog.kubeflow.org/release/official/2021/09/27/kfserving-transition.html" rel="alternate" type="text/html" title="KServe: The next generation of KFServing" /><published>2021-09-27T00:00:00-05:00</published><updated>2021-09-27T00:00:00-05:00</updated><id>https://blog.kubeflow.org/release/official/2021/09/27/kfserving-transition</id><content type="html" xml:base="https://blog.kubeflow.org/release/official/2021/09/27/kfserving-transition.html">&lt;h4 id=&quot;by-dan-sun-and-animesh-singh-on-behalf-of-the-kubeflow-serving-working-group&quot;&gt;By &lt;strong&gt;Dan Sun&lt;/strong&gt; and &lt;strong&gt;Animesh Singh&lt;/strong&gt; on behalf of the Kubeflow Serving Working Group&lt;/h4&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2021-10-12T14:16:13-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow’s 1.4 release lays the foundation for advanced ML metadata workflows</title><link href="https://blog.kubeflow.org/kubeflow-1.4-release/" rel="alternate" type="text/html" title="Kubeflow’s 1.4 release lays the foundation for advanced ML metadata workflows" /><published>2021-10-12T00:00:00-05:00</published><updated>2021-10-12T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.4-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.4-release/">&lt;p&gt;The Kubeflow 1.4 release lays several important building blocks for the use of advanced metadata workflows. A quick summary of
+1.4’s top deliveries includes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Advanced metadata workflows with improved metric visualization and pipeline
+step &lt;a href=&quot;https://www.kubeflow.org/docs/components/pipelines/caching-v2/&quot;&gt;caching&lt;/a&gt;
+in Kubeflow Pipelines (KFP) via the KFP Software Development Kit (SDK)&lt;/li&gt;
+  &lt;li&gt;A new KFServing
+&lt;a href=&quot;https://www.kubeflow.org/docs/components/kfserving/webapp/&quot;&gt;model user interface&lt;/a&gt;
+that displays ML model status, configuration, yaml, logs, and metrics&lt;/li&gt;
+  &lt;li&gt;New &lt;a href=&quot;https://github.com/optuna/optuna&quot;&gt;Optuna&lt;/a&gt; Suggestion Service with
+multivariate TPE algorithm and Sobol’s
+&lt;a href=&quot;https://github.com/kubeflow/katib/pull/1523&quot;&gt;Quasirandom&lt;/a&gt; Sequence support
+for hyperparameter tuning&lt;/li&gt;
+  &lt;li&gt;A new, unified training operator that supports all deep learning frameworks
+with a Python SDK, enhanced monitoring and advanced scheduling support&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Kubeflow 1.4 enables the use of metadata in advanced machine learning (ML) workflows, especially
+in the Kubeflow Pipelines SDK. With the Pipelines SDK and its new
+&lt;a href=&quot;https://www.kubeflow.org/docs/components/pipelines/sdk/v2/v2-compatibility/&quot;&gt;V2-compatible mode&lt;/a&gt;,
+users can create advanced ML pipelines with Python functions that use the &lt;a href=&quot;https://github.com/google/ml-metadata&quot;&gt;MLMD&lt;/a&gt; as
+input/output arguments. This simplifies
+&lt;a href=&quot;https://www.kubeflow.org/docs/components/pipelines/sdk/output-viewer/#v2-sdk-use-sdk-visualization-apis&quot;&gt;metrics visualization&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Another enhancement to Pipelines is the option to use the
+&lt;a href=&quot;https://www.kubeflow.org/docs/components/pipelines/installation/choose-executor/&quot;&gt;Emissary executor&lt;/a&gt;
+for non-Docker Kubernetes container runtime requirements. In addition, 1.4 can 
+support metadata-based workflows to streamline the creation of TensorBoard 
+visualizations and to serve ML models.&lt;/p&gt;
+
+&lt;h2 id=&quot;core-improvements-to-code-process-and-documentation&quot;&gt;Core improvements to code, process, and documentation&lt;/h2&gt;
+
+&lt;p&gt;For the Kubeflow Working Groups, 1.4 was primarily a maintenance release, 
+which enabled the Community to concentrate on core improvements to code, 
+process, and documentation. In the
+&lt;a href=&quot;https://blog.kubeflow.org/kubeflow-continues-to-move-to-production&quot;&gt;2021 Kubeflow User Survey&lt;/a&gt;,
+users requested documentation improvements (please see the figure below). The
+Kubeflow 1.4 release cycle included the 1.4 Docs Sprint that generated nearly
+fifty (50) PRs. These PRs were tracked in this
+&lt;a href=&quot;https://github.com/kubeflow/website/issues/2879&quot;&gt;issue&lt;/a&gt; and this
+&lt;a href=&quot;https://github.com/orgs/kubeflow/projects/46&quot;&gt;Kanban&lt;/a&gt; board, and we encourage
+more users to contribute by reading and improving the Kubeflow documentation.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2021-10-12-kubeflow-1.4-release/docs-sprint.png&quot; alt=&quot;docs sprint&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The 1.4 release improvements simplify future feature development by reducing
+redundant code, increasing CI/CD, and automating testing. An important delivery
+was the new Unified Training Operator for Tensorflow, PyTorch, MXNet, and
+XGBoost &lt;a href=&quot;https://github.com/kubeflow/tf-operator/pull/1302&quot;&gt;PR#1302&lt;/a&gt;. 1.4 also
+initiated the Community’s adoption of a defined release process in its new
+Kubeflow &lt;a href=&quot;https://github.com/kubeflow/manifests/pull/1907&quot;&gt;Release Handbook&lt;/a&gt;.
+The Handbook defines the stages of the release and contributors’ roles, which
+has helped to improve responsibilities and quality.&lt;/p&gt;
+
+&lt;h2 id=&quot;simplified-installation&quot;&gt;Simplified installation&lt;/h2&gt;
+
+&lt;p&gt;As shown in the Kubeflow User Survey (see the figure above), users have also
+asked for installation improvements. In Kubeflow 1.3, the Community refactored
+the Kubeflow deployment pattern to use manifests files (in yaml or json), which
+are stored in Git repositories, and then deployed using the Kustomize
+installation tool. This flexible installation pattern simplifies customization
+by overlaying manifests. This pattern is now being exploited in 1.4.&lt;/p&gt;
+
+&lt;p&gt;In 1.4, the Community provides an upstream set of base manifests in the
+Kubeflow manifest repo. Third parties have built custom installation guides
+or distributions with overlays that extend the base manifests. In 1.4, the
+third party overlays were removed from the Kubeflow
+&lt;a href=&quot;https://github.com/kubeflow/manifests&quot;&gt;manifest repo&lt;/a&gt; and moved to the
+repository of their choosing. This pattern provides third parties more
+flexibility to upgrade and document their overlays. You can see a full set of
+installation guides and distributions
+&lt;a href=&quot;https://www.kubeflow.org/docs/started/installing-kubeflow/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In addition, on-prem Kubeflow users can use the base installation manifests
+which utilize open source solutions like &lt;a href=&quot;https://istio.io/&quot;&gt;Istio&lt;/a&gt;,
+&lt;a href=&quot;https://dexidp.io/&quot;&gt;Dex&lt;/a&gt;, and
+&lt;a href=&quot;https://github.com/arrikto/oidc-authservice&quot;&gt;AuthService&lt;/a&gt; for authentication.
+The Community and the Manifests Working Group are actively working to provide
+extra overlays and patches to accommodate more advanced use cases and
+installations. For example, we recently
+&lt;a href=&quot;https://github.com/kubeflow/manifests/pull/2048&quot;&gt;configured&lt;/a&gt; Knative to work
+with the AuthService and Dex.&lt;/p&gt;
+
+&lt;h2 id=&quot;dependencies-change-logs-tracking-issues-and-roadmaps&quot;&gt;Dependencies, change logs, tracking issues and roadmaps&lt;/h2&gt;
+
+&lt;p&gt;Kubeflow has many software dependencies. In 1.4, the top dependencies used in
+testing are defined below:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;strong&gt;Kubeflow Dependency&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;strong&gt;Version&lt;/strong&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Kubernetes&lt;/td&gt;
+    &lt;td&gt;1.19.0&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Istio&lt;/td&gt;
+    &lt;td&gt;1.9.6&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Knative&lt;/td&gt;
+    &lt;td&gt;0.22.1&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Kustomize&lt;/td&gt;
+    &lt;td&gt;3.2.0&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;This chart provides links to important details from the Working Groups,
+including their 1.4 tracking issues, change logs, and roadmaps. Please 
+note that the Working Groups use version numbers that are specific to 
+their project. As a result, many Kubeflow components, which have been 
+incorporated and tested in Kubeflow 1.4, may have a different version 
+number than 1.4.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;strong&gt;Working Group&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;strong&gt;Changelog / Release Notes&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;strong&gt;Roadmap&lt;/strong&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;strong&gt;Notebooks&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;
+      1.4,&lt;br /&gt;
+      &lt;a href=&quot;https://github.com/kubeflow/kubeflow/releases/tag/v1.4.0&quot;&gt;
+        releases/tag/v1.4.0
+      &lt;/a&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/5978&quot;&gt;
+        kubeflow/issues/5978
+      &lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;strong&gt;Training Operators&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;
+      1.3,&lt;br /&gt;
+      &lt;a href=&quot;https://github.com/kubeflow/training-operator/blob/master/CHANGELOG.md&quot;&gt;
+        Training Operator Changelog
+      &lt;/a&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;a href=&quot;https://github.com/kubeflow/common/blob/master/ROADMAP.md&quot;&gt;
+        Training Operators Roadmap
+      &lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;strong&gt;Katib&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;
+      V0.12,&lt;br /&gt;
+      &lt;a href=&quot;https://github.com/kubeflow/katib/releases/tag/v0.12.0&quot;&gt;
+        Katib Release Notes
+      &lt;/a&gt;&lt;br /&gt;
+      &lt;a href=&quot;https://github.com/kubeflow/katib/blob/aa452f07eb8a1f395b76d63fa233a2a01aacdeba/CHANGELOG.md&quot;&gt;
+        PR for v0.12  
+      &lt;/a&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;a href=&quot;https://github.com/kubeflow/katib/blob/master/ROADMAP.md&quot;&gt;
+        Katib Roadmap
+      &lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;strong&gt;Kubeflow Pipelines&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;
+      v1.7&lt;br /&gt;
+      &lt;a href=&quot;https://github.com/kubeflow/pipelines/releases/tag/1.7.0&quot;&gt;
+        Release Notes, Changelog
+      &lt;/a&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;a href=&quot;https://github.com/kubeflow/pipelines/blob/master/ROADMAP.md&quot;&gt;
+        Pipelines Roadmap
+      &lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;strong&gt;KFServing&lt;/strong&gt;&lt;/td&gt;
+    &lt;td&gt;
+      v0.6.1,&lt;br /&gt;
+      &lt;a href=&quot;https://github.com/kubeflow/kfserving/releases/tag/v0.6.1&quot;&gt;
+        kfserving/releases/tag/v0.6.1
+      &lt;/a&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+      &lt;a href=&quot;https://github.com/kubeflow/kfserving/blob/master/ROADMAP.md&quot;&gt;
+        KFServing Roadmap
+      &lt;/a&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;kubeflow-14-video-update-and-tutorials&quot;&gt;Kubeflow 1.4 video update and tutorials&lt;/h2&gt;
+
+&lt;p&gt;The Kubeflow Working Group representatives have recorded a
+&lt;a href=&quot;https://youtu.be/gG61gHw4J14&quot;&gt;presentation&lt;/a&gt; on Kubeflow 1.4’s new
+features, which you can find on the
+&lt;a href=&quot;https://www.youtube.com/kubeflow&quot;&gt;Kubeflow YouTube channel&lt;/a&gt;. Additionally,
+Kubeflow 1.4’s new features are easy to try in these tutorials:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;AutoML &lt;a href=&quot;https://codelabs.arrikto.com/codelabs/minikf-kale-automl/index.html?index=../..index#0&quot;&gt;Tutorial&lt;/a&gt;
+with metadata based workflows to build TensorBoards and to serve models&lt;/li&gt;
+  &lt;li&gt;Run Katib from your &lt;strong&gt;local laptop&lt;/strong&gt; by following &lt;a href=&quot;https://github.com/kubeflow/katib/tree/master/examples/v1beta1/kind-cluster&quot;&gt;this example&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;KFP &lt;a href=&quot;https://www.kubeflow.org/docs/components/pipelines/sdk/v2/build-pipeline/&quot;&gt;Tutorial&lt;/a&gt;
+using Pipelines SDK v2 to orchestrate your ML workflow as a pipeline&lt;/li&gt;
+  &lt;li&gt;KFServing &lt;a href=&quot;https://github.com/kserve/kserve/tree/release-0.6/docs/samples&quot;&gt;Tutorial&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Training Operator &lt;a href=&quot;https://github.com/kubeflow/training-operator/tree/master/examples&quot;&gt;Tutorial&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;whats-coming&quot;&gt;What’s coming&lt;/h2&gt;
+
+&lt;p&gt;The Kubeflow Community is working on Kubeflow 1.5 planning and the Kubeflow
+Conformance Program &lt;a href=&quot;https://github.com/kubeflow/community/pull/524&quot;&gt;proposal&lt;/a&gt;.
+Please watch &lt;a href=&quot;https://blog.kubeflow.org/&quot;&gt;blog.kubeflow.org&lt;/a&gt; for updates on
+these topics and more.&lt;/p&gt;
+
+&lt;h2 id=&quot;join-the-community&quot;&gt;Join the community&lt;/h2&gt;
+
+&lt;p&gt;We would like to thank everyone for their efforts on Kubeflow 1.4, especially
+the users, code contributors and working group leads. As you can see from the
+extensive contributions to Kubeflow 1.4, the Kubeflow Community is vibrant and
+diverse, and solving real world problems for organizations around the world.&lt;/p&gt;
+
+&lt;p&gt;Want to help? The Kubeflow Community
+&lt;a href=&quot;https://github.com/kubeflow/community/blob/master/wg-list.md&quot;&gt;Working Groups&lt;/a&gt;
+hold open meetings, public lists, and are always looking for more volunteers
+and users to unlock the potential of machine learning. If you’re interested in
+becoming a Kubeflow contributor, please feel free to check out the resources
+below. We look forward to working with you!&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Visit our &lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;Kubeflow website&lt;/a&gt; or
+&lt;a href=&quot;https://github.com/kubeflow&quot;&gt;Kubeflow GitHub page&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Join the &lt;a href=&quot;https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg&quot;&gt;Kubeflow Slack channel&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Join the
+&lt;a href=&quot;https://groups.google.com/forum/#!forum/kubeflow-discuss&quot;&gt;kubeflow-discuss&lt;/a&gt;
+mailing list&lt;/li&gt;
+  &lt;li&gt;Attend a
+&lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;weekly community meeting&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Josh Bottum, Kimonas Sotirchos, Thea Lamkin</name></author><category term="release" /><summary type="html">The Kubeflow 1.4 release lays several important building blocks for the use of advanced metadata workflows. A quick summary of 1.4’s top deliveries includes:</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">KServe: The next generation of KFServing</title><link href="https://blog.kubeflow.org/release/official/2021/09/27/kfserving-transition.html" rel="alternate" type="text/html" title="KServe: The next generation of KFServing" /><published>2021-09-27T00:00:00-05:00</published><updated>2021-09-27T00:00:00-05:00</updated><id>https://blog.kubeflow.org/release/official/2021/09/27/kfserving-transition</id><content type="html" xml:base="https://blog.kubeflow.org/release/official/2021/09/27/kfserving-transition.html">&lt;h4 id=&quot;by-dan-sun-and-animesh-singh-on-behalf-of-the-kubeflow-serving-working-group&quot;&gt;By &lt;strong&gt;Dan Sun&lt;/strong&gt; and &lt;strong&gt;Animesh Singh&lt;/strong&gt; on behalf of the Kubeflow Serving Working Group&lt;/h4&gt;
 
 &lt;h3 id=&quot;kfserving-is-now-kserve&quot;&gt;&lt;strong&gt;KFServing is now KServe&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;We are excited to announce the next chapter for KFServing.
@@ -2154,367 +2402,4 @@ Model id is 172 and version is model_version_50b419e2-af69-4c0e-a251-78246d4c057
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><category term="jupyter" /><summary type="html"></summary></entry><entry><title type="html">Data Science Meets Devops: MLOps with Jupyter, Git, &amp;amp; Kubernetes</title><link href="https://blog.kubeflow.org/mlops/" rel="alternate" type="text/html" title="Data Science Meets Devops: MLOps with Jupyter, Git, &amp;amp; Kubernetes" /><published>2020-08-01T00:00:00-05:00</published><updated>2020-08-01T00:00:00-05:00</updated><id>https://blog.kubeflow.org/data-science-meets-devops</id><content type="html" xml:base="https://blog.kubeflow.org/mlops/">&lt;h1 id=&quot;the-problem&quot;&gt;The Problem&lt;/h1&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;Kubeflow&lt;/a&gt; is a fast-growing open source project that makes it easy to deploy and manage machine learning on Kubernetes.&lt;/p&gt;
-
-&lt;p&gt;Due to Kubeflow’s explosive popularity, we receive a large influx of GitHub issues that must be triaged and routed to the appropriate subject matter expert.  The below chart illustrates the number of new issues opened for the past year:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/2020-08-01-data-science-meets-devops/fig1.num-issues.png&quot; width=&quot;&quot; alt=&quot;Number of Kubeflow Issues&quot; title=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;figcaption&gt;&lt;strong&gt;Figure 1:&lt;/strong&gt; Number of Kubeflow Issues&lt;/figcaption&gt;
-
-&lt;p&gt;To keep up with this influx, we started investing in a Github App called &lt;a href=&quot;https://github.com/marketplace/issue-label-bot&quot;&gt;Issue Label Bot&lt;/a&gt; that used machine learning to auto label issues.  Our &lt;a href=&quot;https://github.com/marketplace/issue-label-bot&quot;&gt;first model&lt;/a&gt; was trained using a collection of popular public repositories on GitHub and only predicted generic labels.  Subsequently, we started using &lt;a href=&quot;https://cloud.google.com/automl/docs&quot;&gt;Google AutoML&lt;/a&gt; to train a Kubeflow specific model. The new model was able to predict Kubeflow specific labels with average precision of 72% and average recall of 50%. This significantly reduced the toil associated with issue management for Kubeflow maintainers. The table below contains evaluation metrics for Kubeflow specific labels on a holdout set.  The &lt;a href=&quot;https://en.wikipedia.org/wiki/Precision_and_recall&quot;&gt;precision and recall&lt;/a&gt; below coincide with prediction thresholds that we calibrated to suit our needs.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;Label&lt;/th&gt;
-      &lt;th&gt;Precision&lt;/th&gt;
-      &lt;th&gt;Recall&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-backend&lt;/td&gt;
-      &lt;td&gt;0.6&lt;/td&gt;
-      &lt;td&gt;0.4&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-bootstrap&lt;/td&gt;
-      &lt;td&gt;0.3&lt;/td&gt;
-      &lt;td&gt;0.1&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-centraldashboard&lt;/td&gt;
-      &lt;td&gt;0.6&lt;/td&gt;
-      &lt;td&gt;0.6&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-components&lt;/td&gt;
-      &lt;td&gt;0.5&lt;/td&gt;
-      &lt;td&gt;0.3&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-docs&lt;/td&gt;
-      &lt;td&gt;0.8&lt;/td&gt;
-      &lt;td&gt;0.7&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-engprod&lt;/td&gt;
-      &lt;td&gt;0.8&lt;/td&gt;
-      &lt;td&gt;0.5&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-front-end&lt;/td&gt;
-      &lt;td&gt;0.7&lt;/td&gt;
-      &lt;td&gt;0.5&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-frontend&lt;/td&gt;
-      &lt;td&gt;0.7&lt;/td&gt;
-      &lt;td&gt;0.4&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-inference&lt;/td&gt;
-      &lt;td&gt;0.9&lt;/td&gt;
-      &lt;td&gt;0.5&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-jupyter&lt;/td&gt;
-      &lt;td&gt;0.9&lt;/td&gt;
-      &lt;td&gt;0.7&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-katib&lt;/td&gt;
-      &lt;td&gt;0.8&lt;/td&gt;
-      &lt;td&gt;1.0&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-kfctl&lt;/td&gt;
-      &lt;td&gt;0.8&lt;/td&gt;
-      &lt;td&gt;0.7&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-kustomize&lt;/td&gt;
-      &lt;td&gt;0.3&lt;/td&gt;
-      &lt;td&gt;0.1&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-operator&lt;/td&gt;
-      &lt;td&gt;0.8&lt;/td&gt;
-      &lt;td&gt;0.7&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-pipelines&lt;/td&gt;
-      &lt;td&gt;0.7&lt;/td&gt;
-      &lt;td&gt;0.4&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-samples&lt;/td&gt;
-      &lt;td&gt;0.5&lt;/td&gt;
-      &lt;td&gt;0.5&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-sdk&lt;/td&gt;
-      &lt;td&gt;0.7&lt;/td&gt;
-      &lt;td&gt;0.4&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-sdk-dsl&lt;/td&gt;
-      &lt;td&gt;0.6&lt;/td&gt;
-      &lt;td&gt;0.4&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-sdk-dsl-compiler&lt;/td&gt;
-      &lt;td&gt;0.6&lt;/td&gt;
-      &lt;td&gt;0.4&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-testing&lt;/td&gt;
-      &lt;td&gt;0.7&lt;/td&gt;
-      &lt;td&gt;0.7&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;area-tfjob&lt;/td&gt;
-      &lt;td&gt;0.4&lt;/td&gt;
-      &lt;td&gt;0.4&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;platform-aws&lt;/td&gt;
-      &lt;td&gt;0.8&lt;/td&gt;
-      &lt;td&gt;0.5&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;platform-gcp&lt;/td&gt;
-      &lt;td&gt;0.8&lt;/td&gt;
-      &lt;td&gt;0.6&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;figcaption&gt;&lt;strong&gt;Table 1:&lt;/strong&gt; Evaluation metrics for various Kubeflow labels.&lt;/figcaption&gt;
-
-&lt;p&gt;Given the rate at which new issues are arriving, retraining our model periodically became a priority. We believe continuously retraining and deploying our model to leverage this new data is critical to maintaining the efficacy of our models.&lt;/p&gt;
-
-&lt;h1 id=&quot;our-solution&quot;&gt;Our Solution&lt;/h1&gt;
-
-&lt;p&gt;Our CI/CD solution is illustrated in &lt;a href=&quot;#fig2&quot;&gt;Figure 2&lt;/a&gt;. We don’t explicitly create a directed acyclic graph (DAG)  to connect the steps in an ML workflow (e.g. preprocessing, training, validation, deployment, etc…). Rather, we use a set of independent controllers. Each controller declaratively describes the desired state of the world and takes  actions necessary to make the actual state of the world match. This independence makes it easy for us to use whatever tools make the most sense for each step. More specifically we use&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Jupyter notebooks for developing models.&lt;/li&gt;
-  &lt;li&gt;GitOps for continuous integration and deployment.&lt;/li&gt;
-  &lt;li&gt;Kubernetes and managed cloud services for underlying infrastructure.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img id=&quot;fig2&quot; src=&quot;/images/2020-08-01-data-science-meets-devops/fig2.ci-cd.png&quot; width=&quot;&quot; alt=&quot;alt_text&quot; title=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;figcaption&gt;&lt;strong&gt;Figure 2:&lt;/strong&gt; illustrates how we do CI/CD. Our pipeline today consists of two independently operating controllers. We configure the Trainer (left hand side) by describing what models we want to exist; i.e. what it means for our models to be “fresh”.  The Trainer periodically checks whether the set of trained models are sufficiently fresh and if not trains a new model. We likewise configure the Deployer (right hand side) to define what it means for the deployed model to be in sync with the set of trained models. If the correct model is not deployed it will deploy a new model.&lt;/figcaption&gt;
-
-&lt;p&gt;For more details on model training and deployment refer to the &lt;a href=&quot;#actuation&quot;&gt;Actuation section below&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h1 id=&quot;background&quot;&gt;Background&lt;/h1&gt;
-
-&lt;h2 id=&quot;building-resilient-systems-with-reconcilers&quot;&gt;Building Resilient Systems With Reconcilers&lt;/h2&gt;
-
-&lt;p&gt;A reconciler is a control pattern that has proven to be immensely useful for building resilient systems. The reconcile pattern is &lt;a href=&quot;https://book.kubebuilder.io/cronjob-tutorial/controller-overview.html&quot;&gt;at the heart of how Kubernetes works&lt;/a&gt;. Figure 3 illustrates how a reconciler works. A reconciler works by first observing the state of the world; e.g. what model is currently deployed. The reconciler then compares this against the desired state of the world and computes the diff; e.g the model with label “version=20200724” should be deployed, but the model currently deployed has label “version=20200700”. The reconciler then takes the action necessary to drive the world to the desired state; e.g. open a pull request to change the deployed model.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/2020-08-01-data-science-meets-devops/fig3.reconciler.png&quot; width=&quot;&quot; alt=&quot;Figure 3&quot; title=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;figcaption&gt;&lt;strong&gt;Figure 3.&lt;/strong&gt; Illustration of the reconciler pattern as applied by our deployer.&lt;/figcaption&gt;
-
-&lt;p&gt;Reconcilers have proven immensely useful for building resilient systems because a well implemented reconciler provides a high degree of confidence that no matter how a system is perturbed it will eventually return to the desired state.&lt;/p&gt;
-
-&lt;h2 id=&quot;there-is-no-dag&quot;&gt;There is no DAG&lt;/h2&gt;
-
-&lt;p&gt;The declarative nature of controllers means data can flow through a series of controllers  without needing to explicitly create a DAG. In lieu of a DAG, a series of data processing steps can instead be expressed as a set of desired states, as illustrated in Figure 4 below:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/2020-08-01-data-science-meets-devops/fig4.data-pipeline.png&quot; width=&quot;&quot; alt=&quot;alt_text&quot; title=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;figcaption&gt;&lt;strong&gt;Figure 4:&lt;/strong&gt; illustrates how pipelines can emerge from independent controllers without explicitly encoding a DAG. Here we have two completely independent controllers. The first controller ensures that for every element a&lt;sub&gt;i&lt;/sub&gt; there should be an element b&lt;sub&gt;i&lt;/sub&gt;. The second controller ensures that for every element b&lt;sub&gt;i&lt;/sub&gt; there should be an element c&lt;sub&gt;i&lt;/sub&gt;.&lt;/figcaption&gt;
-
-&lt;p&gt;This reconciler-based paradigm offers the following benefits over many traditional DAG-based workflows:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;Resilience against failures&lt;/strong&gt;:  the system continuously seeks to achieve and maintain the desired state.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Increased autonomy of engineering teams:&lt;/strong&gt; each team is free to choose the tools and infrastructure that suit their needs.  The reconciler framework only requires a minimal amount of coupling between controllers while still allowing one to write expressive workflows.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Battle tested patterns and tools&lt;/strong&gt;:  This reconciler based framework does not invent something new.  Kubernetes has a rich ecosystem of tools that aim to make it easy to build controllers. The popularity of Kubernetes means there is a large and growing community familiar with this pattern and supporting tools.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;gitops-operation-by-pull-request&quot;&gt;GitOps: Operation By Pull Request&lt;/h2&gt;
-
-&lt;p&gt;GitOps, Figure 5, is a pattern for managing infrastructure. The core idea of GitOps is that source control (doesn’t have to be git) should be the source of truth for configuration files  describing your infrastructure. Controllers can then monitor source control and automatically update your infrastructure as your config changes. This means to make a change (or undo a change) you just open a pull request.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/2020-08-01-data-science-meets-devops/fig5.gitops.png&quot; width=&quot;&quot; alt=&quot;alt_text&quot; title=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;figcaption&gt;&lt;strong&gt;Figure 5:&lt;/strong&gt; To push a new model for Label Bot we create a PR updating the config map storing the id of the Auto ML model we want to use. When the PR is merged, &lt;a href=&quot;https://cloud.google.com/anthos-config-management/docs&quot;&gt;Anthos Config Management(ACM&lt;/a&gt;) automatically rolls out those changes to our GKE cluster. As a result, subsequent predictions are made using the new model. (Image courtesy of &lt;a href=&quot;https://www.weave.works/blog/automate-kubernetes-with-gitops&quot;&gt;Weaveworks&lt;/a&gt;)&lt;/figcaption&gt;
-
-&lt;h1 id=&quot;putting-it-together-reconciler--gitops--cicd-for-ml&quot;&gt;Putting It Together: Reconciler + GitOps = CI/CD for ML&lt;/h1&gt;
-
-&lt;p&gt;With that background out of the way, let’s dive into how we built CI/CD for ML by combining the Reconciler and GitOps patterns.&lt;/p&gt;
-
-&lt;p&gt;There were three problems we needed to solve:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;How do we compute the diff between the desired and actual state of the world?&lt;/li&gt;
-  &lt;li&gt;How do we affect the changes needed to make the actual state match the desired state?&lt;/li&gt;
-  &lt;li&gt;How do we build a control loop to continuously run 1 &amp;amp; 2?&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;computing-diffs&quot;&gt;Computing Diffs&lt;/h2&gt;
-
-&lt;p&gt;To compute the diffs we just write lambdas that do exactly what we want. So in this case we wrote two lambdas:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The &lt;a href=&quot;https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/Label_Microservice/go/cmd/automl/pkg/server/server.go#L109&quot;&gt;first lambda&lt;/a&gt; determines whether we need to retrain based on the age of the most recent model.&lt;/li&gt;
-  &lt;li&gt;The &lt;a href=&quot;https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/Label_Microservice/go/cmd/automl/pkg/server/server.go#L49&quot;&gt;second lambda&lt;/a&gt; determines whether the model needs to be updated by comparing the most recently trained model to the model listed in a config map checked into source control.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;We wrap these lambdas in a simple web server and deploy on Kubernetes. One reason we chose this approach is because we wanted to rely on Kubernetes’ &lt;a href=&quot;https://github.com/kubernetes/git-sync&quot;&gt;git-sync&lt;/a&gt; to mirror our repository to a pod volume. This makes our lambdas super simple because all the git management is taken care of by a side-car running &lt;a href=&quot;https://github.com/kubernetes/git-sync&quot;&gt;git-sync&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;actuation&quot;&gt;Actuation&lt;/h2&gt;
-
-&lt;p&gt;To apply the changes necessary, we use Tekton to glue together various CLIs that we use to perform the various steps.&lt;/p&gt;
-
-&lt;h3 id=&quot;model-training&quot;&gt;Model Training&lt;/h3&gt;
-
-&lt;p&gt;To train our model we have a &lt;a href=&quot;https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/tekton/tasks/run-notebook-task.yaml#L34&quot;&gt;Tekton task &lt;/a&gt; that:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Runs our notebook using &lt;a href=&quot;https://github.com/nteract/papermill&quot;&gt;papermill&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;Converts the notebook to html using &lt;a href=&quot;https://nbconvert.readthedocs.io/en/latest/&quot;&gt;nbconvert&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;Uploads the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.ipynb&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.html&lt;/code&gt; files to GCS using &lt;a href=&quot;https://cloud.google.com/storage/docs/gsutil&quot;&gt;gsutil&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;This notebook fetches GitHub Issues data &lt;a href=&quot;https://medium.com/google-cloud/analyzing-github-issues-and-comments-with-bigquery-c41410d3308&quot;&gt;from BigQuery&lt;/a&gt; and generates CSV files on GCS suitable for import into &lt;a href=&quot;https://cloud.google.com/automl&quot;&gt;Google AutoML&lt;/a&gt;. The notebook then launches an &lt;a href=&quot;https://cloud.google.com/automl&quot;&gt;AutoML&lt;/a&gt; job to train a model.&lt;/p&gt;
-
-&lt;p&gt;We chose AutoML because we wanted to focus on building a complete end to end solution rather than iterating on the model. AutoML provides a competitive baseline that we may try to improve upon in the future.&lt;/p&gt;
-
-&lt;p&gt;To easily view the executed notebook we convert it to html and upload it to &lt;a href=&quot;https://cloud.google.com/storage/docs/hosting-static-website&quot;&gt;GCS which makes it easy to serve public, static content&lt;/a&gt;. This allows us to use notebooks to generate rich visualizations to evaluate our model.&lt;/p&gt;
-
-&lt;h3 id=&quot;model-deployment&quot;&gt;Model Deployment&lt;/h3&gt;
-
-&lt;p&gt;To deploy our model we have a &lt;a href=&quot;https://github.com/kubeflow/code-intelligence/blob/faeb65757214ac93259f417b81e9e2fedafaebda/tekton/tasks/update-model-pr-task.yaml#L68&quot;&gt;Tekton task&lt;/a&gt; that:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Uses kpt to update our configmap with the desired value.&lt;/li&gt;
-  &lt;li&gt;Runs git to push our changes to a branch.&lt;/li&gt;
-  &lt;li&gt;Uses a wrapper around the &lt;a href=&quot;https://github.com/cli/cli&quot;&gt;GitHub CLI&lt;/a&gt; (gh) to create a PR.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The controller ensures there is only one Tekton pipeline running at a time. We configure our pipelines to always push to the same branch. This ensures we only ever open one PR to update the model because GitHub doesn’t allow multiple PRs to be created from the same branch.&lt;/p&gt;
-
-&lt;p&gt;Once the PR is merged &lt;a href=&quot;https://cloud.google.com/anthos/config-management&quot;&gt;Anthos Config Mesh&lt;/a&gt; automatically applies the Kubernetes manifests to our Kubernetes cluster.&lt;/p&gt;
-
-&lt;h3 id=&quot;why-tekton&quot;&gt;Why Tekton&lt;/h3&gt;
-
-&lt;p&gt;We picked Tekton because the primary challenge we faced was sequentially running a series of CLIs in various containers. Tekton is perfect for this. Importantly, all the steps in a Tekton task run on the same pod which allows data to be shared between steps using a pod volume.&lt;/p&gt;
-
-&lt;p&gt;Furthermore, since Tekton resources are Kubernetes resources we can adopt the same GitOps pattern and tooling to 
-update our pipeline definitions.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-control-loop&quot;&gt;The Control Loop&lt;/h2&gt;
-
-&lt;p&gt;Finally, we needed to build a control loop that would periodically invoke our lambdas and launch our Tekton pipelines as needed. We used kubebuilder to create a &lt;a href=&quot;https://github.com/kubeflow/code-intelligence/tree/master/Label_Microservice/go&quot;&gt;simple custom controller&lt;/a&gt;. Our controller’s reconcile loop will call our lambda to determines whether a sync is needed and if so with what parameters. If a sync is needed the controller fires off a Tekton pipeline to perform the actual update. An example of our &lt;a href=&quot;https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/&quot;&gt;custom resource&lt;/a&gt; is illustrated below:&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;automl.cloudai.kubeflow.org/v1alpha1&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ModelSync&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;modelsync-sample&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;namespace&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;label-bot-prod&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;failedPipelineRunsHistoryLimit&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;10&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;needsSyncUrl&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;http://labelbot-diff.label-bot-prod/needsSync&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;needsSyncName&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;name&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;pipelineName&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;automl-model&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;pipelineRunTemplate&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;automl-model&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;notavlidmodel&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;branchName&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;auto-update&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;fork&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git@github.com:kubeflow/code-intelligence.git&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;forkName&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;fork&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;pipelineRef&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;update-model-pr&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;repo&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;resourceSpec&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-          &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;url&lt;/span&gt;
-            &lt;span class=&quot;na&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;https://github.com/kubeflow/code-intelligence.git&lt;/span&gt;
-          &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;revision&lt;/span&gt;
-            &lt;span class=&quot;na&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;master&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;serviceAccountName&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;auto-update&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;successfulPipelineRunsHistoryLimit&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;10&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The custom resource specifies the endpoint, &lt;strong&gt;needsSyncUrl&lt;/strong&gt;, for the lambda that computes whether a sync is needed and a Tekton PipelineRun, &lt;strong&gt;pipelineRunTemplate&lt;/strong&gt;, describing the pipeline run to create when a sync is needed. The controller takes care of the details; e.g. ensuring only 1 pipeline per resource is running at a time, garbage collecting old runs, etc… All of the heavy lifting is taken care of for us by Kubernetes and kubebuilder.&lt;/p&gt;
-
-&lt;p&gt;Note, for historical reasons the kind, &lt;strong&gt;ModelSync&lt;/strong&gt;, and apiVersion &lt;strong&gt;automl.cloudai.kubeflow.org&lt;/strong&gt; are not reflective of what the controller actually does. We plan on fixing this in the future.&lt;/p&gt;
-
-&lt;h1 id=&quot;build-your-own-cicd-pipelines&quot;&gt;Build Your Own CI/CD pipelines&lt;/h1&gt;
-
-&lt;p&gt;Our code base is a long way from being polished, easily reusable tooling. Nonetheless it is all public  and could be a useful starting point for trying to build your own pipelines.&lt;/p&gt;
-
-&lt;p&gt;Here are some pointers to get you started:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Use the Dockerfile to build your own &lt;a href=&quot;https://github.com/kubeflow/code-intelligence/blob/master/Label_Microservice/go/Dockerfile&quot;&gt;ModelSync controller&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/code-intelligence/tree/master/Label_Microservice/go/config/default&quot;&gt;Modify the kustomize package&lt;/a&gt; to use your image and deploy the controller&lt;/li&gt;
-  &lt;li&gt;Define one or more lambdas as needed for your use cases
-    &lt;ul&gt;
-      &lt;li&gt;You can use our &lt;a href=&quot;https://github.com/kubeflow/code-intelligence/blob/master/Label_Microservice/go/cmd/automl/pkg/server/server.go&quot;&gt;Lambda server&lt;/a&gt; as an example&lt;/li&gt;
-      &lt;li&gt;We wrote ours in go but you can use any language and web framework you like (e.g. flask)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Define Tekton pipelines suitable for your use cases; our pipelines(linked below) might be a useful starting point
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/code-intelligence/blob/master/tekton/tasks/run-notebook-task.yaml&quot;&gt;Notebook Tekton task &lt;/a&gt; - Run notebook with papermill and upload to GCS&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/code-intelligence/blob/master/tekton/tasks/update-model-pr-task.yaml&quot;&gt;PR Tekton Task&lt;/a&gt; - Tekton task to open GitHub PRs&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Define ModelSync resources for your use case; you can refer to ours as an example
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/code-intelligence/blob/master/Label_Microservice/auto-update/prod/modelsync.yaml&quot;&gt;ModelSync Deploy Spec&lt;/a&gt; - YAML to continuously deploy label bot&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/code-intelligence/blob/master/Label_Microservice/auto-update/prod/retrain-model.yaml&quot;&gt;ModelSync Train Spec&lt;/a&gt; - YAML to continuously train our model&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;If you’d like to see us clean it up and include it in a future Kubeflow release please chime in on issue &lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/5167&quot;&gt;kubeflow/kubeflow#5167&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h1 id=&quot;whats-next&quot;&gt;What’s Next&lt;/h1&gt;
-
-&lt;h2 id=&quot;lineage-tracking&quot;&gt;Lineage Tracking&lt;/h2&gt;
-
-&lt;p&gt;Since we do not have an explicit DAG representing the sequence of steps in our CI/CD pipeline understanding the lineage of our models can be challenging. Fortunately, Kubeflow Metadata solves this by making it easy for each step to record information about what outputs it produced using what code and inputs. Kubeflow metadata can easily recover and plot the lineage graph. The figure below shows an example of the lineage graph from our &lt;a href=&quot;https://github.com/kubeflow/examples/blob/master/xgboost_synthetic/build-train-deploy.ipynb&quot;&gt;xgboost example&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/2020-08-01-data-science-meets-devops/fig6.lineage.png&quot; alt=&quot;alt_text&quot; title=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;figcaption&gt;&lt;strong&gt;Figure 6:&lt;/strong&gt; screenshot of the lineage tracking UI for our &lt;a href=&quot;https://github.com/kubeflow/examples/blob/master/xgboost_synthetic/build-train-deploy.ipynb&quot;&gt;xgboost example&lt;/a&gt;.&lt;/figcaption&gt;
-
-&lt;p&gt;Our plan is to have our controller automatically write lineage tracking information to the metadata server so we can easily understand the lineage of what’s in production.&lt;/p&gt;
-
-&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/2020-08-01-data-science-meets-devops/meme.png&quot; width=&quot;&quot; alt=&quot;alt_text&quot; title=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Building ML products is a team effort. In order to move a model from a proof of concept to a shipped product, data scientists and devops engineers need to collaborate. To foster this collaboration, we believe it is important to allow data scientists and devops engineers to use their preferred tools.    Concretely, we wanted to support the following tools for Data Scientists, Devops Engineers, and &lt;a href=&quot;https://en.wikipedia.org/wiki/Site_Reliability_Engineering&quot;&gt;SRE&lt;/a&gt;s:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Jupyter notebooks for developing models.&lt;/li&gt;
-  &lt;li&gt;GitOps for continuous integration and deployment.&lt;/li&gt;
-  &lt;li&gt;Kubernetes and managed cloud services for underlying infrastructure.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;To maximize each team’s autonomy and reduce dependencies on tools, our  CI/CD process follows a decentralized approach. Rather than explicitly define a DAG that connects the steps, our approach relies on a series of controllers that can be defined and administered independently. We think this maps naturally to enterprises where responsibilities might be split across teams; a data engineering team might be responsible for turning weblogs into features, a modeling team might be responsible for producing models from the features, and a deployments team might be responsible for rolling those models into production.&lt;/p&gt;
-
-&lt;h1 id=&quot;further-reading&quot;&gt;Further Reading&lt;/h1&gt;
-
-&lt;p&gt;If you’d like to learn more about GitOps we suggest this &lt;a href=&quot;https://www.weave.works/technologies/gitops/&quot;&gt;guide&lt;/a&gt; from Weaveworks.&lt;/p&gt;
-
-&lt;p&gt;To learn how to build your own Kubernetes controllers the &lt;a href=&quot;https://book.kubebuilder.io/&quot;&gt;kubebuilder book&lt;/a&gt; walks through an E2E example.&lt;/p&gt;</content><author><name>&lt;a href='https://www.linkedin.com/in/jeremy-lewi-600aaa8/'&gt;Jeremy Lewi&lt;/a&gt;, &lt;a href='https://hamel.dev/'&gt;Hamel Husain&lt;/a&gt;</name></author><category term="jupyter" /><category term="mlops" /><category term="tekton" /><category term="gitops" /><summary type="html">The Problem</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/2020-08-01-data-science-meets-devops/meme.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/2020-08-01-data-science-meets-devops/meme.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;/div&gt;</content><author><name></name></author><category term="jupyter" /><summary type="html"></summary></entry></feed>

@@ -1,4 +1,4 @@
----
+ ---
  title: "Kubeflow's 1.4 release introduces the new unified training operator"
  layout: post
  toc: true

@@ -9,7 +9,7 @@ permalink: /unified-training-operator-1.3-release/
 author: "Johnu George, Jiaxin Shan, Josh Bottum"
 ---
 
-The Kubeflow 1.4 release introduced several enhancements to by the Training Operator Working Group, including a change of the repository name from tf-operator to training-operator.
+The Kubeflow 1.4 release introduced several enhancements by the Training Operator Working Group, including a change of the repository name from tf-operator to training-operator.
 
 In 1.4, the most significant delivery from the Training Operator Working Group was the delivery of the new unified [training operator](https://github.com/kubeflow/training-operator) that enables Kubernetes custom resources (CR) for many of the popular training frameworks: Tensorflow, Pytorch, MXNet and XGboost.  This single operator provides several valuable benefits: 
 
@@ -25,36 +25,37 @@ The unified training operator’s [manifests](https://github.com/kubeflow/manife
 Kubeflow 1.4 release has the following major changes
 
 ### Universal Training Operator changes
-Unified Training Operator for TF, PyTorch, MXNet, XGBoost [#1302](https://github.com/kubeflow/tf-operator/pull/1302) [#1295](https://github.com/kubeflow/tf-operator/pull/1295) [#1294](https://github.com/kubeflow/tf-operator/pull/1294) [#1293](https://github.com/kubeflow/tf-operator/pull/1293) [#1296](https://github.com/kubeflow/tf-operator/pull/1296)
 
-More common code refactoring for reusability  [#1297](https://github.com/kubeflow/tf-operator/pull/1297)
+* Unified Training Operator for TF, PyTorch, MXNet, XGBoost [#1302](https://github.com/kubeflow/tf-operator/pull/1302) [#1295](https://github.com/kubeflow/tf-operator/pull/1295) [#1294](https://github.com/kubeflow/tf-operator/pull/1294) [#1293](https://github.com/kubeflow/tf-operator/pull/1293) [#1296](https://github.com/kubeflow/tf-operator/pull/1296)
 
-API code restructuring to consistent format [#1300](https://github.com/kubeflow/tf-operator/pull/1300)
+* More common code refactoring for reusability  [#1297](https://github.com/kubeflow/tf-operator/pull/1297)
 
-Prometheus counters for all frameworks [#1375](https://github.com/kubeflow/tf-operator/pull/1375)
+* API code restructuring to consistent format [#1300](https://github.com/kubeflow/tf-operator/pull/1300)
 
-Python SDK for all frameworks [#1420](https://github.com/kubeflow/tf-operator/pull/1420)
+* Prometheus counters for all frameworks [#1375](https://github.com/kubeflow/tf-operator/pull/1375)
 
-API doc for all frameworks [#1370](https://github.com/kubeflow/tf-operator/pull/1370)
+* Python SDK for all frameworks [#1420](https://github.com/kubeflow/tf-operator/pull/1420)
 
-Restructuring of examples across all frameworks [#1373](https://github.com/kubeflow/tf-operator/pull/1373) [#1391](https://github.com/kubeflow/tf-operator/pull/1391)
+* API doc for all frameworks [#1370](https://github.com/kubeflow/tf-operator/pull/1370)
+
+* Restructuring of examples across all frameworks [#1373](https://github.com/kubeflow/tf-operator/pull/1373) [#1391](https://github.com/kubeflow/tf-operator/pull/1391)
 
 ### Common package updates
 
-Make training container port customizable to support profiling [#131](https://github.com/kubeflow/common/pull/131)
+* Make training container port customizable to support profiling [#131](https://github.com/kubeflow/common/pull/131)
 
-Optimize the TTL setting of all Jobs [#137](https://github.com/kubeflow/common/pull/137)
+* Optimize the TTL setting of all Jobs [#137](https://github.com/kubeflow/common/pull/137)
 
-More appropriate use of expectation for Jobs [#139](https://github.com/kubeflow/common/pull/139)
+* More appropriate use of expectation for Jobs [#139](https://github.com/kubeflow/common/pull/139)
 
 
 ### MPI Operator updates 
 
-Scalability  improvements to reduce pressure on kube-apiserver [#360](https://github.com/kubeflow/mpi-operator/pull/360)
+* Scalability  improvements to reduce pressure on kube-apiserver [#360](https://github.com/kubeflow/mpi-operator/pull/360)
 
-V2beta1 MPIJob API [#366](https://github.com/kubeflow/mpi-operator/pull/366) [#378](https://github.com/kubeflow/mpi-operator/pull/378)
+* V2beta1 MPIJob API [#366](https://github.com/kubeflow/mpi-operator/pull/366) [#378](https://github.com/kubeflow/mpi-operator/pull/378)
 
-Intel MPI Support [#389](https://github.com/kubeflow/mpi-operator/pull/389) [#403](https://github.com/kubeflow/mpi-operator/pull/403) [#417](https://github.com/kubeflow/mpi-operator/pull/417) [#425](https://github.com/kubeflow/mpi-operator/pull/425)
+* Intel MPI Support [#389](https://github.com/kubeflow/mpi-operator/pull/389) [#403](https://github.com/kubeflow/mpi-operator/pull/403) [#417](https://github.com/kubeflow/mpi-operator/pull/417) [#425](https://github.com/kubeflow/mpi-operator/pull/425)
 
 ## MPI Operator roadmap
 
@@ -64,9 +65,9 @@ The MPI framework integration with the unified training operator is under develo
 
 If you want to help or are looking for issues to work on, feel free to check resources below! 
 
-Slack: #wg-training
+Slack: [#wg-training](https://kubeflow.slack.com/archives/C018N3M6QKB)
 
-Community: https://github.com/kubeflow/community/tree/master/wg-training
+Community: [wg-training](https://github.com/kubeflow/community/tree/master/wg-training)
 
 Issues: https://github.com/kubeflow/training-operator/issues
 

@@ -18,7 +18,7 @@ In 1.4, the most significant delivery from the Training Operator Working Group w
 
 The unified training operator’s [manifests](https://github.com/kubeflow/manifests/tree/v1.4-branch/apps/training-operator/upstream) includes an enhanced training operator, which manages custom resource definitions for TFJob, PyTorchJob, MXNet Job and  XGBoostJob.  All individual operator repositories including [pytorch-operator](https://github.com/kubeflow/pytorch-operator),  [mxnet-operator](https://github.com/kubeflow/mxnet-operator),  [xgboost-operator](https://github.com/kubeflow/xgboost-operator) will be archived soon. Please check out the latest [release](https://github.com/kubeflow/training-operator/releases/tag/v1.3.0) for more details and give it a try! 
 
-## More Details
+## Release highlights
 
 Kubeflow 1.4 release has the following major changes
 Universal Training Operator changes
@@ -30,21 +30,19 @@ Python SDK for all frameworks [#1420](https://github.com/kubeflow/tf-operator/pu
 API doc for all frameworks [#1370](https://github.com/kubeflow/tf-operator/pull/1370)
 Restructuring of examples across all frameworks [#1373](https://github.com/kubeflow/tf-operator/pull/1373) [#1391](https://github.com/kubeflow/tf-operator/pull/1391)
 
-## Common package changes
+## Common package updates
 
 Make training container port customizable to support profiling [#131](https://github.com/kubeflow/common/pull/131)
 Optimize the TTL setting of all Jobs [#137](https://github.com/kubeflow/common/pull/137)
 More appropriate use of expectation for Jobs [#139](https://github.com/kubeflow/common/pull/139)
 
 
-## MPI-Operator updates
+## MPI Operator updates and roadmap
 
 Scalability  improvements to reduce pressure on kube-apiserver [#360](https://github.com/kubeflow/mpi-operator/pull/360)
 V2beta1 MPIJob API [#366](https://github.com/kubeflow/mpi-operator/pull/366) [#378](https://github.com/kubeflow/mpi-operator/pull/378)
 Intel MPI Support [#389](https://github.com/kubeflow/mpi-operator/pull/389) [#403](https://github.com/kubeflow/mpi-operator/pull/403) [#417](https://github.com/kubeflow/mpi-operator/pull/417) [#425](https://github.com/kubeflow/mpi-operator/pull/425)
 
-
-## MPI current support and roadmap update
 
 The MPI framework integration with the unified training operator is under development and is planned for delivery in the next release i.e. post 1.4.  Currently,  it needs to be separately installed using MPIJob [manifests](https://github.com/kubeflow/manifests/tree/v1.4-branch/apps/mpi-job/upstream).
 

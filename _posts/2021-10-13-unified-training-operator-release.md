@@ -61,6 +61,15 @@ Kubeflow 1.4 release has the following major changes
 
 The MPI framework integration with the unified training operator is under development and is planned for delivery in the next release i.e. post 1.4.  Currently,  it needs to be separately installed using MPIJob [manifests](https://github.com/kubeflow/manifests/tree/v1.4-branch/apps/mpi-job/upstream).
 
+## Acknowledgement
+
+The unified training operator is the outcome of efforts from all existing Kubeflow training operators aiming to provide a unified and simplified experience for both users/developers. We are very grateful to everyone who's contributed to and maintained the original operators.
+
+PyTorch Operator: [list of contributors](https://github.com/kubeflow/pytorch-operator/graphs/contributors) and [maintainers](https://github.com/kubeflow/pytorch-operator/blob/master/OWNERS)
+MPI Operator: [list of contributors](https://github.com/kubeflow/mpi-operator/graphs/contributors) and [maintainers](https://github.com/kubeflow/mpi-operator/blob/master/OWNERS)
+XGBoost Operator: [list of contributors](https://github.com/kubeflow/xgboost-operator/graphs/contributors) and [maintainers](https://github.com/kubeflow/xgboost-operator/blob/master/OWNERS)
+MXNet Operator: [list of contributors](https://github.com/kubeflow/mxnet-operator/graphs/contributors) and [maintainers](https://github.com/kubeflow/mxnet-operator/blob/master/OWNERS)
+
 ## Join the WG-Training 
 
 If you want to help or are looking for issues to work on, feel free to check resources below! 

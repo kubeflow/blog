@@ -1,5 +1,5 @@
 ---
-title: "Unified training operator release"
+title: "Unified training operator release announcement"
 layout: post
 toc: true
 comments: true

@@ -27,34 +27,24 @@ Kubeflow 1.4 release has the following major changes
 ### Universal Training Operator changes
 
 * Unified Training Operator for TF, PyTorch, MXNet, XGBoost [#1302](https://github.com/kubeflow/tf-operator/pull/1302) [#1295](https://github.com/kubeflow/tf-operator/pull/1295) [#1294](https://github.com/kubeflow/tf-operator/pull/1294) [#1293](https://github.com/kubeflow/tf-operator/pull/1293) [#1296](https://github.com/kubeflow/tf-operator/pull/1296)
-
 * More common code refactoring for reusability  [#1297](https://github.com/kubeflow/tf-operator/pull/1297)
-
 * API code restructuring to consistent format [#1300](https://github.com/kubeflow/tf-operator/pull/1300)
-
 * Prometheus counters for all frameworks [#1375](https://github.com/kubeflow/tf-operator/pull/1375)
-
 * Python SDK for all frameworks [#1420](https://github.com/kubeflow/tf-operator/pull/1420)
-
 * API doc for all frameworks [#1370](https://github.com/kubeflow/tf-operator/pull/1370)
-
 * Restructuring of examples across all frameworks [#1373](https://github.com/kubeflow/tf-operator/pull/1373) [#1391](https://github.com/kubeflow/tf-operator/pull/1391)
 
 ### Common package updates
 
 * Make training container port customizable to support profiling [#131](https://github.com/kubeflow/common/pull/131)
-
 * Optimize the TTL setting of all Jobs [#137](https://github.com/kubeflow/common/pull/137)
-
 * More appropriate use of expectation for Jobs [#139](https://github.com/kubeflow/common/pull/139)
 
 
 ### MPI Operator updates 
 
 * Scalability  improvements to reduce pressure on kube-apiserver [#360](https://github.com/kubeflow/mpi-operator/pull/360)
-
 * V2beta1 MPIJob API [#366](https://github.com/kubeflow/mpi-operator/pull/366) [#378](https://github.com/kubeflow/mpi-operator/pull/378)
-
 * Intel MPI Support [#389](https://github.com/kubeflow/mpi-operator/pull/389) [#403](https://github.com/kubeflow/mpi-operator/pull/403) [#417](https://github.com/kubeflow/mpi-operator/pull/417) [#425](https://github.com/kubeflow/mpi-operator/pull/425)
 
 ## MPI Operator roadmap
@@ -63,12 +53,12 @@ The MPI framework integration with the unified training operator is under develo
 
 ## Acknowledgement
 
-The unified training operator is the outcome of efforts from all existing Kubeflow training operators aiming to provide a unified and simplified experience for both users/developers. We are very grateful to everyone who's contributed to and maintained the original operators.
+The unified training operator is the outcome of efforts from all existing Kubeflow training operators aiming to provide a unified and simplified experience for both users/developers. We thank everyone who's contributed to and maintained the original operators.
 
-PyTorch Operator: [list of contributors](https://github.com/kubeflow/pytorch-operator/graphs/contributors) and [maintainers](https://github.com/kubeflow/pytorch-operator/blob/master/OWNERS)
-MPI Operator: [list of contributors](https://github.com/kubeflow/mpi-operator/graphs/contributors) and [maintainers](https://github.com/kubeflow/mpi-operator/blob/master/OWNERS)
-XGBoost Operator: [list of contributors](https://github.com/kubeflow/xgboost-operator/graphs/contributors) and [maintainers](https://github.com/kubeflow/xgboost-operator/blob/master/OWNERS)
-MXNet Operator: [list of contributors](https://github.com/kubeflow/mxnet-operator/graphs/contributors) and [maintainers](https://github.com/kubeflow/mxnet-operator/blob/master/OWNERS)
+* PyTorch Operator: [list of contributors](https://github.com/kubeflow/pytorch-operator/graphs/contributors) and [maintainers](https://github.com/kubeflow/pytorch-operator/blob/master/OWNERS)
+* MPI Operator: [list of contributors](https://github.com/kubeflow/mpi-operator/graphs/contributors) and [maintainers](https://github.com/kubeflow/mpi-operator/blob/master/OWNERS)
+* XGBoost Operator: [list of contributors](https://github.com/kubeflow/xgboost-operator/graphs/contributors) and [maintainers](https://github.com/kubeflow/xgboost-operator/blob/master/OWNERS)
+* MXNet Operator: [list of contributors](https://github.com/kubeflow/mxnet-operator/graphs/contributors) and [maintainers](https://github.com/kubeflow/mxnet-operator/blob/master/OWNERS)
 
 ## Join the WG-Training 
 

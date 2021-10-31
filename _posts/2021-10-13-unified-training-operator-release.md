@@ -9,7 +9,7 @@ permalink: /unified-training-operator-1.3-release/
 author: "Johnu George, Jiaxin Shan, Josh Bottum"
 ---
 
-The Kubeflow Training Operator Working Group introduced several enhancements in the recent Kubeflow 1.4 release. The most significant was the introduction of the new unified [training operator](https://github.com/kubeflow/training-operator) that enables Kubernetes custom resources (CR) for many of the popular training frameworks: Tensorflow, Pytorch, MXNet and XGboost. In addition, the `tf-operatory` repository has been renamed to `training-operator`.  
+The Kubeflow Training Operator Working Group introduced several enhancements in the recent Kubeflow 1.4 release. The most significant was the introduction of the new unified [training operator](https://github.com/kubeflow/training-operator) that enables Kubernetes custom resources (CR) for many of the popular training frameworks: Tensorflow, Pytorch, MXNet and XGboost. In addition, the `tf-operator` repository has been renamed to `training-operator`.  
 
 This single operator provides several valuable benefits: 
 
@@ -53,7 +53,7 @@ The MPI framework integration with the unified training operator is under develo
 
 ## Acknowledgement
 
-The unified training operator is the outcome of efforts from all existing Kubeflow training operators and aims to provide a unified and simplified experience for both users anddevelopers. We'd like to thank everyone who has contributed to and maintained the original operators.
+The unified training operator is the outcome of efforts from all existing Kubeflow training operators and aims to provide a unified and simplified experience for both users and developers. We'd like to thank everyone who has contributed to and maintained the original operators.
 
 * PyTorch Operator: [list of contributors](https://github.com/kubeflow/pytorch-operator/graphs/contributors) and [maintainers](https://github.com/kubeflow/pytorch-operator/blob/master/OWNERS)
 * MPI Operator: [list of contributors](https://github.com/kubeflow/mpi-operator/graphs/contributors) and [maintainers](https://github.com/kubeflow/mpi-operator/blob/master/OWNERS)

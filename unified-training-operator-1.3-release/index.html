@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Unified Training Operator release announcement | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Unified Training Operator release announcement" />
+<meta name="author" content="Johnu George, Jiaxin Shan, Josh Bottum" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The Kubeflow Training Operator Working Group introduced several enhancements in the recent Kubeflow 1.4 release. The most significant was the introduction of the new unified training operator that enables Kubernetes custom resources (CR) for many of the popular training frameworks: Tensorflow, Pytorch, MXNet and XGboost. In addition, the tf-operator repository has been renamed to training-operator." />
+<meta property="og:description" content="The Kubeflow Training Operator Working Group introduced several enhancements in the recent Kubeflow 1.4 release. The most significant was the introduction of the new unified training operator that enables Kubernetes custom resources (CR) for many of the popular training frameworks: Tensorflow, Pytorch, MXNet and XGboost. In addition, the tf-operator repository has been renamed to training-operator." />
+<link rel="canonical" href="https://blog.kubeflow.org/unified-training-operator-1.3-release/" />
+<meta property="og:url" content="https://blog.kubeflow.org/unified-training-operator-1.3-release/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-10-13T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/unified-training-operator-1.3-release/","@type":"BlogPosting","headline":"Unified Training Operator release announcement","dateModified":"2021-10-13T00:00:00-05:00","datePublished":"2021-10-13T00:00:00-05:00","author":{"@type":"Person","name":"Johnu George, Jiaxin Shan, Josh Bottum"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/unified-training-operator-1.3-release/"},"description":"The Kubeflow Training Operator Working Group introduced several enhancements in the recent Kubeflow 1.4 release. The most significant was the introduction of the new unified training operator that enables Kubernetes custom resources (CR) for many of the popular training frameworks: Tensorflow, Pytorch, MXNet and XGboost. In addition, the tf-operator repository has been renamed to training-operator.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Unified Training Operator release announcement</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-10-13T00:00:00-05:00" itemprop="datePublished">
+        Oct 13, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Johnu George, Jiaxin Shan, Josh Bottum</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#release">release</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#release-highlights">Release highlights</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#universal-training-operator-changes">Universal Training Operator changes</a></li>
+<li class="toc-entry toc-h3"><a href="#common-package-updates">Common package updates</a></li>
+<li class="toc-entry toc-h3"><a href="#mpi-operator-updates">MPI Operator updates</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#mpi-operator-roadmap">MPI Operator roadmap</a></li>
+<li class="toc-entry toc-h2"><a href="#acknowledgement">Acknowledgement</a></li>
+<li class="toc-entry toc-h2"><a href="#join-the-wg-training">Join the WG-Training</a></li>
+</ul><p>The Kubeflow Training Operator Working Group introduced several enhancements in the recent Kubeflow 1.4 release. The most significant was the introduction of the new unified <a href="https://github.com/kubeflow/training-operator">training operator</a> that enables Kubernetes custom resources (CR) for many of the popular training frameworks: Tensorflow, Pytorch, MXNet and XGboost. In addition, the <code class="language-plaintext highlighter-rouge">tf-operator</code> repository has been renamed to <code class="language-plaintext highlighter-rouge">training-operator</code>.</p>
+
+<p>This single operator provides several valuable benefits:</p>
+
+<ol>
+  <li>
+<strong>Better resource utilisation</strong> - For  releases prior to 1.4, each framework had a separate corresponding controller managing its distributed job. The unified training operator manages all distributed jobs across frameworks, which improves resource utilization and performance.</li>
+  <li>
+<strong>Less maintenance overhead</strong> - Unified training operator reduces the maintenance efforts in managing distributed jobs across the framework. By default, all supported schemas(TFJob, PyTorchJob, MXNetJob, XGBoostJob) are enabled. However, specific schemas can be enabled using the flag ‘enable-scheme’. Setting this flag enables the user to enable the framework(s) that are necessary for the deployment environment.</li>
+  <li>
+<strong>Easy adoption of new operators</strong> - Common code is abstracted from all framework implementations, which makes it easy for adopting new operators with less code. The common infrastructure <a href="https://github.com/kubeflow/common">code</a> can be reused for many of the new operator efforts. Reference: Paddle operator <a href="https://github.com/kubeflow/community/pull/502">proposal</a>, DGL operator <a href="https://github.com/kubeflow/community/pull/512">proposal</a>
+</li>
+  <li>
+<strong>Better developer experience</strong> - Common features can be shared across frameworks without code duplication thereby, creating a developer friendly environment. For example, Prometheus Monitoring and Job Scheduling features are common, making them available to all frameworks without any extra code.</li>
+</ol>
+
+<p>The unified training operator’s <a href="https://github.com/kubeflow/manifests/tree/v1.4-branch/apps/training-operator/upstream">manifests</a> include an enhanced training operator, which manages custom resource definitions for TFJob, PyTorchJob, MXNet Job and  XGBoostJob. All individual operator repositories, including <a href="https://github.com/kubeflow/pytorch-operator">pytorch-operator</a>, <a href="https://github.com/kubeflow/mxnet-operator">mxnet-operator</a>, <a href="https://github.com/kubeflow/xgboost-operator">xgboost-operator</a>, will be archived soon. Please check out the latest <a href="https://github.com/kubeflow/training-operator/releases/tag/v1.3.0">release</a> for more details and give it a try!</p>
+
+<h2 id="release-highlights">
+<a class="anchor" href="#release-highlights" aria-hidden="true"><span class="octicon octicon-link"></span></a>Release highlights</h2>
+
+<p>Kubeflow 1.4 release includes the following major changes to training.</p>
+
+<h3 id="universal-training-operator-changes">
+<a class="anchor" href="#universal-training-operator-changes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Universal Training Operator changes</h3>
+
+<ul>
+  <li>Unified Training Operator for TF, PyTorch, MXNet, XGBoost <a href="https://github.com/kubeflow/tf-operator/pull/1302">#1302</a> <a href="https://github.com/kubeflow/tf-operator/pull/1295">#1295</a> <a href="https://github.com/kubeflow/tf-operator/pull/1294">#1294</a> <a href="https://github.com/kubeflow/tf-operator/pull/1293">#1293</a> <a href="https://github.com/kubeflow/tf-operator/pull/1296">#1296</a>
+</li>
+  <li>More common code refactoring for reusability <a href="https://github.com/kubeflow/tf-operator/pull/1297">#1297</a>
+</li>
+  <li>API code restructuring to consistent format <a href="https://github.com/kubeflow/tf-operator/pull/1300">#1300</a>
+</li>
+  <li>Prometheus counters for all frameworks <a href="https://github.com/kubeflow/tf-operator/pull/1375">#1375</a>
+</li>
+  <li>Python SDK for all frameworks <a href="https://github.com/kubeflow/tf-operator/pull/1420">#1420</a>
+</li>
+  <li>API doc for all frameworks <a href="https://github.com/kubeflow/tf-operator/pull/1370">#1370</a>
+</li>
+  <li>Restructuring of examples across all frameworks <a href="https://github.com/kubeflow/tf-operator/pull/1373">#1373</a> <a href="https://github.com/kubeflow/tf-operator/pull/1391">#1391</a>
+</li>
+</ul>
+
+<h3 id="common-package-updates">
+<a class="anchor" href="#common-package-updates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Common package updates</h3>
+
+<ul>
+  <li>Make training container port customizable to support profiling <a href="https://github.com/kubeflow/common/pull/131">#131</a>
+</li>
+  <li>Optimize the TTL setting of all Jobs <a href="https://github.com/kubeflow/common/pull/137">#137</a>
+</li>
+  <li>More appropriate use of expectation for Jobs <a href="https://github.com/kubeflow/common/pull/139">#139</a>
+</li>
+</ul>
+
+<h3 id="mpi-operator-updates">
+<a class="anchor" href="#mpi-operator-updates" aria-hidden="true"><span class="octicon octicon-link"></span></a>MPI Operator updates</h3>
+
+<ul>
+  <li>Scalability improvements to reduce pressure on kube-apiserver <a href="https://github.com/kubeflow/mpi-operator/pull/360">#360</a>
+</li>
+  <li>V2beta1 MPIJob API <a href="https://github.com/kubeflow/mpi-operator/pull/366">#366</a> <a href="https://github.com/kubeflow/mpi-operator/pull/378">#378</a>
+</li>
+  <li>Intel MPI Support <a href="https://github.com/kubeflow/mpi-operator/pull/389">#389</a> <a href="https://github.com/kubeflow/mpi-operator/pull/403">#403</a> <a href="https://github.com/kubeflow/mpi-operator/pull/417">#417</a> <a href="https://github.com/kubeflow/mpi-operator/pull/425">#425</a>
+</li>
+</ul>
+
+<h2 id="mpi-operator-roadmap">
+<a class="anchor" href="#mpi-operator-roadmap" aria-hidden="true"><span class="octicon octicon-link"></span></a>MPI Operator roadmap</h2>
+
+<p>The MPI framework integration with the unified training operator is under development and is planned for delivery in the next release i.e. post 1.4. Currently, it needs to be separately installed using MPIJob <a href="https://github.com/kubeflow/manifests/tree/v1.4-branch/apps/mpi-job/upstream">manifests</a>.</p>
+
+<h2 id="acknowledgement">
+<a class="anchor" href="#acknowledgement" aria-hidden="true"><span class="octicon octicon-link"></span></a>Acknowledgement</h2>
+
+<p>The unified training operator is the outcome of efforts from all existing Kubeflow training operators and aims to provide a unified and simplified experience for both users and developers. We’d like to thank everyone who has contributed to and maintained the original operators.</p>
+
+<ul>
+  <li>PyTorch Operator: <a href="https://github.com/kubeflow/pytorch-operator/graphs/contributors">list of contributors</a> and <a href="https://github.com/kubeflow/pytorch-operator/blob/master/OWNERS">maintainers</a>
+</li>
+  <li>MPI Operator: <a href="https://github.com/kubeflow/mpi-operator/graphs/contributors">list of contributors</a> and <a href="https://github.com/kubeflow/mpi-operator/blob/master/OWNERS">maintainers</a>
+</li>
+  <li>XGBoost Operator: <a href="https://github.com/kubeflow/xgboost-operator/graphs/contributors">list of contributors</a> and <a href="https://github.com/kubeflow/xgboost-operator/blob/master/OWNERS">maintainers</a>
+</li>
+  <li>MXNet Operator: <a href="https://github.com/kubeflow/mxnet-operator/graphs/contributors">list of contributors</a> and <a href="https://github.com/kubeflow/mxnet-operator/blob/master/OWNERS">maintainers</a>
+</li>
+</ul>
+
+<h2 id="join-the-wg-training">
+<a class="anchor" href="#join-the-wg-training" aria-hidden="true"><span class="octicon octicon-link"></span></a>Join the WG-Training</h2>
+
+<p>If you want to help, or are looking for issues to work on, feel free to check the resources below!</p>
+
+<p>Slack: <a href="https://kubeflow.slack.com/archives/C018N3M6QKB">#wg-training</a></p>
+
+<p>Community: <a href="https://github.com/kubeflow/community/tree/master/wg-training">wg-training</a></p>
+
+<p>Issues: https://github.com/kubeflow/training-operator/issues</p>
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/unified-training-operator-1.3-release/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

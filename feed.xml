@@ -1,4 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2021-10-12T14:16:13-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow’s 1.4 release lays the foundation for advanced ML metadata workflows</title><link href="https://blog.kubeflow.org/kubeflow-1.4-release/" rel="alternate" type="text/html" title="Kubeflow’s 1.4 release lays the foundation for advanced ML metadata workflows" /><published>2021-10-12T00:00:00-05:00</published><updated>2021-10-12T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.4-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.4-release/">&lt;p&gt;The Kubeflow 1.4 release lays several important building blocks for the use of advanced metadata workflows. A quick summary of
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2021-11-01T12:44:52-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Unified Training Operator release announcement</title><link href="https://blog.kubeflow.org/unified-training-operator-1.3-release/" rel="alternate" type="text/html" title="Unified Training Operator release announcement" /><published>2021-10-13T00:00:00-05:00</published><updated>2021-10-13T00:00:00-05:00</updated><id>https://blog.kubeflow.org/unified-training-operator-release</id><content type="html" xml:base="https://blog.kubeflow.org/unified-training-operator-1.3-release/">&lt;p&gt;The Kubeflow Training Operator Working Group introduced several enhancements in the recent Kubeflow 1.4 release. The most significant was the introduction of the new unified &lt;a href=&quot;https://github.com/kubeflow/training-operator&quot;&gt;training operator&lt;/a&gt; that enables Kubernetes custom resources (CR) for many of the popular training frameworks: Tensorflow, Pytorch, MXNet and XGboost. In addition, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tf-operator&lt;/code&gt; repository has been renamed to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;training-operator&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This single operator provides several valuable benefits:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Better resource utilisation&lt;/strong&gt; - For  releases prior to 1.4, each framework had a separate corresponding controller managing its distributed job. The unified training operator manages all distributed jobs across frameworks, which improves resource utilization and performance.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Less maintenance overhead&lt;/strong&gt; - Unified training operator reduces the maintenance efforts in managing distributed jobs across the framework. By default, all supported schemas(TFJob, PyTorchJob, MXNetJob, XGBoostJob) are enabled. However, specific schemas can be enabled using the flag ‘enable-scheme’. Setting this flag enables the user to enable the framework(s) that are necessary for the deployment environment.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Easy adoption of new operators&lt;/strong&gt; - Common code is abstracted from all framework implementations, which makes it easy for adopting new operators with less code. The common infrastructure &lt;a href=&quot;https://github.com/kubeflow/common&quot;&gt;code&lt;/a&gt; can be reused for many of the new operator efforts. Reference: Paddle operator &lt;a href=&quot;https://github.com/kubeflow/community/pull/502&quot;&gt;proposal&lt;/a&gt;, DGL operator &lt;a href=&quot;https://github.com/kubeflow/community/pull/512&quot;&gt;proposal&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Better developer experience&lt;/strong&gt; - Common features can be shared across frameworks without code duplication thereby, creating a developer friendly environment. For example, Prometheus Monitoring and Job Scheduling features are common, making them available to all frameworks without any extra code.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The unified training operator’s &lt;a href=&quot;https://github.com/kubeflow/manifests/tree/v1.4-branch/apps/training-operator/upstream&quot;&gt;manifests&lt;/a&gt; include an enhanced training operator, which manages custom resource definitions for TFJob, PyTorchJob, MXNet Job and  XGBoostJob. All individual operator repositories, including &lt;a href=&quot;https://github.com/kubeflow/pytorch-operator&quot;&gt;pytorch-operator&lt;/a&gt;, &lt;a href=&quot;https://github.com/kubeflow/mxnet-operator&quot;&gt;mxnet-operator&lt;/a&gt;, &lt;a href=&quot;https://github.com/kubeflow/xgboost-operator&quot;&gt;xgboost-operator&lt;/a&gt;, will be archived soon. Please check out the latest &lt;a href=&quot;https://github.com/kubeflow/training-operator/releases/tag/v1.3.0&quot;&gt;release&lt;/a&gt; for more details and give it a try!&lt;/p&gt;
+
+&lt;h2 id=&quot;release-highlights&quot;&gt;Release highlights&lt;/h2&gt;
+
+&lt;p&gt;Kubeflow 1.4 release includes the following major changes to training.&lt;/p&gt;
+
+&lt;h3 id=&quot;universal-training-operator-changes&quot;&gt;Universal Training Operator changes&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Unified Training Operator for TF, PyTorch, MXNet, XGBoost &lt;a href=&quot;https://github.com/kubeflow/tf-operator/pull/1302&quot;&gt;#1302&lt;/a&gt; &lt;a href=&quot;https://github.com/kubeflow/tf-operator/pull/1295&quot;&gt;#1295&lt;/a&gt; &lt;a href=&quot;https://github.com/kubeflow/tf-operator/pull/1294&quot;&gt;#1294&lt;/a&gt; &lt;a href=&quot;https://github.com/kubeflow/tf-operator/pull/1293&quot;&gt;#1293&lt;/a&gt; &lt;a href=&quot;https://github.com/kubeflow/tf-operator/pull/1296&quot;&gt;#1296&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;More common code refactoring for reusability &lt;a href=&quot;https://github.com/kubeflow/tf-operator/pull/1297&quot;&gt;#1297&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;API code restructuring to consistent format &lt;a href=&quot;https://github.com/kubeflow/tf-operator/pull/1300&quot;&gt;#1300&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Prometheus counters for all frameworks &lt;a href=&quot;https://github.com/kubeflow/tf-operator/pull/1375&quot;&gt;#1375&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Python SDK for all frameworks &lt;a href=&quot;https://github.com/kubeflow/tf-operator/pull/1420&quot;&gt;#1420&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;API doc for all frameworks &lt;a href=&quot;https://github.com/kubeflow/tf-operator/pull/1370&quot;&gt;#1370&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Restructuring of examples across all frameworks &lt;a href=&quot;https://github.com/kubeflow/tf-operator/pull/1373&quot;&gt;#1373&lt;/a&gt; &lt;a href=&quot;https://github.com/kubeflow/tf-operator/pull/1391&quot;&gt;#1391&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;common-package-updates&quot;&gt;Common package updates&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Make training container port customizable to support profiling &lt;a href=&quot;https://github.com/kubeflow/common/pull/131&quot;&gt;#131&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Optimize the TTL setting of all Jobs &lt;a href=&quot;https://github.com/kubeflow/common/pull/137&quot;&gt;#137&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;More appropriate use of expectation for Jobs &lt;a href=&quot;https://github.com/kubeflow/common/pull/139&quot;&gt;#139&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;mpi-operator-updates&quot;&gt;MPI Operator updates&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Scalability improvements to reduce pressure on kube-apiserver &lt;a href=&quot;https://github.com/kubeflow/mpi-operator/pull/360&quot;&gt;#360&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;V2beta1 MPIJob API &lt;a href=&quot;https://github.com/kubeflow/mpi-operator/pull/366&quot;&gt;#366&lt;/a&gt; &lt;a href=&quot;https://github.com/kubeflow/mpi-operator/pull/378&quot;&gt;#378&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Intel MPI Support &lt;a href=&quot;https://github.com/kubeflow/mpi-operator/pull/389&quot;&gt;#389&lt;/a&gt; &lt;a href=&quot;https://github.com/kubeflow/mpi-operator/pull/403&quot;&gt;#403&lt;/a&gt; &lt;a href=&quot;https://github.com/kubeflow/mpi-operator/pull/417&quot;&gt;#417&lt;/a&gt; &lt;a href=&quot;https://github.com/kubeflow/mpi-operator/pull/425&quot;&gt;#425&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;mpi-operator-roadmap&quot;&gt;MPI Operator roadmap&lt;/h2&gt;
+
+&lt;p&gt;The MPI framework integration with the unified training operator is under development and is planned for delivery in the next release i.e. post 1.4. Currently, it needs to be separately installed using MPIJob &lt;a href=&quot;https://github.com/kubeflow/manifests/tree/v1.4-branch/apps/mpi-job/upstream&quot;&gt;manifests&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;acknowledgement&quot;&gt;Acknowledgement&lt;/h2&gt;
+
+&lt;p&gt;The unified training operator is the outcome of efforts from all existing Kubeflow training operators and aims to provide a unified and simplified experience for both users and developers. We’d like to thank everyone who has contributed to and maintained the original operators.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;PyTorch Operator: &lt;a href=&quot;https://github.com/kubeflow/pytorch-operator/graphs/contributors&quot;&gt;list of contributors&lt;/a&gt; and &lt;a href=&quot;https://github.com/kubeflow/pytorch-operator/blob/master/OWNERS&quot;&gt;maintainers&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;MPI Operator: &lt;a href=&quot;https://github.com/kubeflow/mpi-operator/graphs/contributors&quot;&gt;list of contributors&lt;/a&gt; and &lt;a href=&quot;https://github.com/kubeflow/mpi-operator/blob/master/OWNERS&quot;&gt;maintainers&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;XGBoost Operator: &lt;a href=&quot;https://github.com/kubeflow/xgboost-operator/graphs/contributors&quot;&gt;list of contributors&lt;/a&gt; and &lt;a href=&quot;https://github.com/kubeflow/xgboost-operator/blob/master/OWNERS&quot;&gt;maintainers&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;MXNet Operator: &lt;a href=&quot;https://github.com/kubeflow/mxnet-operator/graphs/contributors&quot;&gt;list of contributors&lt;/a&gt; and &lt;a href=&quot;https://github.com/kubeflow/mxnet-operator/blob/master/OWNERS&quot;&gt;maintainers&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;join-the-wg-training&quot;&gt;Join the WG-Training&lt;/h2&gt;
+
+&lt;p&gt;If you want to help, or are looking for issues to work on, feel free to check the resources below!&lt;/p&gt;
+
+&lt;p&gt;Slack: &lt;a href=&quot;https://kubeflow.slack.com/archives/C018N3M6QKB&quot;&gt;#wg-training&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Community: &lt;a href=&quot;https://github.com/kubeflow/community/tree/master/wg-training&quot;&gt;wg-training&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Issues: https://github.com/kubeflow/training-operator/issues&lt;/p&gt;</content><author><name>Johnu George, Jiaxin Shan, Josh Bottum</name></author><category term="release" /><summary type="html">The Kubeflow Training Operator Working Group introduced several enhancements in the recent Kubeflow 1.4 release. The most significant was the introduction of the new unified training operator that enables Kubernetes custom resources (CR) for many of the popular training frameworks: Tensorflow, Pytorch, MXNet and XGboost. In addition, the tf-operator repository has been renamed to training-operator.</summary></entry><entry><title type="html">Kubeflow’s 1.4 release lays the foundation for advanced ML metadata workflows</title><link href="https://blog.kubeflow.org/kubeflow-1.4-release/" rel="alternate" type="text/html" title="Kubeflow’s 1.4 release lays the foundation for advanced ML metadata workflows" /><published>2021-10-12T00:00:00-05:00</published><updated>2021-10-12T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.4-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.4-release/">&lt;p&gt;The Kubeflow 1.4 release lays several important building blocks for the use of advanced metadata workflows. A quick summary of
 1.4’s top deliveries includes:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1988,418 +2056,4 @@ Jorge Castro (Arrikto), Josh Bottum (Arrikto) for their help on this blog.&lt;/p
 
 &lt;h3 id=&quot;platform-minikf&quot;&gt;Platform: MiniKF&lt;/h3&gt;
 
-&lt;p&gt;Description: MiniKF is currently testing with Kubeflow 1.2 and will provide an updated MiniKF version based after validation testing and documentation has completed.    Please find more information on MiniKF here: &lt;a href=&quot;https://www.arrikto.com/get-started/&quot;&gt;https://www.arrikto.com/get-started/&lt;/a&gt; . You can also find tutorials that will guide you through end-to-end data science examples here: &lt;a href=&quot;https://www.arrikto.com/tutorials&quot;&gt;https://www.arrikto.com/tutorials&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="release" /><category term="official" /><summary type="html">Special Message from Kubeflow Founders</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Record metadata on Kubeflow from Notebooks</title><link href="https://blog.kubeflow.org/jupyter/2020/10/01/lineage.html" rel="alternate" type="text/html" title="Record metadata on Kubeflow from Notebooks" /><published>2020-10-01T00:00:00-05:00</published><updated>2020-10-01T00:00:00-05:00</updated><id>https://blog.kubeflow.org/jupyter/2020/10/01/lineage</id><content type="html" xml:base="https://blog.kubeflow.org/jupyter/2020/10/01/lineage.html">&lt;!--
-#################################################
-### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
-#################################################
-# file to edit: _notebooks/2020-10-01-lineage.ipynb
---&gt;
-
-&lt;div class=&quot;container&quot; id=&quot;notebook-container&quot;&gt;
-        
-&lt;div class=&quot;cell border-box-sizing text_cell rendered&quot;&gt;&lt;div class=&quot;inner_cell&quot;&gt;
-&lt;div class=&quot;text_cell_render border-box-sizing rendered_html&quot;&gt;
-&lt;h1 id=&quot;Lineage-Tracking&quot;&gt;Lineage Tracking&lt;a class=&quot;anchor-link&quot; href=&quot;#Lineage-Tracking&quot;&gt; &lt;/a&gt;&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;This blog post will first guide you through the metadata SDK API, to create a notebook and log several actions to the metadata DB. Afterwards, you will be able to navigate to the Kubeflow UI and the resulting lineage graph, which gives you a graphical representation of the dependencies between the objects you logged using the SDK.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;cell border-box-sizing text_cell rendered&quot;&gt;&lt;div class=&quot;inner_cell&quot;&gt;
-&lt;div class=&quot;text_cell_render border-box-sizing rendered_html&quot;&gt;
-&lt;h2 id=&quot;Install-the-Kubeflow-metadata-library&quot;&gt;Install the &lt;em&gt;Kubeflow-metadata&lt;/em&gt; library&lt;a class=&quot;anchor-link&quot; href=&quot;#Install-the-Kubeflow-metadata-library&quot;&gt; &lt;/a&gt;&lt;/h2&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-    
-    
-&lt;div class=&quot;cell border-box-sizing code_cell rendered&quot;&gt;
-&lt;div class=&quot;input&quot;&gt;
-
-&lt;div class=&quot;inner_cell&quot;&gt;
-    &lt;div class=&quot;input_area&quot;&gt;
-&lt;div class=&quot; highlight hl-ipython3&quot;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;pip install kubeflow-metadata --user
-&lt;span class=&quot;c1&quot;&gt;# Install other packages:&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;pip install pandas --user
-&lt;span class=&quot;c1&quot;&gt;# Then restart the Notebook kernel.&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-    
-
-    
-    
-&lt;div class=&quot;cell border-box-sizing code_cell rendered&quot;&gt;
-&lt;div class=&quot;input&quot;&gt;
-
-&lt;div class=&quot;inner_cell&quot;&gt;
-    &lt;div class=&quot;input_area&quot;&gt;
-&lt;div class=&quot; highlight hl-ipython3&quot;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;kubeflow.metadata&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;datetime&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;datetime&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;uuid&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uuid4&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-    
-
-    
-    
-&lt;div class=&quot;cell border-box-sizing code_cell rendered celltag_parameters&quot;&gt;
-&lt;div class=&quot;input&quot;&gt;
-
-&lt;div class=&quot;inner_cell&quot;&gt;
-    &lt;div class=&quot;input_area&quot;&gt;
-&lt;div class=&quot; highlight hl-ipython3&quot;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;METADATA_STORE_HOST&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;metadata-grpc-service.kubeflow&amp;quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# default DNS of Kubeflow Metadata gRPC serivce.&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;METADATA_STORE_PORT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8080&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-    
-
-&lt;div class=&quot;cell border-box-sizing text_cell rendered&quot;&gt;&lt;div class=&quot;inner_cell&quot;&gt;
-&lt;div class=&quot;text_cell_render border-box-sizing rendered_html&quot;&gt;
-&lt;h2 id=&quot;Create-a-new-Workspace-and-Run-in-a-workspace&quot;&gt;Create a new Workspace and Run in a workspace&lt;a class=&quot;anchor-link&quot; href=&quot;#Create-a-new-Workspace-and-Run-in-a-workspace&quot;&gt; &lt;/a&gt;&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;A &lt;a href=&quot;https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L92&quot;&gt;Workspace&lt;/a&gt; groups a set of pipelines or notebooks runs, and their related artifacts and executions&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L59&quot;&gt;Store&lt;/a&gt; is an object that provides a connection to the Metadata gRPC service&lt;/li&gt;
-&lt;li&gt;The &lt;a href=&quot;https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L227&quot;&gt;Run&lt;/a&gt; object captures a pipeline or notebook run in a workspace&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-    
-    
-&lt;div class=&quot;cell border-box-sizing code_cell rendered&quot;&gt;
-&lt;div class=&quot;input&quot;&gt;
-
-&lt;div class=&quot;inner_cell&quot;&gt;
-    &lt;div class=&quot;input_area&quot;&gt;
-&lt;div class=&quot; highlight hl-ipython3&quot;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ws1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Workspace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;# Connect to metadata service in namespace kubeflow in k8s cluster.&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;store&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;grpc_host&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;METADATA_STORE_HOST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;grpc_port&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;METADATA_STORE_PORT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;xgboost-synthetic&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;workspace for xgboost-synthetic artifacts and executions&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;labels&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;n1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-    
-
-    
-    
-&lt;div class=&quot;cell border-box-sizing code_cell rendered&quot;&gt;
-&lt;div class=&quot;input&quot;&gt;
-
-&lt;div class=&quot;inner_cell&quot;&gt;
-    &lt;div class=&quot;input_area&quot;&gt;
-&lt;div class=&quot; highlight hl-ipython3&quot;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;workspace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ws1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;xgboost-synthetic-faring-run&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;datetime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utcnow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isoformat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;T&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;a notebook run&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-    
-
-&lt;div class=&quot;cell border-box-sizing text_cell rendered&quot;&gt;&lt;div class=&quot;inner_cell&quot;&gt;
-&lt;div class=&quot;text_cell_render border-box-sizing rendered_html&quot;&gt;
-&lt;h2 id=&quot;Create-an-execution-in-a-run&quot;&gt;Create an execution in a run&lt;a class=&quot;anchor-link&quot; href=&quot;#Create-an-execution-in-a-run&quot;&gt; &lt;/a&gt;&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;An &lt;a href=&quot;https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L251&quot;&gt;Execution&lt;/a&gt; is a specific instance of a run, and you can bind specific input/output artifacts to this instance. Execution also serves as object for logging artifacts as its input or output&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-    
-    
-&lt;div class=&quot;cell border-box-sizing code_cell rendered&quot;&gt;
-&lt;div class=&quot;input&quot;&gt;
-
-&lt;div class=&quot;inner_cell&quot;&gt;
-    &lt;div class=&quot;input_area&quot;&gt;
-&lt;div class=&quot; highlight hl-ipython3&quot;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Execution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;execution&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;datetime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utcnow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isoformat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;T&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;workspace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ws1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;execution for training xgboost-synthetic&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;An execution was created with id &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%s&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;exec&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;output_wrapper&quot;&gt;
-&lt;div class=&quot;output&quot;&gt;
-
-&lt;div class=&quot;output_area&quot;&gt;
-
-&lt;div class=&quot;output_subarea output_stream output_stdout output_text&quot;&gt;
-&lt;pre&gt;An execution was created with id 290
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-    
-
-&lt;div class=&quot;cell border-box-sizing text_cell rendered&quot;&gt;&lt;div class=&quot;inner_cell&quot;&gt;
-&lt;div class=&quot;text_cell_render border-box-sizing rendered_html&quot;&gt;
-&lt;h2 id=&quot;Log-a-data-set-and-a-model&quot;&gt;Log a data set and a model&lt;a class=&quot;anchor-link&quot; href=&quot;#Log-a-data-set-and-a-model&quot;&gt; &lt;/a&gt;&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;A &lt;a href=&quot;https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L319&quot;&gt;Log_input&lt;/a&gt; log an artifact as an input of this execution. Here exec.log_input accept an artifact class as an argument, a &lt;a href=&quot;https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L412&quot;&gt;DataSet&lt;/a&gt; is an artifact. Every artifacts has different paramenters such as name, uri, query. The way to create DataSet artifact is calling ready-to-use APIs metadata.DataSet and provide arguments&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-    
-    
-&lt;div class=&quot;cell border-box-sizing code_cell rendered&quot;&gt;
-&lt;div class=&quot;input&quot;&gt;
-
-&lt;div class=&quot;inner_cell&quot;&gt;
-    &lt;div class=&quot;input_area&quot;&gt;
-&lt;div class=&quot; highlight hl-ipython3&quot;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;date_set_version&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;data_set_version_&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uuid4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data_set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;exec&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log_input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DataSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;xgboost synthetic data&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;synthetic-data&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;owner&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;someone@kubeflow.org&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;uri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;file://path/to/dataset&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;v1.0.0&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;SELECT * FROM mytable&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;Data set id is &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{0.id}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; with version &amp;#39;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{0.version}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data_set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;output_wrapper&quot;&gt;
-&lt;div class=&quot;output&quot;&gt;
-
-&lt;div class=&quot;output_area&quot;&gt;
-
-&lt;div class=&quot;output_subarea output_stream output_stdout output_text&quot;&gt;
-&lt;pre&gt;Data set id is 171 with version &amp;#39;data_set_version_cbebc757-0d76-4e1e-bbd9-02b065e4c3ea&amp;#39;
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-    
-
-&lt;div class=&quot;cell border-box-sizing text_cell rendered&quot;&gt;&lt;div class=&quot;inner_cell&quot;&gt;
-&lt;div class=&quot;text_cell_render border-box-sizing rendered_html&quot;&gt;
-&lt;ul&gt;
-&lt;li&gt;A &lt;a href=&quot;https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L337&quot;&gt;Log_output&lt;/a&gt; log an artifact as a output of this execution. Here exec.log_output accept an artifact class as an argument, a &lt;a href=&quot;https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L518&quot;&gt;Model&lt;/a&gt; is an artifact. Every artifacts has different paramenters such as name, uri, hyperparameters. The way to create Model artifact is calling ready-to-use APIs metadata.Model and provide arguments&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-    
-    
-&lt;div class=&quot;cell border-box-sizing code_cell rendered&quot;&gt;
-&lt;div class=&quot;input&quot;&gt;
-
-&lt;div class=&quot;inner_cell&quot;&gt;
-    &lt;div class=&quot;input_area&quot;&gt;
-&lt;div class=&quot; highlight hl-ipython3&quot;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model_version&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;model_version_&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uuid4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;exec&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log_output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;MNIST&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;model to recognize handwritten digits&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;owner&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;someone@kubeflow.org&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;uri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;gcs://my-bucket/mnist&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;model_type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;neural network&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;training_framework&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;s2&quot;&gt;&amp;quot;name&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;tensorflow&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;s2&quot;&gt;&amp;quot;version&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;v1.0&amp;quot;&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;hyperparameters&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;s2&quot;&gt;&amp;quot;learning_rate&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;s2&quot;&gt;&amp;quot;layers&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-                &lt;span class=&quot;s2&quot;&gt;&amp;quot;early_stop&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;True&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model_version&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;labels&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;mylabel&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;l1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}))&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;Model id is &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{0.id}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; and version is &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{0.version}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;output_wrapper&quot;&gt;
-&lt;div class=&quot;output&quot;&gt;
-
-&lt;div class=&quot;output_area&quot;&gt;
-
-&lt;div class=&quot;output_subarea output_stream output_stdout output_text&quot;&gt;
-&lt;pre&gt;kubeflow.metadata.metadata.Model(workspace=None, name=&amp;#39;MNIST&amp;#39;, description=&amp;#39;model to recognize handwritten digits&amp;#39;, owner=&amp;#39;someone@kubeflow.org&amp;#39;, uri=&amp;#39;gcs://my-bucket/mnist&amp;#39;, version=&amp;#39;model_version_50b419e2-af69-4c0e-a251-78246d4c0578&amp;#39;, model_type=&amp;#39;neural network&amp;#39;, training_framework={&amp;#39;name&amp;#39;: &amp;#39;tensorflow&amp;#39;, &amp;#39;version&amp;#39;: &amp;#39;v1.0&amp;#39;}, hyperparameters={&amp;#39;learning_rate&amp;#39;: 0.5, &amp;#39;layers&amp;#39;: [10, 3, 1], &amp;#39;early_stop&amp;#39;: True}, labels={&amp;#39;mylabel&amp;#39;: &amp;#39;l1&amp;#39;}, id=172, create_time=&amp;#39;2019-12-04T00:44:49.444411Z&amp;#39;, kwargs={})
-
-Model id is 172 and version is model_version_50b419e2-af69-4c0e-a251-78246d4c0578
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-    
-
-&lt;div class=&quot;cell border-box-sizing text_cell rendered&quot;&gt;&lt;div class=&quot;inner_cell&quot;&gt;
-&lt;div class=&quot;text_cell_render border-box-sizing rendered_html&quot;&gt;
-&lt;h2 id=&quot;Log-the-evaluation-of-a-model&quot;&gt;Log the evaluation of a model&lt;a class=&quot;anchor-link&quot; href=&quot;#Log-the-evaluation-of-a-model&quot;&gt; &lt;/a&gt;&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/metadata/blob/25b44da29213968a2c438d24aad3656cc86d0499/sdk/python/kubeflow/metadata/metadata.py#L639&quot;&gt;Metrics&lt;/a&gt; captures an evaluation metrics of a model on a data set&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-    
-    
-&lt;div class=&quot;cell border-box-sizing code_cell rendered&quot;&gt;
-&lt;div class=&quot;input&quot;&gt;
-
-&lt;div class=&quot;inner_cell&quot;&gt;
-    &lt;div class=&quot;input_area&quot;&gt;
-&lt;div class=&quot; highlight hl-ipython3&quot;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;metrics&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;exec&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log_output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Metrics&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;MNIST-evaluation&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;validating the MNIST model to recognize handwritten digits&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;owner&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;someone@kubeflow.org&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;uri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;gcs://my-bucket/mnist-eval.csv&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;data_set_id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data_set&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;model_id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;metrics_type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Metrics&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;VALIDATION&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;accuracy&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;labels&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;mylabel&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;l1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}))&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;Metrics id is &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%s&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;metrics&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;output_wrapper&quot;&gt;
-&lt;div class=&quot;output&quot;&gt;
-
-&lt;div class=&quot;output_area&quot;&gt;
-
-&lt;div class=&quot;output_subarea output_stream output_stdout output_text&quot;&gt;
-&lt;pre&gt;Metrics id is 173
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-    
-
-&lt;div class=&quot;cell border-box-sizing text_cell rendered&quot;&gt;&lt;div class=&quot;inner_cell&quot;&gt;
-&lt;div class=&quot;text_cell_render border-box-sizing rendered_html&quot;&gt;
-&lt;h2 id=&quot;Add-Metadata-for-serving-the-model&quot;&gt;Add Metadata for serving the model&lt;a class=&quot;anchor-link&quot; href=&quot;#Add-Metadata-for-serving-the-model&quot;&gt; &lt;/a&gt;&lt;/h2&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-    
-    
-&lt;div class=&quot;cell border-box-sizing code_cell rendered&quot;&gt;
-&lt;div class=&quot;input&quot;&gt;
-
-&lt;div class=&quot;inner_cell&quot;&gt;
-    &lt;div class=&quot;input_area&quot;&gt;
-&lt;div class=&quot; highlight hl-ipython3&quot;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;serving_application&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Execution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;serving model&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;workspace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ws1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;an execution to represent model serving component&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# Noticed we use model name, version, uri to uniquely identify existing model.&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;served_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;MNIST&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;uri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;gcs://my-bucket/mnist&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;serving_application&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;log_input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;served_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;Found the mode with id &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{0.id}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; and version &amp;#39;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{0.version}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;#39;.&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;output_wrapper&quot;&gt;
-&lt;div class=&quot;output&quot;&gt;
-
-&lt;div class=&quot;output_area&quot;&gt;
-
-&lt;div class=&quot;output_subarea output_stream output_stdout output_text&quot;&gt;
-&lt;pre&gt;Found the mode with id 172 and version &amp;#39;model_version_50b419e2-af69-4c0e-a251-78246d4c0578&amp;#39;.
-&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
-    
-
-&lt;div class=&quot;cell border-box-sizing text_cell rendered&quot;&gt;&lt;div class=&quot;inner_cell&quot;&gt;
-&lt;div class=&quot;text_cell_render border-box-sizing rendered_html&quot;&gt;
-&lt;h1 id=&quot;Plot-the-lineage-graph&quot;&gt;Plot the lineage graph&lt;a class=&quot;anchor-link&quot; href=&quot;#Plot-the-lineage-graph&quot;&gt; &lt;/a&gt;&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;/images/copied_from_nb/images-lineage/lineage.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;The figure above shows an example of the lineage graph from our xgboost example. Follow below steps for you to try out:&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ol&gt;
-&lt;li&gt;Follow the guide to &lt;a href=&quot;https://www.kubeflow.org/docs/notebooks/setup/&quot;&gt;setting up your Jupyter notebooks in Kubeflow&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Go back to your Jupyter notebook server in the Kubeflow UI. (If you’ve moved away from the notebooks section in Kubeflow, click Notebook Servers in the left-hand navigation panel to get back there.)&lt;/li&gt;
-&lt;li&gt;In the Jupyter notebook UI, click Upload and follow the prompts to upload the &lt;a href=&quot;https://github.com/kubeflow/examples/blob/master/xgboost_synthetic/build-train-deploy.ipynb&quot;&gt;xgboost example&lt;/a&gt; notebook.&lt;/li&gt;
-&lt;li&gt;Click the notebook name (build-train-deploy.ipynb.ipynb) to open the notebook in your Kubeflow cluster.&lt;/li&gt;
-&lt;li&gt;Run the steps in the notebook to install and use the Metadata SDK.&lt;/li&gt;
-&lt;li&gt;Click Artifact Store in the left-hand navigation panel on the Kubeflow UI.&lt;/li&gt;
-&lt;li&gt;Select Pipelines -&amp;gt; Artifacts&lt;/li&gt;
-&lt;li&gt;Navigate to xgboost-synthetic-traing-eval&lt;/li&gt;
-&lt;li&gt;Click on Lineage explorer&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;</content><author><name></name></author><category term="jupyter" /><summary type="html"></summary></entry></feed>
+&lt;p&gt;Description: MiniKF is currently testing with Kubeflow 1.2 and will provide an updated MiniKF version based after validation testing and documentation has completed.    Please find more information on MiniKF here: &lt;a href=&quot;https://www.arrikto.com/get-started/&quot;&gt;https://www.arrikto.com/get-started/&lt;/a&gt; . You can also find tutorials that will guide you through end-to-end data science examples here: &lt;a href=&quot;https://www.arrikto.com/tutorials&quot;&gt;https://www.arrikto.com/tutorials&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="release" /><category term="official" /><summary type="html">Special Message from Kubeflow Founders</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

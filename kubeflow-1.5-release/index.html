@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Kubeflow v1.5 improves ML model accuracy, reduces infrastructure costs and optimizes MLOps | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Kubeflow v1.5 improves ML model accuracy, reduces infrastructure costs and optimizes MLOps" />
+<meta name="author" content="Kubeflow 1.5 Release Team" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The Kubeflow v1.5 software release improves ML model accuracy, lowers infrastructure costs, and simplifies operations by providing a more consistent user experience between components." />
+<meta property="og:description" content="The Kubeflow v1.5 software release improves ML model accuracy, lowers infrastructure costs, and simplifies operations by providing a more consistent user experience between components." />
+<link rel="canonical" href="https://blog.kubeflow.org/kubeflow-1.5-release/" />
+<meta property="og:url" content="https://blog.kubeflow.org/kubeflow-1.5-release/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-04-01T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/kubeflow-1.5-release/","@type":"BlogPosting","headline":"Kubeflow v1.5 improves ML model accuracy, reduces infrastructure costs and optimizes MLOps","dateModified":"2022-04-01T00:00:00-05:00","datePublished":"2022-04-01T00:00:00-05:00","image":"https://blog.kubeflow.org/images/logo.png","author":{"@type":"Person","name":"Kubeflow 1.5 Release Team"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow-1.5-release/"},"description":"The Kubeflow v1.5 software release improves ML model accuracy, lowers infrastructure costs, and simplifies operations by providing a more consistent user experience between components.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kubeflow v1.5 improves ML model accuracy, reduces infrastructure costs and optimizes MLOps</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-04-01T00:00:00-05:00" itemprop="datePublished">
+        Apr 1, 2022
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Kubeflow 1.5 Release Team</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#release">release</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#lower-infrastructure-costs-and-improve-model-accuracy">Lower infrastructure costs and improve model accuracy</a></li>
+<li class="toc-entry toc-h2"><a href="#simplified-operations">Simplified operations</a></li>
+<li class="toc-entry toc-h2"><a href="#streamlined-user-experience">Streamlined user experience</a></li>
+<li class="toc-entry toc-h2"><a href="#installation-tutorials-and-documentation">Installation, tutorials and documentation</a></li>
+<li class="toc-entry toc-h2"><a href="#join-the-community">Join the community</a></li>
+</ul><p>The Kubeflow v1.5 software release improves ML model accuracy, lowers infrastructure costs, and simplifies operations by providing a more consistent user experience between components.</p>
+
+<h2 id="lower-infrastructure-costs-and-improve-model-accuracy">
+<a class="anchor" href="#lower-infrastructure-costs-and-improve-model-accuracy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lower infrastructure costs and improve model accuracy</h2>
+
+<p>Several enhancements in Kubeflow v1.5 lower infrastructure costs and help improve model accuracy.  For example, new elastic training augments the Kubeflow training operator for PyTorch and enables PyTorch workers to be scaled up and down, providing fault tolerant and elastic training. This allows the training jobs to continue without restarting from scratch even if a worker fails. Elastic training can also enable the use of ephemeral or spot instances, which can save infrastructure costs. See the <a href="https://github.com/kubeflow/community/blob/b56452405e44c05ed60145a19bb86be55f3833d5/proposals/pytorch-elastic-proposal.md">elastic training proposal</a> for more details.</p>
+
+<p>In addition, v1.5 extends notebook monitoring and culling. Kernel monitoring shuts down notebook servers that have been inactive when a configurable timer expires. Kubeflow v1.5 introduces greater precision in assessing notebook server UI activity.</p>
+
+<p>Finally, v1.5 includes <a href="https://github.com/kubeflow/katib/pull/1709">early validation of hyperparameter tuning</a>.  This feature improves model accuracy by reducing the overfitting of the model to the data sets used during hyperparameter tuning.  It can also reduce the infrastructure used as it will stop hyperparameter tuning when configurable thresholds are reached.</p>
+
+<h2 id="simplified-operations">
+<a class="anchor" href="#simplified-operations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simplified operations</h2>
+
+<p>v1.5 simplifies operations in several ways including easier support of high availability for the Katib Controller via the new hyperparameter leader <a href="https://github.com/kubeflow/katib/pull/1713">election</a>.  v1.5 also adds the MPI framework to the Unified Training Operator, which deploys a single operator for handling the most popular frameworks: Tensorflow, Pytorch, MXNet, XGBoost and MPI.  Kubeflow Pipelines (KFP) has incorporated support for the <a href="https://www.kubeflow.org/docs/components/pipelines/installation/choose-executor/#emissary-executor">Emissary Executor</a> as the default executor, which means that users are not required to manually configure this option to Emissary.  This enhancement also enables KFP to support the newer Kubernetes versions that require a Container Runtime Interface (CRI) and provides support for Docker containers.</p>
+
+<p>In addition, KServe v0.7 is integrated with Kubeflow v1.5.  For users who are still using KFServing v0.6.1, v1.5 does support the installation of the KFServing v0.6.1 release.  For users migrating from KFServing to KServe, there is helpful documentation, which you can find <a href="https://kserve.github.io/website/0.7/admin/migration/">here</a>.  From a feature standpoint, KServe v0.7 has added a beta of <a href="https://github.com/kserve/modelmesh-serving">ModelMesh</a>, which enables easier scaling of model serving and provides an architecture that overcomes pod and IP limitations that limit the number of models that can run on a single node and/or cluster.</p>
+
+<p>Note on K8s 1.22: Although many of the Kubeflow services (KFP, AutoML, Training Operator, KServe) have started testing with K8s 1.22, v1.5 was not thoroughly tested with K8s 1.22.   Additionally, critical work is still outstanding for Kubeflow Notebooks and other central services.  While the Community always encourages testing, K8s 1.22 is not formally supported with Kubeflow v1.5.  K8s 1.22 support is on the roadmap for Kubeflow’s next release and if you are interested in K8s 1.22 support, please add a comment on this tracking <a href="https://github.com/kubeflow/kubeflow/issues/6098">issue</a>.</p>
+
+<h2 id="streamlined-user-experience">
+<a class="anchor" href="#streamlined-user-experience" aria-hidden="true"><span class="octicon octicon-link"></span></a>Streamlined user experience</h2>
+
+<p>In v1.5, the Kubeflow User Interface (UI) dashboards for Notebooks, Tensorboards and Volume Manager more closely match KFP’s dashboard.   These enhancements include how dashboard fields are displayed and how operations are performed.  This gives users a consistent look and feel when working in the UI. Additionally, the Kubeflow notebooks manager web app form and its configuration template have been updated for allowing users to fully define the PVC objects that will be created for a notebook. This will give end users the ability to modify crucial parts of the PVCs, such as StorageClasses, and to more easily support popular storage offerings, including NFS. In addition, AutoML has also updated its SDK, CI framework and parameter settings across frameworks (goptuna, optuna, hyperopt).</p>
+
+<h2 id="installation-tutorials-and-documentation">
+<a class="anchor" href="#installation-tutorials-and-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation, tutorials and documentation</h2>
+
+<p>The Kubeflow v1.5 release process includes improvements to Kubeflow’s installation, tutorial and documentation.  For installation, the Manifest Working Group’s <a href="https://github.com/kubeflow/manifests">documentation</a> provided the starting place for the Kubeflow <a href="https://www.kubeflow.org/docs/started/installing-kubeflow/">distributions</a>, and this collaboration has increased the maturity of the code and documentation for Kubeflow’s GitOps installation pattern.  The v1.5 release process included a tracking <a href="https://github.com/kubeflow/website/issues/3130">issue</a> for the critical web pages that are updated in each release.  Additionally, there are many Working Group documentation updates and we invite you to open issues when you find documentation that needs improvement.  Kubeflow v1.5 also includes two tutorials, which are described below:</p>
+
+<p><strong>Tutorial 1</strong> - <a href="https://github.com/kubeflow/pipelines/blob/master/samples/contrib/kubeflow-e2e-mnist/kubeflow-e2e-mnist.ipynb">E2E MNIST with Kubeflow Tutorial</a>,which provides an end-to-end test sequence i.e. start a notebook, run a pipeline, execute training, hyperparameter tuning and model serving.</p>
+
+<p><strong>Tutorial 2</strong> - <a href="https://www.kubeflow.org/docs/external-add-ons/kserve/first_isvc_kserve/">Deploy and run your first interfere service with KServe Tutorial</a> Run your first interface service on Kubeflow 1.5 i.e. define, create and check an InferenceService, post an interfere request and receive response.  Optionally run performance tests.</p>
+
+<h2 id="join-the-community">
+<a class="anchor" href="#join-the-community" aria-hidden="true"><span class="octicon octicon-link"></span></a>Join the community</h2>
+
+<p>The v1.5 Release Team would like to thank everyone for their efforts on Kubeflow v1.5, especially the users, code contributors, working group leads, and distribution team leads. As you can see from the extensive contributions to Kubeflow 1.5, the Kubeflow Community is vibrant and diverse, and solving real world problems for organizations around the globe.</p>
+
+<p>Excited to contribute your great ideas? The Kubeflow Community <a href="https://github.com/kubeflow/community/blob/master/wg-list.md">Working Groups</a> hold open meetings, public lists, and are always looking for more volunteers and users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below. We look forward to working with you!</p>
+
+<ul>
+  <li>Visit our <a href="https://www.kubeflow.org/">Kubeflow website</a> or <a href="https://github.com/kubeflow">Kubeflow Github page</a>
+</li>
+  <li>Join the <a href="https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg">Kubeflow Slack Channel</a>
+</li>
+  <li>Join the <a href="https://groups.google.com/forum/#!forum/kubeflow-discuss">kubeflow-discuss</a> mailing list</li>
+  <li>Attend a <a href="https://www.kubeflow.org/docs/about/community/">weekly community meeting</a>
+</li>
+</ul>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/kubeflow-1.5-release/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

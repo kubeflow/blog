@@ -4,21 +4,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Kubeflow 1.5.1 Release Announcement | Kubeflow</title>
+<title>Kubeflow v1.5 improves ML model accuracy, reduces infrastructure costs and optimizes MLOps | Kubeflow</title>
 <meta name="generator" content="Jekyll v4.1.1" />
-<meta property="og:title" content="Kubeflow 1.5.1 Release Announcement" />
+<meta property="og:title" content="Kubeflow v1.5 improves ML model accuracy, reduces infrastructure costs and optimizes MLOps" />
 <meta name="author" content="Kubeflow 1.5 Release Team" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="The Kubeflow Community is excited to announce the release of Kubeflow 1.5.1. The Kubeflow 1.5.1 release provides a valuable enhancement to the caching feature of Kubeflow Pipeline (KFP) for any Kubernetes distribution with strict security policies for user application certificates. Caching is one of the crucial features of KFP which enables skipping a step that has already been executed which saves time and money. This release unblocks the caching feature to be used on distributions like AWS, the Mercedes Benz cluster, etc." />
-<meta property="og:description" content="The Kubeflow Community is excited to announce the release of Kubeflow 1.5.1. The Kubeflow 1.5.1 release provides a valuable enhancement to the caching feature of Kubeflow Pipeline (KFP) for any Kubernetes distribution with strict security policies for user application certificates. Caching is one of the crucial features of KFP which enables skipping a step that has already been executed which saves time and money. This release unblocks the caching feature to be used on distributions like AWS, the Mercedes Benz cluster, etc." />
+<meta name="description" content="The Kubeflow v1.5 software release improves ML model accuracy, lowers infrastructure costs, and simplifies operations by providing a more consistent user experience between components." />
+<meta property="og:description" content="The Kubeflow v1.5 software release improves ML model accuracy, lowers infrastructure costs, and simplifies operations by providing a more consistent user experience between components." />
 <link rel="canonical" href="https://blog.kubeflow.org/kubeflow-1.5-release/" />
 <meta property="og:url" content="https://blog.kubeflow.org/kubeflow-1.5-release/" />
 <meta property="og:site_name" content="Kubeflow" />
 <meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2022-07-18T00:00:00-05:00" />
+<meta property="article:published_time" content="2022-04-01T00:00:00-05:00" />
 <script type="application/ld+json">
-{"url":"https://blog.kubeflow.org/kubeflow-1.5-release/","@type":"BlogPosting","headline":"Kubeflow 1.5.1 Release Announcement","dateModified":"2022-07-18T00:00:00-05:00","datePublished":"2022-07-18T00:00:00-05:00","image":"https://blog.kubeflow.org/images/logo.png","author":{"@type":"Person","name":"Kubeflow 1.5 Release Team"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow-1.5-release/"},"description":"The Kubeflow Community is excited to announce the release of Kubeflow 1.5.1. The Kubeflow 1.5.1 release provides a valuable enhancement to the caching feature of Kubeflow Pipeline (KFP) for any Kubernetes distribution with strict security policies for user application certificates. Caching is one of the crucial features of KFP which enables skipping a step that has already been executed which saves time and money. This release unblocks the caching feature to be used on distributions like AWS, the Mercedes Benz cluster, etc.","@context":"https://schema.org"}</script>
+{"url":"https://blog.kubeflow.org/kubeflow-1.5-release/","@type":"BlogPosting","headline":"Kubeflow v1.5 improves ML model accuracy, reduces infrastructure costs and optimizes MLOps","dateModified":"2022-04-01T00:00:00-05:00","datePublished":"2022-04-01T00:00:00-05:00","image":"https://blog.kubeflow.org/images/logo.png","author":{"@type":"Person","name":"Kubeflow 1.5 Release Team"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow-1.5-release/"},"description":"The Kubeflow v1.5 software release improves ML model accuracy, lowers infrastructure costs, and simplifies operations by providing a more consistent user experience between components.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -87,15 +87,15 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Kubeflow 1.5.1 Release Announcement</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-18T00:00:00-05:00" itemprop="datePublished">
-        Jul 18, 2022
+    <h1 class="post-title p-name" itemprop="name headline">Kubeflow v1.5 improves ML model accuracy, reduces infrastructure costs and optimizes MLOps</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-04-01T00:00:00-05:00" itemprop="datePublished">
+        Apr 1, 2022
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
             <span class="p-author h-card" itemprop="name">Kubeflow 1.5 Release Team</span></span>
        • <span class="read-time" title="Estimated read time">
     
     
-      1 min read
+      4 min read
     
 </span></p>
 
@@ -112,13 +112,61 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
-</ul><p>The Kubeflow Community is excited to announce the release of <a href="https://github.com/kubeflow/manifests/releases/tag/v1.5.1">Kubeflow 1.5.1</a>. The Kubeflow 1.5.1 release provides a valuable enhancement to the caching feature of Kubeflow Pipeline (KFP) for any Kubernetes distribution with strict security policies for user application certificates. Caching is one of the crucial features of KFP which enables skipping a step that has already been executed which saves time and money. This release unblocks the caching feature to be used on distributions like AWS, the Mercedes Benz cluster, etc.</p>
+<li class="toc-entry toc-h2"><a href="#lower-infrastructure-costs-and-improve-model-accuracy">Lower infrastructure costs and improve model accuracy</a></li>
+<li class="toc-entry toc-h2"><a href="#simplified-operations">Simplified operations</a></li>
+<li class="toc-entry toc-h2"><a href="#streamlined-user-experience">Streamlined user experience</a></li>
+<li class="toc-entry toc-h2"><a href="#installation-tutorials-and-documentation">Installation, tutorials and documentation</a></li>
+<li class="toc-entry toc-h2"><a href="#join-the-community">Join the community</a></li>
+</ul><p>The Kubeflow v1.5 software release improves ML model accuracy, lowers infrastructure costs, and simplifies operations by providing a more consistent user experience between components.</p>
 
-<p>Kubeflow 1.5.1 includes the enhancements for the Kubeflow Pipelines cache server and the cert generation mechanism <a href="https://github.com/kubeflow/manifests/issues/2165">#2165</a>. These enhancements improve the operations of Kubernetes clusters with strict security policies, especially in clusters where non-Kubelet applications cannot create API server type certificates. Kubeflow Pipelines introduced dependency on cert-manager for this enhancement.</p>
+<h2 id="lower-infrastructure-costs-and-improve-model-accuracy">
+<a class="anchor" href="#lower-infrastructure-costs-and-improve-model-accuracy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lower infrastructure costs and improve model accuracy</h2>
 
-<p>A number of Kubeflow distribution providers are supporting Kubeflow 1.5.1. These cloud provider and vendor distributions include additional enhancements and professional support, which many users find valuable. Please find a list of the Kubeflow distribution providers <a href="https://www.kubeflow.org/docs/started/installing-kubeflow/#install-a-packaged-kubeflow-distribution">here</a>.</p>
+<p>Several enhancements in Kubeflow v1.5 lower infrastructure costs and help improve model accuracy.  For example, new elastic training augments the Kubeflow training operator for PyTorch and enables PyTorch workers to be scaled up and down, providing fault tolerant and elastic training. This allows the training jobs to continue without restarting from scratch even if a worker fails. Elastic training can also enable the use of ephemeral or spot instances, which can save infrastructure costs. See the <a href="https://github.com/kubeflow/community/blob/b56452405e44c05ed60145a19bb86be55f3833d5/proposals/pytorch-elastic-proposal.md">elastic training proposal</a> for more details.</p>
 
-<p>Special thanks to Kartik Kalamadi, Suraj Kota, Kimonas Sotirchos and James Liu for driving this effort!</p>
+<p>In addition, v1.5 extends notebook monitoring and culling. Kernel monitoring shuts down notebook servers that have been inactive when a configurable timer expires. Kubeflow v1.5 introduces greater precision in assessing notebook server UI activity.</p>
+
+<p>Finally, v1.5 includes <a href="https://github.com/kubeflow/katib/pull/1709">early validation of hyperparameter tuning</a>.  This feature improves model accuracy by reducing the overfitting of the model to the data sets used during hyperparameter tuning.  It can also reduce the infrastructure used as it will stop hyperparameter tuning when configurable thresholds are reached.</p>
+
+<h2 id="simplified-operations">
+<a class="anchor" href="#simplified-operations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simplified operations</h2>
+
+<p>v1.5 simplifies operations in several ways including easier support of high availability for the Katib Controller via the new hyperparameter leader <a href="https://github.com/kubeflow/katib/pull/1713">election</a>.  v1.5 also adds the MPI framework to the Unified Training Operator, which deploys a single operator for handling the most popular frameworks: Tensorflow, Pytorch, MXNet, XGBoost and MPI.  Kubeflow Pipelines (KFP) has incorporated support for the <a href="https://www.kubeflow.org/docs/components/pipelines/installation/choose-executor/#emissary-executor">Emissary Executor</a> as the default executor, which means that users are not required to manually configure this option to Emissary.  This enhancement also enables KFP to support the newer Kubernetes versions that require a Container Runtime Interface (CRI) and provides support for Docker containers.</p>
+
+<p>In addition, KServe v0.7 is integrated with Kubeflow v1.5.  For users who are still using KFServing v0.6.1, v1.5 does support the installation of the KFServing v0.6.1 release.  For users migrating from KFServing to KServe, there is helpful documentation, which you can find <a href="https://kserve.github.io/website/0.7/admin/migration/">here</a>.  From a feature standpoint, KServe v0.7 has added a beta of <a href="https://github.com/kserve/modelmesh-serving">ModelMesh</a>, which enables easier scaling of model serving and provides an architecture that overcomes pod and IP limitations that limit the number of models that can run on a single node and/or cluster.</p>
+
+<p>Note on K8s 1.22: Although many of the Kubeflow services (KFP, AutoML, Training Operator, KServe) have started testing with K8s 1.22, v1.5 was not thoroughly tested with K8s 1.22.   Additionally, critical work is still outstanding for Kubeflow Notebooks and other central services.  While the Community always encourages testing, K8s 1.22 is not formally supported with Kubeflow v1.5.  K8s 1.22 support is on the roadmap for Kubeflow’s next release and if you are interested in K8s 1.22 support, please add a comment on this tracking <a href="https://github.com/kubeflow/kubeflow/issues/6098">issue</a>.</p>
+
+<h2 id="streamlined-user-experience">
+<a class="anchor" href="#streamlined-user-experience" aria-hidden="true"><span class="octicon octicon-link"></span></a>Streamlined user experience</h2>
+
+<p>In v1.5, the Kubeflow User Interface (UI) dashboards for Notebooks, Tensorboards and Volume Manager more closely match KFP’s dashboard.   These enhancements include how dashboard fields are displayed and how operations are performed.  This gives users a consistent look and feel when working in the UI. Additionally, the Kubeflow notebooks manager web app form and its configuration template have been updated for allowing users to fully define the PVC objects that will be created for a notebook. This will give end users the ability to modify crucial parts of the PVCs, such as StorageClasses, and to more easily support popular storage offerings, including NFS. In addition, AutoML has also updated its SDK, CI framework and parameter settings across frameworks (goptuna, optuna, hyperopt).</p>
+
+<h2 id="installation-tutorials-and-documentation">
+<a class="anchor" href="#installation-tutorials-and-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation, tutorials and documentation</h2>
+
+<p>The Kubeflow v1.5 release process includes improvements to Kubeflow’s installation, tutorial and documentation.  For installation, the Manifest Working Group’s <a href="https://github.com/kubeflow/manifests">documentation</a> provided the starting place for the Kubeflow <a href="https://www.kubeflow.org/docs/started/installing-kubeflow/">distributions</a>, and this collaboration has increased the maturity of the code and documentation for Kubeflow’s GitOps installation pattern.  The v1.5 release process included a tracking <a href="https://github.com/kubeflow/website/issues/3130">issue</a> for the critical web pages that are updated in each release.  Additionally, there are many Working Group documentation updates and we invite you to open issues when you find documentation that needs improvement.  Kubeflow v1.5 also includes two tutorials, which are described below:</p>
+
+<p><strong>Tutorial 1</strong> - <a href="https://github.com/kubeflow/pipelines/blob/master/samples/contrib/kubeflow-e2e-mnist/kubeflow-e2e-mnist.ipynb">E2E MNIST with Kubeflow Tutorial</a>,which provides an end-to-end test sequence i.e. start a notebook, run a pipeline, execute training, hyperparameter tuning and model serving.</p>
+
+<p><strong>Tutorial 2</strong> - <a href="https://www.kubeflow.org/docs/external-add-ons/kserve/first_isvc_kserve/">Deploy and run your first interfere service with KServe Tutorial</a> Run your first interface service on Kubeflow 1.5 i.e. define, create and check an InferenceService, post an interfere request and receive response.  Optionally run performance tests.</p>
+
+<h2 id="join-the-community">
+<a class="anchor" href="#join-the-community" aria-hidden="true"><span class="octicon octicon-link"></span></a>Join the community</h2>
+
+<p>The v1.5 Release Team would like to thank everyone for their efforts on Kubeflow v1.5, especially the users, code contributors, working group leads, and distribution team leads. As you can see from the extensive contributions to Kubeflow 1.5, the Kubeflow Community is vibrant and diverse, and solving real world problems for organizations around the globe.</p>
+
+<p>Excited to contribute your great ideas? The Kubeflow Community <a href="https://github.com/kubeflow/community/blob/master/wg-list.md">Working Groups</a> hold open meetings, public lists, and are always looking for more volunteers and users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below. We look forward to working with you!</p>
+
+<ul>
+  <li>Visit our <a href="https://www.kubeflow.org/">Kubeflow website</a> or <a href="https://github.com/kubeflow">Kubeflow Github page</a>
+</li>
+  <li>Join the <a href="https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg">Kubeflow Slack Channel</a>
+</li>
+  <li>Join the <a href="https://groups.google.com/forum/#!forum/kubeflow-discuss">kubeflow-discuss</a> mailing list</li>
+  <li>Attend a <a href="https://www.kubeflow.org/docs/about/community/">weekly community meeting</a>
+</li>
+</ul>
 
   </div><!-- from https://github.com/utterance/utterances -->
 <script src="https://utteranc.es/client.js"

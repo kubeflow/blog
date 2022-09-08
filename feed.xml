@@ -1,4 +1,152 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2022-08-23T19:46:20-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow 1.5.1 Release Announcement</title><link href="https://blog.kubeflow.org/kubeflow-1.5.1-release/" rel="alternate" type="text/html" title="Kubeflow 1.5.1 Release Announcement" /><published>2022-07-18T00:00:00-05:00</published><updated>2022-07-18T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.5.1-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.5.1-release/">&lt;p&gt;The Kubeflow Community is excited to announce the release of &lt;a href=&quot;https://github.com/kubeflow/manifests/releases/tag/v1.5.1&quot;&gt;Kubeflow 1.5.1&lt;/a&gt;. The Kubeflow 1.5.1 release provides a valuable enhancement to the caching feature of Kubeflow Pipeline (KFP) for any Kubernetes distribution with strict security policies for user application certificates. Caching is one of the crucial features of KFP which enables skipping a step that has already been executed which saves time and money. This release unblocks the caching feature to be used on distributions like AWS, the Mercedes Benz cluster, etc.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2022-09-08T11:15:13-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow v1.6 delivers support for Kubernetes v1.22 and introduces an alpha release of the Kubeflow Pipeline v2 functionality</title><link href="https://blog.kubeflow.org/kubeflow-1.6-release/" rel="alternate" type="text/html" title="Kubeflow v1.6 delivers support for Kubernetes v1.22 and introduces an alpha release of the Kubeflow Pipeline v2 functionality" /><published>2022-08-24T00:00:00-05:00</published><updated>2022-08-24T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.6-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.6-release/">&lt;p&gt;The Kubeflow Community is excited to announce the availability of the Kubeflow v1.6 software release, which includes
+ support for Kubernetes v1.22 and introduces an alpha release of the Kubeflow Pipeline v2 (KFP v2) functionality.&lt;/p&gt;
+
+&lt;p&gt;Kubeflow v1.6 also adds new hyperparameter support for the population based algorithm in Katib, and provides a combined
+ Python SDK for PyTorch, MXNet, MPI, XGBoost in Kubeflow’s distributed Training Operator. For model serving, v1.6 has
+ new ClusterServingRuntime and ServingRuntime CRDs, and a new Model Spec was introduced to the InferenceService
+ Predictor Spec, which provides a new way to specify models in KServe 0.8. Additionally, v1.6 cleans up a few CVEs in
+ the central dashboard and enables the PodDefaults webhook to pick-up new certificate updates.   For the Kubernetes upgrade,
+ the community developed and tested each Kubeflow component manifest with Kubernetes v1.22.  As v1.22 introduced some breaking changes, the upgrade was a team effort, and this Kubeflow release management process will be useful in the community’s future updates of Kubernetes and other software dependencies. The software is available &lt;a href=&quot;https://github.com/kubeflow/kubeflow/releases/tag/v1.6.0&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In parallel to developing these new software features, the Kubeflow Community also completed its annual user survey.
+ The survey generated many good user insights into requirements for Kubeflow, and you can see more on the
+ &lt;a href=&quot;https://github.com/kubeflow/blog/pull/121&quot;&gt;survey results&lt;/a&gt;. Of the many
+ highlights, we would like to identify the growing request for model monitoring as shown in the chart below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2022-08-24-kubeflow-1.6-release/2022-user-survey-gaps-in-ml-activities-and-workflow.png&quot; alt=&quot;2022 User Survey Gaps In ML Activities and Workflow&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We believe the increased focus on monitoring identifies Kubeflow’s maturing user base. The Community is making efforts
+ to explain Kubeflow’s current functionality and build into the users’ new model monitoring requirements. In addition,
+ the user survey results and Kubeflow Working Group roadmaps will be discussed in the upcoming Kubeflow Summit. You can
+ learn more about the Kubeflow Summit &lt;a href=&quot;https://docs.google.com/document/d/1fLg1EqVtJekcXxT8GM_Rqg0-G-vIDVCrzuxE06Oq9dI/edit&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;To round back to the current software delivery, the following takes a deeper look at the v1.6 highlights in more detail.&lt;/p&gt;
+
+&lt;h2 id=&quot;kubeflow-v16-details&quot;&gt;Kubeflow v1.6 details&lt;/h2&gt;
+
+&lt;p&gt;From a new feature introduction standpoint, Kubeflow v1.6 includes an experimental release of the KFP v2’s new front-end,
+ back-end and SDK, which deliver a modern UI and DAG, first class support for metadata, and a simplified component
+ authoring experience. This slide deck, &lt;a href=&quot;https://docs.google.com/presentation/d/1HzMwtI2QN67xQp2lSxmuXhitEsukLB7mvZx4KAPub3A/edit#slide=id.gecbd775238_0_20&quot;&gt;KFP v2 Introduction&lt;/a&gt;,
+ provides a good overview of v2.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;The KFP v2 alpha introduces:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;An Argo-agnostic approach for creating and running pipelines&lt;/li&gt;
+  &lt;li&gt;A brand new DAG visualization, which uses the Pipeline Template and MLMD in this &lt;a href=&quot;https://github.com/kubeflow/pipelines/blob/master/api/v2alpha1/pipeline_spec.proto&quot;&gt;pipeline spec&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.google.com/presentation/d/1HzMwtI2QN67xQp2lSxmuXhitEsukLB7mvZx4KAPub3A/edit#slide=id.gecbd775238_0_438&quot;&gt;Streamlined Component Authoring&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;You can learn more about KFP v2 and the related breaking changes in these docs:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.google.com/presentation/d/1HzMwtI2QN67xQp2lSxmuXhitEsukLB7mvZx4KAPub3A/edit#slide=id.gb4a3fac3a8_7_1911&quot;&gt;KFP v2 Introduction&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://kubeflow-pipelines.readthedocs.io/en/master/&quot;&gt;The SDK reference&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.google.com/document/d/1nCUUVRXexXbQ0LDkGHsMIBDSu1WvJA9Upy1JzybNVMk/edit&quot;&gt;Breaking changes&lt;/a&gt; including an SDK change from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kfp.v2&lt;/code&gt; to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kfp&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;For those users who are still relying on the KFP v1 functionality, Kubeflow v1.6 and its KFP v2 component are fully
+ tested and supported with the mature features in the legacy Kubeflow Pipelines v1.8 SDK. This provides the same
+ functionality that thousands of KFP v1 users leverage in production today.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;In addition to the KFP v2 alpha, Kubeflow 1.6 includes feature enhancements and operational improvements for Katib
+ users. These include support for:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The population based training algorithm&lt;/li&gt;
+  &lt;li&gt;Enhanced validation checks for configurations, which will save time debugging parameter misconfiguration&lt;/li&gt;
+  &lt;li&gt;Security fixes&lt;/li&gt;
+  &lt;li&gt;MetricsUnavailable Status support, which will make debugging easier&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;In Kubeflow v1.6, the Training Operator Working Group added these valuable enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Python SDK for PyTorch, MXNet, MPI, XGBoost&lt;/li&gt;
+  &lt;li&gt;The Clientset (Golang) is also generated for PyTorch, MXNet, MPI, XGBoost&lt;/li&gt;
+  &lt;li&gt;Gang scheduling support for MPI&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Kubeflow v1.6 has several functional and operational improvements to Kubeflow notebooks, central dashboard, webapps and
+ controllers. The following highlights the closed PRs that were considered medium-sized or larger. You can review
+ the full list of the closed PRs &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pulls?page=1&amp;amp;q=is%3Apr+is%3Aclosed&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/6353&quot;&gt;Support for K8s 1.22&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/5560&quot;&gt;PodDefaults webhook picking up new certificates&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Show objects from all names spaces in Central Dashboard, Jupyter, Tensorboard, Volumes Mgr&lt;/li&gt;
+  &lt;li&gt;Updated the hosting container registry of images, note - this could be a breaking change for users with custom manifests&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6519&quot;&gt;CVE fixes for Central Dashboard&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;The Manifest Working Group contributed several enhancements in 1.6. These enhancements include the testing of each
+ Kubeflow’s component manifest for:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/manifests/pull/2230&quot;&gt;Compatibility with K8s 1.22&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/manifests/pull/2230&quot;&gt;The manifests that can be applied&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/manifests/pull/2230&quot;&gt;The Pods of components that can become ready&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/manifests/pull/2249&quot;&gt;The basic objects that can be created&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;For model serving, Kubeflow v1.6 incorporates the KServe v0.8.0 release, which includes these enhancements:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ClusterServingRuntime and ServingRuntime CRDs&lt;/li&gt;
+  &lt;li&gt;A new Model Spec is introduced to the InferenceService Predictor Spec as a new way to specify models&lt;/li&gt;
+  &lt;li&gt;Support for Knative 1.0+&lt;/li&gt;
+  &lt;li&gt;gRPC for transformer to predictor network communication&lt;/li&gt;
+  &lt;li&gt;Multi-namespace support for the ModelMesh alternative backend&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;KServe has these breaking changes to the Python SDK:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;KFModel is renamed to Model&lt;/li&gt;
+  &lt;li&gt;KFServer is renamed to ModelServer&lt;/li&gt;
+  &lt;li&gt;KFModelRepository is renamed to ModelRepository&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To learn more please see the &lt;a href=&quot;https://github.com/kserve/kserve/releases/tag/v0.8.0&quot;&gt;KServe v0.8 release notes&lt;/a&gt; and
+ Release &lt;a href=&quot;https://kserve.github.io/website/0.9/blog/articles/2022-02-18-KServe-0.8-release/&quot;&gt;blog post&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;join-the-community&quot;&gt;Join the community&lt;/h2&gt;
+
+&lt;p&gt;We would like to thank everyone for their contribution to Kubeflow 1.6, especially Anna Jung for her work as the v1.6 Release Manager. The Kubeflow community is incredibly pleased
+ to have Amazon Web Services extending their support by offering &lt;a href=&quot;https://aws.amazon.com/awscredits/&quot;&gt;AWS promotional credits&lt;/a&gt;.
+ We hope this sponsorship will enable many Kubeflow Working groups to sustainably host their testing and CI/CD
+ infrastructure on AWS, which is essential for maintaining the community’s high development velocity. As you can see,
+ the Kubeflow community is vibrant and diverse, solving real-world problems for organizations worldwide.&lt;/p&gt;
+
+&lt;p&gt;Want to help? The Kubeflow community &lt;a href=&quot;https://github.com/kubeflow/community/blob/master/wg-list.md&quot;&gt;Working Group&lt;/a&gt; hold
+ open meetings and are always looking for more volunteers and users to unlock the potential of machine learning. If
+ you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below. We look
+ forward to working with you!&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Visit our &lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;Kubeflow website&lt;/a&gt; or &lt;a href=&quot;https://github.com/kubeflow&quot;&gt;Kubeflow GitHub Page&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Join the &lt;a href=&quot;https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg&quot;&gt;Kubeflow Slack channel&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Join the &lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss&quot;&gt;kubeflow-discuss&lt;/a&gt; mailing list&lt;/li&gt;
+  &lt;li&gt;Attend a &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;weekly community meeting&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Kubeflow 1.6 Release Team</name></author><category term="release" /><summary type="html">The Kubeflow Community is excited to announce the availability of the Kubeflow v1.6 software release, which includes support for Kubernetes v1.22 and introduces an alpha release of the Kubeflow Pipeline v2 (KFP v2) functionality.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Kubeflow 1.5.1 Release Announcement</title><link href="https://blog.kubeflow.org/kubeflow-1.5.1-release/" rel="alternate" type="text/html" title="Kubeflow 1.5.1 Release Announcement" /><published>2022-07-18T00:00:00-05:00</published><updated>2022-07-18T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.5.1-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.5.1-release/">&lt;p&gt;The Kubeflow Community is excited to announce the release of &lt;a href=&quot;https://github.com/kubeflow/manifests/releases/tag/v1.5.1&quot;&gt;Kubeflow 1.5.1&lt;/a&gt;. The Kubeflow 1.5.1 release provides a valuable enhancement to the caching feature of Kubeflow Pipeline (KFP) for any Kubernetes distribution with strict security policies for user application certificates. Caching is one of the crucial features of KFP which enables skipping a step that has already been executed which saves time and money. This release unblocks the caching feature to be used on distributions like AWS, the Mercedes Benz cluster, etc.&lt;/p&gt;
 
 &lt;p&gt;Kubeflow 1.5.1 includes the enhancements for the Kubeflow Pipelines cache server and the cert generation mechanism &lt;a href=&quot;https://github.com/kubeflow/manifests/issues/2165&quot;&gt;#2165&lt;/a&gt;. These enhancements improve the operations of Kubernetes clusters with strict security policies, especially in clusters where non-Kubelet applications cannot create API server type certificates. Kubeflow Pipelines introduced dependency on cert-manager for this enhancement.&lt;/p&gt;
 
@@ -1272,337 +1420,4 @@ Thu Mar 11 01:55:02 2021[1]&amp;lt;stdout&amp;gt;:Step &lt;span class=&quot;c&qu
 
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 
-&lt;p&gt;When the concept of cloud native and distributed training fuse to elastic training on Kubernetes, it lowers the cost and gives robustness and flexibility. As a team, we are working with PyTorch, Horovod and other communities to propel elastic training. We wish to further introduce our work on elasticity with PS/Worker training mode, optimization for resource and job priority and other topics on cloud native AI.&lt;/p&gt;</content><author><name>&lt;a href='https://www.linkedin.com/in/gaocegege/'&gt;Ce Gao&lt;/a&gt;, &lt;a href='https://www.linkedin.com/in/wang-zhang'&gt;Wang Zhang&lt;/a&gt;</name></author><category term="elastic training" /><category term="operators" /><summary type="html">With increase in the size of dataset and deep learning models, distributed training emerges as the mainstream approach for training neural network models in industry. While it is feasible now to launch a massive distributed training job on Kubernetes with Kubeflow, advanced features like elastic workload and other cost mitigation approaches remain leashed when we talk about deep learning jobs on Kubernetes.</summary></entry><entry><title type="html">Kubeflow Katib: Scalable, Portable and Cloud Native System for AutoML</title><link href="https://blog.kubeflow.org/katib/" rel="alternate" type="text/html" title="Kubeflow Katib: Scalable, Portable and Cloud Native System for AutoML" /><published>2021-03-10T00:00:00-06:00</published><updated>2021-03-10T00:00:00-06:00</updated><id>https://blog.kubeflow.org/katib-0.10</id><content type="html" xml:base="https://blog.kubeflow.org/katib/">&lt;p&gt;As machine learning (ML) architectures are increasing in complexity, it is
-becoming important to find the optimal hyperparameters and architecture for
-ML models. &lt;a href=&quot;https://en.wikipedia.org/wiki/Automated_machine_learning&quot;&gt;Automated machine learning (AutoML)&lt;/a&gt;
-has become a crucial step in the ML lifecycle.
-Katib provides AutoML features in Kubeflow in a Kubernetes native way.&lt;/p&gt;
-
-&lt;p&gt;Katib is an open source project which is agnostic to ML frameworks. It can tune
-hyperparameters in applications written in any language of the user’s choice and
-natively supports many ML frameworks, such as TensorFlow, Keras, PyTorch, MPI,
-MXNet, XGBoost, scikit-learn, and others. Katib improves business results by
-efficiently building more accurate models and lowering operational and
-infrastructure costs. Katib can be deployed on local machines, or hosted as a
-service in on-premise data centers, or in private/public clouds.&lt;/p&gt;
-
-&lt;p&gt;Katib offers a rich set of features accessible via APIs. By using these APIs,
-Katib is natively integrated to Kubeflow Notebooks and Pipelines. Katib supports
-&lt;a href=&quot;https://en.wikipedia.org/wiki/Hyperparameter_optimization&quot;&gt;Hyperparameter optimization (HP)&lt;/a&gt;,
-&lt;a href=&quot;https://en.wikipedia.org/wiki/Neural_architecture_search&quot;&gt;Neural Architecture Search (NAS)&lt;/a&gt;,
-and &lt;a href=&quot;https://en.wikipedia.org/wiki/Early_stopping&quot;&gt;Early Stopping&lt;/a&gt;. Early Stopping
-feature can be used without any significant changes in the current Katib Experiments.&lt;/p&gt;
-
-&lt;p&gt;Furthermore, Katib is a unique system which supports all
-&lt;a href=&quot;https://kubernetes.io/docs/concepts/workloads/&quot;&gt;Kubernetes workloads&lt;/a&gt; and
-Kubernetes &lt;a href=&quot;https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/&quot;&gt;custom resource definition (CRD)&lt;/a&gt;
-to perform Katib Experiments. Since Katib can execute various Kubernetes resources,
-users are able to run not only ML models optimization Experiments. They can also
-enhance any software, code or program to make it more efficient with optimization
-algorithms provided by Katib.&lt;/p&gt;
-
-&lt;p&gt;We are continually working on the new Katib UI to provide a better User
-Experience and native integration with Kubeflow central dashboard.
-Please check &lt;a href=&quot;https://youtu.be/OKqx3IS2_G4?list=PLmzRWLV1CK_ypvsQu10SGRmhf2S7mbYL5&quot;&gt;this presentation&lt;/a&gt;
-to know more about the new UI.&lt;/p&gt;
-
-&lt;p&gt;All of the above mentioned features allow users to easily integrate Katib in
-their ML infrastructure pipeline.&lt;/p&gt;
-
-&lt;h2 id=&quot;system-architecture&quot;&gt;System Architecture&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/2021-03-10-katib-0.10/architecture.png&quot; width=&quot;&quot; alt=&quot;Architecture&quot; title=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;There are 3 main concepts in Katib which are Kubernetes CRDs:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Experiment&lt;/strong&gt; - a single optimization run with objective, search space, and
-search algorithm.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Suggestion&lt;/strong&gt; - set of hyperparameters, which are produced by a user’s
-selected search algorithm. Katib creates Trials to evaluate them.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Trial&lt;/strong&gt; - one iteration of the hyperparameters tuning process. Trial runs
-the worker job which corresponds to the training job. Since Trial is an
-abstraction on top of the worker job, any Kubernetes resource can be used to
-perform the training job. For example, &lt;a href=&quot;https://github.com/kubeflow/tf-operator&quot;&gt;&lt;strong&gt;TFJob&lt;/strong&gt;&lt;/a&gt;,
-&lt;a href=&quot;https://github.com/kubeflow/mpi-operator&quot;&gt;&lt;strong&gt;MPIJob&lt;/strong&gt;&lt;/a&gt; or even
-&lt;a href=&quot;https://github.com/tektoncd/pipeline&quot;&gt;Tekton &lt;strong&gt;Pipeline&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;By using above resources Katib follows the following steps, which are marked
-in the diagram above:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Once an Experiment is submitted, the Experiment controller creates an
-appropriate Suggestion object.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;The Suggestion controller creates an AutoML algorithm service based on this
-Suggestion object. When the algorithm service is ready, the Suggestion controller
-calls the service to get new parameters and appends them to the Suggestion object.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;The Experiment controller finds that Suggestion object has been updated and
-creates a corresponding Trial object for each set of parameters.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;The Trial controller generates a worker job for each Trial object and watches
-for the status of each job. The worker job based on the Trial template.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Once the worker job has been completed, the metrics collector gets the metrics
-from the job and persists them in the database.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;The Experiment controller sends the metrics results to the algorithm service
-and gets new parameters from the Suggestion object.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;custom-kubernetes-resources-support&quot;&gt;Custom Kubernetes resources support&lt;/h2&gt;
-
-&lt;p&gt;Katib version 0.10 implements a new feature to support any Kubernetes
-CRDs or Kubernetes workloads as a Katib Trial template. Therefore, there is no
-need to manually modify the Katib controller to use CRD as a Trial. As long as
-the CRD creates Kubernetes Pods, allows injecting the
-&lt;a href=&quot;https://kubernetes.io/docs/concepts/workloads/pods/&quot;&gt;sidecar container&lt;/a&gt;
-on these Pods, and has success and failure status, the CRD can be used in Katib.&lt;/p&gt;
-
-&lt;p&gt;Here are the motivations behind this feature:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Katib Trial template supports only a limited type of Kubernetes resource
-(&lt;a href=&quot;https://kubernetes.io/docs/concepts/workloads/controllers/job/&quot;&gt;&lt;strong&gt;BatchJob&lt;/strong&gt;&lt;/a&gt;,
-&lt;a href=&quot;https://www.kubeflow.org/docs/components/training/tftraining/&quot;&gt;&lt;strong&gt;TFJob&lt;/strong&gt;&lt;/a&gt; and
-&lt;a href=&quot;https://www.kubeflow.org/docs/components/training/pytorch/&quot;&gt;&lt;strong&gt;PyTorchJob&lt;/strong&gt;&lt;/a&gt;).&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Many Katib users might have their own CRDs which they want to use as a Trial template.
-Thus, the approach of updating the Katib controller for the new CRD is not scalable.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Some CRDs might have Go packages versions which are incompatible with the Katib controller
-packages. For such cases, it is impossible to build a Katib controller image.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Users have to build and maintain a custom image version for the Katib controller
-if they want to implement a new CRD in Katib.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The above problems led to the creation of a scalable and portable solution for the
-Trial template. This solution allows users to modify Katib components and to add
-their CRDs without changing the Katib controller image.&lt;/p&gt;
-
-&lt;p&gt;Katib now supports Tekton &lt;strong&gt;Pipeline&lt;/strong&gt; and &lt;strong&gt;MPIJob&lt;/strong&gt; in addition to
-&lt;strong&gt;BatchJob&lt;/strong&gt;, &lt;strong&gt;TFJob&lt;/strong&gt; and &lt;strong&gt;PyTorchJob&lt;/strong&gt;. In the case of Tekton &lt;strong&gt;Pipeline&lt;/strong&gt;,
-a user is able to build a complex workflow inside the Trial’s worker job.
-The user also can implement data preprocessing and postprocessing with all of
-the Tekton &lt;strong&gt;Pipeline&lt;/strong&gt; features. Eventually, Katib’s metrics collector parses
-and saves the appropriate metrics from the training processes to the database.&lt;/p&gt;
-
-&lt;h3 id=&quot;support-new-kubernetes-crd-in-katib&quot;&gt;Support new Kubernetes CRD in Katib&lt;/h3&gt;
-
-&lt;p&gt;To support new Kubernetes CRD, Katib components need to be modified before installing in
-the Kubernetes cluster. To make this modification, it is necessary to know:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;what API group, version, and kind the Kubernetes CRD has, and&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;which Kubernetes resources the CRD’s controller creates.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Check the
-&lt;a href=&quot;https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/&quot;&gt;Kubernetes guide&lt;/a&gt;
-to know more about CRDs.&lt;/p&gt;
-
-&lt;p&gt;Follow these two simple steps to integrate new CRD in Katib:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Modify
-the Katib controller &lt;a href=&quot;https://github.com/kubeflow/katib/blob/master/manifests/v1beta1/components/controller/controller.yaml#L26&quot;&gt;Deployment’s arguments&lt;/a&gt;
-with the new flag:&lt;/p&gt;
-
-    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;--trial-resources=&amp;lt;object-kind&amp;gt;.&amp;lt;object-API-version&amp;gt;.&amp;lt;object-API-group&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-
-    &lt;p&gt;For example, to support Tekton &lt;strong&gt;Pipeline&lt;/strong&gt;:&lt;/p&gt;
-
-    &lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s&quot;&gt;. . .&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;containers&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;katib-controller&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;docker.io/kubeflowkatib/katib-controller&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;./katib-controller&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;--webhook-port=8443&quot;&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;--trial-resources=Job.v1.batch&quot;&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;--trial-resources=TFJob.v1.kubeflow.org&quot;&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;--trial-resources=PyTorchJob.v1.kubeflow.org&quot;&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;--trial-resources=MPIJob.v1.kubeflow.org&quot;&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;--trial-resources=PipelineRun.v1beta1.tekton.dev&quot;&lt;/span&gt;
-&lt;span class=&quot;err&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;. . .&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Modify the Katib controller
-&lt;a href=&quot;https://github.com/kubeflow/katib/blob/master/manifests/v1beta1/components/controller/rbac.yaml#L5&quot;&gt;ClusterRole’s rules&lt;/a&gt;
-with the new rule to give Katib an access to all Kubernetes resources that
-are created by the CRD’s controller. To know more about ClusterRole,
-please check the &lt;a href=&quot;https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole&quot;&gt;Kubernetes guide&lt;/a&gt;.&lt;/p&gt;
-
-    &lt;p&gt;For example, for the Tekton &lt;strong&gt;Pipeline&lt;/strong&gt;, Trial creates Tekton &lt;strong&gt;PipelineRun&lt;/strong&gt;,
-then Tekton &lt;strong&gt;PipelineRun&lt;/strong&gt; creates Tekton &lt;strong&gt;TaskRun&lt;/strong&gt;.
-Therefore, Katib controller ClusterRole should have an access to the &lt;em&gt;pipelineruns&lt;/em&gt; and &lt;em&gt;taskruns&lt;/em&gt;:&lt;/p&gt;
-
-    &lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ClusterRole&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;rbac.authorization.k8s.io/v1&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;katib-controller&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;rules&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;apiGroups&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tekton.dev&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;pipelineruns&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;taskruns&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;verbs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&quot;&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;apiGroups&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kubeflow.org&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;tfjobs&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;pytorchjobs&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;mpijobs&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;verbs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&quot;&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;. . .&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Install Katib by following
-&lt;a href=&quot;https://www.kubeflow.org/docs/components/katib/hyperparameter/#installing-katib&quot;&gt;the getting started guide&lt;/a&gt;.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;At this point, the Kubernetes CRD can be used in the Katib Trial template. Check
-&lt;a href=&quot;https://github.com/kubeflow/katib/tree/master/examples/v1beta1/tekton&quot;&gt;this guide&lt;/a&gt;
-to know more about Tekton and Katib integration.&lt;/p&gt;
-
-&lt;h2 id=&quot;early-stopping&quot;&gt;Early Stopping&lt;/h2&gt;
-
-&lt;p&gt;Early Stopping is now supported in the Katib 0.10 release. Early Stopping is one
-of the essential steps for doing HP tuning. It helps to avoid overfitting when
-the model is training during Katib Experiments.&lt;/p&gt;
-
-&lt;p&gt;Using Early Stopping helps to save compute resources and to reduce the
-Experiment execution time by stopping the Experiment’s Trials when the target
-metric(s) no longer improves before the training process is complete.&lt;/p&gt;
-
-&lt;p&gt;The major advantage of using Early Stopping in Katib is that
-&lt;a href=&quot;https://www.kubeflow.org/docs/components/katib/experiment/#packaging-your-training-code-in-a-container-image&quot;&gt;the training container package&lt;/a&gt;
-doesn’t need to be modified. Basically, the Experiment’s YAML has to be extended
-with the new entity - &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;earlyStopping&lt;/code&gt;, which is similar to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;algorithm&lt;/code&gt; YAML section:&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;kubeflow.org/v1beta1&quot;&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Experiment&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;namespace&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kubeflow&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;median-stop&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;algorithm&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;algorithmName&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;random&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;earlyStopping&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;algorithmName&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;medianstop&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;algorithmSettings&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;min_trials_required&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;3&quot;&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;start_step&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;5&quot;&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;objective&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;maximize&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;goal&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.99&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;objectiveMetricName&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Validation-accuracy&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;additionalMetricNames&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Train-accuracy&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;parallelTrialCount&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;2&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;maxTrialCount&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;15&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;maxFailedTrialCount&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;. . .&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Currently, Katib supports the Median Stopping Rule. The Medium Stopping rule
-stops a running Trial at the step &lt;strong&gt;S&lt;/strong&gt; if the Trial’s best objective value is
-lower than the median value of all succeeded Trials’ objectives reported up to
-that step &lt;strong&gt;S&lt;/strong&gt;. Readers interested in learning more about the Median Stopping
-Rule can check the
-&lt;a href=&quot;https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/46180.pdf&quot;&gt;Google Vizier: A Service for Black-Box Optimization&lt;/a&gt;
-paper.&lt;/p&gt;
-
-&lt;p&gt;To know more about using Early Stopping in Katib please follow the
-&lt;a href=&quot;https://www.kubeflow.org/docs/components/katib/early-stopping/&quot;&gt;official guide&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;getting-involved&quot;&gt;Getting Involved&lt;/h2&gt;
-
-&lt;p&gt;First of all, thanks a lot to our contributors
-(&lt;a href=&quot;https://github.com/sperlingxx&quot;&gt;Alfred Xu (Nvidia)&lt;/a&gt;,
-&lt;a href=&quot;https://github.com/andreyvelich&quot;&gt;Andrey Velichkevich (Cisco)&lt;/a&gt;,
-&lt;a href=&quot;https://github.com/akirillov&quot;&gt;Anton Kirillov (Mesosphere)&lt;/a&gt;,
-&lt;a href=&quot;https://github.com/gaocegege&quot;&gt;Ce Gao (Tencent Cloud)&lt;/a&gt;,
-&lt;a href=&quot;https://github.com/ChenjunZou&quot;&gt;Chenjun Zou (Alibaba)&lt;/a&gt;,
-&lt;a href=&quot;https://github.com/eliaskoromilas&quot;&gt;Elias Koromilas (InAccel)&lt;/a&gt;,
-&lt;a href=&quot;https://github.com/xuhdev&quot;&gt;Hong Xu (IBM)&lt;/a&gt;,
-&lt;a href=&quot;https://github.com/johnugeorge&quot;&gt;Johnu George (Cisco)&lt;/a&gt;,
-&lt;a href=&quot;https://github.com/c-bata&quot;&gt;Masashi Shibata&lt;/a&gt;,
-&lt;a href=&quot;https://github.com/vpavlin&quot;&gt;Vaclav Pavlin (Red Hat)&lt;/a&gt;,
-&lt;a href=&quot;https://github.com/PatrickXYS&quot;&gt;Yao Xiao (AWS)&lt;/a&gt;,
-&lt;a href=&quot;https://github.com/terrytangyuan&quot;&gt;Yuan Tang (Ant Group)&lt;/a&gt;) who helped with the
-0.10 release. Our community is growing and we are inviting new users and AutoML
-enthusiasts to contribute to the Katib project. The following links provide
-information about getting involved in the community:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Subscribe
-&lt;a href=&quot;https://calendar.google.com/calendar/u/0/r?cid=ZDQ5bnNpZWZzbmZna2Y5MW8wdThoMmpoazRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&quot;&gt;to the calendar&lt;/a&gt;
-to attend the AutoML WG community meeting.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Check
-&lt;a href=&quot;https://docs.google.com/document/d/1MChKfzrKAeFRtYqypFbMXL6ZIc_OgijjkvbqmwRV-64/edit&quot;&gt;the AutoML WG meeting notes&lt;/a&gt;.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Join
-&lt;a href=&quot;https://kubeflow.slack.com/archives/C018PMV53NW&quot;&gt;the AutoML WG Slack channel&lt;/a&gt;.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Check
-&lt;a href=&quot;https://github.com/kubeflow/katib/blob/master/ADOPTERS.md&quot;&gt;the Katib adopters list&lt;/a&gt;.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Learn more about Katib in
-&lt;a href=&quot;https://github.com/kubeflow/katib/blob/master/docs/presentations.md&quot;&gt;the presentations and demos list&lt;/a&gt;.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Please let us know about the active use-cases, feature requests and questions
-in the AutoML Slack channel or submit a new
-&lt;a href=&quot;https://github.com/kubeflow/katib/issues/new/choose&quot;&gt;GitHub issue&lt;/a&gt;. To know
-more about the new Katib UI or to track the current integration process
-please check &lt;a href=&quot;https://github.com/kubeflow/katib/projects/1&quot;&gt;the GitHub project&lt;/a&gt;.
-We are planning to arrange a webinar and tutorial session for using AutoML in
-Kubeflow soon. Please join the
-&lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss&quot;&gt;kubeflow-discuss mailing list&lt;/a&gt;
-to know more about it.&lt;/p&gt;
-
-&lt;p&gt;Special Thanks to Amit Saha (Cisco), Ce Gao (Tencent Cloud), Johnu George (Cisco),
-Jorge Castro (Arrikto), Josh Bottum (Arrikto) for their help on this blog.&lt;/p&gt;</content><author><name>&lt;a href='https://www.linkedin.com/in/andrey-velichkevich/'&gt;Andrey Velichkevich&lt;/a&gt;</name></author><category term="katib" /><category term="release" /><category term="automl" /><category term="hyperparameter tuning" /><summary type="html">As machine learning (ML) architectures are increasing in complexity, it is becoming important to find the optimal hyperparameters and architecture for ML models. Automated machine learning (AutoML) has become a crucial step in the ML lifecycle. Katib provides AutoML features in Kubeflow in a Kubernetes native way.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;p&gt;When the concept of cloud native and distributed training fuse to elastic training on Kubernetes, it lowers the cost and gives robustness and flexibility. As a team, we are working with PyTorch, Horovod and other communities to propel elastic training. We wish to further introduce our work on elasticity with PS/Worker training mode, optimization for resource and job priority and other topics on cloud native AI.&lt;/p&gt;</content><author><name>&lt;a href='https://www.linkedin.com/in/gaocegege/'&gt;Ce Gao&lt;/a&gt;, &lt;a href='https://www.linkedin.com/in/wang-zhang'&gt;Wang Zhang&lt;/a&gt;</name></author><category term="elastic training" /><category term="operators" /><summary type="html">With increase in the size of dataset and deep learning models, distributed training emerges as the mainstream approach for training neural network models in industry. While it is feasible now to launch a massive distributed training job on Kubernetes with Kubeflow, advanced features like elastic workload and other cost mitigation approaches remain leashed when we talk about deep learning jobs on Kubernetes.</summary></entry></feed>

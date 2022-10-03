@@ -10,13 +10,13 @@ permalink: /kubeflow-user-survey-2022/
 author: "Kubeflow 1.6 Release Team"
 ---
 
-In May 2002, the Kubeflow user survey was open to gather community feedback. The goal of the survey was to understand the adoption of Kubeflow and to gather input on the benefits, gaps, and requirements for machine learning use cases.
+In May 2022, the Kubeflow user survey was opened to gather community feedback. The goal of the survey was to understand the adoption of Kubeflow and to gather input on the benefits, gaps, and requirements for machine learning use cases.
 
 The survey was comprised of 24 questions (multiple choice and freeform). It ran from May 6th to June 7th and received 151 responses. Out of the 151 responses, 91 responses provided optional feedback on how to improve Kubeflow and the Community. In the 2022 survey, we received an increased number of freeform answers, which provided additional insights into users’ needs.
 
 ## Key Takeaways
 
-- 85% of the user deploy more than one Kubeflow component
+- 85% of the users deploy more than one Kubeflow component
 - The top 3 Kubeflow components are Pipelines (89%), Notebooks (75%), and KServe (48%)
 - Data preprocessing and transformations are the most challenging (44%) and time-consuming (73%) steps in the ML lifecycle
 - 59% of the users identify model monitoring as the biggest gap in their ML lifecycle and 32% of the users identify model monitoring as the most challenging
@@ -25,7 +25,7 @@ The survey was comprised of 24 questions (multiple choice and freeform). It ran 
 - The top 5 ML tools used by the Kubeflow users are Tensorflow (66%), Scikit-Learn (61%), PyTorch (60%), Keras (44%), and MLflow (43%)
 - 47% of the users are keeping up with the latest Kubeflow 1.5 release, and 42% are running Kubeflow 1.4
 - Lack of documentation and tutorials are the biggest challenges in Kubeflow adoption
-- Installation and upgrading of Kubeflow are a huge challenge for the users
+- Installation and upgrading of Kubeflow are a challenge for the users
 - Users like to see security issues, especially CVEs in images addressed promptly
 - Namespace isolation is the top feature request from the community
 
@@ -60,7 +60,7 @@ A few of the requests from the community include
 
 ### Installation and Upgrades
 
-One of the top three voted answers to the biggest gap in Kubeflow was Installation (tied with Security). In addition, > 25% of the freeform answers mentioned feedback about the installation process and/or installation tools that users would like to see supported.
+One of the top three voted answers to the biggest gap in Kubeflow was installation (tied with security). In addition, > 25% of the freeform answers mentioned feedback about the installation process and/or installation tools that users would like to see supported.
 
 Users are looking for easier installation with better support to upgrade their Kubeflow components and cluster. 
 
@@ -68,7 +68,7 @@ Users are looking for easier installation with better support to upgrade their K
 
 > “... with the current state of Kubeflow, none of our customers is able to use Kubeflow without extensive modifications, as there are widely gaping security issues and tons of CVEs across all images that need to be patched before going anywhere near production.”
 
-One of the top three voted answers to the biggest gap in Kubeflow was Security (tied with Installation). In addition, 16% of the freeform answers mentioned the need to improve security in Kubeflow, with top concerns being CVEs in images and user isolation.
+One of the top three voted answers to the biggest gap in Kubeflow was security (tied with installation). In addition, 16% of the freeform answers mentioned the need to improve security in Kubeflow, with top concerns being CVEs in images and user isolation.
 
 ![2022 survey biggest gaps](/images/2022-08-19-kubeflow-user-survey-2022/kubeflow-gaps.png)
 

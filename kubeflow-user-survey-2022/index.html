@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Kubeflow User Survey 2022 | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Kubeflow User Survey 2022" />
+<meta name="author" content="Kubeflow 1.6 Release Team" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="In May 2022, the Kubeflow user survey was opened to gather community feedback. The goal of the survey was to understand the adoption of Kubeflow and to gather input on the benefits, gaps, and requirements for machine learning use cases." />
+<meta property="og:description" content="In May 2022, the Kubeflow user survey was opened to gather community feedback. The goal of the survey was to understand the adoption of Kubeflow and to gather input on the benefits, gaps, and requirements for machine learning use cases." />
+<link rel="canonical" href="https://blog.kubeflow.org/kubeflow-user-survey-2022/" />
+<meta property="og:url" content="https://blog.kubeflow.org/kubeflow-user-survey-2022/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-08-19T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/kubeflow-user-survey-2022/","@type":"BlogPosting","headline":"Kubeflow User Survey 2022","dateModified":"2022-08-19T00:00:00-05:00","datePublished":"2022-08-19T00:00:00-05:00","image":"https://blog.kubeflow.org/images/logo.png","author":{"@type":"Person","name":"Kubeflow 1.6 Release Team"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow-user-survey-2022/"},"description":"In May 2022, the Kubeflow user survey was opened to gather community feedback. The goal of the survey was to understand the adoption of Kubeflow and to gather input on the benefits, gaps, and requirements for machine learning use cases.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kubeflow User Survey 2022</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-08-19T00:00:00-05:00" itemprop="datePublished">
+        Aug 19, 2022
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Kubeflow 1.6 Release Team</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      6 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#release">release</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In May 2022, the Kubeflow user survey was opened to gather community feedback. The goal of the survey was to understand the adoption of Kubeflow and to gather input on the benefits, gaps, and requirements for machine learning use cases.</p>
+
+<p>The survey was comprised of 24 questions (multiple choice and freeform). It ran from May 6th to June 7th and received 151 responses. Out of the 151 responses, 91 responses provided optional feedback on how to improve Kubeflow and the Community. In the 2022 survey, we received an increased number of freeform answers, which provided additional insights into users’ needs.</p>
+
+<h2 id="key-takeaways">Key Takeaways</h2>
+
+<ul>
+  <li>85% of the users deploy more than one Kubeflow component</li>
+  <li>The top 3 Kubeflow components are Pipelines (89%), Notebooks (75%), and KServe (48%)</li>
+  <li>Data preprocessing and transformations are the most challenging (44%) and time-consuming (73%) steps in the ML lifecycle</li>
+  <li>59% of the users identify model monitoring as the biggest gap in their ML lifecycle and 32% of the users identify model monitoring as the most challenging</li>
+  <li>44% of the users are running Kubeflow in production</li>
+  <li>90% of the users rely on the Kubeflow community for the latest tutorials</li>
+  <li>The top 5 ML tools used by the Kubeflow users are Tensorflow (66%), Scikit-Learn (61%), PyTorch (60%), Keras (44%), and MLflow (43%)</li>
+  <li>47% of the users are keeping up with the latest Kubeflow 1.5 release, and 42% are running Kubeflow 1.4</li>
+  <li>Lack of documentation and tutorials are the biggest challenges in Kubeflow adoption</li>
+  <li>Installation and upgrading of Kubeflow are a challenge for the users</li>
+  <li>Users like to see security issues, especially CVEs in images addressed promptly</li>
+  <li>Namespace isolation is the top feature request from the community</li>
+</ul>
+
+<h3 id="survey-respondents">Survey Respondents</h3>
+
+<p>The Kubeflow user survey drew responses from 151 members of the community with experience running Kubeflow in production (44%), in the lab (23%), have experience upgrading Kubeflow cluster (18%), contributing to Kubeflow (10%), and just starting (5%).</p>
+
+<p>The majority of the respondents were from the Tech industry (48%), followed by Finance (15%) and Healthcare (8%).</p>
+
+<p>The top job titles were ML Engineers (47%), Architect (26%), and Data Scientist / Analyst (23%).</p>
+
+<p><img src="/images/2022-08-19-kubeflow-user-survey-2022/demographics-industry.png" alt="2022 survey demographics industry graph" /></p>
+
+<p><img src="/images/2022-08-19-kubeflow-user-survey-2022/demographics-title.png" alt="2022 survey demographics title graph" /></p>
+
+<h3 id="documentation-and-tutorials">Documentation and Tutorials</h3>
+
+<p>Lack of documentation and tutorials are the biggest challenges in Kubeflow adoption. With new features and releases of components, the community is seeking better examples and tutorials that would help them adopt the new features.</p>
+
+<p>In addition, many are still finding Kubeflow to be complicated. Users asked for additional clarity on the inner workings of Kubeflow and how to integrate with many other ML components, including other Kubeflow components.</p>
+
+<p>A few of the requests from the community include</p>
+<ul>
+  <li>Up-to-date versioned documentation</li>
+  <li>A hosted playground platform to demo and learn features of Kubeflow</li>
+  <li>Comparison between Kubeflow and other ML tools</li>
+  <li>Tips and knowledge around running Kubeflow in production</li>
+  <li>End-to-end tutorials on how to get the most out of all components that make up Kubeflow release</li>
+  <li>Better example documentation from Kubeflow distributions owners</li>
+  <li>Q&amp;A Forum</li>
+</ul>
+
+<p><img src="/images/2022-08-19-kubeflow-user-survey-2022/documentation-word-cloud.png" alt="2022 survey documentation word cloud" /></p>
+
+<h3 id="installation-and-upgrades">Installation and Upgrades</h3>
+
+<p>One of the top three voted answers to the biggest gap in Kubeflow was installation (tied with security). In addition, &gt; 25% of the freeform answers mentioned feedback about the installation process and/or installation tools that users would like to see supported.</p>
+
+<p>Users are looking for easier installation with better support to upgrade their Kubeflow components and cluster.</p>
+
+<h3 id="security">Security</h3>
+
+<blockquote>
+  <p>“… with the current state of Kubeflow, none of our customers is able to use Kubeflow without extensive modifications, as there are widely gaping security issues and tons of CVEs across all images that need to be patched before going anywhere near production.”</p>
+</blockquote>
+
+<p>One of the top three voted answers to the biggest gap in Kubeflow was security (tied with installation). In addition, 16% of the freeform answers mentioned the need to improve security in Kubeflow, with top concerns being CVEs in images and user isolation.</p>
+
+<p><img src="/images/2022-08-19-kubeflow-user-survey-2022/kubeflow-gaps.png" alt="2022 survey biggest gaps" /></p>
+
+<h3 id="kubernetes-versions">Kubernetes Versions</h3>
+
+<blockquote>
+  <p>“Follow k8s release cycles ahead of time, there must be support for the latest k8s versions before the oldest get officially EOL’d. Note also major changes in 1.25!”</p>
+</blockquote>
+
+<p>The community raised valid concerns about Kubeflow’s lack of support for the latest Kubernetes versions. With Kubernetes 1.21 reaching its end of life on June 28th, 2022, the users found the lack of 1.22 support in the 1.5 release problematic and requested Kubeflow to keep up with the release of its dependencies.</p>
+
+<h3 id="namespace-isolation">Namespace Isolation</h3>
+
+<p>About 15% of the free-from responses contained the word “namespace” in relation to resource isolation that users like to see supported by Kubeflow. Many users are seeking namespaced isolation across various Kubeflow resources, which include pipelines, experiments, artifacts, and metadata.</p>
+
+<p>From all the list of features requested in the survey, namespace isolation is the top request from the community.</p>
+
+<h2 id="comparison-to-2021-user-survey">Comparison to 2021 User Survey</h2>
+
+<h3 id="challenges-with-monitoring">Challenges with Monitoring</h3>
+
+<p>In both 2021 and 2022, Kubeflow users identified that data preprocessing and transformation are the most time-consuming and challenging steps in the machine learning lifecycle. While the top answers stayed the same, there were big changes to the follow-up rankings for the most challenging question.</p>
+
+<p>In 2021, the top 5 challenges were data preprocessing and transformation, pipeline building, feature engineering, hyperparameter tuning, and distributed training.</p>
+
+<p>In 2022, the top 5 challenges were data preprocessing and transformation, feature engineering, model monitoring, distributed training, and pipeline building. The biggest difference from last year is the change in ranking for hyperparameter tuning and seeing model monitoring moving up in the ranks.</p>
+
+<figure>
+  <img src="/images/2022-08-19-kubeflow-user-survey-2022/ml-task-time-consuming-challenging.png" alt="2022 survey - ML tasks time consuming and challenging" style="width:100%" />
+  <figcaption>2022</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/2021-03-11-survey/image8.png" alt="2021 survey - ML tasks time consuming and challenging" style="width:100%" />
+  <figcaption>2021</figcaption>
+</figure>
+
+<p>As users find model monitoring one of the challenges in the machine learning lifecycle, it has also been identified as the biggest gap in users’ ML activities.</p>
+
+<p>In 2021, the biggest gap was identified as connecting data pipelines to ML pipelines. In 2022, the biggest gap was identified as model monitoring. While the top three answers haven’t changed, data shows that monitoring is at the top of the mind of users as they find it to be most challenging and where the biggest gaps exist.</p>
+
+<figure>
+  <img src="/images/2022-08-19-kubeflow-user-survey-2022/gaps-in-ml-activities-and-workflow.png" alt="2022 survey - gaps in ML activities and workflow" style="width:100%" />
+  <figcaption>2022</figcaption>
+</figure>
+
+<figure>
+  <img src="/images/2021-03-11-survey/image9.png" alt="2021 survey - gaps in ML activities and workflow" style="width:100%" />
+  <figcaption>2021</figcaption>
+</figure>
+
+<h2 id="full-survey-results">Full Survey Results</h2>
+
+<p>Full survey results can be found in the <a href="https://groups.google.com/u/2/g/kubeflow-discuss/c/UXNmOWNmu1k">initial survey results</a> and in the <a href="https://docs.google.com/document/d/1TKI-KR4oopm0G6oIMwUUJ_z6ox5BE6fnjSbEUoisnLE/edit#heading=h.e8zqwmv6lumd">summary of the free-from answers</a>.</p>
+
+<h2 id="whats-next">What’s Next?</h2>
+
+<p>Survey results will be discussed with the Kubeflow community during the Kubeflow summit in October. More details about the summit will be shared via the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list. Join the mailing list to keep up to date with Kubeflow summit news.</p>
+
+<h2 id="join-the-community">Join the Community</h2>
+
+<p>We would like to thank everyone for their participation in the survey. As you can see from the survey results, the Kubeflow Community is vibrant and diverse, solving real-world problems for organizations worldwide.</p>
+
+<p>Want to help? The Kubeflow Community Working Groups hold open meetings and are always looking for more volunteers and users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below. We look forward to working with you!</p>
+
+<ul>
+  <li>Visit our <a href="https://www.kubeflow.org/">Kubeflow website</a> or <a href="https://github.com/kubeflow">Kubeflow GitHub Page</a></li>
+  <li>Join the <a href="https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg">Kubeflow Slack</a> workspace</li>
+  <li>Join the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list</li>
+  <li>Attend a <a href="https://www.kubeflow.org/docs/about/community/">weekly community meeting</a></li>
+</ul>
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/kubeflow-user-survey-2022/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

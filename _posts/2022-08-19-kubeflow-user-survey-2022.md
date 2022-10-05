@@ -17,7 +17,7 @@ The survey was comprised of 24 questions (multiple choice and freeform). It ran 
 ## Key Takeaways
 
 - 85% of the users deploy more than one Kubeflow component
-- The top 3 Kubeflow components are Pipelines (89%), Notebooks (75%), and KServe (48%)
+- The top 3 Kubeflow components are Pipelines (89%), KServe(Formally KFServing) (81%), Notebooks (75%).
 - Data preprocessing and transformations are the most challenging (44%) and time-consuming (73%) steps in the ML lifecycle
 - 59% of the users identify model monitoring as the biggest gap in their ML lifecycle and 32% of the users identify model monitoring as the most challenging
 - 44% of the users are running Kubeflow in production

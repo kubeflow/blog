@@ -27,7 +27,7 @@ Kubeflow’s powerful development experience helps data scientists all around th
 
 **Project History**
 
-In May 2020, with the [v1.0](https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html) release, Kubeflow reached maturity across a core set of its stable applications. During that year, we also graduated Kubeflow Serving as an independent project,[ KServe](https://github.com/kserve/kserve), which now, is incubating in [Linux Foundation AI & Data](https://lfaidata.foundation/). 
+In May 2020, with the [v1.0](https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html) release, Kubeflow reached maturity across a core set of its stable applications. In 2022, we also graduated Kubeflow Serving as an independent project,[ KServe](https://github.com/kserve/kserve), which now, is incubating in [Linux Foundation AI & Data](https://lfaidata.foundation/). 
 
 The [six releases](https://www.kubeflow.org/docs/releases/) since v1.0 have truly been a community effort. The community, collaborating together in [16 Working Groups](https://www.kubeflow.org/docs/about/community/#kubeflow-working-groups), brought to project a number of key improvements in ML workflow simplicity, resource efficiency, security, and tooling. The wider Kubeflow ecosystem has also added 10 Kubeflow distributions across multiple Cloud and on-prem environments.
 

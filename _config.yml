@@ -41,7 +41,6 @@ minima:
   social_links:
     twitter: kubeflow
     github: kubeflow
-
 # Set this to true to get LaTeX math equation support
 use_math: 
 
@@ -97,7 +96,7 @@ plugins:
 paginate: 15
 paginate_path: /page:num/
 
-remote_theme: jekyll/minima
+remote_theme: jekyll/minima@0e58c18c1f943731e76bdbd681a7748c0b36340c
 
 titles_from_headings:
   enabled:     true

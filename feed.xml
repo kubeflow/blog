@@ -1,4 +1,176 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2022-10-24T11:49:20-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow has applied to become a CNCF incubating project</title><link href="https://blog.kubeflow.org/kubeflow-applied-cncf-incubating/" rel="alternate" type="text/html" title="Kubeflow has applied to become a CNCF incubating project" /><published>2022-10-24T00:00:00-05:00</published><updated>2022-10-24T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-applied-cncf-incubating</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-applied-cncf-incubating/">&lt;p&gt;With support from the Kubeflow Project Steering Group, Google has just &lt;a href=&quot;https://opensource.googleblog.com/2022/10/kubeflow-applies-to-become-a-cncf-incubating-project.html&quot;&gt;announced&lt;/a&gt; the application for Kubeflow to become an incubating project in the Cloud Native Computing Foundation (CNCF).&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2023-03-30T11:22:26-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow v1.7 simplifies Kubernetes native MLOps via enhanced UI, Katib Tuning API and new training frameworks</title><link href="https://blog.kubeflow.org/kubeflow-1.7-release/" rel="alternate" type="text/html" title="Kubeflow v1.7 simplifies Kubernetes native MLOps via enhanced UI, Katib Tuning API and new training frameworks" /><published>2023-03-29T00:00:00-05:00</published><updated>2023-03-29T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.7-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.7-release/">&lt;p&gt;Kubeflow v1.7 users are capitalizing on their python knowledge to build seamless workflows without the need of Kubernetes CLI commands and without building container images for each iteration. With new UIs in multiple components, developers can correlate configuration parameters with logs which allow them to quickly analyze the results. When coupled with Kubeflow’s pythonic workflows and Kubernetes operating efficiencies, these enhancements save model developers material amounts of time and toil.&lt;/p&gt;
+
+&lt;p&gt;This release includes hundreds of new commits, and the following sections provide details on the top features. You will also find updates on platform dependencies, changelogs, breaking changes, ecosystem partners, the new Security Team and Kubeflow’s transition to the CNCF. We encourage active users to contribute to our next release, and provide links to join the community at the end.&lt;/p&gt;
+
+&lt;h2 id=&quot;selected-and-highlighted-deliveries&quot;&gt;Selected and Highlighted deliveries&lt;/h2&gt;
+
+&lt;h3 id=&quot;katib&quot;&gt;Katib&lt;/h3&gt;
+
+&lt;p&gt;Katib includes new enhancements to the UI and SDK. The new Katib UI provides simplified fine-grained configuration and log correlation. Additionally sorting and filtering have been added, allowing a more organized view of your many experiments. In addition, these features minimize the necessity of manually employing low-level commands to locate and correlate logs with hyperparameter experiment configurations. This simplifies the process of in-depth performance analysis and subsequent iterations of model parameters.&lt;/p&gt;
+
+&lt;p&gt;In 1.7, the Katib SDK provides new features including a Tune API and the ability to retreive trial metrics from the Katib database. Model developers or data scientists can execute the Tune API to start a HyperParameter Experiment without any knowledge of underlying systems e.g. Kubernetes, Docker. It automatically converts user training scripts to a Katib Experiment. The Katib changelog provides details on over 100 updates and bug fixes including these SDK and UI top features:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Narrow down Katib RBAC rules (&lt;a href=&quot;https://github.com/kubeflow/katib/pull/2091&quot;&gt;#2091&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;Support Postgres as a Katib DB (&lt;a href=&quot;https://github.com/kubeflow/katib/pull/1921&quot;&gt;#1921&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;[SDK] Create Tune API in the Katib SDK (&lt;a href=&quot;https://github.com/kubeflow/katib/pull/1951&quot;&gt;#1951&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;[SDK] Get Trial Metrics from Katib DB (&lt;a href=&quot;https://github.com/kubeflow/katib/pull/2050&quot;&gt;#2050&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;More Suggestion container fields in Katib Config (&lt;a href=&quot;https://github.com/kubeflow/katib/pull/2000&quot;&gt;#2000&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;Katib UI: Enable pagination/sorting/filtering (&lt;a href=&quot;https://github.com/kubeflow/katib/pull/2017&quot;&gt;#2017&lt;/a&gt; and &lt;a href=&quot;https://github.com/kubeflow/katib/pull/2040&quot;&gt;#2040&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;Katib UI: Add authorization mechanisms (&lt;a href=&quot;https://github.com/kubeflow/katib/pull/1983&quot;&gt;#1983&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;training-operator&quot;&gt;Training operator&lt;/h3&gt;
+
+&lt;p&gt;Kubeflow’s unified distributed training operator enhancements include configuration options for fine tuned resource scaling (processor, memory, storage). It now includes HPA support for Pytorch Elastic workloads where users can specify target metric/utilization in Job Spec. This is used for automatic scale up/down of Pytorch Job matching demand while ensuring the elastic policy configured by the user. These enhancements simplify user workflows significantly and reduce operational toil and costs. The Job Spec is flexible and supports multiple scheduler types: Kubernetes, volcano, custom. Major 1.7 training operator features include:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;PodGroup enhancements(&lt;a href=&quot;https://github.com/kubeflow/training-operator/issues/1574&quot;&gt;#1574&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;Integration with other training frameworks - Paddlepaddle(&lt;a href=&quot;https://github.com/kubeflow/community/issues/520&quot;&gt;#520&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;Enhancements on Pytorch Elastic training (&lt;a href=&quot;https://github.com/kubeflow/training-operator/issues/1645&quot;&gt;#1645&lt;/a&gt;, &lt;a href=&quot;https://github.com/kubeflow/training-operator/issues/1626&quot;&gt;#1626&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;Support coscheduling plugin (&lt;a href=&quot;https://github.com/kubeflow/training-operator/issues/1722&quot;&gt;#1722&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;[SDK] Create Unify Training Client(&lt;a href=&quot;https://github.com/kubeflow/training-operator/pull/1719&quot;&gt;#1719&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;pipelines&quot;&gt;Pipelines&lt;/h3&gt;
+
+&lt;p&gt;In Kubeflow 1.7, the Pipelines Working Group (KFP) has continued its efforts towards KFP v2 with their latest 2.0.0-alpha.7 release. This release includes the following key enhancements:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Pipelines as components: Pipelines can themselves be used as components in other pipelines, just as you would use any other single-step component in a pipeline. (&lt;a href=&quot;https://github.com/kubeflow/pipelines/pull/8179&quot;&gt;#8179&lt;/a&gt;, &lt;a href=&quot;https://github.com/kubeflow/pipelines/pull/8204&quot;&gt;#8204&lt;/a&gt;, &lt;a href=&quot;https://github.com/kubeflow/pipelines/pull/8209&quot;&gt;#8209&lt;/a&gt;, &lt;a href=&quot;https://github.com/kubeflow/pipelines/pull/8220&quot;&gt;#8220&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;Sub-DAG visualization that allows pipeline users to dive deep into sub-graph components of their pipeline. (&lt;a href=&quot;https://github.com/kubeflow/pipelines/pull/8326&quot;&gt;#8326&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;Miscellaneous bug and vulnerability fixes.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Model developers recognize the time-saving pythonic workflows in Kubeflow Pipelines, which speed iteration by not requiring the generation of new images for pre-prod experimentation. The new V2 UI and SDK in Kubeflow 1.7 provide valuable details on each pipeline step. This simplifies the correlation and analysis of parameters, metadata and artifacts during iteration.&lt;/p&gt;
+
+&lt;h3 id=&quot;kubeflow-web-apps-notebooks-volumes-tensorboards-and-controllers&quot;&gt;Kubeflow web apps (Notebooks, Volumes, TensorBoards) and Controllers&lt;/h3&gt;
+
+&lt;p&gt;Kubeflow 1.7 delivers new web apps enhancements that expose more information to the end users and improve their UI interactions.&lt;/p&gt;
+
+&lt;p&gt;A valuable new delivery is that all of the main tables have filtering &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6754&quot;&gt;#6754&lt;/a&gt; and sorting &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6742&quot;&gt;#6742&lt;/a&gt; functionalities as well as showing objects from all namespaces at once &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6778&quot;&gt;#6778&lt;/a&gt;. This allows the end users to navigate through their tools and apps (notebooks, tensorboards, volumes etc) more efficiently.&lt;/p&gt;
+
+&lt;p&gt;Additionally, 1.7 provides an update to the Notebooks form page &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6826&quot;&gt;#6826&lt;/a&gt; as well as a dedicated page &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6769&quot;&gt;#6769&lt;/a&gt; &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6788&quot;&gt;#6788&lt;/a&gt; for the different types of tools managed by Kubeflow. These detailed pages allow users to view logs, events and configuration yamls and they also link from one another (i.e. going to a volume’s details page via a notebook details page). Previously these functions were only available through the Kubernetes API, which would require the user to have increased privileges and to have a more in-depth knowledge of Kubernetes CLI commands. With these new features the user has a simpler, more organized and more secure way of accessing crucial Kubeflow resource information.&lt;/p&gt;
+
+&lt;p&gt;Other notable features are small improvements on our user stories around PodDefaults. Aside from additional use-cases, like defining sidecar and init containers &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6749&quot;&gt;#6749&lt;/a&gt;, Kubeflow’s TensorBoard stack now integrates with PodDefaults &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6874&quot;&gt;#6874&lt;/a&gt; &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6924&quot;&gt;#6924&lt;/a&gt;. These enhancements enable the re-use of the user’s existing PodDefaults to gain S3 access from both Notebook and TensorBoard servers.&lt;/p&gt;
+
+&lt;h3 id=&quot;platform-dependencies-breaking-changes-add-ons&quot;&gt;Platform dependencies, breaking changes, add-ons&lt;/h3&gt;
+
+&lt;p&gt;Kubeflow 1.7 includes hundreds of commits. The Kubeflow release process includes several rounds of testing by the Kubeflow working groups and Kubeflow distributions. Kubeflow’s configuration options provide a high degree of flexibility. After considering all of the testing options, the 1.7 Release Team narrowed the critical dependencies for consistent testing and documentation to the following.&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;table&gt;
+ &lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;K8s&lt;/strong&gt;
+&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Istio&lt;/strong&gt;
+&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;KNative&lt;/strong&gt;
+&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Kustomize&lt;/strong&gt;
+&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Cert Mgr&lt;/strong&gt;
+&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;DEX&lt;/strong&gt;
+&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Argo&lt;/strong&gt;
+&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Tekton&lt;/strong&gt;
+&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Oidc-authservice&lt;/strong&gt;
+&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+&lt;td&gt;1.25 / 1.24
+&lt;/td&gt;
+&lt;td&gt;1.16
+&lt;/td&gt;
+&lt;td&gt;1.8.1
+&lt;/td&gt;
+&lt;td&gt;3.2 or 5.0
+&lt;/td&gt;
+&lt;td&gt;1.10.1
+&lt;/td&gt;
+&lt;td&gt;2.31.2
+&lt;/td&gt;
+&lt;td&gt;3.3.8
+&lt;/td&gt;
+&lt;td&gt;1.5
+&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;e236439&lt;/code&gt;
+&lt;/td&gt;
+ &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Another valuable platform enhancement is the support of additional processor architectures including IBM’s Power (&lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/6684&quot;&gt;#6684&lt;/a&gt;). This effort provides the foundation to add other processor types as well.&lt;/p&gt;
+
+&lt;p&gt;The 1.7 documentation includes overall &lt;a href=&quot;https://github.com/kubeflow/manifests#kubeflow-manifests&quot;&gt;installation instructions&lt;/a&gt; from the Manifest Working Group, and detailed feature reviews from each Kubeflow working group. Most of the working groups have broken their changelogs into subsections that highlight core features, UI enhancements, miscellaneous updates, bug fixes and breaking changes.&lt;/p&gt;
+
+&lt;p&gt;Working Group Changelogs including breaking changes&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/kubeflow/releases&quot;&gt;Notebooks&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/training-operator/blob/master/CHANGELOG.md&quot;&gt;Training Operator&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/katib/blob/master/CHANGELOG.md&quot;&gt;Katib&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/pipelines/blob/master/CHANGELOG.md&quot;&gt;Pipelines&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kserve/kserve/releases/&quot;&gt;KServe&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The community has continued its work to identify core components and add-ons. Significant enhancements in add-ons include the continued integration with KServe’s v.10 release, as well as a new serving option from BentoML. The BentoML team has done a tremendous job in supporting the Kubeflow community in 1.7 and their documentation is excellent. Details on BentoML are available &lt;a href=&quot;https://modelserving.com/blog/streamline-production-ml-with-bentoml-and-kubeflow&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;whats-next&quot;&gt;What’s next&lt;/h2&gt;
+
+&lt;p&gt;The community continues to see a large increase in activity since the &lt;a href=&quot;https://blog.kubeflow.org/kubeflow-applied-cncf-incubating/&quot;&gt;announcement&lt;/a&gt; that Kubeflow will be donated to the CNCF by Google. The community holds regular meetings to review progress on the checklist items needed for the CNCF due diligence (&lt;a href=&quot;https://docs.google.com/document/d/1HXAl6ew5ZUgQaAnEHS1qEPxA5puUz2knUwXOZHU39sA/edit?userstoinvite=mchmarny@google.com&amp;amp;actionButton=1&quot;&gt;meeting notes&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;During the 1.7 release cycle, the community formed a Security Team, which is working to improve the security profile of Kubeflow components and their dependencies. The Security Team has completed these three deliveries:&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Set-up a github directory, slack channel and regular meeting schedule with &lt;a href=&quot;https://docs.google.com/document/d/10_uYpaFWvY2NyqGBPd0dbTt1RumX8MedNcGzKSdtSOY/edit?pli=1#&quot;&gt;notes&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Created an &lt;a href=&quot;https://github.com/kubeflow/manifests/blob/v1.7-branch/docs/kf_images.txt&quot;&gt;inventory&lt;/a&gt; of container images used by Kubeflow&lt;/li&gt;
+  &lt;li&gt;Created a list of common vulnerabilities and errors (CVEs) in the container images.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;Going forward, the Security Team will work to develop on-going policies and to remedy security issues. For example, fixing CVEs is an on-going maintenance requirement and this function is currently provided by Kubeflow distribution providers as a value added delivery. Some distributions and end-users are working to fix CVEs in the upstream projects and the Security Team is looking for help on defining and delivering those deliveries and expectations.&lt;/p&gt;
+
+&lt;p&gt;The Kubeflow team is working on integration efforts with the Ray and MLflow communities.The Ray integration progress has moved closer to user testing and users can find more information on this &lt;a href=&quot;https://github.com/kubeflow/manifests/pull/2383&quot;&gt;tracking issue&lt;/a&gt;. The MLflow integration is progressing and its integration is tracked &lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/6647&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-get-started-with-17&quot;&gt;How to get started with 1.7&lt;/h2&gt;
+
+&lt;p&gt;For trying out Kubeflow 1.7 we recommend our &lt;a href=&quot;https://www.kubeflow.org/docs/started/installing-kubeflow/&quot;&gt;installation page&lt;/a&gt; where you can choose between a selection of Kubeflow distributions. For more advanced users we recommend the manifest &lt;a href=&quot;https://github.com/kubeflow/manifests#installation&quot;&gt;installation guide&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;join-the-community&quot;&gt;Join the Community&lt;/h2&gt;
+
+&lt;p&gt;We would like to thank everyone for their contribution to Kubeflow 1.7, especially Dominik Fleischmann for his work as the v1.7 Release Manager. As you can see, the Kubeflow community is vibrant and diverse, solving real-world problems for organizations worldwide.&lt;/p&gt;
+
+&lt;p&gt;Want to help? The Kubeflow community &lt;a href=&quot;https://github.com/kubeflow/community/blob/master/wg-list.md&quot;&gt;Working Groups&lt;/a&gt; hold open meetings and are always looking for more volunteers and users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below. We look forward to working with you!&lt;/p&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Visit our &lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;Kubeflow website&lt;/a&gt; or &lt;a href=&quot;https://github.com/kubeflow&quot;&gt;Kubeflow GitHub Page&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Join the &lt;a href=&quot;https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg&quot;&gt;Kubeflow Slack channel&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Join the &lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss&quot;&gt;kubeflow-discuss&lt;/a&gt; mailing list&lt;/li&gt;
+  &lt;li&gt;Attend a &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;weekly community meeting&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Kubeflow 1.7 Release Team</name></author><category term="release" /><summary type="html">Kubeflow v1.7 users are capitalizing on their python knowledge to build seamless workflows without the need of Kubernetes CLI commands and without building container images for each iteration. With new UIs in multiple components, developers can correlate configuration parameters with logs which allow them to quickly analyze the results. When coupled with Kubeflow’s pythonic workflows and Kubernetes operating efficiencies, these enhancements save model developers material amounts of time and toil.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Kubeflow has applied to become a CNCF incubating project</title><link href="https://blog.kubeflow.org/kubeflow-applied-cncf-incubating/" rel="alternate" type="text/html" title="Kubeflow has applied to become a CNCF incubating project" /><published>2022-10-24T00:00:00-05:00</published><updated>2022-10-24T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-applied-cncf-incubating</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-applied-cncf-incubating/">&lt;p&gt;With support from the Kubeflow Project Steering Group, Google has just &lt;a href=&quot;https://opensource.googleblog.com/2022/10/kubeflow-applies-to-become-a-cncf-incubating-project.html&quot;&gt;announced&lt;/a&gt; the application for Kubeflow to become an incubating project in the Cloud Native Computing Foundation (CNCF).&lt;/p&gt;
 
 &lt;p&gt;We in the &lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;Kubeflow&lt;/a&gt; community are excited about how far the project has come since &lt;a href=&quot;https://kubernetes.io/blog/2017/12/introducing-kubeflow-composable/&quot;&gt;its inception&lt;/a&gt; in 2017, and are blown away by the diverse community of contributors and users we have built together. Today, Kubeflow has close to 200 contributors from over 30 organizations. Over the past five years, the project has seen almost 20,000 &lt;a href=&quot;https://github.com/kubeflow&quot;&gt;GitHub&lt;/a&gt; stars, tens of thousands of commits, and hosted several user and contributor gatherings across the world.&lt;/p&gt;
 
@@ -1154,166 +1326,4 @@ This blog will address how those challenges were overcome while retaining the be
   &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=EWyNbBn1vns&quot;&gt;Stitching a Service Mesh Across Hundreds of Discrete Networks&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://istio.io/latest/blog/2020/multi-cluster-mesh-automation/&quot;&gt;Multicluster Istio configuration and service discovery using Admiral&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://medium.com/intuit-engineering/genius-of-admiral-3307e63e3ab6&quot;&gt;Genius of Admiral&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>&lt;a href='https://www.linkedin.com/in/deepk2u/'&gt;Deepak Kumar&lt;/a&gt;</name></author><category term="kubeflow" /><category term="kubeflow 1.3" /><category term="install kubeflow" /><category term="kubeflow pipelines" /><category term="intuit" /><category term="istio" /><category term="service mesh" /><category term="argo" /><summary type="html">Deploying Kubeflow 1.3 in an enterprise with existing Kubernetes infrastructure, a Service Mesh (Istio), and Argo, presents a host of challenges. This blog will address how those challenges were overcome while retaining the best practices that both the organization and Kubeflow prescribe.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The Kubeflow 1.3 software release streamlines ML workflows and simplifies ML platform operations</title><link href="https://blog.kubeflow.org/kubeflow-1.3-release/" rel="alternate" type="text/html" title="The Kubeflow 1.3 software release streamlines ML workflows and simplifies ML platform operations" /><published>2021-04-23T00:00:00-05:00</published><updated>2021-04-23T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.3-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.3-release/">&lt;p&gt;The Kubeflow 1.3 release delivers simplified ML workflows and additional Kubernetes integrated features to optimize operational and infrastructure efficiencies. 
-In addition to new User Interfaces (UIs), which improve ML workflows for pipeline building, model tuning, serving and monitoring, 1.3 also enables “headless” GitOps-inspired installation patterns.
-The latest version of Kubeflow provides users with a mature foundation and delivers a modern ML platform with best-in-class Key Performance Indicators (KPIs).&lt;/p&gt;
-
-&lt;p&gt;The Kubeflow user community is growing quickly, which was demonstrated in our recent survey results.  When compared to &lt;a href=&quot;https://www.youtube.com/watch?v=4228OEenuGc&quot;&gt;last year’s survey&lt;/a&gt;, the &lt;a href=&quot;https://blog.kubeflow.org/kubeflow-continues-to-move-to-production&quot;&gt;2021 Survey&lt;/a&gt; showed a 50% increase in responses and a whopping 300% increase in users supporting production deployments.   As shown below, the user survey responses, especially from ML engineers, architects and data scientists, have identified where the Kubeflow contributors should focus their efforts.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://blog.kubeflow.org/kubeflow-continues-to-move-to-production#using-kubeflow-goes-beyond-just-training&quot;&gt;Kubeflow User Survey Results&lt;/a&gt; - March 2021&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/2021-04-23-kubeflow-1.3/image1.png&quot; alt=&quot;survey_results&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;streamlined-ml-workflows-delivered-via-new-uis&quot;&gt;Streamlined ML workflows delivered via new UIs&lt;/h2&gt;
-
-&lt;p&gt;Data scientists will like the new and updated user interfaces (UIs) for Katib, TensorBoard, Persistent Volumes, Pipelines and Kale. These new UIs address many of the ML tasks that are time consuming and technically challenging. The UIs reduce the need for a data scientist to learn kfctl or docker CLI commands.&lt;/p&gt;
-
-&lt;p&gt;Below please find details on the UIs’ benefits for ML workflows:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Katib (&lt;a href=&quot;https://www.youtube.com/watch?v=VDINH5WkBhA&quot;&gt;Video Tour&lt;/a&gt;)
-    &lt;ul&gt;
-      &lt;li&gt;The Katib UI is integrated with the central dashboard and streamlines hyperparameter tuning by presenting a visualization graph and a table that compares each trial’s performance along with its hyperparameters. You can also review the details of each trial’s algorithm, metrics collector and yaml. (Project &lt;a href=&quot;https://github.com/kubeflow/katib/projects/1&quot;&gt;1&lt;/a&gt;)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;TensorBoard (&lt;a href=&quot;https://www.youtube.com/watch?v=eMDF2Bk8YRY&quot;&gt;Video tour&lt;/a&gt;)
-    &lt;ul&gt;
-      &lt;li&gt;The TensorBoard UI streamlines the TensorBoard configuration tasks, especially for logging of training jobs which are running in Notebooks or Pipelines. It simplifies accessibility to metrics, which helps you to improve model accuracy , identify performance bottlenecks, and reduce unproductive training jobs.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Volume Manager (&lt;a href=&quot;https://www.youtube.com/watch?v=jU2DtSWahdA&quot;&gt;Video tour&lt;/a&gt;)
-    &lt;ul&gt;
-      &lt;li&gt;The Volume Manager enables you to manage your data and persistent volumes. For the volumes in your namespace, it streamlines the creation and deletion of volumes, which then can be easily attached to your notebooks. PR &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/5684&quot;&gt;5684&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Kale (&lt;a href=&quot;https://www.youtube.com/watch?v=ANBkUySirGg&quot;&gt;Video tour&lt;/a&gt;)
-    &lt;ul&gt;
-      &lt;li&gt;The updated Kale UI, a JupyterLab extension, simplifies your hyperparameter tuning trial set-up. The UI walks you through these steps: enter your hyperparameters as a list or a range, pick your search algorithm (Grid, Random, Bayesian) and the parameter to be optimized i.e. minimize loss. Then with a click of a button, your Katib trials are set-up, snapshotted, tracked, and run.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Kubeflow Pipelines (KFP)
-    &lt;ul&gt;
-      &lt;li&gt;The KFP UI has been reorganized for a more unified experience (PR &lt;a href=&quot;https://github.com/kubeflow/pipelines/pull/4925&quot;&gt;4925&lt;/a&gt;), and includes the ability to manage recurring runs via new “JobsList” and “AllJobslist” pages (PR &lt;a href=&quot;https://github.com/kubeflow/pipelines/pull/5131&quot;&gt;5131&lt;/a&gt;) and simplified view of dependency graphs.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Beyond the UIs, data scientists can also tie Notebooks with Serving more closely than ever before. In addition to the aforementioned integration with TensorBoard, Kubeflow Notebooks also now support first class deployments with TensorFlow 2.0, PyTorch, VS Code and RStudio.&lt;/p&gt;
-
-&lt;p&gt;KFServing enhancements include simplified canary rollouts with traffic splitting at the Knative revisions level. It also delivers extended ML framework support for:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;TorchServe predict and PyTorch Captum Explain&lt;/li&gt;
-  &lt;li&gt;PMMLServer, PR &lt;a href=&quot;https://github.com/kubeflow/kfserving/pull/1141&quot;&gt;1141&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;LightGBM&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;infrastructure-and-operational-efficiencies&quot;&gt;Infrastructure and operational efficiencies&lt;/h2&gt;
-
-&lt;p&gt;ML engineers will like 1.3’s delivery of operational and infrastructure efficiencies, which are coupled with streamlined installation patterns and upgraded Istio version support. The following chart provides a summary of the top production features in 1.3.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;tr&gt;
-   &lt;td&gt;&lt;strong&gt;Feature&lt;/strong&gt;
-   &lt;/td&gt;
-   &lt;td&gt;&lt;strong&gt;Benefits&lt;/strong&gt;
-   &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;&lt;a href=&quot;https://github.com/yuzliu/kfserving/blob/master/docs/MULTIMODELSERVING_GUIDE.md&quot;&gt;Multi-model serving&lt;/a&gt; (Alpha)
-   &lt;/td&gt;
-   &lt;td&gt;More models on same infra and workaround cluster limits        i.e. # of pods &amp;amp; ip addresses
-   &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Pod affinity
-   &lt;/td&gt;
-   &lt;td&gt;Avoid unnecessary usage on GPU or large CPU nodes
-   &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;gRPC support 
-   &lt;/td&gt;
-   &lt;td&gt;Fewer messages, less bandwidth for KFServing workloads
-   &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Katib trial templates
-   &lt;/td&gt;
-   &lt;td&gt;Simplifies hyperparameter tuning set-up for custom model types
-   &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Katib early stopping
-   &lt;/td&gt;
-   &lt;td&gt;Stops hyperparameter tuning trials that are unproductive 
-   &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Pipelines step caching
-   &lt;/td&gt;
-   &lt;td&gt;Re-use results from previously run steps
-   &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Multi-user pipelines
-   &lt;/td&gt;
-   &lt;td&gt;User and resource isolation for non-GCP environments.
-   &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Manifests refactoring
-   &lt;/td&gt;
-   &lt;td&gt;Simplifies Kubeflow installation and upgrades
-   &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td&gt;Istio upgradability
-   &lt;/td&gt;
-   &lt;td&gt;Improved security, day 2 operations, compatibility and support
-   &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;
-
-&lt;p&gt;We are pleased to announce that the user documentation on Kubeflow.org has also been updated (PR &lt;a href=&quot;https://github.com/kubeflow/website/issues/2546&quot;&gt;2546&lt;/a&gt;). Additional detailed documentation, especially on the valuable working group deliveries, can be found here:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Kubeflow Pipeline 1.3 Project (PR &lt;a href=&quot;https://github.com/kubeflow/pipelines/projects/12&quot;&gt;12&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.kubeflow.org/docs/components/pipelines/sdk/pipelines-with-tekton/&quot;&gt;Kubeflow Pipelines SDK with Tekton&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://blog.kubeflow.org/release/official/2021/03/08/kfserving-0.5.html&quot;&gt;Operationalize, scale and infuse trust in AI models using KFServing&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://blog.kubeflow.org/katib/&quot;&gt;Kubeflow Katib: Scalable, portable and cloud native system for AutoML&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;simplified-installation-and-improved-documentation&quot;&gt;Simplified installation and improved documentation&lt;/h2&gt;
-
-&lt;p&gt;ML Engineers, who are installing Kubeflow, have a clear path to installation success as Kubeflow 1.3 includes new manifests and upgraded Istio support. For more information on installation patterns for each distribution, please visit the &lt;a href=&quot;https://www.kubeflow.org/docs/started/installing-kubeflow/&quot;&gt;Getting Started&lt;/a&gt; page on Kubeflow.org. If you are supporting a distribution or just interested in low-level details, please review the Kubeflow 1.3 Manifest &lt;a href=&quot;https://github.com/kubeflow/manifests/tree/v1.3.0-rc.0#readme&quot;&gt;readme&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;kubeflow-13-tutorials&quot;&gt;Kubeflow 1.3 tutorials&lt;/h2&gt;
-
-&lt;p&gt;Kubeflow 1.3 new features are easy to try on these tutorials:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Open Vaccine &lt;a href=&quot;https://arrik.to/democ2p&quot;&gt;Tutorial&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;Use the new UIs to build an ML Pipeline, tune your model, and then deploy and monitor it. This tensorflow-based example was modified from a Kaggle tutorial for building a Covid 19 vaccine from bases in an mRNA molecule. The tutorial is easy to run on AWS and GCP in about 1 hour.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Model Risk Management &lt;a href=&quot;https://www.fairly.ai/tutorial-kubeflow&quot;&gt;Tutorial&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;This model produces a SR11-7 compliance report for financial institutions who are regulated by the Federal Reserve. The example provides reporting on bias in a home mortgage lending model. The tutorial is easy to run on AWS and GCP in about 1 hour.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;join-the-community&quot;&gt;Join the community&lt;/h2&gt;
-
-&lt;p&gt;We would like to thank everyone for their efforts on Kubeflow 1.3, especially the code contributors and working group leads. As you can see from the extensive contributions to Kubeflow 1.3, the Kubeflow Community is vibrant and diverse, and solving real world problems for organizations around the world.&lt;/p&gt;
-
-&lt;p&gt;Want to help? The Kubeflow Community &lt;a href=&quot;https://github.com/kubeflow/community/blob/master/wg-list.md&quot;&gt;Working Groups&lt;/a&gt; hold open meetings, public lists, and are always looking for more volunteers and users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below, we look forward to working with you!&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Visit our&lt;a href=&quot;https://www.kubeflow.org/&quot;&gt; Kubeflow website&lt;/a&gt; or&lt;a href=&quot;https://github.com/kubeflow&quot;&gt; Kubeflow GitHub Page&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Join the&lt;a href=&quot;https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg&quot;&gt; Kubeflow Slack channel&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Join the&lt;a href=&quot;https://groups.google.com/forum/#!forum/kubeflow-discuss&quot;&gt; kubeflow-discuss&lt;/a&gt; mailing list&lt;/li&gt;
-  &lt;li&gt;Attend a&lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt; weekly community meeting&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Josh Bottum, Thea Lamkin, David Aronchick</name></author><category term="release" /><summary type="html">The Kubeflow 1.3 release delivers simplified ML workflows and additional Kubernetes integrated features to optimize operational and infrastructure efficiencies. In addition to new User Interfaces (UIs), which improve ML workflows for pipeline building, model tuning, serving and monitoring, 1.3 also enables “headless” GitOps-inspired installation patterns. The latest version of Kubeflow provides users with a mature foundation and delivers a modern ML platform with best-in-class Key Performance Indicators (KPIs).</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;/ul&gt;</content><author><name>&lt;a href='https://www.linkedin.com/in/deepk2u/'&gt;Deepak Kumar&lt;/a&gt;</name></author><category term="kubeflow" /><category term="kubeflow 1.3" /><category term="install kubeflow" /><category term="kubeflow pipelines" /><category term="intuit" /><category term="istio" /><category term="service mesh" /><category term="argo" /><summary type="html">Deploying Kubeflow 1.3 in an enterprise with existing Kubernetes infrastructure, a Service Mesh (Istio), and Argo, presents a host of challenges. This blog will address how those challenges were overcome while retaining the best practices that both the organization and Kubeflow prescribe.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

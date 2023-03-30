@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Kubeflow v1.7 simplifies Kubernetes native MLOps via enhanced UI, Katib Tuning API and new training frameworks | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Kubeflow v1.7 simplifies Kubernetes native MLOps via enhanced UI, Katib Tuning API and new training frameworks" />
+<meta name="author" content="Kubeflow 1.7 Release Team" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Kubeflow v1.7 users are capitalizing on their python knowledge to build seamless workflows without the need of Kubernetes CLI commands and without building container images for each iteration. With new UIs in multiple components, developers can correlate configuration parameters with logs which allow them to quickly analyze the results. When coupled with Kubeflow’s pythonic workflows and Kubernetes operating efficiencies, these enhancements save model developers material amounts of time and toil." />
+<meta property="og:description" content="Kubeflow v1.7 users are capitalizing on their python knowledge to build seamless workflows without the need of Kubernetes CLI commands and without building container images for each iteration. With new UIs in multiple components, developers can correlate configuration parameters with logs which allow them to quickly analyze the results. When coupled with Kubeflow’s pythonic workflows and Kubernetes operating efficiencies, these enhancements save model developers material amounts of time and toil." />
+<link rel="canonical" href="https://blog.kubeflow.org/kubeflow-1.7-release/" />
+<meta property="og:url" content="https://blog.kubeflow.org/kubeflow-1.7-release/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-03-29T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/kubeflow-1.7-release/","@type":"BlogPosting","headline":"Kubeflow v1.7 simplifies Kubernetes native MLOps via enhanced UI, Katib Tuning API and new training frameworks","dateModified":"2023-03-29T00:00:00-05:00","datePublished":"2023-03-29T00:00:00-05:00","image":"https://blog.kubeflow.org/images/logo.png","author":{"@type":"Person","name":"Kubeflow 1.7 Release Team"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow-1.7-release/"},"description":"Kubeflow v1.7 users are capitalizing on their python knowledge to build seamless workflows without the need of Kubernetes CLI commands and without building container images for each iteration. With new UIs in multiple components, developers can correlate configuration parameters with logs which allow them to quickly analyze the results. When coupled with Kubeflow’s pythonic workflows and Kubernetes operating efficiencies, these enhancements save model developers material amounts of time and toil.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kubeflow v1.7 simplifies Kubernetes native MLOps via enhanced UI, Katib Tuning API and new training frameworks</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2023-03-29T00:00:00-05:00" itemprop="datePublished">
+        Mar 29, 2023
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Kubeflow 1.7 Release Team</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#release">release</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Kubeflow v1.7 users are capitalizing on their python knowledge to build seamless workflows without the need of Kubernetes CLI commands and without building container images for each iteration. With new UIs in multiple components, developers can correlate configuration parameters with logs which allow them to quickly analyze the results. When coupled with Kubeflow’s pythonic workflows and Kubernetes operating efficiencies, these enhancements save model developers material amounts of time and toil.</p>
+
+<p>This release includes hundreds of new commits, and the following sections provide details on the top features. You will also find updates on platform dependencies, changelogs, breaking changes, ecosystem partners, the new Security Team and Kubeflow’s transition to the CNCF. We encourage active users to contribute to our next release, and provide links to join the community at the end.</p>
+
+<h2 id="selected-and-highlighted-deliveries">Selected and Highlighted deliveries</h2>
+
+<h3 id="katib">Katib</h3>
+
+<p>Katib includes new enhancements to the UI and SDK. The new Katib UI provides simplified fine-grained configuration and log correlation. Additionally sorting and filtering have been added, allowing a more organized view of your many experiments. In addition, these features minimize the necessity of manually employing low-level commands to locate and correlate logs with hyperparameter experiment configurations. This simplifies the process of in-depth performance analysis and subsequent iterations of model parameters.</p>
+
+<p>In 1.7, the Katib SDK provides new features including a Tune API and the ability to retreive trial metrics from the Katib database. Model developers or data scientists can execute the Tune API to start a HyperParameter Experiment without any knowledge of underlying systems e.g. Kubernetes, Docker. It automatically converts user training scripts to a Katib Experiment. The Katib changelog provides details on over 100 updates and bug fixes including these SDK and UI top features:</p>
+
+<p><br /></p>
+
+<ul>
+  <li>Narrow down Katib RBAC rules (<a href="https://github.com/kubeflow/katib/pull/2091">#2091</a>)</li>
+  <li>Support Postgres as a Katib DB (<a href="https://github.com/kubeflow/katib/pull/1921">#1921</a>)</li>
+  <li>[SDK] Create Tune API in the Katib SDK (<a href="https://github.com/kubeflow/katib/pull/1951">#1951</a>)</li>
+  <li>[SDK] Get Trial Metrics from Katib DB (<a href="https://github.com/kubeflow/katib/pull/2050">#2050</a>)</li>
+  <li>More Suggestion container fields in Katib Config (<a href="https://github.com/kubeflow/katib/pull/2000">#2000</a>)</li>
+  <li>Katib UI: Enable pagination/sorting/filtering (<a href="https://github.com/kubeflow/katib/pull/2017">#2017</a> and <a href="https://github.com/kubeflow/katib/pull/2040">#2040</a>)</li>
+  <li>Katib UI: Add authorization mechanisms (<a href="https://github.com/kubeflow/katib/pull/1983">#1983</a>)</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="training-operator">Training operator</h3>
+
+<p>Kubeflow’s unified distributed training operator enhancements include configuration options for fine tuned resource scaling (processor, memory, storage). It now includes HPA support for Pytorch Elastic workloads where users can specify target metric/utilization in Job Spec. This is used for automatic scale up/down of Pytorch Job matching demand while ensuring the elastic policy configured by the user. These enhancements simplify user workflows significantly and reduce operational toil and costs. The Job Spec is flexible and supports multiple scheduler types: Kubernetes, volcano, custom. Major 1.7 training operator features include:</p>
+
+<p><br /></p>
+
+<ul>
+  <li>PodGroup enhancements(<a href="https://github.com/kubeflow/training-operator/issues/1574">#1574</a>)</li>
+  <li>Integration with other training frameworks - Paddlepaddle(<a href="https://github.com/kubeflow/community/issues/520">#520</a>)</li>
+  <li>Enhancements on Pytorch Elastic training (<a href="https://github.com/kubeflow/training-operator/issues/1645">#1645</a>, <a href="https://github.com/kubeflow/training-operator/issues/1626">#1626</a>)</li>
+  <li>Support coscheduling plugin (<a href="https://github.com/kubeflow/training-operator/issues/1722">#1722</a>)</li>
+  <li>[SDK] Create Unify Training Client(<a href="https://github.com/kubeflow/training-operator/pull/1719">#1719</a>)</li>
+</ul>
+
+<p><br /></p>
+
+<h3 id="pipelines">Pipelines</h3>
+
+<p>In Kubeflow 1.7, the Pipelines Working Group (KFP) has continued its efforts towards KFP v2 with their latest 2.0.0-alpha.7 release. This release includes the following key enhancements:</p>
+
+<p><br /></p>
+
+<ul>
+  <li>Pipelines as components: Pipelines can themselves be used as components in other pipelines, just as you would use any other single-step component in a pipeline. (<a href="https://github.com/kubeflow/pipelines/pull/8179">#8179</a>, <a href="https://github.com/kubeflow/pipelines/pull/8204">#8204</a>, <a href="https://github.com/kubeflow/pipelines/pull/8209">#8209</a>, <a href="https://github.com/kubeflow/pipelines/pull/8220">#8220</a>)</li>
+  <li>Sub-DAG visualization that allows pipeline users to dive deep into sub-graph components of their pipeline. (<a href="https://github.com/kubeflow/pipelines/pull/8326">#8326</a>)</li>
+  <li>Miscellaneous bug and vulnerability fixes.</li>
+</ul>
+
+<p><br /></p>
+
+<p>Model developers recognize the time-saving pythonic workflows in Kubeflow Pipelines, which speed iteration by not requiring the generation of new images for pre-prod experimentation. The new V2 UI and SDK in Kubeflow 1.7 provide valuable details on each pipeline step. This simplifies the correlation and analysis of parameters, metadata and artifacts during iteration.</p>
+
+<h3 id="kubeflow-web-apps-notebooks-volumes-tensorboards-and-controllers">Kubeflow web apps (Notebooks, Volumes, TensorBoards) and Controllers</h3>
+
+<p>Kubeflow 1.7 delivers new web apps enhancements that expose more information to the end users and improve their UI interactions.</p>
+
+<p>A valuable new delivery is that all of the main tables have filtering <a href="https://github.com/kubeflow/kubeflow/pull/6754">#6754</a> and sorting <a href="https://github.com/kubeflow/kubeflow/pull/6742">#6742</a> functionalities as well as showing objects from all namespaces at once <a href="https://github.com/kubeflow/kubeflow/pull/6778">#6778</a>. This allows the end users to navigate through their tools and apps (notebooks, tensorboards, volumes etc) more efficiently.</p>
+
+<p>Additionally, 1.7 provides an update to the Notebooks form page <a href="https://github.com/kubeflow/kubeflow/pull/6826">#6826</a> as well as a dedicated page <a href="https://github.com/kubeflow/kubeflow/pull/6769">#6769</a> <a href="https://github.com/kubeflow/kubeflow/pull/6788">#6788</a> for the different types of tools managed by Kubeflow. These detailed pages allow users to view logs, events and configuration yamls and they also link from one another (i.e. going to a volume’s details page via a notebook details page). Previously these functions were only available through the Kubernetes API, which would require the user to have increased privileges and to have a more in-depth knowledge of Kubernetes CLI commands. With these new features the user has a simpler, more organized and more secure way of accessing crucial Kubeflow resource information.</p>
+
+<p>Other notable features are small improvements on our user stories around PodDefaults. Aside from additional use-cases, like defining sidecar and init containers <a href="https://github.com/kubeflow/kubeflow/pull/6749">#6749</a>, Kubeflow’s TensorBoard stack now integrates with PodDefaults <a href="https://github.com/kubeflow/kubeflow/pull/6874">#6874</a> <a href="https://github.com/kubeflow/kubeflow/pull/6924">#6924</a>. These enhancements enable the re-use of the user’s existing PodDefaults to gain S3 access from both Notebook and TensorBoard servers.</p>
+
+<h3 id="platform-dependencies-breaking-changes-add-ons">Platform dependencies, breaking changes, add-ons</h3>
+
+<p>Kubeflow 1.7 includes hundreds of commits. The Kubeflow release process includes several rounds of testing by the Kubeflow working groups and Kubeflow distributions. Kubeflow’s configuration options provide a high degree of flexibility. After considering all of the testing options, the 1.7 Release Team narrowed the critical dependencies for consistent testing and documentation to the following.</p>
+
+<p><br /></p>
+
+<table>
+ <tr>
+<td><strong>K8s</strong>
+</td>
+<td><strong>Istio</strong>
+</td>
+<td><strong>KNative</strong>
+</td>
+<td><strong>Kustomize</strong>
+</td>
+<td><strong>Cert Mgr</strong>
+</td>
+<td><strong>DEX</strong>
+</td>
+<td><strong>Argo</strong>
+</td>
+<td><strong>Tekton</strong>
+</td>
+<td><strong>Oidc-authservice</strong>
+</td>
+ </tr>
+ <tr>
+<td>1.25 / 1.24
+</td>
+<td>1.16
+</td>
+<td>1.8.1
+</td>
+<td>3.2 or 5.0
+</td>
+<td>1.10.1
+</td>
+<td>2.31.2
+</td>
+<td>3.3.8
+</td>
+<td>1.5
+</td>
+<td><code>e236439</code>
+</td>
+ </tr>
+</table>
+
+<p><br /></p>
+
+<p>Another valuable platform enhancement is the support of additional processor architectures including IBM’s Power (<a href="https://github.com/kubeflow/kubeflow/issues/6684">#6684</a>). This effort provides the foundation to add other processor types as well.</p>
+
+<p>The 1.7 documentation includes overall <a href="https://github.com/kubeflow/manifests#kubeflow-manifests">installation instructions</a> from the Manifest Working Group, and detailed feature reviews from each Kubeflow working group. Most of the working groups have broken their changelogs into subsections that highlight core features, UI enhancements, miscellaneous updates, bug fixes and breaking changes.</p>
+
+<p>Working Group Changelogs including breaking changes</p>
+
+<ul>
+  <li><a href="https://github.com/kubeflow/kubeflow/releases">Notebooks</a></li>
+  <li><a href="https://github.com/kubeflow/training-operator/blob/master/CHANGELOG.md">Training Operator</a></li>
+  <li><a href="https://github.com/kubeflow/katib/blob/master/CHANGELOG.md">Katib</a></li>
+  <li><a href="https://github.com/kubeflow/pipelines/blob/master/CHANGELOG.md">Pipelines</a></li>
+  <li><a href="https://github.com/kserve/kserve/releases/">KServe</a></li>
+</ul>
+
+<p>The community has continued its work to identify core components and add-ons. Significant enhancements in add-ons include the continued integration with KServe’s v.10 release, as well as a new serving option from BentoML. The BentoML team has done a tremendous job in supporting the Kubeflow community in 1.7 and their documentation is excellent. Details on BentoML are available <a href="https://modelserving.com/blog/streamline-production-ml-with-bentoml-and-kubeflow">here</a>.</p>
+
+<h2 id="whats-next">What’s next</h2>
+
+<p>The community continues to see a large increase in activity since the <a href="https://blog.kubeflow.org/kubeflow-applied-cncf-incubating/">announcement</a> that Kubeflow will be donated to the CNCF by Google. The community holds regular meetings to review progress on the checklist items needed for the CNCF due diligence (<a href="https://docs.google.com/document/d/1HXAl6ew5ZUgQaAnEHS1qEPxA5puUz2knUwXOZHU39sA/edit?userstoinvite=mchmarny@google.com&amp;actionButton=1">meeting notes</a>).</p>
+
+<p>During the 1.7 release cycle, the community formed a Security Team, which is working to improve the security profile of Kubeflow components and their dependencies. The Security Team has completed these three deliveries:</p>
+
+<p><br /></p>
+
+<ol>
+  <li>Set-up a github directory, slack channel and regular meeting schedule with <a href="https://docs.google.com/document/d/10_uYpaFWvY2NyqGBPd0dbTt1RumX8MedNcGzKSdtSOY/edit?pli=1#">notes</a></li>
+  <li>Created an <a href="https://github.com/kubeflow/manifests/blob/v1.7-branch/docs/kf_images.txt">inventory</a> of container images used by Kubeflow</li>
+  <li>Created a list of common vulnerabilities and errors (CVEs) in the container images.</li>
+</ol>
+
+<p><br /></p>
+
+<p>Going forward, the Security Team will work to develop on-going policies and to remedy security issues. For example, fixing CVEs is an on-going maintenance requirement and this function is currently provided by Kubeflow distribution providers as a value added delivery. Some distributions and end-users are working to fix CVEs in the upstream projects and the Security Team is looking for help on defining and delivering those deliveries and expectations.</p>
+
+<p>The Kubeflow team is working on integration efforts with the Ray and MLflow communities.The Ray integration progress has moved closer to user testing and users can find more information on this <a href="https://github.com/kubeflow/manifests/pull/2383">tracking issue</a>. The MLflow integration is progressing and its integration is tracked <a href="https://github.com/kubeflow/kubeflow/issues/6647">here</a>.</p>
+
+<h2 id="how-to-get-started-with-17">How to get started with 1.7</h2>
+
+<p>For trying out Kubeflow 1.7 we recommend our <a href="https://www.kubeflow.org/docs/started/installing-kubeflow/">installation page</a> where you can choose between a selection of Kubeflow distributions. For more advanced users we recommend the manifest <a href="https://github.com/kubeflow/manifests#installation">installation guide</a>.</p>
+
+<h2 id="join-the-community">Join the Community</h2>
+
+<p>We would like to thank everyone for their contribution to Kubeflow 1.7, especially Dominik Fleischmann for his work as the v1.7 Release Manager. As you can see, the Kubeflow community is vibrant and diverse, solving real-world problems for organizations worldwide.</p>
+
+<p>Want to help? The Kubeflow community <a href="https://github.com/kubeflow/community/blob/master/wg-list.md">Working Groups</a> hold open meetings and are always looking for more volunteers and users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below. We look forward to working with you!</p>
+
+<p><br /></p>
+
+<ul>
+  <li>Visit our <a href="https://www.kubeflow.org/">Kubeflow website</a> or <a href="https://github.com/kubeflow">Kubeflow GitHub Page</a></li>
+  <li>Join the <a href="https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg">Kubeflow Slack channel</a></li>
+  <li>Join the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list</li>
+  <li>Attend a <a href="https://www.kubeflow.org/docs/about/community/">weekly community meeting</a></li>
+</ul>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/kubeflow-1.7-release/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

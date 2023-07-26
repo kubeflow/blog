@@ -163,13 +163,5 @@ We would like to thank everyone for their participation in the survey. As you ca
 Kubeflow Community is vibrant and diverse, solving real-world problems for organizations worldwide.
 
 Want to help? The Kubeflow Community Working Groups hold open meetings and are always looking for more volunteers and
-users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel
-free to check out the resources below. We look forward to working with you!
-
-- Visit our [Kubeflow website](https://www.kubeflow.org/) or [Kubeflow GitHub Page](https://github.com/kubeflow)
-- Join
-  the [Kubeflow Slack](https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg)
-  workspace
-- Join the [kubeflow-discuss](https://groups.google.com/g/kubeflow-discuss) mailing list
-- Attend a [weekly community meeting](https://www.kubeflow.org/docs/about/community/)
-
+users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, check out
+the [Kubeflow community page](https://www.kubeflow.org/docs/about/community/) to learn more. We look forward to working with you!

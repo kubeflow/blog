@@ -13,7 +13,7 @@ author: "Anna Jung, Johnu George, and Josh Bottum"
 In April 2023, the Kubeflow user survey opened, gathering community feedback. The survey aimed to comprehend the
 adoption of Kubeflow and collect input on the benefits, gaps, and requirements for machine learning use cases.
 
-The survey consisted 21 questions, including multiple-choice and freeform formats. It ran from April 11th to May 26th
+The survey consisted of 21 questions, including multiple-choice and freeform formats. It ran from April 11th to May 26th
 and received 90 responses. The 2023 survey yielded more targeted and actionable freeform answers, which provided further
 insights into users’ requirements and potential enhancements for Kubeflow. Furthermore, we received a significant amount
 of positive feedback regarding the factors that contribute to the success of Kubeflow and its community. One survey
@@ -52,7 +52,7 @@ followed by Finance (13%) and Consulting (11%).
 While there is diversity in roles that make up the community, most of the community members had the title MLOps
 Engineer (18%), ML Engineer (17%), and Architect (15%).
 
-In the last year’s 2022 User Survey, we started to see an increase in the number of users adopting Kubeflow in the
+In the last year’s 2022 User Survey, we started to see an increase in the number of users adopting Kubeflow in their
 production environment and actively contributing to the Kubeflow project as their expertise with the project grew. This
 year, we see the trend continuing with the highest percentage of Kubeflow running in production (49%) and the highest
 number of users contributing to the project (17%). As the adoption of Kubeflow continues to rise, this will have a
@@ -108,16 +108,11 @@ Kubeflow.
 
 For some, support for a different installation tool isn’t the answer. We also received much feedback on the installation
 needing to be more lightweight. Due to the complexity of the stack and integration of many components, people are
-struggling to customize their kubeflow instance due to tight coupling and requirements of large resources.
+struggling to customize their Kubeflow instance due to tight coupling and requirements of large resources.
 
 In addition to installation, upgrades are also on top of the mind for many of the users. While there are some upgrade
 guides for specific distributions, many of the users are installing Kubeflow without distribution. Without upgrade
-guides provided for the raw manifest installation, upgrades take a great amount of effort for the users without
-guaranteeing that upgrading Kubeflow will not introduce breaking changes to their current setup. One survey respondent
-expressed, *“It's currently not possible to guarantee that upgrading kubeflow versions will work. We need to delete the
-entire cluster, database, and all the resources just to re-install from scratch. This generally results in losing data (
-because nothing guarantees that the DB scheme will be compatible from one version to another). There should be an easy
-way to upgrade kubeflow.”*
+guides provided for the raw manifest installation, upgrades take a great amount of effort for the users.
 
 ### Monitoring Models and Model Registry
 
@@ -135,7 +130,7 @@ in managing and tracking their models.
 
 In the previous [2022 Kubeflow User Survey](https://blog.kubeflow.org/kubeflow-user-survey-2022/), security emerged as
 one of the top three voted answers, highlighting it as a significant gap in Kubeflow. Since then, the community has
-placed a strong emphasis on security, leading to the formation of an unofficial security team comprising members with a
+placed a strong emphasis on security, leading to the formation of the Kubeflow Security Team comprising members with a
 security-focused mindset. Their primary objective is to address security concerns and ensure that Kubeflow remains a
 robust and secure platform for all its users. For further details, visit
 the [Kubeflow security team](https://github.com/kubeflow/kubeflow/tree/master/security) and consider joining the next

@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2023-07-26T14:39:45-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow User Survey 2023</title><link href="https://blog.kubeflow.org/kubeflow-user-survey-2023/" rel="alternate" type="text/html" title="Kubeflow User Survey 2023" /><published>2023-07-26T00:00:00-05:00</published><updated>2023-07-26T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-user-survey-2023</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-user-survey-2023/">&lt;p&gt;In April 2023, the Kubeflow user survey opened, gathering community feedback. The survey aimed to comprehend the
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2023-07-28T14:42:57-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow User Survey 2023</title><link href="https://blog.kubeflow.org/kubeflow-user-survey-2023/" rel="alternate" type="text/html" title="Kubeflow User Survey 2023" /><published>2023-07-26T00:00:00-05:00</published><updated>2023-07-26T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-user-survey-2023</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-user-survey-2023/">&lt;p&gt;In April 2023, the Kubeflow user survey opened, gathering community feedback. The survey aimed to comprehend the
 adoption of Kubeflow and collect input on the benefits, gaps, and requirements for machine learning use cases.&lt;/p&gt;
 
-&lt;p&gt;The survey consisted 21 questions, including multiple-choice and freeform formats. It ran from April 11th to May 26th
+&lt;p&gt;The survey consisted of 21 questions, including multiple-choice and freeform formats. It ran from April 11th to May 26th
 and received 90 responses. The 2023 survey yielded more targeted and actionable freeform answers, which provided further
 insights into users’ requirements and potential enhancements for Kubeflow. Furthermore, we received a significant amount
 of positive feedback regarding the factors that contribute to the success of Kubeflow and its community. One survey
@@ -42,7 +42,7 @@ followed by Finance (13%) and Consulting (11%).&lt;/p&gt;
 &lt;p&gt;While there is diversity in roles that make up the community, most of the community members had the title MLOps
 Engineer (18%), ML Engineer (17%), and Architect (15%).&lt;/p&gt;
 
-&lt;p&gt;In the last year’s 2022 User Survey, we started to see an increase in the number of users adopting Kubeflow in the
+&lt;p&gt;In the last year’s 2022 User Survey, we started to see an increase in the number of users adopting Kubeflow in their
 production environment and actively contributing to the Kubeflow project as their expertise with the project grew. This
 year, we see the trend continuing with the highest percentage of Kubeflow running in production (49%) and the highest
 number of users contributing to the project (17%). As the adoption of Kubeflow continues to rise, this will have a
@@ -82,9 +82,9 @@ looking for are the following:&lt;/p&gt;
   &lt;li&gt;Frequent updates to documentation as many are out of date&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;To address the challenges of Kubeflow documentation, we are looking for help from our community. If you are interested
-in improving Kubeflow documentation and forming a Kubeflow Documentation Team, join us at the next community meeting to
-introduce yourself to the community.&lt;/p&gt;
+&lt;p&gt;To address the challenges of Kubeflow documentation, we are looking for help from our community. If you are interested in
+improving current Kubeflow documentation and work on future improvements, we invite you to join us at the next community
+meeting to introduce yourself to the community.&lt;/p&gt;
 
 &lt;h3 id=&quot;installation-and-upgrades&quot;&gt;Installation and Upgrades&lt;/h3&gt;
 
@@ -102,16 +102,11 @@ Kubeflow.&lt;/p&gt;
 
 &lt;p&gt;For some, support for a different installation tool isn’t the answer. We also received much feedback on the installation
 needing to be more lightweight. Due to the complexity of the stack and integration of many components, people are
-struggling to customize their kubeflow instance due to tight coupling and requirements of large resources.&lt;/p&gt;
+struggling to customize their Kubeflow instance due to tight coupling and requirements of large resources.&lt;/p&gt;
 
 &lt;p&gt;In addition to installation, upgrades are also on top of the mind for many of the users. While there are some upgrade
 guides for specific distributions, many of the users are installing Kubeflow without distribution. Without upgrade
-guides provided for the raw manifest installation, upgrades take a great amount of effort for the users without
-guaranteeing that upgrading Kubeflow will not introduce breaking changes to their current setup. One survey respondent
-expressed, &lt;em&gt;“It’s currently not possible to guarantee that upgrading kubeflow versions will work. We need to delete the
-entire cluster, database, and all the resources just to re-install from scratch. This generally results in losing data (
-because nothing guarantees that the DB scheme will be compatible from one version to another). There should be an easy
-way to upgrade kubeflow.”&lt;/em&gt;&lt;/p&gt;
+guides provided for the raw manifest installation, upgrades are taking a great amount of effort for the users.&lt;/p&gt;
 
 &lt;h3 id=&quot;monitoring-models-and-model-registry&quot;&gt;Monitoring Models and Model Registry&lt;/h3&gt;
 
@@ -129,7 +124,7 @@ in managing and tracking their models.&lt;/p&gt;
 
 &lt;p&gt;In the previous &lt;a href=&quot;https://blog.kubeflow.org/kubeflow-user-survey-2022/&quot;&gt;2022 Kubeflow User Survey&lt;/a&gt;, security emerged as
 one of the top three voted answers, highlighting it as a significant gap in Kubeflow. Since then, the community has
-placed a strong emphasis on security, leading to the formation of an unofficial security team comprising members with a
+placed a strong emphasis on security, leading to the formation of the Kubeflow Security Team comprising members with a
 security-focused mindset. Their primary objective is to address security concerns and ensure that Kubeflow remains a
 robust and secure platform for all its users. For further details, visit
 the &lt;a href=&quot;https://github.com/kubeflow/kubeflow/tree/master/security&quot;&gt;Kubeflow security team&lt;/a&gt; and consider joining the next
@@ -147,9 +142,8 @@ be found in
 the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/#kubeflow-community-calendars&quot;&gt;Kubeflow community calendar&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;As for improvements to the documentation and tutorials, Kubeflow community is actively seeking help from our community
-members. If you are interested in improving Kubeflow documentation and forming a Kubeflow Documentation Team to tackle
-current challenges and work on future improvements, we invite you to join us at the next community meeting to introduce
-yourself to the community and express your interest in joining this effort.&lt;/p&gt;
+members. If you are interested in improving current Kubeflow documentation and work on future improvements, we invite
+you to join us at the next community meeting to introduce yourself to the community and express your interest in joining this effort.&lt;/p&gt;
 
 &lt;h2 id=&quot;join-the-community&quot;&gt;Join the Community&lt;/h2&gt;
 

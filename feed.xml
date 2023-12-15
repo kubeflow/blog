@@ -1,4 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2023-11-01T12:56:28-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow 1.8: Kubernetes MLOps delivered via Python workflows</title><link href="https://blog.kubeflow.org/kubeflow-1.8-release/" rel="alternate" type="text/html" title="Kubeflow 1.8: Kubernetes MLOps delivered via Python workflows" /><published>2023-10-23T00:00:00-05:00</published><updated>2023-10-23T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.8-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.8-release/">&lt;p&gt;Kubeflow v1.8’s powerful workflows uniquely deliver Kubernetes-native MLOps, which dramatically reduce yaml wrangling. ML pipelines are now constructed as modular components, enabling easily chainable and reusable ML workflows. The new Katib SDK reduces manual configuration and simplifies the delivery of your tuned model.  v1.8 also introduces the PVC Viewer for easier persistent storage management eliminating the need for Kubernetes CLI storage commands.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2023-12-14T19:14:56-06:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow Community Holds First Election for Kubeflow Steering Committee</title><link href="https://blog.kubeflow.org/election/2023/12/12/kubeflow-community-holds-first-election-for-kubeflow-steering-committee.html" rel="alternate" type="text/html" title="Kubeflow Community Holds First Election for Kubeflow Steering Committee" /><published>2023-12-12T00:00:00-06:00</published><updated>2023-12-12T00:00:00-06:00</updated><id>https://blog.kubeflow.org/election/2023/12/12/kubeflow-community-holds-first-election-for-kubeflow-steering-committee</id><content type="html" xml:base="https://blog.kubeflow.org/election/2023/12/12/kubeflow-community-holds-first-election-for-kubeflow-steering-committee.html">&lt;p&gt;The Kubeflow Community, known for its dedication to making machine learning workflows on Kubernetes simple, portable, and scalable, &lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss/c/54PGJ-ypqc8&quot;&gt;has recently announced&lt;/a&gt; a significant milestone in its journey. For the first time, they are holding elections for the Kubeflow Steering Committee (KSC)!&lt;/p&gt;
+
+&lt;p&gt;The KSC will be crucial in guiding the project’s direction, ensuring it continues to meet the needs of its growing user base. Candidates for this committee are drawn from the community’s diverse members, embodying the spirit of open-source collaboration that Kubeflow cherishes.
+This election marks a new chapter in Kubeflow’s history, reflecting the community’s commitment to a democratic project governance model. It serves as a testament to the community’s growth, maturity, and dedication to inclusivity and shared decision-making.&lt;/p&gt;
+
+&lt;p&gt;The election process for the KSC is structured to ensure that every phase is transparent and fair. As per &lt;a href=&quot;https://github.com/kubeflow/community/blob/master/elections/kubeflow-steering-committee-elections-2023.md&quot;&gt;the announced timeline&lt;/a&gt;, we are currently in &lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss/c/dEs1aGSd_X4/m/n-6pMaCnAQAJ&quot;&gt;the nomination phase&lt;/a&gt;, where &lt;a href=&quot;https://github.com/kubeflow/community/blob/master/elections/eligible-candidates-and-voters-2023-KSC.md&quot;&gt;eligible community members&lt;/a&gt; are encouraged to nominate themselves or others for a position on the Committee. This stage will determine the group of candidates who will move forward to the testimonial phase and then the voting phase. It’s an exciting time for the community, as members step up to the challenge and show their readiness to drive the project’s future direction.&lt;/p&gt;
+
+&lt;p&gt;Elections like this in the open source ecosystem highlight the collaborative spirit that drives these initiatives. They provide the opportunity for anyone, regardless of their role in the project, to step up and help guide its future. Let’s all join in congratulating the &lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;Kubeflow Community&lt;/a&gt; on this milestone and look forward to the outcomes of this exciting election!&lt;/p&gt;
+
+&lt;h3 id=&quot;get-involved&quot;&gt;&lt;em&gt;Get Involved:&lt;/em&gt;&lt;/h3&gt;
+&lt;p&gt;We are an open and welcoming &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;community&lt;/a&gt; of software developers, data scientists, AI enthusiasts, organizations and more!  Getting involved in the Kubeflow Community is an exciting journey that offers numerous opportunities for learning, networking, and contributing to open-source development. By actively participating and sharing your ideas, you can make a meaningful impact and be part of this dynamic community. Check out the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/#kubeflow-community-call&quot;&gt;weekly community call&lt;/a&gt;, get involved in discussions on &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/#kubeflow-mailing-list&quot;&gt;the mailing list&lt;/a&gt; or chat with others on the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/#kubeflow-slack&quot;&gt;Slack Workspace&lt;/a&gt;!&lt;/p&gt;
+
+&lt;h3 id=&quot;important-dates&quot;&gt;&lt;em&gt;Important Dates:&lt;/em&gt;&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Exceptions Phase:&lt;/strong&gt;  4 December 2023 at 0900 Pacific Time  (Starts) - 10 December 2023 at 12:00pm Pacific Time (Ends)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Nomination Phase:&lt;/strong&gt; 11 December 2023 at 0900 Pacific Time  (Starts) - 24 December 2023 at 12:00pm Pacific Time (Ends)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Testimonial Phase:&lt;/strong&gt; 25 December 2023 at 0900 Pacific Time (Starts) - 7 January 2024 at 12:00pm Pacific Time (Ends)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Voting Phase:&lt;/strong&gt; 8 January 2024 at 0900 Pacific Time (Starts) - 29 January 2024 at 12:00pm Pacific Time (Ends)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Announcement&lt;/strong&gt; of Election Results:  30 January 2024&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;additional-information&quot;&gt;&lt;em&gt;Additional Information:&lt;/em&gt;&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/community/blob/master/elections/kubeflow-steering-committee-elections-2023.md&quot;&gt;Kubeflow Project Steering Committee Elections 2023&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/community/blob/master/elections/eligible-candidates-and-voters-2023-KSC.md&quot;&gt;List of Eligible Voters and Candidates 2023&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss/c/dEs1aGSd_X4/m/n-6pMaCnAQAJ&quot;&gt;[Elections] Nominations Phase - 2023 Kubeflow Project Steering Committee Elections - Opens Today&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss/c/aIkzJVgsSp4/m/crpQv1EZAgAJ&quot;&gt;[Elections] 2023 Kubeflow Project Steering Committee Elections - Eligible Voters and Candidates&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss/c/54PGJ-ypqc8/m/iRC2UXcvAQAJ&quot;&gt;[Elections] 2023 Kubeflow Project Steering Committee Elections - Timeline and Update&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Amber Graner</name></author><category term="election" /><summary type="html">The Kubeflow Community, known for its dedication to making machine learning workflows on Kubernetes simple, portable, and scalable, has recently announced a significant milestone in its journey. For the first time, they are holding elections for the Kubeflow Steering Committee (KSC)!</summary></entry><entry><title type="html">Kubeflow 1.8: Kubernetes MLOps delivered via Python workflows</title><link href="https://blog.kubeflow.org/kubeflow-1.8-release/" rel="alternate" type="text/html" title="Kubeflow 1.8: Kubernetes MLOps delivered via Python workflows" /><published>2023-10-23T00:00:00-05:00</published><updated>2023-10-23T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.8-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.8-release/">&lt;p&gt;Kubeflow v1.8’s powerful workflows uniquely deliver Kubernetes-native MLOps, which dramatically reduce yaml wrangling. ML pipelines are now constructed as modular components, enabling easily chainable and reusable ML workflows. The new Katib SDK reduces manual configuration and simplifies the delivery of your tuned model.  v1.8 also introduces the PVC Viewer for easier persistent storage management eliminating the need for Kubernetes CLI storage commands.&lt;/p&gt;
 
 &lt;p&gt;Kubeflow 1.8 adds ARM processor support which simplifies adoption for Apple Silicon users and IoT servers. 1.8 delivers updated Tensorflow, PyTorch, Cuda notebook image examples with a detangled makefile process.  Kubeflow’s performance and security are improved via significant upgrades to the underlying components and packages.&lt;/p&gt;
 
@@ -933,252 +961,4 @@ the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;Kub
 
 &lt;p&gt;Community: &lt;a href=&quot;https://github.com/kubeflow/community/tree/master/wg-training&quot;&gt;wg-training&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;Issues: https://github.com/kubeflow/training-operator/issues&lt;/p&gt;</content><author><name>Johnu George, Jiaxin Shan, Josh Bottum</name></author><category term="release" /><summary type="html">The Kubeflow Training Operator Working Group introduced several enhancements in the recent Kubeflow 1.4 release. The most significant was the introduction of the new unified training operator that enables Kubernetes custom resources (CR) for many of the popular training frameworks: Tensorflow, Pytorch, MXNet and XGboost. In addition, the tf-operator repository has been renamed to training-operator.</summary></entry><entry><title type="html">Kubeflow’s 1.4 release lays the foundation for advanced ML metadata workflows</title><link href="https://blog.kubeflow.org/kubeflow-1.4-release/" rel="alternate" type="text/html" title="Kubeflow’s 1.4 release lays the foundation for advanced ML metadata workflows" /><published>2021-10-12T00:00:00-05:00</published><updated>2021-10-12T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.4-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.4-release/">&lt;p&gt;The Kubeflow 1.4 release lays several important building blocks for the use of advanced metadata workflows. A quick summary of
-1.4’s top deliveries includes:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Advanced metadata workflows with improved metric visualization and pipeline
-step &lt;a href=&quot;https://www.kubeflow.org/docs/components/pipelines/caching-v2/&quot;&gt;caching&lt;/a&gt;
-in Kubeflow Pipelines (KFP) via the KFP Software Development Kit (SDK)&lt;/li&gt;
-  &lt;li&gt;A new KFServing
-&lt;a href=&quot;https://www.kubeflow.org/docs/components/kfserving/webapp/&quot;&gt;model user interface&lt;/a&gt;
-that displays ML model status, configuration, yaml, logs, and metrics&lt;/li&gt;
-  &lt;li&gt;New &lt;a href=&quot;https://github.com/optuna/optuna&quot;&gt;Optuna&lt;/a&gt; Suggestion Service with
-multivariate TPE algorithm and Sobol’s
-&lt;a href=&quot;https://github.com/kubeflow/katib/pull/1523&quot;&gt;Quasirandom&lt;/a&gt; Sequence support
-for hyperparameter tuning&lt;/li&gt;
-  &lt;li&gt;A new, unified training operator that supports all deep learning frameworks
-with a Python SDK, enhanced monitoring and advanced scheduling support&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Kubeflow 1.4 enables the use of metadata in advanced machine learning (ML) workflows, especially
-in the Kubeflow Pipelines SDK. With the Pipelines SDK and its new
-&lt;a href=&quot;https://www.kubeflow.org/docs/components/pipelines/sdk/v2/v2-compatibility/&quot;&gt;V2-compatible mode&lt;/a&gt;,
-users can create advanced ML pipelines with Python functions that use the &lt;a href=&quot;https://github.com/google/ml-metadata&quot;&gt;MLMD&lt;/a&gt; as
-input/output arguments. This simplifies
-&lt;a href=&quot;https://www.kubeflow.org/docs/components/pipelines/sdk/output-viewer/#v2-sdk-use-sdk-visualization-apis&quot;&gt;metrics visualization&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Another enhancement to Pipelines is the option to use the
-&lt;a href=&quot;https://www.kubeflow.org/docs/components/pipelines/installation/choose-executor/&quot;&gt;Emissary executor&lt;/a&gt;
-for non-Docker Kubernetes container runtime requirements. In addition, 1.4 can 
-support metadata-based workflows to streamline the creation of TensorBoard 
-visualizations and to serve ML models.&lt;/p&gt;
-
-&lt;h2 id=&quot;core-improvements-to-code-process-and-documentation&quot;&gt;Core improvements to code, process, and documentation&lt;/h2&gt;
-
-&lt;p&gt;For the Kubeflow Working Groups, 1.4 was primarily a maintenance release, 
-which enabled the Community to concentrate on core improvements to code, 
-process, and documentation. In the
-&lt;a href=&quot;https://blog.kubeflow.org/kubeflow-continues-to-move-to-production&quot;&gt;2021 Kubeflow User Survey&lt;/a&gt;,
-users requested documentation improvements (please see the figure below). The
-Kubeflow 1.4 release cycle included the 1.4 Docs Sprint that generated nearly
-fifty (50) PRs. These PRs were tracked in this
-&lt;a href=&quot;https://github.com/kubeflow/website/issues/2879&quot;&gt;issue&lt;/a&gt; and this
-&lt;a href=&quot;https://github.com/orgs/kubeflow/projects/46&quot;&gt;Kanban&lt;/a&gt; board, and we encourage
-more users to contribute by reading and improving the Kubeflow documentation.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/2021-10-12-kubeflow-1.4-release/docs-sprint.png&quot; alt=&quot;docs sprint&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The 1.4 release improvements simplify future feature development by reducing
-redundant code, increasing CI/CD, and automating testing. An important delivery
-was the new Unified Training Operator for Tensorflow, PyTorch, MXNet, and
-XGBoost &lt;a href=&quot;https://github.com/kubeflow/tf-operator/pull/1302&quot;&gt;PR#1302&lt;/a&gt;. 1.4 also
-initiated the Community’s adoption of a defined release process in its new
-Kubeflow &lt;a href=&quot;https://github.com/kubeflow/manifests/pull/1907&quot;&gt;Release Handbook&lt;/a&gt;.
-The Handbook defines the stages of the release and contributors’ roles, which
-has helped to improve responsibilities and quality.&lt;/p&gt;
-
-&lt;h2 id=&quot;simplified-installation&quot;&gt;Simplified installation&lt;/h2&gt;
-
-&lt;p&gt;As shown in the Kubeflow User Survey (see the figure above), users have also
-asked for installation improvements. In Kubeflow 1.3, the Community refactored
-the Kubeflow deployment pattern to use manifests files (in yaml or json), which
-are stored in Git repositories, and then deployed using the Kustomize
-installation tool. This flexible installation pattern simplifies customization
-by overlaying manifests. This pattern is now being exploited in 1.4.&lt;/p&gt;
-
-&lt;p&gt;In 1.4, the Community provides an upstream set of base manifests in the
-Kubeflow manifest repo. Third parties have built custom installation guides
-or distributions with overlays that extend the base manifests. In 1.4, the
-third party overlays were removed from the Kubeflow
-&lt;a href=&quot;https://github.com/kubeflow/manifests&quot;&gt;manifest repo&lt;/a&gt; and moved to the
-repository of their choosing. This pattern provides third parties more
-flexibility to upgrade and document their overlays. You can see a full set of
-installation guides and distributions
-&lt;a href=&quot;https://www.kubeflow.org/docs/started/installing-kubeflow/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;In addition, on-prem Kubeflow users can use the base installation manifests
-which utilize open source solutions like &lt;a href=&quot;https://istio.io/&quot;&gt;Istio&lt;/a&gt;,
-&lt;a href=&quot;https://dexidp.io/&quot;&gt;Dex&lt;/a&gt;, and
-&lt;a href=&quot;https://github.com/arrikto/oidc-authservice&quot;&gt;AuthService&lt;/a&gt; for authentication.
-The Community and the Manifests Working Group are actively working to provide
-extra overlays and patches to accommodate more advanced use cases and
-installations. For example, we recently
-&lt;a href=&quot;https://github.com/kubeflow/manifests/pull/2048&quot;&gt;configured&lt;/a&gt; Knative to work
-with the AuthService and Dex.&lt;/p&gt;
-
-&lt;h2 id=&quot;dependencies-change-logs-tracking-issues-and-roadmaps&quot;&gt;Dependencies, change logs, tracking issues and roadmaps&lt;/h2&gt;
-
-&lt;p&gt;Kubeflow has many software dependencies. In 1.4, the top dependencies used in
-testing are defined below:&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;tr&gt;
-    &lt;td&gt;&lt;strong&gt;Kubeflow Dependency&lt;/strong&gt;&lt;/td&gt;
-    &lt;td&gt;&lt;strong&gt;Version&lt;/strong&gt;&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;Kubernetes&lt;/td&gt;
-    &lt;td&gt;1.19.0&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;Istio&lt;/td&gt;
-    &lt;td&gt;1.9.6&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;Knative&lt;/td&gt;
-    &lt;td&gt;0.22.1&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;Kustomize&lt;/td&gt;
-    &lt;td&gt;3.2.0&lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;
-
-&lt;p&gt;This chart provides links to important details from the Working Groups,
-including their 1.4 tracking issues, change logs, and roadmaps. Please 
-note that the Working Groups use version numbers that are specific to 
-their project. As a result, many Kubeflow components, which have been 
-incorporated and tested in Kubeflow 1.4, may have a different version 
-number than 1.4.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;tr&gt;
-    &lt;td&gt;&lt;strong&gt;Working Group&lt;/strong&gt;&lt;/td&gt;
-    &lt;td&gt;&lt;strong&gt;Changelog / Release Notes&lt;/strong&gt;&lt;/td&gt;
-    &lt;td&gt;&lt;strong&gt;Roadmap&lt;/strong&gt;&lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;&lt;strong&gt;Notebooks&lt;/strong&gt;&lt;/td&gt;
-    &lt;td&gt;
-      1.4,&lt;br /&gt;
-      &lt;a href=&quot;https://github.com/kubeflow/kubeflow/releases/tag/v1.4.0&quot;&gt;
-        releases/tag/v1.4.0
-      &lt;/a&gt;
-    &lt;/td&gt;
-    &lt;td&gt;
-      &lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/5978&quot;&gt;
-        kubeflow/issues/5978
-      &lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;&lt;strong&gt;Training Operators&lt;/strong&gt;&lt;/td&gt;
-    &lt;td&gt;
-      1.3,&lt;br /&gt;
-      &lt;a href=&quot;https://github.com/kubeflow/training-operator/blob/master/CHANGELOG.md&quot;&gt;
-        Training Operator Changelog
-      &lt;/a&gt;
-    &lt;/td&gt;
-    &lt;td&gt;
-      &lt;a href=&quot;https://github.com/kubeflow/common/blob/master/ROADMAP.md&quot;&gt;
-        Training Operators Roadmap
-      &lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;&lt;strong&gt;Katib&lt;/strong&gt;&lt;/td&gt;
-    &lt;td&gt;
-      V0.12,&lt;br /&gt;
-      &lt;a href=&quot;https://github.com/kubeflow/katib/releases/tag/v0.12.0&quot;&gt;
-        Katib Release Notes
-      &lt;/a&gt;&lt;br /&gt;
-      &lt;a href=&quot;https://github.com/kubeflow/katib/blob/aa452f07eb8a1f395b76d63fa233a2a01aacdeba/CHANGELOG.md&quot;&gt;
-        PR for v0.12  
-      &lt;/a&gt;
-    &lt;/td&gt;
-    &lt;td&gt;
-      &lt;a href=&quot;https://github.com/kubeflow/katib/blob/master/ROADMAP.md&quot;&gt;
-        Katib Roadmap
-      &lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;&lt;strong&gt;Kubeflow Pipelines&lt;/strong&gt;&lt;/td&gt;
-    &lt;td&gt;
-      v1.7&lt;br /&gt;
-      &lt;a href=&quot;https://github.com/kubeflow/pipelines/releases/tag/1.7.0&quot;&gt;
-        Release Notes, Changelog
-      &lt;/a&gt;
-    &lt;/td&gt;
-    &lt;td&gt;
-      &lt;a href=&quot;https://github.com/kubeflow/pipelines/blob/master/ROADMAP.md&quot;&gt;
-        Pipelines Roadmap
-      &lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;&lt;strong&gt;KFServing&lt;/strong&gt;&lt;/td&gt;
-    &lt;td&gt;
-      v0.6.1,&lt;br /&gt;
-      &lt;a href=&quot;https://github.com/kubeflow/kfserving/releases/tag/v0.6.1&quot;&gt;
-        kfserving/releases/tag/v0.6.1
-      &lt;/a&gt;
-    &lt;/td&gt;
-    &lt;td&gt;
-      &lt;a href=&quot;https://github.com/kubeflow/kfserving/blob/master/ROADMAP.md&quot;&gt;
-        KFServing Roadmap
-      &lt;/a&gt;
-    &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;kubeflow-14-video-update-and-tutorials&quot;&gt;Kubeflow 1.4 video update and tutorials&lt;/h2&gt;
-
-&lt;p&gt;The Kubeflow Working Group representatives have recorded a
-&lt;a href=&quot;https://youtu.be/gG61gHw4J14&quot;&gt;presentation&lt;/a&gt; on Kubeflow 1.4’s new
-features, which you can find on the
-&lt;a href=&quot;https://www.youtube.com/kubeflow&quot;&gt;Kubeflow YouTube channel&lt;/a&gt;. Additionally,
-Kubeflow 1.4’s new features are easy to try in these tutorials:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;AutoML &lt;a href=&quot;https://codelabs.arrikto.com/codelabs/minikf-kale-automl/index.html?index=../..index#0&quot;&gt;Tutorial&lt;/a&gt;
-with metadata based workflows to build TensorBoards and to serve models&lt;/li&gt;
-  &lt;li&gt;Run Katib from your &lt;strong&gt;local laptop&lt;/strong&gt; by following &lt;a href=&quot;https://github.com/kubeflow/katib/tree/master/examples/v1beta1/kind-cluster&quot;&gt;this example&lt;/a&gt;.&lt;/li&gt;
-  &lt;li&gt;KFP &lt;a href=&quot;https://www.kubeflow.org/docs/components/pipelines/sdk/v2/build-pipeline/&quot;&gt;Tutorial&lt;/a&gt;
-using Pipelines SDK v2 to orchestrate your ML workflow as a pipeline&lt;/li&gt;
-  &lt;li&gt;KFServing &lt;a href=&quot;https://github.com/kserve/kserve/tree/release-0.6/docs/samples&quot;&gt;Tutorial&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Training Operator &lt;a href=&quot;https://github.com/kubeflow/training-operator/tree/master/examples&quot;&gt;Tutorial&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;whats-coming&quot;&gt;What’s coming&lt;/h2&gt;
-
-&lt;p&gt;The Kubeflow Community is working on Kubeflow 1.5 planning and the Kubeflow
-Conformance Program &lt;a href=&quot;https://github.com/kubeflow/community/pull/524&quot;&gt;proposal&lt;/a&gt;.
-Please watch &lt;a href=&quot;https://blog.kubeflow.org/&quot;&gt;blog.kubeflow.org&lt;/a&gt; for updates on
-these topics and more.&lt;/p&gt;
-
-&lt;h2 id=&quot;join-the-community&quot;&gt;Join the community&lt;/h2&gt;
-
-&lt;p&gt;We would like to thank everyone for their efforts on Kubeflow 1.4, especially
-the users, code contributors and working group leads. As you can see from the
-extensive contributions to Kubeflow 1.4, the Kubeflow Community is vibrant and
-diverse, and solving real world problems for organizations around the world.&lt;/p&gt;
-
-&lt;p&gt;Want to help? The Kubeflow Community
-&lt;a href=&quot;https://github.com/kubeflow/community/blob/master/wg-list.md&quot;&gt;Working Groups&lt;/a&gt;
-hold open meetings, public lists, and are always looking for more volunteers
-and users to unlock the potential of machine learning. If you’re interested in
-becoming a Kubeflow contributor, please feel free to check out the resources
-below. We look forward to working with you!&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Visit our &lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;Kubeflow website&lt;/a&gt; or
-&lt;a href=&quot;https://github.com/kubeflow&quot;&gt;Kubeflow GitHub page&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Join the &lt;a href=&quot;https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg&quot;&gt;Kubeflow Slack channel&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Join the
-&lt;a href=&quot;https://groups.google.com/forum/#!forum/kubeflow-discuss&quot;&gt;kubeflow-discuss&lt;/a&gt;
-mailing list&lt;/li&gt;
-  &lt;li&gt;Attend a
-&lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;weekly community meeting&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Josh Bottum, Kimonas Sotirchos, Thea Lamkin</name></author><category term="release" /><summary type="html">The Kubeflow 1.4 release lays several important building blocks for the use of advanced metadata workflows. A quick summary of 1.4’s top deliveries includes:</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;p&gt;Issues: https://github.com/kubeflow/training-operator/issues&lt;/p&gt;</content><author><name>Johnu George, Jiaxin Shan, Josh Bottum</name></author><category term="release" /><summary type="html">The Kubeflow Training Operator Working Group introduced several enhancements in the recent Kubeflow 1.4 release. The most significant was the introduction of the new unified training operator that enables Kubernetes custom resources (CR) for many of the popular training frameworks: Tensorflow, Pytorch, MXNet and XGboost. In addition, the tf-operator repository has been renamed to training-operator.</summary></entry></feed>

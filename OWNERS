@@ -1,7 +1,7 @@
 approvers:
-- james-jwu
-- kramachandran
-- theadactyl
-- zijianjoy
-reviewers:
-- zijianjoy
+  - andreyvelich
+  - james-jwu
+  - jbottum
+  - johnugeorge
+  - terrytangyuan
+  - zijianjoy

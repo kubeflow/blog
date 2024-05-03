@@ -115,10 +115,7 @@ community endeavor. Here's how you can be a part of this journey:
     [this guide](https://www.kubeflow.org/docs/about/community/)
     to join Kubeflow Slack and learn more about Kubeflow community.
 
--   **Spark Operator Community Call:** We are planning to host regular
-    community calls for Spark Operator questions and roadmap. Please
-    help us to find the best time by taking this poll:
-    [https://forms.gle/foTkwkuv3U4gk7M77](https://forms.gle/foTkwkuv3U4gk7M77)
+-   **Kubeflow Spark Operator Community Call:** We're excited to announce Spark Operator Community Monthly Meetings for Open Source Contributors starting **May 17th, 2024 (10-11 AM PST)**. These meetings, held every third Friday, are your chance to discuss project updates, share ideas, and collaborate with the community. Find meeting links in the [#kubeflow-spark-operator](https://kubeflow.slack.com/archives/C06627U3XU3) channel. 
 
 In the spirit of collaboration fostered on platforms like Slack, and
 with the generous support of the Google Cloud team, we're set to sail
@@ -133,6 +130,6 @@ data processing.
 
 -   [WG Data(name provisional)proposal](https://github.com/kubeflow/community/pull/673)
 
--   [Update Documentation: Redirect Helm Chart Installation Links to Bflow Repository](https://github.com/kubeflow/spark-operator/issues/1929)
+-   [Update Documentation: Redirect Helm Chart Installation Links to Kubeflow Repository](https://github.com/kubeflow/spark-operator/issues/1929)
 
 -   [Update Release Workflows: Change Container Registry to Kubeflow's ghcr.io](https://github.com/kubeflow/spark-operator/issues/1930)

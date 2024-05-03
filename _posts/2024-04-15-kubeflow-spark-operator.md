@@ -115,7 +115,8 @@ community endeavor. Here's how you can be a part of this journey:
     [this guide](https://www.kubeflow.org/docs/about/community/)
     to join Kubeflow Slack and learn more about Kubeflow community.
 
--   **Kubeflow Spark Operator Community Call:** We're excited to announce Spark Operator Community Monthly Meetings for Open Source Contributors starting **May 17th, 2024 (10-11 AM PST)**. These meetings, held every third Friday, are your chance to discuss project updates, share ideas, and collaborate with the community. Find meeting links in the [#kubeflow-spark-operator](https://kubeflow.slack.com/archives/C06627U3XU3) channel. 
+-   **Kubeflow Spark Operator Community Call**: We're excited to announce Spark Operator Community Monthly Meetings for Open Source Contributors starting **May 17th, 2024 (10-11 AM PST)**. These meetings, held every third Friday, are your chance to discuss project updates, share ideas, and collaborate with the community. You can find the Zoom call details and meeting notes in this [Google Doc](https://docs.google.com/document/d/1AnG6ptKLBY7O6ddyNm4SVsEbfu6jiyVyN3hDDgDUnxQ/edit#heading=h.pgrbsx5c3qqo). Please also join the [#kubeflow-discuss](https://www.kubeflow.org/docs/about/community/#kubeflow-mailing-list) Google group and find meeting links in the [#kubeflow-spark-operator](https://kubeflow.slack.com/archives/C06627U3XU3) channel.
+
 
 In the spirit of collaboration fostered on platforms like Slack, and
 with the generous support of the Google Cloud team, we're set to sail

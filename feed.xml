@@ -1,4 +1,155 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2024-05-01T11:40:55-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow Project Steering Committee Announced</title><link href="https://blog.kubeflow.org/election/2024/01/31/kubeflow-project-steering-committee-announced.html" rel="alternate" type="text/html" title="Kubeflow Project Steering Committee Announced" /><published>2024-01-31T00:00:00-06:00</published><updated>2024-01-31T00:00:00-06:00</updated><id>https://blog.kubeflow.org/election/2024/01/31/kubeflow-project-steering-committee-announced</id><content type="html" xml:base="https://blog.kubeflow.org/election/2024/01/31/kubeflow-project-steering-committee-announced.html">&lt;p&gt;We’re thrilled to &lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss/c/IiwFd-Eoc_Y/m/ig9pMvvtAAAJ&quot;&gt;announce the results&lt;/a&gt; of the &lt;a href=&quot;https://github.com/kubeflow/community/blob/b52b8dbc020fa69731d31d6df618ab87e38f822e/elections/kubeflow-steering-committee-elections-2023.md&quot;&gt;2023 Kubeflow Steering Committee (KSC) election&lt;/a&gt;.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2024-05-07T09:08:32-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Announcing the Kubeflow Spark Operator: Building a Stronger Spark on Kubernetes Community</title><link href="https://blog.kubeflow.org/operators/2024/04/15/kubeflow-spark-operator.html" rel="alternate" type="text/html" title="Announcing the Kubeflow Spark Operator: Building a Stronger Spark on Kubernetes Community" /><published>2024-04-15T00:00:00-05:00</published><updated>2024-04-15T00:00:00-05:00</updated><id>https://blog.kubeflow.org/operators/2024/04/15/kubeflow-spark-operator</id><content type="html" xml:base="https://blog.kubeflow.org/operators/2024/04/15/kubeflow-spark-operator.html">&lt;p&gt;We’re excited to announce the migration of Google’s Spark Operator to
+the &lt;a href=&quot;https://github.com/kubeflow/spark-operator&quot;&gt;Kubeflow Spark Operator&lt;/a&gt;,
+marking the launch of a significant addition to the &lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;Kubeflow&lt;/a&gt; ecosystem. The
+Kubeflow Spark Operator simplifies the deployment and management of
+&lt;a href=&quot;https://spark.apache.org/docs/latest/index.html&quot;&gt;Apache
+Spark&lt;/a&gt;
+applications on &lt;a href=&quot;https://kubernetes.io/&quot;&gt;Kubernetes&lt;/a&gt;. This
+announcement isn’t just about a new piece of technology, it’s about
+building a stronger, open-governed, and more collaborative community
+around Spark on Kubernetes.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-journey-to-kubeflow-spark-operator&quot;&gt;The Journey to Kubeflow Spark Operator&lt;/h2&gt;
+
+&lt;p&gt;The journey of the Kubeflow Spark Operator began with Google Cloud
+Platform’s Spark on Kubernetes Operator
+(https://cloud.google.com/blog/products/data-analytics/data-analytics-meet-containers-kubernetes-operator-for-apache-spark-now-in-beta).
+With over 2.3k stars and 1.3k forks on GitHub, this project laid the
+foundation for a robust Spark on Kubernetes experience, enabling users
+to deploy Spark workloads seamlessly across Kubernetes clusters.&lt;/p&gt;
+
+&lt;p&gt;Growth and innovation require not just code but also community.
+Acknowledging the resource and time limitations faced by Google Cloud’s
+original maintainers, Kubeflow has taken up the mantle.This transition
+is not merely administrative but a strategic move towards fostering a
+vibrant, diverse, and more actively engaged community.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-kubeflow&quot;&gt;Why Kubeflow?&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Enhanced Community Engagement:&lt;/strong&gt; Transitioning to Kubeflow opens
+the door to a broader developer base, encouraging contributions and
+collaboration. Since Kubeflow is a CNCF incubating project this
+transition will help consolidate Cloud Native and Spark communities
+to work more closely to build robust infrastructure to run Spark
+applications on Kubernetes.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Stronger Governance&lt;/strong&gt;: Kubeflow’s governance model provides a
+structured environment for decision-making and project management,
+ensuring sustainable growth for the Spark Operator.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Unified Ecosystem&lt;/strong&gt;: By bringing the Spark Operator under the
+Kubeflow umbrella, we’re not just merging projects; we’re building
+a cohesive ecosystem that enhances the Spark on Kubernetes
+experience.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Integration with AI/ML:&lt;/strong&gt; Kubeflow provides several components to
+address many stages of the AI/ML lifecycle. The Spark distributed
+data processing capabilities are a natural expansion, allowing the
+Spark community to closely collaborate and better integrate within
+the end-to-end ML lifecycle.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;whats-next&quot;&gt;What’s Next?&lt;/h2&gt;
+
+&lt;p&gt;We are dedicated to not just maintaining but enhancing the Kubeflow
+Spark Operator for the long term. Here’s what you can look forward to:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Upcoming roadmap&lt;/strong&gt;: As part of the first release, we aim to update
+the documentation with references to Kubeflow, address GitHub
+workflow issues, and update the container registry with Kubeflow,
+along with any other critical issues.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Ongoing Support and Enhancements&lt;/strong&gt;: At the time of migration to
+the Kubeflow repository, the repository comprised 450+ issues and
+60+ pull requests. We kindly request contributors to rebase their
+code and update the PR with a comment indicating its continued
+relevance. As for open issues, they will be considered for
+resolution as the broader community and contributors engage in
+upcoming releases.The operator will continue to evolve,
+incorporating new features and improvements to stay at the forefront
+of Kubernetes deployments.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Rich Community Resources&lt;/strong&gt;: From detailed documentation to
+hands-on tutorials, we’re crafting resources to help you succeed
+with the Spark Operator. We are planning to host regular Spark
+Operator calls to discuss users issues, questions, and future
+roadmaps.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Open Doors for Contributions&lt;/strong&gt;: This is a call to arms for
+developers, writers, and enthusiasts! Your contributions are the
+lifeblood of this project, and there’s a place for everyone to make
+a mark.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Kubeflow Working Group Data:&lt;/strong&gt; To consolidate efforts around new
+data tools in the Kubeflow ecosystem such as Spark Operator and
+Model Registry the new Working Group Data will be formalized soon.
+Feel free to review &lt;a href=&quot;https://github.com/kubeflow/community/pull/673&quot;&gt;this PR&lt;/a&gt; to
+get involved and provide your feedback on the charter.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;join-the-movement&quot;&gt;Join the Movement&lt;/h2&gt;
+
+&lt;p&gt;The Kubeflow Spark Operator is more than just software. It’s a
+community endeavor. Here’s how you can be a part of this journey:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Dive In&lt;/strong&gt;: Visit our &lt;a href=&quot;https://github.com/kubeflow/spark-operator&quot;&gt;GitHub repository&lt;/a&gt;
+to start your journey with the Kubeflow Spark Operator.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Contribute&lt;/strong&gt;: Every code snippet, documentation update, and piece
+of feedback counts. Find out how you can contribute on GitHub.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Be Part of the Community&lt;/strong&gt;: Join the conversation in the
+&lt;a href=&quot;https://kubeflow.slack.com/archives/C06627U3XU3&quot;&gt;#kubeflow-spark-operator&lt;/a&gt;
+channel on Kubeflow Slack. Whether you’re seeking advice, sharing
+insights, or just listening in, your presence enriches us. Follow
+&lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;this guide&lt;/a&gt;
+to join Kubeflow Slack and learn more about Kubeflow community.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Kubeflow Spark Operator Community Call&lt;/strong&gt;: We’re excited to announce Spark Operator Community Monthly Meetings for Open Source Contributors starting &lt;strong&gt;May 17th, 2024 (10-11 AM PST)&lt;/strong&gt;. These meetings, held every third Friday, are your chance to discuss project updates, share ideas, and collaborate with the community. You can find the Zoom call details and meeting notes in this &lt;a href=&quot;https://docs.google.com/document/d/1AnG6ptKLBY7O6ddyNm4SVsEbfu6jiyVyN3hDDgDUnxQ/edit#heading=h.pgrbsx5c3qqo&quot;&gt;Google Doc&lt;/a&gt;. Please also join the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/#kubeflow-mailing-list&quot;&gt;#kubeflow-discuss&lt;/a&gt; Google group and find meeting links in the &lt;a href=&quot;https://kubeflow.slack.com/archives/C06627U3XU3&quot;&gt;#kubeflow-spark-operator&lt;/a&gt; channel.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the spirit of collaboration fostered on platforms like Slack, and
+with the generous support of the Google Cloud team, we’re set to sail
+into a promising future. The Kubeflow Spark Operator isn’t just a tool,
+it’s our collective step towards harnessing the true potential of Spark
+on Kubernetes. Together, let’s shape the future of cloud-native big
+data processing.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Reference Issues&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/kubeflow/spark-operator/issues/1928#issue-2066490838&quot;&gt;Action items for adoption of Spark Kubernetes Operator in Kubeflow&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/kubeflow/community/pull/673&quot;&gt;WG Data(name provisional)proposal&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/kubeflow/spark-operator/issues/1929&quot;&gt;Update Documentation: Redirect Helm Chart Installation Links to Kubeflow Repository&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://github.com/kubeflow/spark-operator/issues/1930&quot;&gt;Update Release Workflows: Change Container Registry to Kubeflow’s ghcr.io&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>&lt;a href='https://www.linkedin.com/in/varaprofile/'&gt;Vara Bonthu&lt;/a&gt;, &lt;a href='https://www.linkedin.com/in/yuchaoran/'&gt;Chaoran Yu&lt;/a&gt;, &lt;a href='https://www.linkedin.com/in/andrey-velichkevich/'&gt;Andrey Velichkevich&lt;/a&gt;, &lt;a href='https://www.linkedin.com/in/wielgusmarcin/'&gt;Marcin Wielgus&lt;/a&gt;</name></author><category term="operators" /><summary type="html">We’re excited to announce the migration of Google’s Spark Operator to the Kubeflow Spark Operator, marking the launch of a significant addition to the Kubeflow ecosystem. The Kubeflow Spark Operator simplifies the deployment and management of Apache Spark applications on Kubernetes. This announcement isn’t just about a new piece of technology, it’s about building a stronger, open-governed, and more collaborative community around Spark on Kubernetes.</summary></entry><entry><title type="html">Kubeflow Project Steering Committee Announced</title><link href="https://blog.kubeflow.org/election/2024/01/31/kubeflow-project-steering-committee-announced.html" rel="alternate" type="text/html" title="Kubeflow Project Steering Committee Announced" /><published>2024-01-31T00:00:00-06:00</published><updated>2024-01-31T00:00:00-06:00</updated><id>https://blog.kubeflow.org/election/2024/01/31/kubeflow-project-steering-committee-announced</id><content type="html" xml:base="https://blog.kubeflow.org/election/2024/01/31/kubeflow-project-steering-committee-announced.html">&lt;p&gt;We’re thrilled to &lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss/c/IiwFd-Eoc_Y/m/ig9pMvvtAAAJ&quot;&gt;announce the results&lt;/a&gt; of the &lt;a href=&quot;https://github.com/kubeflow/community/blob/b52b8dbc020fa69731d31d6df618ab87e38f822e/elections/kubeflow-steering-committee-elections-2023.md&quot;&gt;2023 Kubeflow Steering Committee (KSC) election&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;The Kubeflow community has shown a strong commitment to the project’s future by casting their votes for the new leadership. Please welcome &lt;a href=&quot;https://www.linkedin.com/in/terrytangyuan/&quot;&gt;Yuan (Terry) Tang&lt;/a&gt; (Red Hat), &lt;a href=&quot;https://www.linkedin.com/in/andrey-velichkevich/&quot;&gt;Andrey Velichkevich&lt;/a&gt; (Apple), and &lt;a href=&quot;https://www.linkedin.com/in/johnu-george-83036610/&quot;&gt;Johnu George&lt;/a&gt; (Nutanix) who will be joining &lt;a href=&quot;https://www.linkedin.com/in/joshbottum/&quot;&gt;Josh Bottom&lt;/a&gt; (Consultant) and &lt;a href=&quot;https://www.linkedin.com/in/jawks/&quot;&gt;James Wu&lt;/a&gt; (Google) as KSC members.  The three new members will serve a two-year term ending in 2025, beginning immediately.&lt;/p&gt;
 
@@ -883,45 +1034,4 @@ the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;Kub
 
 &lt;p&gt;A number of Kubeflow distribution providers are supporting Kubeflow 1.5.1. These cloud provider and vendor distributions include additional enhancements and professional support, which many users find valuable. Please find a list of the Kubeflow distribution providers &lt;a href=&quot;https://www.kubeflow.org/docs/started/installing-kubeflow/#install-a-packaged-kubeflow-distribution&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;Special thanks to Kartik Kalamadi, Suraj Kota, Kimonas Sotirchos and James Liu for driving this effort!&lt;/p&gt;</content><author><name>Kubeflow 1.5 Release Team</name></author><category term="release" /><summary type="html">The Kubeflow Community is excited to announce the release of Kubeflow 1.5.1. The Kubeflow 1.5.1 release provides a valuable enhancement to the caching feature of Kubeflow Pipeline (KFP) for any Kubernetes distribution with strict security policies for user application certificates. Caching is one of the crucial features of KFP which enables skipping a step that has already been executed which saves time and money. This release unblocks the caching feature to be used on distributions like AWS, the Mercedes Benz cluster, etc.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Kubeflow v1.5 improves ML model accuracy, reduces infrastructure costs and optimizes MLOps</title><link href="https://blog.kubeflow.org/kubeflow-1.5-release/" rel="alternate" type="text/html" title="Kubeflow v1.5 improves ML model accuracy, reduces infrastructure costs and optimizes MLOps" /><published>2022-04-01T00:00:00-05:00</published><updated>2022-04-01T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.5-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.5-release/">&lt;p&gt;The Kubeflow v1.5 software release improves ML model accuracy, lowers infrastructure costs, and simplifies operations by providing a more consistent user experience between components.&lt;/p&gt;
-
-&lt;h2 id=&quot;lower-infrastructure-costs-and-improve-model-accuracy&quot;&gt;Lower infrastructure costs and improve model accuracy&lt;/h2&gt;
-
-&lt;p&gt;Several enhancements in Kubeflow v1.5 lower infrastructure costs and help improve model accuracy.  For example, new elastic training augments the Kubeflow training operator for PyTorch and enables PyTorch workers to be scaled up and down, providing fault tolerant and elastic training. This allows the training jobs to continue without restarting from scratch even if a worker fails. Elastic training can also enable the use of ephemeral or spot instances, which can save infrastructure costs. See the &lt;a href=&quot;https://github.com/kubeflow/community/blob/b56452405e44c05ed60145a19bb86be55f3833d5/proposals/pytorch-elastic-proposal.md&quot;&gt;elastic training proposal&lt;/a&gt; for more details.&lt;/p&gt;
-
-&lt;p&gt;In addition, v1.5 extends notebook monitoring and culling. Kernel monitoring shuts down notebook servers that have been inactive when a configurable timer expires. Kubeflow v1.5 introduces greater precision in assessing notebook server UI activity.&lt;/p&gt;
-
-&lt;p&gt;Finally, v1.5 includes &lt;a href=&quot;https://github.com/kubeflow/katib/pull/1709&quot;&gt;early validation of hyperparameter tuning&lt;/a&gt;.  This feature improves model accuracy by reducing the overfitting of the model to the data sets used during hyperparameter tuning.  It can also reduce the infrastructure used as it will stop hyperparameter tuning when configurable thresholds are reached.&lt;/p&gt;
-
-&lt;h2 id=&quot;simplified-operations&quot;&gt;Simplified operations&lt;/h2&gt;
-
-&lt;p&gt;v1.5 simplifies operations in several ways including easier support of high availability for the Katib Controller via the new hyperparameter leader &lt;a href=&quot;https://github.com/kubeflow/katib/pull/1713&quot;&gt;election&lt;/a&gt;.  v1.5 also adds the MPI framework to the Unified Training Operator, which deploys a single operator for handling the most popular frameworks: Tensorflow, Pytorch, MXNet, XGBoost and MPI.  Kubeflow Pipelines (KFP) has incorporated support for the &lt;a href=&quot;https://www.kubeflow.org/docs/components/pipelines/installation/choose-executor/#emissary-executor&quot;&gt;Emissary Executor&lt;/a&gt; as the default executor, which means that users are not required to manually configure this option to Emissary.  This enhancement also enables KFP to support the newer Kubernetes versions that require a Container Runtime Interface (CRI) and provides support for Docker containers.&lt;/p&gt;
-
-&lt;p&gt;In addition, KServe v0.7 is integrated with Kubeflow v1.5.  For users who are still using KFServing v0.6.1, v1.5 does support the installation of the KFServing v0.6.1 release.  For users migrating from KFServing to KServe, there is helpful documentation, which you can find &lt;a href=&quot;https://kserve.github.io/website/0.7/admin/migration/&quot;&gt;here&lt;/a&gt;.  From a feature standpoint, KServe v0.7 has added a beta of &lt;a href=&quot;https://github.com/kserve/modelmesh-serving&quot;&gt;ModelMesh&lt;/a&gt;, which enables easier scaling of model serving and provides an architecture that overcomes pod and IP limitations that limit the number of models that can run on a single node and/or cluster.&lt;/p&gt;
-
-&lt;p&gt;Note on K8s 1.22: Although many of the Kubeflow services (KFP, AutoML, Training Operator, KServe) have started testing with K8s 1.22, v1.5 was not thoroughly tested with K8s 1.22.   Additionally, critical work is still outstanding for Kubeflow Notebooks and other central services.  While the Community always encourages testing, K8s 1.22 is not formally supported with Kubeflow v1.5.  K8s 1.22 support is on the roadmap for Kubeflow’s next release and if you are interested in K8s 1.22 support, please add a comment on this tracking &lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/6098&quot;&gt;issue&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;streamlined-user-experience&quot;&gt;Streamlined user experience&lt;/h2&gt;
-
-&lt;p&gt;In v1.5, the Kubeflow User Interface (UI) dashboards for Notebooks, Tensorboards and Volume Manager more closely match KFP’s dashboard.   These enhancements include how dashboard fields are displayed and how operations are performed.  This gives users a consistent look and feel when working in the UI. Additionally, the Kubeflow notebooks manager web app form and its configuration template have been updated for allowing users to fully define the PVC objects that will be created for a notebook. This will give end users the ability to modify crucial parts of the PVCs, such as StorageClasses, and to more easily support popular storage offerings, including NFS. In addition, AutoML has also updated its SDK, CI framework and parameter settings across frameworks (goptuna, optuna, hyperopt).&lt;/p&gt;
-
-&lt;h2 id=&quot;installation-tutorials-and-documentation&quot;&gt;Installation, tutorials and documentation&lt;/h2&gt;
-
-&lt;p&gt;The Kubeflow v1.5 release process includes improvements to Kubeflow’s installation, tutorial and documentation.  For installation, the Manifest Working Group’s &lt;a href=&quot;https://github.com/kubeflow/manifests&quot;&gt;documentation&lt;/a&gt; provided the starting place for the Kubeflow &lt;a href=&quot;https://www.kubeflow.org/docs/started/installing-kubeflow/&quot;&gt;distributions&lt;/a&gt;, and this collaboration has increased the maturity of the code and documentation for Kubeflow’s GitOps installation pattern.  The v1.5 release process included a tracking &lt;a href=&quot;https://github.com/kubeflow/website/issues/3130&quot;&gt;issue&lt;/a&gt; for the critical web pages that are updated in each release.  Additionally, there are many Working Group documentation updates and we invite you to open issues when you find documentation that needs improvement.  Kubeflow v1.5 also includes two tutorials, which are described below:&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Tutorial 1&lt;/strong&gt; - &lt;a href=&quot;https://github.com/kubeflow/pipelines/blob/master/samples/contrib/kubeflow-e2e-mnist/kubeflow-e2e-mnist.ipynb&quot;&gt;E2E MNIST with Kubeflow Tutorial&lt;/a&gt;,which provides an end-to-end test sequence i.e. start a notebook, run a pipeline, execute training, hyperparameter tuning and model serving.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Tutorial 2&lt;/strong&gt; - &lt;a href=&quot;https://www.kubeflow.org/docs/external-add-ons/kserve/first_isvc_kserve/&quot;&gt;Deploy and run your first interfere service with KServe Tutorial&lt;/a&gt; Run your first interface service on Kubeflow 1.5 i.e. define, create and check an InferenceService, post an interfere request and receive response.  Optionally run performance tests.&lt;/p&gt;
-
-&lt;h2 id=&quot;join-the-community&quot;&gt;Join the community&lt;/h2&gt;
-
-&lt;p&gt;The v1.5 Release Team would like to thank everyone for their efforts on Kubeflow v1.5, especially the users, code contributors, working group leads, and distribution team leads. As you can see from the extensive contributions to Kubeflow 1.5, the Kubeflow Community is vibrant and diverse, and solving real world problems for organizations around the globe.&lt;/p&gt;
-
-&lt;p&gt;Excited to contribute your great ideas? The Kubeflow Community &lt;a href=&quot;https://github.com/kubeflow/community/blob/master/wg-list.md&quot;&gt;Working Groups&lt;/a&gt; hold open meetings, public lists, and are always looking for more volunteers and users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below. We look forward to working with you!&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Visit our &lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;Kubeflow website&lt;/a&gt; or &lt;a href=&quot;https://github.com/kubeflow&quot;&gt;Kubeflow Github page&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Join the &lt;a href=&quot;https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg&quot;&gt;Kubeflow Slack Channel&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Join the &lt;a href=&quot;https://groups.google.com/forum/#!forum/kubeflow-discuss&quot;&gt;kubeflow-discuss&lt;/a&gt; mailing list&lt;/li&gt;
-  &lt;li&gt;Attend a &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;weekly community meeting&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Kubeflow 1.5 Release Team</name></author><category term="release" /><summary type="html">The Kubeflow v1.5 software release improves ML model accuracy, lowers infrastructure costs, and simplifies operations by providing a more consistent user experience between components.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;p&gt;Special thanks to Kartik Kalamadi, Suraj Kota, Kimonas Sotirchos and James Liu for driving this effort!&lt;/p&gt;</content><author><name>Kubeflow 1.5 Release Team</name></author><category term="release" /><summary type="html">The Kubeflow Community is excited to announce the release of Kubeflow 1.5.1. The Kubeflow 1.5.1 release provides a valuable enhancement to the caching feature of Kubeflow Pipeline (KFP) for any Kubernetes distribution with strict security policies for user application certificates. Caching is one of the crucial features of KFP which enables skipping a step that has already been executed which saves time and money. This release unblocks the caching feature to be used on distributions like AWS, the Mercedes Benz cluster, etc.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

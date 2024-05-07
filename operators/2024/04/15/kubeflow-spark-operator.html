@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Announcing the Kubeflow Spark Operator: Building a Stronger Spark on Kubernetes Community | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Announcing the Kubeflow Spark Operator: Building a Stronger Spark on Kubernetes Community" />
+<meta name="author" content="<a href='https://www.linkedin.com/in/varaprofile/'>Vara Bonthu</a>, <a href='https://www.linkedin.com/in/yuchaoran/'>Chaoran Yu</a>, <a href='https://www.linkedin.com/in/andrey-velichkevich/'>Andrey Velichkevich</a>, <a href='https://www.linkedin.com/in/wielgusmarcin/'>Marcin Wielgus</a>" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="We’re excited to announce the migration of Google’s Spark Operator to the Kubeflow Spark Operator, marking the launch of a significant addition to the Kubeflow ecosystem. The Kubeflow Spark Operator simplifies the deployment and management of Apache Spark applications on Kubernetes. This announcement isn’t just about a new piece of technology, it’s about building a stronger, open-governed, and more collaborative community around Spark on Kubernetes." />
+<meta property="og:description" content="We’re excited to announce the migration of Google’s Spark Operator to the Kubeflow Spark Operator, marking the launch of a significant addition to the Kubeflow ecosystem. The Kubeflow Spark Operator simplifies the deployment and management of Apache Spark applications on Kubernetes. This announcement isn’t just about a new piece of technology, it’s about building a stronger, open-governed, and more collaborative community around Spark on Kubernetes." />
+<link rel="canonical" href="https://blog.kubeflow.org/operators/2024/04/15/kubeflow-spark-operator.html" />
+<meta property="og:url" content="https://blog.kubeflow.org/operators/2024/04/15/kubeflow-spark-operator.html" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-04-15T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/operators/2024/04/15/kubeflow-spark-operator.html","@type":"BlogPosting","headline":"Announcing the Kubeflow Spark Operator: Building a Stronger Spark on Kubernetes Community","dateModified":"2024-04-15T00:00:00-05:00","datePublished":"2024-04-15T00:00:00-05:00","author":{"@type":"Person","name":"<a href='https://www.linkedin.com/in/varaprofile/'>Vara Bonthu</a>, <a href='https://www.linkedin.com/in/yuchaoran/'>Chaoran Yu</a>, <a href='https://www.linkedin.com/in/andrey-velichkevich/'>Andrey Velichkevich</a>, <a href='https://www.linkedin.com/in/wielgusmarcin/'>Marcin Wielgus</a>"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/operators/2024/04/15/kubeflow-spark-operator.html"},"description":"We’re excited to announce the migration of Google’s Spark Operator to the Kubeflow Spark Operator, marking the launch of a significant addition to the Kubeflow ecosystem. The Kubeflow Spark Operator simplifies the deployment and management of Apache Spark applications on Kubernetes. This announcement isn’t just about a new piece of technology, it’s about building a stronger, open-governed, and more collaborative community around Spark on Kubernetes.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Announcing the Kubeflow Spark Operator: Building a Stronger Spark on Kubernetes Community</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2024-04-15T00:00:00-05:00" itemprop="datePublished">
+        Apr 15, 2024
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name"><a href='https://www.linkedin.com/in/varaprofile/'>Vara Bonthu</a>, <a href='https://www.linkedin.com/in/yuchaoran/'>Chaoran Yu</a>, <a href='https://www.linkedin.com/in/andrey-velichkevich/'>Andrey Velichkevich</a>, <a href='https://www.linkedin.com/in/wielgusmarcin/'>Marcin Wielgus</a></span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#operators">operators</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>We’re excited to announce the migration of Google’s Spark Operator to
+the <a href="https://github.com/kubeflow/spark-operator">Kubeflow Spark Operator</a>,
+marking the launch of a significant addition to the <a href="https://www.kubeflow.org/">Kubeflow</a> ecosystem. The
+Kubeflow Spark Operator simplifies the deployment and management of
+<a href="https://spark.apache.org/docs/latest/index.html">Apache
+Spark</a>
+applications on <a href="https://kubernetes.io/">Kubernetes</a>. This
+announcement isn’t just about a new piece of technology, it’s about
+building a stronger, open-governed, and more collaborative community
+around Spark on Kubernetes.</p>
+
+<h2 id="the-journey-to-kubeflow-spark-operator">The Journey to Kubeflow Spark Operator</h2>
+
+<p>The journey of the Kubeflow Spark Operator began with Google Cloud
+Platform’s Spark on Kubernetes Operator
+(https://cloud.google.com/blog/products/data-analytics/data-analytics-meet-containers-kubernetes-operator-for-apache-spark-now-in-beta).
+With over 2.3k stars and 1.3k forks on GitHub, this project laid the
+foundation for a robust Spark on Kubernetes experience, enabling users
+to deploy Spark workloads seamlessly across Kubernetes clusters.</p>
+
+<p>Growth and innovation require not just code but also community.
+Acknowledging the resource and time limitations faced by Google Cloud’s
+original maintainers, Kubeflow has taken up the mantle.This transition
+is not merely administrative but a strategic move towards fostering a
+vibrant, diverse, and more actively engaged community.</p>
+
+<h2 id="why-kubeflow">Why Kubeflow?</h2>
+
+<ul>
+  <li>
+    <p><strong>Enhanced Community Engagement:</strong> Transitioning to Kubeflow opens
+the door to a broader developer base, encouraging contributions and
+collaboration. Since Kubeflow is a CNCF incubating project this
+transition will help consolidate Cloud Native and Spark communities
+to work more closely to build robust infrastructure to run Spark
+applications on Kubernetes.</p>
+  </li>
+  <li>
+    <p><strong>Stronger Governance</strong>: Kubeflow’s governance model provides a
+structured environment for decision-making and project management,
+ensuring sustainable growth for the Spark Operator.</p>
+  </li>
+  <li>
+    <p><strong>Unified Ecosystem</strong>: By bringing the Spark Operator under the
+Kubeflow umbrella, we’re not just merging projects; we’re building
+a cohesive ecosystem that enhances the Spark on Kubernetes
+experience.</p>
+  </li>
+  <li>
+    <p><strong>Integration with AI/ML:</strong> Kubeflow provides several components to
+address many stages of the AI/ML lifecycle. The Spark distributed
+data processing capabilities are a natural expansion, allowing the
+Spark community to closely collaborate and better integrate within
+the end-to-end ML lifecycle.</p>
+  </li>
+</ul>
+
+<h2 id="whats-next">What’s Next?</h2>
+
+<p>We are dedicated to not just maintaining but enhancing the Kubeflow
+Spark Operator for the long term. Here’s what you can look forward to:</p>
+
+<ul>
+  <li>
+    <p><strong>Upcoming roadmap</strong>: As part of the first release, we aim to update
+the documentation with references to Kubeflow, address GitHub
+workflow issues, and update the container registry with Kubeflow,
+along with any other critical issues.</p>
+  </li>
+  <li>
+    <p><strong>Ongoing Support and Enhancements</strong>: At the time of migration to
+the Kubeflow repository, the repository comprised 450+ issues and
+60+ pull requests. We kindly request contributors to rebase their
+code and update the PR with a comment indicating its continued
+relevance. As for open issues, they will be considered for
+resolution as the broader community and contributors engage in
+upcoming releases.The operator will continue to evolve,
+incorporating new features and improvements to stay at the forefront
+of Kubernetes deployments.</p>
+  </li>
+  <li>
+    <p><strong>Rich Community Resources</strong>: From detailed documentation to
+hands-on tutorials, we’re crafting resources to help you succeed
+with the Spark Operator. We are planning to host regular Spark
+Operator calls to discuss users issues, questions, and future
+roadmaps.</p>
+  </li>
+  <li>
+    <p><strong>Open Doors for Contributions</strong>: This is a call to arms for
+developers, writers, and enthusiasts! Your contributions are the
+lifeblood of this project, and there’s a place for everyone to make
+a mark.</p>
+  </li>
+  <li>
+    <p><strong>Kubeflow Working Group Data:</strong> To consolidate efforts around new
+data tools in the Kubeflow ecosystem such as Spark Operator and
+Model Registry the new Working Group Data will be formalized soon.
+Feel free to review <a href="https://github.com/kubeflow/community/pull/673">this PR</a> to
+get involved and provide your feedback on the charter.</p>
+  </li>
+</ul>
+
+<h2 id="join-the-movement">Join the Movement</h2>
+
+<p>The Kubeflow Spark Operator is more than just software. It’s a
+community endeavor. Here’s how you can be a part of this journey:</p>
+
+<ul>
+  <li>
+    <p><strong>Dive In</strong>: Visit our <a href="https://github.com/kubeflow/spark-operator">GitHub repository</a>
+to start your journey with the Kubeflow Spark Operator.</p>
+  </li>
+  <li>
+    <p><strong>Contribute</strong>: Every code snippet, documentation update, and piece
+of feedback counts. Find out how you can contribute on GitHub.</p>
+  </li>
+  <li>
+    <p><strong>Be Part of the Community</strong>: Join the conversation in the
+<a href="https://kubeflow.slack.com/archives/C06627U3XU3">#kubeflow-spark-operator</a>
+channel on Kubeflow Slack. Whether you’re seeking advice, sharing
+insights, or just listening in, your presence enriches us. Follow
+<a href="https://www.kubeflow.org/docs/about/community/">this guide</a>
+to join Kubeflow Slack and learn more about Kubeflow community.</p>
+  </li>
+  <li>
+    <p><strong>Kubeflow Spark Operator Community Call</strong>: We’re excited to announce Spark Operator Community Monthly Meetings for Open Source Contributors starting <strong>May 17th, 2024 (10-11 AM PST)</strong>. These meetings, held every third Friday, are your chance to discuss project updates, share ideas, and collaborate with the community. You can find the Zoom call details and meeting notes in this <a href="https://docs.google.com/document/d/1AnG6ptKLBY7O6ddyNm4SVsEbfu6jiyVyN3hDDgDUnxQ/edit#heading=h.pgrbsx5c3qqo">Google Doc</a>. Please also join the <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-mailing-list">#kubeflow-discuss</a> Google group and find meeting links in the <a href="https://kubeflow.slack.com/archives/C06627U3XU3">#kubeflow-spark-operator</a> channel.</p>
+  </li>
+</ul>
+
+<p>In the spirit of collaboration fostered on platforms like Slack, and
+with the generous support of the Google Cloud team, we’re set to sail
+into a promising future. The Kubeflow Spark Operator isn’t just a tool,
+it’s our collective step towards harnessing the true potential of Spark
+on Kubernetes. Together, let’s shape the future of cloud-native big
+data processing.</p>
+
+<p><strong><em>Reference Issues</em></strong></p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/kubeflow/spark-operator/issues/1928#issue-2066490838">Action items for adoption of Spark Kubernetes Operator in Kubeflow</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/kubeflow/community/pull/673">WG Data(name provisional)proposal</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/kubeflow/spark-operator/issues/1929">Update Documentation: Redirect Helm Chart Installation Links to Kubeflow Repository</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/kubeflow/spark-operator/issues/1930">Update Release Workflows: Change Container Registry to Kubeflow’s ghcr.io</a></p>
+  </li>
+</ul>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/operators/2024/04/15/kubeflow-spark-operator.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

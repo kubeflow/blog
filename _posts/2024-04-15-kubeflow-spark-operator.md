@@ -108,14 +108,13 @@ community endeavor. Here's how you can be a part of this journey:
 -   **Contribute**: Every code snippet, documentation update, and piece
     of feedback counts. Find out how you can contribute on GitHub.
 
--   **Be Part of the Community**: Join the conversation in the
-    [#kubeflow-spark-operator](https://kubeflow.slack.com/archives/C06627U3XU3)
-    channel on Kubeflow Slack. Whether you're seeking advice, sharing
-    insights, or just listening in, your presence enriches us. Follow
-    [this guide](https://www.kubeflow.org/docs/about/community/)
-    to join Kubeflow Slack and learn more about Kubeflow community.
+-   **Be Part of the Community**: Join the [CNCF Slack Workspace](https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels) 
+    and then join the conversation in the ```#kubeflow-spark-operator``` Channel. 
+    Whether you're seeking advice, sharing insights, or just listening in, 
+    your presence enriches us. Follow [this guide](https://www.kubeflow.org/docs/about/community/)
+    to learn more about Kubeflow community.
 
--   **Kubeflow Spark Operator Community Call**: We're excited to announce Spark Operator Community Monthly Meetings for Open Source Contributors starting **May 17th, 2024 (10-11 AM PST)**. These meetings, held every third Friday, are your chance to discuss project updates, share ideas, and collaborate with the community. You can find the Zoom call details and meeting notes in this [Google Doc](https://docs.google.com/document/d/1AnG6ptKLBY7O6ddyNm4SVsEbfu6jiyVyN3hDDgDUnxQ/edit#heading=h.pgrbsx5c3qqo). Please also join the [#kubeflow-discuss](https://www.kubeflow.org/docs/about/community/#kubeflow-mailing-list) Google group and find meeting links in the [#kubeflow-spark-operator](https://kubeflow.slack.com/archives/C06627U3XU3) channel.
+-   **Kubeflow Spark Operator Community Call**: We're excited to announce Spark Operator Community Monthly Meetings for Open Source Contributors starting **May 17th, 2024 (10-11 AM PST)**. These meetings, held every third Friday, are your chance to discuss project updates, share ideas, and collaborate with the community. You can find the Zoom call details and meeting notes in this [Google Doc](https://docs.google.com/document/d/1AnG6ptKLBY7O6ddyNm4SVsEbfu6jiyVyN3hDDgDUnxQ/edit#heading=h.pgrbsx5c3qqo). Please also join the [#kubeflow-discuss](https://www.kubeflow.org/docs/about/community/#kubeflow-mailing-list) Google group and find meeting links in the ```#kubeflow-spark-operator``` channel (You will need to join [CNCF Slack Workspace](https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels)). 
 
 
 In the spirit of collaboration fostered on platforms like Slack, and

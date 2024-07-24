@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Kubeflow 1.9: New Tools for Model Management and Training Optimization | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Kubeflow 1.9: New Tools for Model Management and Training Optimization" />
+<meta name="author" content="Kubeflow 1.9 Release Team, Stefano Fioravanzo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Kubeflow 1.9 significantly simplifies the development, tuning and management of secure machine learning models and LLMs. Highlights include:" />
+<meta property="og:description" content="Kubeflow 1.9 significantly simplifies the development, tuning and management of secure machine learning models and LLMs. Highlights include:" />
+<link rel="canonical" href="https://blog.kubeflow.org/kubeflow-1.9-release/" />
+<meta property="og:url" content="https://blog.kubeflow.org/kubeflow-1.9-release/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-07-22T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/kubeflow-1.9-release/","@type":"BlogPosting","headline":"Kubeflow 1.9: New Tools for Model Management and Training Optimization","dateModified":"2024-07-22T00:00:00-05:00","datePublished":"2024-07-22T00:00:00-05:00","image":"https://blog.kubeflow.org/images/logo.png","author":{"@type":"Person","name":"Kubeflow 1.9 Release Team, Stefano Fioravanzo"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow-1.9-release/"},"description":"Kubeflow 1.9 significantly simplifies the development, tuning and management of secure machine learning models and LLMs. Highlights include:","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kubeflow 1.9: New Tools for Model Management and Training Optimization</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2024-07-22T00:00:00-05:00" itemprop="datePublished">
+        Jul 22, 2024
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Kubeflow 1.9 Release Team, Stefano Fioravanzo</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#release">release</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Kubeflow 1.9 significantly simplifies the development, tuning and management of secure machine learning models and LLMs. Highlights include:</p>
+
+<ul>
+  <li><strong>Model Registry</strong>: Centralized management for ML models, versions, and artifacts.</li>
+  <li><strong>Fine-Tune APIs for LLMs</strong>: Simplifies fine-tuning of LLMs with custom datasets.</li>
+  <li><strong>Pipelines</strong>: Consolidation of Tekton and Argo Workflows backends for improved flexibility.</li>
+  <li><strong>Security Enhancements</strong>: Network policies, Oauth2-proxy, and CVE scanning.</li>
+  <li><strong>Integration Upgrades</strong>: Improved integrations with Ray, Seldon, BentoML, and KServe for LLM GPU optimizations.</li>
+  <li><strong>Installation and Documentation</strong>: Streamlined installation, updated platform dependencies, and enhanced documentation.</li>
+</ul>
+
+<p>These updates aim to simplify workflows, improve integration dependencies, and provide Kubernetes-native operational efficiencies for enterprise scale, security, and isolation.</p>
+
+<h2 id="model-registry">Model Registry</h2>
+
+<p>A model registry provides a central catalog for ML model developers to index and manage models, versions, and ML artifacts metadata. It fills a gap between model experimentation and production activities. It provides a central interface for all stakeholders in the ML lifecycle to collaborate on ML models. Model registry has been <a href="https://blog.kubeflow.org/kubeflow-user-survey-2023/#:~:text=lifecycle%2C%20followed%20by-,model%20registry%20(44%25),-and%20initial%20setup">asked by the community</a> for a long time and we are delighted to introduce it to the Kubeflow ecosystem.</p>
+
+<p>This initial release includes REST APIs and a Python SDK to track model artifacts and model metadata with a standardized format that can be reused across Kubeflow components, such as to deploy Inference Servers. You can get started by following the <a href="https://www.kubeflow.org/docs/components/model-registry/overview/">Model Registry tutorial on the Kubeflow website</a>, or see a short <a href="https://www.youtube.com/watch?v=JVxUTkAKsMU">demo video</a> of the Model Registry in action.</p>
+
+<p>We are just getting started. This is an Alpha version and we look forward to feedback. The <a href="https://docs.google.com/document/d/1DmMhcae081SItH19gSqBpFtPfbkr9dFhSMCgs-JKzNo/edit">model registry working group</a> meets biweekly: you can provide feedback by joining the meeting or directly on the <a href="https://github.com/kubeflow/model-registry/issues">repository</a>.</p>
+
+<h2 id="fine-tune-apis-for-llms">Fine-Tune APIs for LLMs</h2>
+
+<p>In the rapidly evolving ML/AI landscape, the ability to fine-tune pre-trained models represents a significant leap towards achieving custom solutions with less effort and time. Fine-tuning with custom datasets allows practitioners to adapt large language models (LLMs) to their specific needs.</p>
+
+<p>However, fine-tuning tasks often require extensive manual intervention, including the configuration of training environments and the distribution of data across nodes. The new <a href="https://www.kubeflow.org/docs/components/training/user-guides/fine-tuning/">Fine-Tune API</a> aims to simplify this process, offering an easy-to-use Python interface that abstracts away the complexity involved in setting up and executing fine-tuning tasks on distributed systems.</p>
+
+<p>By providing this API, Training Operator not only simplifies the user experience for ML practitioners but also leverages its existing infrastructure for distributed training. You can take advantage of Kubernetes’ ability to dynamically schedule GPU, thus saving on compute resources and cost. Training Operator also gives you fault tolerant guarantees, to save your training procedures from cluster node failures.</p>
+
+<h2 id="pipelines">Pipelines</h2>
+
+<h3 id="v1-feature-parity">v1 Feature Parity</h3>
+
+<p>We made significant progress towards KFPv1 feature parity by adding more Kubernetes resources to the Pipelines code with the new kfp-kubernetes 1.2.0 Python package. We encourage every KFP user to test the new V2 functionality and plan your migration from V1 to V2. We still have some outstanding features that need to be ported over to V2, please help us to identify what’s missing by openining a new issue in the KFP repository.</p>
+
+<h3 id="argo-workflows-and-tekton-backends-consolidation">Argo Workflows and Tekton Backends Consolidation</h3>
+
+<p>The Pipelines Tekton backend has been <a href="https://github.com/kubeflow/pipelines/pull/10678">merged</a> into the main Kubeflow Pipelines repository. You can now choose what workflow engine to use from the same Pipelines version. This proves the extensibility and flexibility of the KFP v2 architecture, which encourages other contributors to bring support for other workflow engines.</p>
+
+<p>Both Argo Workflows and Tekton provide unique advantages. Argo Workflows is known for its simplicity and ease of use, making it a popular choice for many users. Tekton offers extensive customization options with its pipeline definitions and reusable components, which can be advantageous for integrating into various CI/CD systems. Depending on your specific requirements and preferences, you can leverage the strengths of either Argo Workflows or Tekton to optimize your machine learning workflows.</p>
+
+<p>In this <a href="https://developer.ibm.com/blogs/awb-tekton-optimizations-for-kubeflow-pipelines-2-0/">blog post</a>, you can find more details about the benefits of running KFP with either Tekton or Argo Workflows.</p>
+
+<h3 id="argo-workflows-upgrade">Argo Workflows Upgrade</h3>
+
+<p>Kubeflow Pipelines’s Argo Workflows backend is <a href="https://github.com/kubeflow/pipelines/issues/10469">upgraded to 3.4.16</a>. This upgrade moves the supported version closer to the latest upstream version and brings lots of CVE resolutions. The previous minor version was no longer being patched by the Argo community, so lots of security issues had accumulated over time.</p>
+
+<h2 id="katib">Katib</h2>
+
+<p>Kubeflow 1.9 ships with Katib 0.17, which brings <a href="https://github.com/kubeflow/katib/pull/2315">official support</a> for ARM64, getting us one step closer to full ARM64 coverage.</p>
+
+<p>For Data Scientists who submit training jobs with the Python SDK, you can now set the <a href="https://github.com/kubeflow/katib/pull/2227">algorithm settings</a> and <a href="https://github.com/kubeflow/katib/pull/2235">environment variables</a> from the tune method. Previously, you had to rely directly on Kubernetes CRD submission for these. You can also take advantage of the latest features from TensorFlow 2.16 and PyTorch 2.2. The team also worked to resolve <a href="https://github.com/kubeflow/katib/issues/2346">environmental conflicts</a> that prevented the Katib Python SDK to be installed alongside the Kubeflow Python SDK.</p>
+
+<p>There are tons of additional improvements and bug fixes. Check out the full changelog <a href="https://github.com/kubeflow/katib/blob/master/CHANGELOG.md">here</a>.</p>
+
+<h2 id="central-dashboard">Central Dashboard</h2>
+
+<p>This release bring several improvements to the Kubeflow Central Dashboard, including:</p>
+
+<ul>
+  <li>Styling improvements to the sidebar, including <a href="https://github.com/kubeflow/kubeflow/pull/7583">grouping</a> all Kubeflow Pipelines links to reduce clutter</li>
+  <li>Significant <a href="https://github.com/kubeflow/kubeflow/pull/7582">improvements</a> to the “manage contributors” page, including the ability to manage contributors for all profiles that you are the owner of, and see which profiles you have access to, even when you are not the owner</li>
+  <li>Allow external services to <a href="https://github.com/kubeflow/kubeflow/pull/7138">parse</a> the current profile (namespace) by sending the namespace selector value to non-iframed applications</li>
+  <li>Significant <a href="https://github.com/kubeflow/kubeflow/pull/7578">updates</a> to dependencies to reduce CVEs</li>
+</ul>
+
+<p><img src="../images/2024-07-22-kubeflow-1.9-release/dashboard.png" alt="Kubeflow notebook images" /></p>
+
+<h2 id="notebooks">Notebooks</h2>
+
+<p>With this release, we provide <a href="https://github.com/kubeflow/kubeflow/pull/7590">significant updates</a> to all example notebook images including PyTorch 2.3.0, Tensorflow 2.15.1 and many other library updates. While you can continue to use the old images, we recommend updating to use the greatest and latest ML libraries.</p>
+
+<p>Additionally, notebooks images now run with a <a href="https://github.com/kubeflow/kubeflow/pull/7622">non-root SecurityContext</a>, allowing for an improved security.</p>
+
+<p>Take a look at the <a href="https://github.com/kubeflow/kubeflow/releases/tag/v1.9.0">changelog</a> for a full list of bug fixes and improvements.</p>
+
+<p>While this release was light on new Notebooks features, the Working Group is hard at work on an exciting new project: we are actively developing Notebooks V2, with contributions from various companies, in the <a href="https://github.com/kubeflow/notebooks/tree/notebooks-v2">new repository</a>. Take a look <a href="https://github.com/kubeflow/kubeflow/issues/7156">here</a> and join our Working Group meetings to get involved!</p>
+
+<h2 id="kubeflow-platform-security-and-manifests">Kubeflow Platform (Security and Manifests)</h2>
+
+<h3 id="security">Security</h3>
+
+<h4 id="network-policies">Network Policies</h4>
+
+<p>Network policies are enabled for the Kubeflow core services as a second layer of defense before Istio authorization policies. This gives administrators a better network overview and segmentation while also enforcing common enterprise security guidelines.
+You can read more about the current implementation and architecture <a href="https://github.com/kubeflow/manifests/tree/master/common/networkpolicies">here</a>.</p>
+
+<h4 id="authentication">Authentication</h4>
+
+<p>Oauth2-proxy replaces oidc-authservice, which brings improved token-based authentication. Machine Learning engineers can now use tokens instead of insecure passwords for CI/CD automation of Kubeflow deployment and maintenance (e.g. using GitHub actions). 
+You can read more about the current implementation and architecture <a href="https://github.com/kubeflow/manifests/tree/master/common/oidc-client/oauth2-proxy">here</a>.</p>
+
+<h4 id="cve-scanning">CVE Scanning</h4>
+
+<p>With this release we are introducing <a href="https://github.com/kubeflow/manifests/blob/master/hack/trivy_scan.py">automated CVE scanning</a> with <a href="https://github.com/aquasecurity/trivy">Trivy</a> on the manifests <a href="https://github.com/kubeflow/manifests/blob/master/.github/workflows/trivy.yaml">master branch</a>. We appreciate contributions to reduce the number of CVEs, the Security Working Group needs help to build a more secure platform. You can find more details about our security scanning process and disclosure policy here. Here are is a summary from June 25th:</p>
+
+<p><img src="../images/2024-07-22-kubeflow-1.9-release/CVE_table.png" alt="Kubeflow notebook images" /></p>
+
+<p>You can find a detailed Security WG roadmap <a href="https://github.com/kubeflow/manifests/issues/2598">here</a>.</p>
+
+<h3 id="manifests">Manifests</h3>
+
+<h4 id="installation-and-documentation-improvements">Installation and documentation improvements</h4>
+
+<p>The <a href="https://github.com/kubeflow/manifests?tab=readme-ov-file#upgrading-and-extending">documentation</a> has been improved and now contains guidelines for upgrading and extending the Kubeflow Platform for administrators. New users can now install kubeflow on their laptop in just a few minutes</p>
+
+<p>Platform dependencies updates:</p>
+
+<table>
+  <tr>
+   <td><strong>Component</strong>
+   </td>
+   <td><a href="https://kubernetes.io/releases/">Kubernetes</a>
+   </td>
+   <td><a href="https://github.com/kubernetes-sigs/kustomize/releases">Kustomize</a>
+   </td>
+   <td><a href="https://istio.io/latest/news/releases/">Istio</a>
+   </td>
+   <td><a href="https://github.com/dexidp/dex/releases">Dex</a>
+   </td>
+   <td><a href="https://cert-manager.io/docs/installation/supported-releases/">Cert-Manager</a>
+   </td>
+   <td><a href="https://knative.dev/docs/reference/relnotes/">Knative</a>
+   </td>
+  </tr>
+  <tr>
+   <td><strong>KF 1.9 Version</strong>
+   </td>
+   <td>1.27 - 1.29
+   </td>
+   <td>5.2.1+
+   </td>
+   <td>1.22.1
+   </td>
+   <td>2.39.1
+   </td>
+   <td>1.14.5
+   </td>
+   <td>1.12.4
+   </td>
+  </tr>
+</table>
+
+<blockquote>
+  <p><strong>NOTE</strong> Kubernetes 1.30+ is also expected to work, but was not officially tested.</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>NOTE</strong> Kustomize 5.2.1+ support with way less warnings. So platform engineers have a modern and supported installation tool chain.</p>
+</blockquote>
+
+<h4 id="integration-with-third-party-ml-tools">Integration with third-party ML tools</h4>
+
+<p>We have updated the third-party components in /contrib to provide integration with the broader ML ecosystem.</p>
+
+<ul>
+  <li><a href="https://github.com/kubeflow/manifests/tree/master/contrib/bentoml">BentoML</a> 1.2.28 and 1.1.21</li>
+  <li><a href="https://github.com/kubeflow/manifests/tree/master/contrib/seldon">Seldon</a> 1.18.1</li>
+  <li><a href="https://github.com/kubeflow/manifests/tree/master/contrib/ray">Ray</a> 2.23 and Kuberay 1.1.1</li>
+</ul>
+
+<p>Find a detailed Manifests WG roadmap <a href="https://github.com/kubeflow/manifests/issues/2592">here</a>.</p>
+
+<h2 id="kserve">KServe</h2>
+
+<p>We upgraded to <a href="https://kserve.github.io/website/0.13/blog/articles/2024-05-15-KServe-0.13-release/">KServe 0.13</a>. This release includes:</p>
+
+<ul>
+  <li><strong>Enhanced Hugging Face Runtime Support</strong>: Hugging Face models are supported out-of-the-box, implementing a <a href="https://github.com/kserve/kserve/tree/master/python/huggingfaceserver">KServe Hugging Face Serving Runtime</a>. Currently supported tasks include sequence classification, token classification, fill mask, text generation, and text to text generation.</li>
+  <li><strong>vLLM Support</strong>: Dedicated runtime support for <a href="https://docs.vllm.ai/en/latest/">vLLM</a> is now included, streamlining the deployment process for LLMs.</li>
+  <li><strong>OpenAI Schema Integration</strong>: KServe now supports endpoints for generative transformer models, following the OpenAI protocol.  This enables KServe to be used directly with OpenAI’s client libraries or third-party tools like LangChain and LlamaIndex.</li>
+</ul>
+
+<h2 id="documentation">Documentation</h2>
+
+<p>MLOps is a complex subject and users have asked for clear, up-to-date and comprehensive documentation. We are happy to announce that we started a restructuring process to better align the various components’ docs to have a similar structure. We are revamping our docs to better align with user expectations and how you expect technical docs to be organized. We will continue to improve the quality and completeness of our docs, by adding new user guides, tutorials, and reference architecture topics.</p>
+
+<p>We are looking for new members who can help us craft complete and high quality documentation. Please get involved by <a href="https://github.com/kubeflow/website/pulls">opening and reviewing PRs</a> in the Kubeflow website.</p>
+
+<h2 id="honorable-mentions">Honorable Mentions</h2>
+
+<h3 id="google-spark-operator-migration-to-kubeflow">Google Spark Operator migration to Kubeflow</h3>
+
+<p>We’re excited to announce the migration of Google’s Spark Operator to the Kubeflow Spark Operator, marking the launch of a significant addition to the Kubeflow ecosystem. The Kubeflow Spark Operator simplifies the deployment and management of Apache Spark applications on Kubernetes. This announcement isn’t just about a new piece of technology, it’s about building a stronger, open-governed, and more collaborative community around Spark on Kubernetes.</p>
+
+<p>Kubeflow Spark Operator is not yet officially included in the Kubeflow release, but you can install it by following the instructions <a href="https://www.kubeflow.org/docs/components/spark-operator/getting-started/">here</a>.</p>
+
+<p>Read more about Kubeflow Spark operator in the announcement <a href="https://blog.kubeflow.org/operators/2024/04/15/kubeflow-spark-operator.html">blog post</a>.</p>
+
+<h3 id="google-summer-of-code">Google Summer of Code</h3>
+
+<p>This year, Kubeflow was excited to participate in Google Summer of Code (GSoC), attracting a wave of enthusiastic students! Over 250 students joined our Slack channel, eager to learn about contributing to the Kubeflow community and crafting impactful proposals.</p>
+
+<p>We were also fortunate to have a dedicated group of 20 mentors ready to guide these talented individuals. From a pool of nearly 70 proposals, we have selected 10 proposals and were awarded with 8 outstanding students by Google. They are now actively contributing to various Kubeflow features, making a real difference in various Kubeflow components.</p>
+
+<p>We’ll be following their progress and sharing their accomplishments through a series of blog posts in the future, so stay tuned! A big thank you to all the mentors and students who are making Kubeflow’s GSoC 2024 a huge success!</p>
+
+<p>Thanks to all the studets: Adem Baccara, Biswajit Pattnaik, Hansini Karunarathne, Hezhi Xie, Sandipan Panda, Shao Wang, Shashank Mittal, SIVASUBRAMANIAM L. Visit <a href="https://summerofcode.withgoogle.com/programs/2024/organizations/kubeflow">this page</a> for more details about each project and respective mentors.</p>
+
+<h2 id="whats-next">What’s next</h2>
+
+<p>The community continues to see growth, especially with the ever growing interest from the CloudNative community in AI topics. We have recently elected the first Kubeflow Steering Committee. This is the first step towards a more mature governance structure and a democratic and open community.</p>
+
+<p>If you want to take a peek into the Kubeflow 1.10 roadmap planning and contribute with your ideas, see <a href="https://github.com/kubeflow/kubeflow/issues/7459">Notebooks</a>, <a href="https://github.com/kubeflow/manifests/issues/2763">Manifests &amp; Security</a>, <a href="https://github.com/kubeflow/pipelines/discussions/10908">Pipelines</a>, <a href="https://github.com/kubeflow/model-registry/issues/175">Model Registry</a>, <a href="https://github.com/kubeflow/katib/issues/2386">Katib</a>, <a href="https://github.com/kubeflow/training-operator/issues/2169">Training Operator</a>.</p>
+
+<h2 id="how-to-get-started-with-19">How to get started with 1.9</h2>
+
+<p>Visit the Kubeflow 1.9 <a href="https://www.kubeflow.org/docs/releases/kubeflow-1.9/">release page</a> or head over to the <a href="https://www.kubeflow.org/docs/started/">Getting Started</a> section to learn more about installation, architecture and quick start examples.</p>
+
+<h2 id="join-the-community">Join the Community</h2>
+
+<p>We would like to thank everyone for their contribution to Kubeflow 1.9, especially Ricardo Martinelli De Oliveira for his work as the v1.9 Release Manager, all the release team and the working group leads, who relentlessly dedicate their time to this great project.</p>
+
+<p><em>Release team members</em>: Ricardo Martinelli De Oliveira, Stefano Fioravanzo, Helber Belmiro, Diego Lovison, Ajay Nagar, Mathew Wicks, Steven Irvin, Milos Grubjesic, Andrew Scribner, Julius von Kohout.</p>
+
+<p><em>Working Group leads</em>: Andrey Velichkevich, Ce Gao, Chaoran Yu, Chen Sun, Christian Kadner, Ilias Katsakioris, James Liu, James Wu, Johnu George, Julius von Kohout, Kimonas Sotirchos, Mathew Wicks, Matteo Mortari, Ramesh Reddy, Stefano Fioravanzo, Tommy Li, Vara Bonthu, Yannis Zarkadas, Yuan Tang, Yuki Iwai.</p>
+
+<p><em>Kubeflow Steering Committee</em>: Andrey Velichkevich, Johnu George, Josh Bottum, James Wu, Yuan Tang.</p>
+
+<p><em>Participating Distributions</em>: Charmed Kubeflow (Canonical), IBM IKS, Nutanix, OpenShift AI (RedHat), Oracle Cloud Infrastructure, DeployKF, VMWare, QBO. You can find more details about Kubeflow distributions <a href="https://www.kubeflow.org/docs/started/installing-kubeflow/#packaged-distributions">here</a>.</p>
+
+<h3 id="want-to-help">Want to help?</h3>
+
+<p>The Kubeflow community Working Groups hold open meetings and are always looking for more volunteers and users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below. We look forward to working with you!</p>
+
+<ul>
+  <li>Visit our <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow website</a> or Kubeflow GitHub Page</li>
+  <li>Join the <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow Slack channel</a></li>
+  <li>Join the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list</li>
+  <li>Attend our weekly <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-community-call">community meeting</a></li>
+</ul>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/kubeflow-1.9-release/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

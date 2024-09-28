@@ -6,7 +6,7 @@ comments: true
 image: images/logo.png
 hide: false
 categories: [gsoc]
-permalink: /gsoc-2024-project-4/
+permalink: /gsoc-2024-project-6/
 author: "Shao Wang(Electronic-Waste)"
 ---
 

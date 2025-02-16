@@ -1,0 +1,190 @@
+---
+title: "AI-Generated Synthetic Data, using Kubeflow pipelines"
+layout: post
+toc: true
+comments: true
+categories: [kfp]
+author: "<a href='https://www.linkedin.com/in/aaked'>Åke Edlund</a>, <a href='https://www.linkedin.com/in/tarekabouzeid91'>Tarek Abouzeid</a>"
+---
+## Synthetic data - why and how?
+
+The best results come from real data, but accessing it often requires lengthy security and legal processes. The data may also be incomplete, biased, or too small, and during early exploration, we may not even know if it's worth pursuing. While real data is essential for proper evaluation, gaps or limited access frequently hinder progress until the formal process is complete.
+
+While the above focuses on speed and augmentation, there are more motivations for *creating* (synthetic) data.  Using synthetic data *could* give us new ways to improve on speed of development, handling biases, and more:
+
+- Enhancing privacy and security
+- Increasing data availability
+- Accelerating innovation and experimentation
+- Supporting ethical and responsible AI
+- Improving development speed and time to market
+- Augmenting training datasets for AI models
+
+But, how good is it, how do we evaluate?
+
+### Evaluation criteria for synthetic data - how do we know it's useful?
+
+There are many aspects to consider when making use of synthetic data, and it is important to evaluate which synthesizer is best for our specific dataset and use case.
+
+We need to ensure a good balance between: 
+
+  - Usability (how useful is the synthetic data for your use case), 
+  - Fidelity (how similar), and 
+  - Privacy (approved level for use case)
+
+For now, we are focusing only on usability and fidelity, using framework-provided measurements for fidelity and workflows described below for usability.
+
+### Methods and frameworks creating synthetic data 
+
+For us, open source frameworks are the only ones of interest. 
+Cloud-based solutions that require sending data samples to the cloud miss the whole point — some of our data cannot be sent to the cloud. 
+For data already in cloud, we can use other cloud-based frameworks.
+Synthesizers are motivated by multiple factors, but in this context, our focus remains on generating synthetic data for on-premise use.
+
+So, what framework did we (initially) choose? Currently we are using the open source version of [SDV](https://sdv.dev/), 
+an easy-to-use framework with a strong community and many useful features out-of-the-box (e.g. built-in evaluators, many modeling techniques). 
+The field of synthetic data is evolving rapidly. While we do not aim to cover the latest advancements exhaustively, the use of foundational models is certainly an area of interest.
+
+**Comments on privacy and privacy preserving techniques**
+
+Ensuring privacy in synthetic data is a non-trivial problem, even if there
+are techniques to ensure levels of privacy, it remains an active area of research. 
+
+*Privacy problems, in synthetic data?*
+
+Yes, when creating synthetic data we build models, models from which we generate synthetic data.
+However, these models can e.g. be overfitted, resulting in leakage of the training data (the real data). 
+Another challenge lies in handling anomalies. If certain information in the real data stands out and we don't account for it when creating synthetic data, there is a risk of backtracking from the synthetic data to the real.
+A typical example could be 'a very rich person in the dataset' or 'a very rare disease'. 
+The problem here, besides from the privacy part, is that it might be the anomalies we really are looking for.
+
+We are experimenting with various differential privacy strategies, but it is still early days, and we do not focus on them in the examples below.
+
+### The Synthetic Data Vault (SDV) - high level
+
+When you initialize and fit a synthesizer (like GaussianCopulaSynthesizer, CTGANSynthesizer, etc.), it trains a model based on 
+the dataset you provide. This model learns the distribution of the data, capturing the relationships and dependencies between 
+different features in the dataset. Below are the (free) synthesizers provided by SDV that we evaluated on each use case.
+
+The synthesizer doesn't memorize individual records from the dataset. 
+Instead, it tries to learn the underlying statistical patterns, correlations, and distributions present in the data. 
+Each synthesizer does this differently:
+
+- **GaussianCopulaSynthesizer:** Models the distribution of each feature using copulas and marginal distributions. 
+- **CTGANSynthesizer:** Uses a GAN (Generative Adversarial Network) approach, which involves training two neural networks (a generator and a discriminator) to model complex data distributions, especially useful for discrete or mixed-type data.
+- **TVAESynthesizer:** Uses a Variational Autoencoder (VAE) approach to learn a lower-dimensional representation of the data and then generate new samples.
+- **CopulaGANSynthesizer:** Combines elements of copulas and GANs to capture complex dependencies.
+- **PARSynthesizer:** Uses Probabilistic AutoRegressive models to model sequential dependencies in the data.
+
+*There are more synthesizers, also from SDV, but not all open source.* We used the first four, when evaluating optimal synthesizer for our different use cases.
+
+**Generators - generating new data - on demand**
+
+Once trained, the synthesizer uses the learned model to generate new synthetic data that follows the same statistical properties and 
+distributions as the original dataset, without directly copying any real data points. If you need more data? Just call the generator.
+
+### Our on-premise analytics platform - ARCUS
+
+<div style="display: flex; align-items: center; gap: 20px;">
+  <p>
+    ARCUS is Telia’s advanced on-premise analytics platform, designed to support a wide range of use cases.
+    The platform provides a Kubeflow-based MLOps environment for descriptive, predictive, generative, and (ongoing) agentic AI. 
+    Fully built on open-source, ARCUS integrates a comprehensive stack of components into a unified platform - where Kubernetes is the cornerstone.
+  </p>
+</div>
+
+### Needed environment to create synthetic data
+
+For an efficient, automated selection of the best synthesizer, we need a number of things - from the underlying platform with GPUs and MLOps (Kubeflow).
+
+- Kubeflow pipelines
+- GPU capabilities (for performance and efficiency)
+- Development (IDE) environment (for framework building and running)
+- Modern data platform (MinIO, Airflow) automating the synthetic data generation datasets
+
+#### Parallelism needed
+
+In the (Kube)flows below, we run evaluations in parallel - one for respective synthesizer, followed by a comparison of usability and fidelity scores, selecting the 'winner'.
+
+*Note:* In earlier version of Kubeflow we noticed that the parallelism wasn't acting as expected, waiting for all threads to complete before moving to next step. We had to create a temporary workaround for this, now solved in Kubeflow Pipelines 2.3.0.
+
+Below, we briefly describe the base flow for selecting synthesizer, followed by one use case where we use the resulting data generator for ML development in cloud.
+
+## Exploring the creation and usefulness of synthetic data
+
+This is what we want to do: We have a use case, the supporting data, and developed ML model.
+
+- How similar is the synthetic data compared to the real data (interesting for e.g. visualization use cases)?
+- How well do the ML models based on synthetic data keep up with ML models based on real data?
+
+**General validation of synthetic data technique**
+
+1. Create synthetic data, save the best synthetic data generator. In this step similarity measures are created by the used (SDV) framework 'out of the box'
+2. Create ML model (in our case classifier model) both on real data, as for synthetic data. Compare performance of both models against the (same) real data testset.
+
+<img src="/images/2025-02-16-synthetic-data-using-kfp/image-2.png" width="800">
+
+From above, we have an example where the final synthesizer is collected and saved. This step is used in below example, exporting the resulting synthetic data generator to cloud.
+
+## Using synthetic data generators, to enable multiple environments without data transfer
+
+*Below is a usecase where we need to make use of both on-premise and cloud, without moving data to cloud.*
+
+**Problem statement:** 
+
+- Our data cannot be moved from on-premise to cloud.
+- We need extra compute power, in our public cloud environment, to create an ML model for use on-premise.
+- The ML model is to be used on-premise, on new incoming data streams (that cannot be moved to cloud)
+
+**Solution:**
+
+1. Create synthetic data for our on-premise environment use-cases, and - as a side product we save 
+away the synthetic data generator (the pickled model used to create synthetic data). 
+2. Copy the synthetic data generator to cloud
+3. Use the synthetic data generator in cloud, creating synthetic data for training of ML model
+4. Copy ML model to on-premise, and use it for new incoming data
+5. Evaluate: Compare the on-premise AI model with the model created in cloud - against same test data
+
+<img src="/images/2025-02-16-synthetic-data-using-kfp/image.png" width="700">
+
+
+**Division of work, what is done on-premise Kubeflow, and what is done in cloud (AWS SageMaker)?**
+
+##### On-premise
+
+See above *General validation of synthetic data technique*.
+
+- Develop model on real data – for later comparison with cloud model.
+- Create synthetic generators, evaluate, export best generator to AWS.
+
+##### Cloud
+
+- Use imported (from on-premise) synthetic generator
+- Create synthetic data, using synthetic data generator
+- Develop model – compare which synthetic generator is best
+- Increase synthetic training (if needed) and evaluation data set, to improve model performance
+- Export model to on-premise
+
+<img src="/images/2025-02-16-synthetic-data-using-kfp/image-3.png" width="500">
+
+
+In some more detail below.
+
+<img src="/images/2025-02-16-synthetic-data-using-kfp/image-4.png" width="700">
+
+##### On-premise
+
+- Compare real data model against synthetic data model – using real test data.
+
+*In the current examples we see on-par (few percentages lower performance of models created using synthetic data) performance of the ML models. We experimented with increased synthetic dataset, with minor improvements. Augmenting the training data is expected (not tested here) to have more effect when using deep learning algorithms.*
+
+# Summary, and forward looking
+
+Clearly, above flows would be very cumbersome to build and maintain without Kubeflow. 
+All opensource, Kubernetes based platform, Kubeflow, SDV, giving us the needed scalability, robustness, and detailed control.
+
+The area of synthetic data generation is moving fast with the overall AI field. 
+Reports of increasing use of synthetic data for e.g. LLM training is frequent, but the application areas are many more.
+We also expect more capable synthesizers and, hopefully, privacy preserving techniques keeping up with these. 
+Our original main motivator was speed up in innovation and experimentation, and overall - speed to market. Often a key pain for our teams.
+
+Looking ahead, we are exploring the development of a synthesizer catalog — ideally integrated into our overall data catalog — to enable users to rapidly experiment with ideas and get started more efficiently.

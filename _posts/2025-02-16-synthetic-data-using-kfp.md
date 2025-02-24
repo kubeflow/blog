@@ -6,7 +6,7 @@ comments: true
 categories: [kfp]
 author: "<a href='https://www.linkedin.com/in/aaked'>Åke Edlund</a>, <a href='https://www.linkedin.com/in/tarekabouzeid91'>Tarek Abouzeid</a>"
 ---
-## Synthetic data - why and how?
+## Synthetic Data Generation - Why and How?
 
 The best results come from real data, but accessing it often requires lengthy security and legal processes. The data may also be incomplete, biased, or too small, and during early exploration, we may not even know if it's worth pursuing. While real data is essential for proper evaluation, gaps or limited access frequently hinder progress until the formal process is complete.
 

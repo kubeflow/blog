@@ -179,7 +179,7 @@ In some more detail below.
 
 # Summary
 
-Clearly, above flows would be very cumbersome to build and maintain without Kubeflow. 
+Clearly, the above workflows would be very cumbersome to build and maintain without Kubeflow. 
 All opensource, Kubernetes based platform, Kubeflow, SDV, giving us the needed scalability, robustness, and detailed control.
 
 The area of synthetic data generation is moving fast with the overall AI field. 

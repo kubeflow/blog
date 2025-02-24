@@ -160,7 +160,7 @@ See the above *Validation of synthetic data techniques*.
 
 - Use the imported synthetic generator (from on-premise)
 - Create synthetic data using the synthetic data generator
-- Develop model – compare which synthetic generator is best
+- Develop the model and determine which synthetic generator is the best
 - Increase synthetic training (if needed) and evaluation data set, to improve model performance
 - Export model to on-premise
 

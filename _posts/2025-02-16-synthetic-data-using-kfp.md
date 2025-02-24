@@ -33,7 +33,7 @@ We need to ensure a good balance between:
 
 For now, we are focusing only on usability and fidelity, using framework-provided measurements for fidelity and workflows described below for usability.
 
-### Methods and frameworks creating synthetic data 
+### Frameworks for Creating Synthetic Data 
 
 For us, open source frameworks are the only ones of interest. 
 Cloud-based solutions that require sending data samples to the cloud miss the whole point — some of our data cannot be sent to the cloud. 

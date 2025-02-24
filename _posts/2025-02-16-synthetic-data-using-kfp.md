@@ -75,7 +75,7 @@ Each synthesizer does this differently:
 - **CopulaGANSynthesizer:** Combines elements of copulas and GANs to capture complex dependencies.
 - **PARSynthesizer:** Uses Probabilistic AutoRegressive models to model sequential dependencies in the data.
 
-*There are more synthesizers, also from SDV, but not all open source.* We used the first four, when evaluating optimal synthesizer for our different use cases.
+*There are more synthesizers, also from SDV, but not all are open source.* We used the first four, when evaluating optimal synthesizer for our different use cases.
 
 **Generators - generating new data - on demand**
 

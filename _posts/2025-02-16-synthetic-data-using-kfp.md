@@ -151,7 +151,7 @@ away the synthetic data generator (the pickled model used to create synthetic da
 
 ##### On-premise
 
-See above *General validation of synthetic data technique*.
+See the above *Validation of synthetic data techniques*.
 
 - Develop model on real data – for later comparison with cloud model.
 - Create synthetic generators, evaluate, export best generator to AWS.

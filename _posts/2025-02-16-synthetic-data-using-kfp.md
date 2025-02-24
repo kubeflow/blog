@@ -35,7 +35,7 @@ For now, we are focusing only on usability and fidelity, using framework-provide
 
 ### Frameworks for Creating Synthetic Data 
 
-For us, open source frameworks are the only ones of interest. 
+This post focuses exclusively on open source frameworks.
 Cloud-based solutions that require sending data samples to the cloud miss the whole point — some of our data cannot be sent to the cloud. 
 For data already in cloud, we can use other cloud-based frameworks.
 Synthesizers are motivated by multiple factors, but in this context, our focus remains on generating synthetic data for on-premise use.

@@ -184,7 +184,7 @@ Our solution is entirely open source, Kubernetes based, and uses Kubeflow and SD
 
 The area of synthetic data generation is moving fast with the overall AI field. 
 Reports of the increased usage of synthetic data for e.g. LLM training is frequent but the application areas are much greater.
-We also expect more capable synthesizers and, hopefully, privacy preserving techniques keeping up with these. 
+We also expect more capable synthesizers and, hopefully, privacy preserving techniques to keep up with the innovation in this area.
 Our original main motivator was speed up in innovation and experimentation, and overall - speed to market. Often a key pain for our teams.
 
 Looking ahead, we are exploring the development of a synthesizer catalog — ideally integrated into our overall data catalog — to enable users to rapidly experiment with ideas and get started more efficiently.

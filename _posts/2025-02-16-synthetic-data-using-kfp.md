@@ -123,7 +123,7 @@ This is what we want to do: we have a use case, the supporting data, and develop
 
 <img src="/images/2025-02-16-synthetic-data-using-kfp/image-2.png" width="800">
 
-From above, we have an example where the final synthesizer is collected and saved. This step is used in below example, exporting the resulting synthetic data generator to cloud.
+From above, we have an example where the final synthesizer is collected and saved. This step is used in the example  below, exporting the resulting synthetic data generator to cloud.
 
 ## Using synthetic data generators, to enable multiple environments without data transfer
 

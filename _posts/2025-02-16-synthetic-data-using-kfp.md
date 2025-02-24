@@ -119,7 +119,7 @@ This is what we want to do: we have a use case, the supporting data, and develop
 **Validation of synthetic data techniques**
 
 1. Create the synthetic data and save the best synthetic data generator. In this step similarity measures are created by the out of the box SDV framework
-2. Create ML model (in our case classifier model) both on real data, as for synthetic data. Compare performance of both models against the (same) real data testset.
+2. Create the ML model (in our case classifier model) both on real data and the using the synthetic data. Compare the performance of both models against the same real data testset.
 
 <img src="/images/2025-02-16-synthetic-data-using-kfp/image-2.png" width="800">
 

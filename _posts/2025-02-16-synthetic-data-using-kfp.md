@@ -1,5 +1,5 @@
 ---
-title: "AI-Generated Synthetic Data, using Kubeflow pipelines"
+title: "Synthetic Data Generation with Kubeflow Pipelines"
 layout: post
 toc: true
 comments: true

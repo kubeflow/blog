@@ -125,7 +125,7 @@ This is what we want to do: we have a use case, the supporting data, and develop
 
 From above, we have an example where the final synthesizer is collected and saved. This step is used in the example  below, exporting the resulting synthetic data generator to cloud.
 
-## Using synthetic data generators, to enable multiple environments without data transfer
+## Using Synthetic Data Generators to Enable Multiple Environments without Data Transfer
 
 *Below is a usecase where we need to make use of both on-premise and cloud, without moving data to cloud.*
 

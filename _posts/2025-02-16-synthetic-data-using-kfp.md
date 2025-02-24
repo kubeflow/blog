@@ -8,9 +8,9 @@ author: "<a href='https://www.linkedin.com/in/aaked'>Åke Edlund</a>, <a href='h
 ---
 ## Synthetic Data Generation - Why and How?
 
-The best results come from real data, but accessing it often requires lengthy security and legal processes. The data may also be incomplete, biased, or too small, and during early exploration, we may not even know if it's worth pursuing. While real data is essential for proper evaluation, gaps or limited access frequently hinder progress until the formal process is complete.
+When creating insights, decisions, and actions from data, the best results come from real data. But accessing real data often requires lengthy security and legal processes. The data may also be incomplete, biased, or too small, and during early exploration, we may not even know if it's worth pursuing. While real data is essential for proper evaluation, gaps or limited access frequently hinder progress until the formal process is complete. Synthetic data, using different techniques (see below) generating data that mimics the statistical properties of real data, opens up a good number of use cases. Synthetic data, depening on technique used, not only have similar statistical base properties as the real data, but can also preserve correlations between features in the data. 
 
-While the above focuses on speed and augmentation, there are more motivations for *creating* (synthetic) data.  Using synthetic data *could* give us new ways to improve on speed of development, handling biases, and more:
+While the above focuses on speed of development in general, and augmentation of data to improve performance of analytical modes, there are more motivations for *creating* (synthetic) data.  Using synthetic data *could* give us new ways to improve on speed of development, handling biases, and more:
 
 - Enhancing privacy and security
 - Increasing data availability
@@ -23,7 +23,7 @@ But, how good is synthetic data, how do we evaluate it?
 
 ### Evaluation Criteria for Synthetic Data
 
-There are many aspects to consider when making use of synthetic data, and it is important to evaluate which synthesizer is best for our specific dataset and use case.
+There are many aspects to consider when making use of synthetic data, and it is important to evaluate which synthetic data generator technique (synthesizer) is best for our specific dataset and use case. More on synthesizers below, when looking into the framework (SDV) we selected. For now, synthetizers are statistical and (more often) AI models trained to mimic the real data. Once developed, the resulting models are used to create as much synthetic data as you find useful for your use case. 
 
 We need to ensure a good balance between: 
 

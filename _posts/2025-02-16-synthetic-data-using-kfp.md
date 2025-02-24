@@ -19,7 +19,7 @@ While the above focuses on speed and augmentation, there are more motivations fo
 - Improving development speed and time to market
 - Augmenting training datasets for AI models
 
-But, how good is it, how do we evaluate?
+But, how good is synthetic data, how do we evaluate it?
 
 ### Evaluation criteria for synthetic data - how do we know it's useful?
 

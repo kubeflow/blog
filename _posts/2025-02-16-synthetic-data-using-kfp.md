@@ -158,7 +158,7 @@ See the above *Validation of synthetic data techniques*.
 
 ##### Cloud
 
-- Use imported (from on-premise) synthetic generator
+- Use the imported synthetic generator (from on-premise)
 - Create synthetic data, using synthetic data generator
 - Develop model – compare which synthetic generator is best
 - Increase synthetic training (if needed) and evaluation data set, to improve model performance

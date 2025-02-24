@@ -183,7 +183,7 @@ Clearly, the above workflows would be very cumbersome to build and maintain with
 Our solution is entirely open source, Kubernetes based, and uses Kubeflow and SDV to give us the scalability, robustness, and detailed control that is required.
 
 The area of synthetic data generation is moving fast with the overall AI field. 
-Reports of increasing use of synthetic data for e.g. LLM training is frequent, but the application areas are many more.
+Reports of the increased usage of synthetic data for e.g. LLM training is frequent but the application areas are much greater.
 We also expect more capable synthesizers and, hopefully, privacy preserving techniques keeping up with these. 
 Our original main motivator was speed up in innovation and experimentation, and overall - speed to market. Often a key pain for our teams.
 

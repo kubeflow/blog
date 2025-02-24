@@ -175,7 +175,7 @@ In some more detail below.
 
 - Compare real data model against synthetic data model – using real test data.
 
-*In the current examples we see on-par (few percentages lower performance of models created using synthetic data) performance of the ML models. We experimented with increased synthetic dataset, with minor improvements. Augmenting the training data is expected (not tested here) to have more effect when using deep learning algorithms.*
+*In the current examples we see near equivalent performance of the ML models (a few percentage points lower for models created using synthetic data). We experimented with increasing the size of the synthetic dataset, with minor improvements. Augmenting the training data is expected (not tested here) to have more effects when using deep learning algorithms.*
 
 # Summary, and forward looking
 

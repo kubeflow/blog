@@ -21,7 +21,7 @@ While the above focuses on speed and augmentation, there are more motivations fo
 
 But, how good is synthetic data, how do we evaluate it?
 
-### Evaluation criteria for synthetic data - how do we know it's useful?
+### Evaluation Criteria for Synthetic Data
 
 There are many aspects to consider when making use of synthetic data, and it is important to evaluate which synthesizer is best for our specific dataset and use case.
 

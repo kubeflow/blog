@@ -141,7 +141,7 @@ From above, we have an example where the final synthesizer is collected and save
 away the synthetic data generator (the pickled model used to create synthetic data). 
 2. Copy the synthetic data generator to cloud
 3. Use the synthetic data generator in the cloud, creating synthetic data for training of an ML model
-4. Copy ML model to on-premise, and use it for new incoming data
+4. Copy the ML model on-premise, and use it for new incoming data
 5. Evaluate: Compare the on-premise AI model with the model created in cloud - against same test data
 
 <img src="/images/2025-02-16-synthetic-data-using-kfp/image.png" width="700">

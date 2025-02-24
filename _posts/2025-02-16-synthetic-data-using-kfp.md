@@ -180,7 +180,7 @@ In some more detail below.
 # Summary
 
 Clearly, the above workflows would be very cumbersome to build and maintain without Kubeflow. 
-All opensource, Kubernetes based platform, Kubeflow, SDV, giving us the needed scalability, robustness, and detailed control.
+Our solution is entirely open source, Kubernetes based, and uses Kubeflow and SDV to give us the scalability, robustness, and detailed control that is required.
 
 The area of synthetic data generation is moving fast with the overall AI field. 
 Reports of increasing use of synthetic data for e.g. LLM training is frequent, but the application areas are many more.

@@ -116,7 +116,7 @@ This is what we want to do: we have a use case, the supporting data, and develop
 - How similar is the synthetic data compared to the real data (interesting for e.g. visualization use cases)?
 - How well do the ML models based on synthetic data keep up with ML models based on real data?
 
-**General validation of synthetic data technique**
+**Validation of synthetic data techniques**
 
 1. Create synthetic data, save the best synthetic data generator. In this step similarity measures are created by the used (SDV) framework 'out of the box'
 2. Create ML model (in our case classifier model) both on real data, as for synthetic data. Compare performance of both models against the (same) real data testset.

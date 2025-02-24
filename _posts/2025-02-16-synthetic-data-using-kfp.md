@@ -111,7 +111,7 @@ Below, we briefly describe the base flow for selecting synthesizer, followed by 
 
 ## Exploring the Creation and Usefulness of Synthetic Data
 
-This is what we want to do: We have a use case, the supporting data, and developed ML model.
+This is what we want to do: we have a use case, the supporting data, and developed ML model.
 
 - How similar is the synthetic data compared to the real data (interesting for e.g. visualization use cases)?
 - How well do the ML models based on synthetic data keep up with ML models based on real data?

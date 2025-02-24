@@ -109,7 +109,7 @@ In the (Kube)flows below, we run evaluations in parallel - one for respective sy
 
 Below, we briefly describe the base flow for selecting synthesizer, followed by one use case where we use the resulting data generator for ML development in cloud.
 
-## Exploring the creation and usefulness of synthetic data
+## Exploring the Creation and Usefulness of Synthetic Data
 
 This is what we want to do: We have a use case, the supporting data, and developed ML model.
 

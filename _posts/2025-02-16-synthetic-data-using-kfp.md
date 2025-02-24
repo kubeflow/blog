@@ -147,7 +147,7 @@ away the synthetic data generator (the pickled model used to create synthetic da
 <img src="/images/2025-02-16-synthetic-data-using-kfp/image.png" width="700">
 
 
-**Division of work, what is done on-premise Kubeflow, and what is done in cloud (AWS SageMaker)?**
+**Division of work, what is done on-premise with Kubeflow, and what is done in cloud (AWS SageMaker)?**
 
 ##### On-premise
 

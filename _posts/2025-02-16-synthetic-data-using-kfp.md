@@ -177,7 +177,7 @@ In some more detail below.
 
 *In the current examples we see near equivalent performance of the ML models (a few percentage points lower for models created using synthetic data). We experimented with increasing the size of the synthetic dataset, with minor improvements. Augmenting the training data is expected (not tested here) to have more effects when using deep learning algorithms.*
 
-# Summary, and forward looking
+# Summary
 
 Clearly, above flows would be very cumbersome to build and maintain without Kubeflow. 
 All opensource, Kubernetes based platform, Kubeflow, SDV, giving us the needed scalability, robustness, and detailed control.

@@ -82,7 +82,7 @@ Each synthesizer does this differently:
 Once trained, the synthesizer uses the learned model to generate new synthetic data that follows the same statistical properties and 
 distributions as the original dataset, without directly copying any real data points. If you need more data? Just call the generator.
 
-### Our on-premise analytics platform - ARCUS
+### Our On-Premise Analytics Platform: ARCUS
 
 <div style="display: flex; align-items: center; gap: 20px;">
   <p>

@@ -59,7 +59,7 @@ The problem here, besides from the privacy part, is that it might be the anomali
 
 We are experimenting with various differential privacy strategies, but it is still early days, and we do not focus on them in the examples below.
 
-### The Synthetic Data Vault (SDV) - high level
+### The Synthetic Data Vault (SDV)
 
 When you initialize and fit a synthesizer (like GaussianCopulaSynthesizer, CTGANSynthesizer, etc.), it trains a model based on 
 the dataset you provide. This model learns the distribution of the data, capturing the relationships and dependencies between 

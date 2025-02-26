@@ -163,7 +163,7 @@ See the above *Validation of synthetic data techniques*.
 - Use the imported synthetic generator (from on-premise)
 - Create synthetic data using the synthetic data generator
 - Develop the model and determine which synthetic generator is the best
-- Increase synthetic training (if needed) and evaluation data set, to improve model performance
+- Increase the amount of synthetic data, to see if the increase of synthetic data improves model performance (not for sure it will, see below comment)
 - Export model to on-premise
 
 <img src="/images/2025-02-16-synthetic-data-using-kfp/image-3.png" width="500">

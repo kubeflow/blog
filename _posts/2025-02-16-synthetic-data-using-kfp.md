@@ -54,7 +54,7 @@ are techniques to ensure levels of privacy, it remains an active area of researc
 *Privacy problems, in synthetic data?*
 
 When creating synthetic data we build models, models from which we generate synthetic data, which can expose privacy problems.
-However, these models can be overfit, resulting in leakage of the training data (i.e., the real data). 
+These models can e.g. be overfitted (close, or fully, memorizing the training data), resulting in leakage of the real data it was trained on. 
 Another challenge lies in handling anomalies. If certain information in the real data stands out and we don't account for it when creating synthetic data, there is a risk of backtracking from the synthetic data to the real.
 A typical example could be 'a very rich person in the dataset' or 'a very rare disease'. 
 The problem here, besides from the privacy part, is that it might be the anomalies we really are looking for.

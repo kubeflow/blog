@@ -8,7 +8,9 @@ author: "<a href='https://www.linkedin.com/in/aaked'>Åke Edlund</a>, <a href='h
 ---
 ## Synthetic Data Generation - Why and How?
 
-When creating insights, decisions, and actions from data, the best results come from real data. But accessing real data often requires lengthy security and legal processes. The data may also be incomplete, biased, or too small, and during early exploration, we may not even know if it's worth pursuing. While real data is essential for proper evaluation, gaps or limited access frequently hinder progress until the formal process is complete. Synthetic data, using different techniques (see below) generating data that mimics the statistical properties of real data, opens up a good number of use cases. Synthetic data, depening on technique used, not only have similar statistical base properties as the real data, but can also preserve correlations between features in the data. 
+When creating insights, decisions, and actions from data, the best results come from real data. But accessing real data often requires lengthy security and legal processes. The data may also be incomplete, biased, or too small, and during early exploration, we may not even know if it's worth pursuing. While real data is essential for proper evaluation, gaps or limited access frequently hinder progress until the formal process is complete. 
+
+Synthetic data, uses different techniques outlined below to generate data that mimics the statistical properties of real data, which opens up a good number of use cases. Synthetic data, depending on technique used, not only has similar statistical base properties as the real data, but also preserves correlations between features in the data. 
 
 While the above focuses on speed of development in general, and augmentation of data to improve performance of analytical modes, there are more motivations for *creating* (synthetic) data.  Using synthetic data *could* give us new ways to improve on speed of development, handling biases, and more:
 

@@ -11,7 +11,7 @@ author: "Shao Wang(Electronic-Waste)"
 ---
 
 This summer, I gained a precious opportunity to participate in the Google Summer of Code(GSoC), in which I would contribute to Katib and fulfill a project named ["Push-based Metrics Collection in Katib"](https://www.kubeflow.org/events/gsoc-2024/#project-6-push-based-metrics-collection-for-katib) within 12 weeks. 
-Firstly, I got to know about GSoC and Kubeflow with the recommendation from the former active maintainer Ce Gao(gaocegege)'s personal blog. And deeply impressed by the idea of cloud native AI toolkits, I decided to have a dip into this area and learn some skills to enhance my competence for career life in the future.
+Firstly, I got to know about GSoC and Kubeflow with the recommendation from the former active maintainer Ce Gao(gaocegege)'s personal blog. And I was deeply impressed by the idea of cloud native AI toolkits, I decided to dive into this area and learn some skills to enhance my career and future.
 In the blog, I'll provide my personal insight into Katib, for those who are interested in cloud native, AI, and hyperparameters tuning.
 
 ## Goal

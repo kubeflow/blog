@@ -38,7 +38,7 @@ For reference, the coding period can be rougly divided into 3 stages:
 
 Also, I raised some issues not only to describe the problems and bugs I met during the coding period, but also to suggest the future enhancement direction for Katib and the Training-Operator.
 
-There is an [Github Issue](https://github.com/kubeflow/katib/issues/2340) tracks the progress of developing push-based metrics collection for katib during the GSoC coding phase. If interested in my work or Katib, you can check this issue for more details.
+There is an [Github Issue](https://github.com/kubeflow/katib/issues/2340) tracks the progress of developing push-based metrics collection for katib during the GSoC coding phase. If you are interested in my work or Katib, please can check this issue for more details.
 
 ## Lessons I Learned during the Project
 

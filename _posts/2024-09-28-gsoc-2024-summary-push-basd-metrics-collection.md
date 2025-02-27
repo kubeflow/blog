@@ -24,7 +24,7 @@ Thus, we decided to implement a new API for Katib Python SDK to offer users a pu
 
 ![](../images/2024-09-28-gsoc-2024-summary-push-based-metrics-collection/push-based-metrics-collection.png)
 
-## What I did in GSoC Project
+## What I did in the GSoC Project
 
 I raised numerous PRs for the Katib and Training-Operator project. Some of them are related to my GSoC project, and others may contribute to the completeness of UTs, simplicity of dependency package, and the compatibility of UI component, etc.
 

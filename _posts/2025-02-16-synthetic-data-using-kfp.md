@@ -25,7 +25,7 @@ But, how good is synthetic data, how do we evaluate it?
 
 ### Evaluation Criteria for Synthetic Data
 
-There are many aspects to consider when making use of synthetic data, and it is important to evaluate which synthetic data generation technique (synthesizer) is best for our specific dataset and use case. More on synthesizers below, when looking into the framework (SDV) we selected. For now, synthetizers are statistical and (more often) AI models trained to mimic the real data. Once developed, the resulting models are used to create as much synthetic data as you find useful for your use case. 
+There are many aspects to consider when making use of synthetic data, and it is important to evaluate which synthetic data generation technique (synthesizer) is best for our specific dataset and use case. More on synthesizers below, when looking into the framework (SDV) we selected. For now, synthesizers are statistical and (more often) AI models trained to mimic the real data. Once developed, the resulting models are used to create as much synthetic data as you find useful for your use case. 
 
 We need to ensure a good balance between: 
 

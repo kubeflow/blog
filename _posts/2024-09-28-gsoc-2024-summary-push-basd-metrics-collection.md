@@ -30,7 +30,7 @@ I raised numerous PRs for the Katib and Training-Operator project. Some of them 
 
 For reference, the coding period can be rougly divided into 3 stages:
 
-1. Convert the proposal to KEP and discuss with mentors about the architecture, API design, etc. (~4 weeks)
+1. Convert the proposal to a KEP and discuss the architecture, API design, etc. (~4 weeks) with the mentors
 
 2. Develop a push-based metrics collection interface according to the KEP. (~8 weeks)
 

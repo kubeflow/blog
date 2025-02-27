@@ -46,7 +46,7 @@ There is an [Github Issue](https://github.com/kubeflow/katib/issues/2340) tracks
 
 2. **Dive into the Source Code**: Engineering projects nowadays are extremely complex and need much effort to understand them. The best way to get familiar with the project is to dive into the source code and run several examples.
 
-3. **Communication**: Communication is the most important thing when we collaborate with others. Expressing your idea precisely and making others understand you easily are significant skills not only in open source community but also in various scenes such as company and group works.
+3. **Communication**: Communication is the most important thing when collaborating with others. Expressing your idea precisely and making others understand you easily are significant skills not only in the open source community but also in various scenarios such as at a company and in group work.
 
 ## In the End
 

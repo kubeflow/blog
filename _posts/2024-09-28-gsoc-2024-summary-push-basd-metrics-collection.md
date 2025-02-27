@@ -32,7 +32,7 @@ For reference, the coding period can be rougly divided into 3 stages:
 
 1. Convert the proposal to KEP and discuss with mentors about the architecture, API design, etc. (~4 weeks)
 
-2. Develop push-based metrics collection interface according to the KEP. (~8 weeks)
+2. Develop a push-based metrics collection interface according to the KEP. (~8 weeks)
 
 3. Write some examples and documentations & Present my work to Kubeflow Community. 
 

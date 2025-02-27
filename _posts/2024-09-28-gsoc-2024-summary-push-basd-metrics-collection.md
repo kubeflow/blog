@@ -26,7 +26,7 @@ Thus, we decided to implement a new API for Katib Python SDK to offer users a pu
 
 ## What I did in the GSoC Project
 
-I raised numerous PRs for the Katib and Training-Operator project. Some of them are related to my GSoC project, and others may contribute to the completeness of UTs, simplicity of dependency package, and the compatibility of UI component, etc.
+I raised numerous PRs for the Katib and Training-Operator project. Some of them are related to my GSoC project, and others may contribute to the completeness of UTs (Unit Tests), simplicity of dependency management, and the compatibility of the UI component.
 
 For reference, the coding period can be rougly divided into 3 stages:
 

@@ -14,17 +14,19 @@ This summer, I gained a precious opportunity to participate in the Google Summer
 Firstly, I got to know about GSoC and Kubeflow with the recommendation from the former active maintainer Ce Gao(gaocegege)'s personal blog. And I was deeply impressed by the idea of cloud native AI toolkits, I decided to dive into this area and learn some skills to enhance my career and future.
 In the blog, I'll provide my personal insight into Katib, for those who are interested in cloud native, AI, and hyperparameters tuning.
 
-## Goal
+## Problem
 
 The project aims to provide a Python SDK API interface for users to push metrics to Katib DB directly.
 
 The current implementation of Metrics Collector is pull-based, raising design problems such as determining the frequency at which we scrape the metrics, performance issues like the overhead caused by too many sidecar containers, and restrictions on developing environments that must support sidecar containers and admission webhooks. And also, for data scientists, they need to pay attention to the format of metrics printed in the training scripts, which is error prone and may be hard to recognize.
 
-Thus, we decided to implement a new API for Katib Python SDK to offer users a push-based way to store metrics directly into the Kaitb DB and resolve those issues raised by pull-based metrics collection.
+## Solution
+
+We decided to implement a new API for Katib Python SDK to offer users a push-based way to store metrics directly into the Kaitb DB and resolve those issues raised by pull-based metrics collection.
 
 ![](../images/2024-09-28-gsoc-2024-summary-push-based-metrics-collection/push-based-metrics-collection.png)
 
-## What I did in the GSoC Project
+## My Contributions during the GSoC
 
 I raised numerous PRs for the Katib and Training-Operator project. Some of them are related to my GSoC project, and others may contribute to the completeness of UTs (Unit Tests), simplicity of dependency management, and the compatibility of the UI component.
 
@@ -40,7 +42,7 @@ Also, I raised some issues not only to describe the problems and bugs I met duri
 
 There is an [Github Issue](https://github.com/kubeflow/katib/issues/2340) tracks the progress of developing push-based metrics collection for katib during the GSoC coding phase. If you are interested in my work or Katib, please can check this issue for more details.
 
-## Lessons I Learned during the Project
+## Lessons Learned
 
 1. **Think Twice, Code Once**: Andrey taught me that we should think of the API specification and all the related details before coding. This can significantly reduce the workload of the coding period and avoid big refactor of the project. Meanwhile, my understanding of Katib got clear gradually during the over-and-over rounds of re-think and re-design of the architecture.
 
@@ -61,3 +63,10 @@ Special Thanks:
 I hold a firm belief that every small step counts, and everybody in the community is unique and of great significance. There is no doubt that our joint efforts will surely contribute to the flourishing of our Kubeflow Community, make it the world-best community managing AI lifecycle on Kubernetes, and attract much more attention from the industry. Then, more and more new comers will pour in and work along with us.
 
 Again, I'll continue to contribute to Kubeflow.
+
+## Links
+
+For more details about Kubeflow and the upcoming GSoC'25 event, please check:
+
+- [What is Kubeflow?](https://www.kubeflow.org)
+- [Kubeflow GSoC'25 Event](https://www.kubeflow.org/events/gsoc-2025/)

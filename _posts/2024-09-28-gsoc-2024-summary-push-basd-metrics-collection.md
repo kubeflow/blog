@@ -34,7 +34,7 @@ For reference, the coding period can be rougly divided into 3 stages:
 
 2. Develop a push-based metrics collection interface according to the KEP. (~8 weeks)
 
-3. Write some examples and documentations & Present my work to Kubeflow Community. 
+3. Write some examples and documentation & Present my work to the Kubeflow Community. 
 
 Also, I raised some issues not only to describe the problems and bugs I met during the coding period, but also to suggest the future enhancement direction for Katib and Training-Operator.
 

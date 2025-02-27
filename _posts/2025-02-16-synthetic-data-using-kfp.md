@@ -42,7 +42,7 @@ Some data cannot be sent to the cloud, so some cloud-based SDG solutions are not
 For data already in cloud, we can use other cloud-based frameworks.
 Synthesizers are motivated by multiple factors, but in this context, our focus remains on generating synthetic data for on-premise use.
 
-So, what framework did we (initially) choose? Currently we are using the open source version of [SDV](https://sdv.dev/), 
+So, what framework did we (initially) choose? Currently, we are using the open source version of [SDV](https://sdv.dev/), 
 an easy-to-use framework with a strong community and many useful features out-of-the-box (e.g. built-in evaluators, many modeling techniques). 
 The field of synthetic data is evolving rapidly. While we do not aim to cover the latest advancements exhaustively, the use of Foundation models is certainly an area of interest.
 

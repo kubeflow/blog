@@ -52,8 +52,8 @@ There are many aspects to consider when making use of synthetic data, and it is 
 
 We need to ensure a good balance between: 
 
-  - Usability (how useful is the synthetic data for your use case), 
-  - Fidelity (how similar), and 
+  - Usability (how useful is the synthetic data for your use case) 
+  - Fidelity (how similar)
   - Privacy (approved level for use case)
 
 For now, we are focusing only on usability and fidelity, using framework-provided measurements for fidelity and workflows described below for usability.

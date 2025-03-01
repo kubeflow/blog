@@ -14,7 +14,7 @@ Synthetic data, uses different techniques outlined below to generate data that m
 
 While the above focuses on speed of development in general, and augmentation of data to improve performance of analytical modes, there are more motivations for *creating* (synthetic) data.  Using synthetic data *could* give us new ways to improve on speed of development, handling biases, and more.
 
-### **Key Benefits of Using Synthetic Data**  
+#### **Key Benefits of Using Synthetic Data**  
 
 - **Enhanced Privacy and Security**  
   Mimics real datasets without containing sensitive or personally identifiable information, mitigating privacy risks and ensuring compliance with regulations like GDPR.

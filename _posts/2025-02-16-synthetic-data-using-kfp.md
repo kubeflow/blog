@@ -43,7 +43,9 @@ While the above focuses on speed of development in general, and augmentation of 
   Supplements real-world data by balancing underrepresented classes, improving model performance, and reducing biases in AI training.  
 
 - **Resilience Against Data Scarcity**  
-  Enables AI development in domains where real-world data is limited, expensive, or difficult to obtain—such as healthcare and cybersecurity—by generating high-quality alternative datasets. 
+  Enables AI development in domains where real-world data is limited, expensive, or difficult to obtain—such as healthcare and cybersecurity—by generating high-quality alternative datasets.
+
+To realize these benefits, we need effective tools for generating synthetic data. Different frameworks exist for this purpose, ranging from cloud-based platforms to open-source solutions. In this post, we focus on **open-source synthetic data generation frameworks** that provide control, flexibility, and on-premise deployment options.
 
 ### Frameworks for Creating Synthetic Data 
 
@@ -57,6 +59,7 @@ So, what framework did we (initially) choose? Currently, we are using the open s
 an easy-to-use framework with a strong community and many useful features out-of-the-box (e.g. built-in evaluators, many modeling techniques). 
 The field of synthetic data is evolving rapidly. While we do not aim to cover the latest advancements exhaustively, the use of Foundation models is certainly an area of interest.
 
+One of the most widely used open-source libraries for synthetic data generation is **Synthetic Data Vault (SDV)**. It provides multiple synthesizers, each tailored for different types of data and statistical properties.
 
 ### The Synthetic Data Vault (SDV)
 
@@ -66,11 +69,11 @@ different features in the dataset. The synthesizer doesn't memorize individual r
 
 Below are the (free) synthesizers provided by SDV that we evaluated on each use case. Each synthesizer does this differently:
 
-- **GaussianCopulaSynthesizer:** Models the distribution of each feature using copulas and marginal distributions. 
-- **CTGANSynthesizer:** Uses a GAN (Generative Adversarial Network) approach, which involves training two neural networks (a generator and a discriminator) to model complex data distributions, especially useful for discrete or mixed-type data.
-- **TVAESynthesizer:** Uses a Variational Autoencoder (VAE) approach to learn a lower-dimensional representation of the data and then generate new samples.
-- **CopulaGANSynthesizer:** Combines elements of copulas and GANs to capture complex dependencies.
-- **PARSynthesizer:** Uses Probabilistic AutoRegressive models to model sequential dependencies in the data.
+- **GaussianCopulaSynthesizer:** Uses statistical copula functions to model relationships between features, ensuring accurate marginal distributions.
+- **CTGANSynthesizer:** Uses Generative Adversarial Networks (GANs) to learn complex data distributions, particularly effective for categorical and mixed-type data.
+- **TVAESynthesizer:** Leverages Variational Autoencoders (VAEs) to capture latent representations, useful for continuous and structured data.
+- **CopulaGANSynthesizer:** Combines Copula-based statistical modeling with GANs to generate data with complex dependencies.
+- **PARSynthesizer:** Uses autoregressive models to generate sequential data while preserving temporal dependencies.
 
 *There are more synthesizers, also from SDV, but not all are open source.* We used the first four, when evaluating optimal synthesizer for our different use cases.
 
@@ -86,11 +89,11 @@ There are many aspects to consider when making use of synthetic data, and it is 
 
 We need to ensure a good balance between: 
 
-  - Usability (how useful is the synthetic data for your use case) 
-  - Fidelity (how similar)
-  - Privacy (approved level for use case)
+- Usability – How useful is the synthetic data for the intended use case?
+- Fidelity – How well does the synthetic data preserve statistical properties of the real data?
+- Privacy – Does the generated data ensure an acceptable level of privacy for the given use case?
 
-For now, we are focusing only on usability and fidelity, using framework-provided measurements for fidelity and workflows described below for usability.
+For now, we are focusing only on usability and fidelity, using framework-provided measurements for fidelity and workflows described below to assess usability.
 
 **Comments on privacy and privacy preserving techniques**
 
@@ -98,13 +101,13 @@ Ensuring privacy in synthetic data is a non-trivial problem, even if there are t
 
 *Privacy problems, in synthetic data?*
 
-When creating synthetic data we build models, models from which we generate synthetic data, which can expose privacy problems.
-These models can e.g. be overfitted (close, or fully, memorizing the training data), resulting in leakage of the real data it was trained on. 
-Another challenge lies in handling anomalies. If certain information in the real data stands out and we don't account for it when creating synthetic data, there is a risk of backtracking from the synthetic data to the real.
-A typical example could be 'a very rich person in the dataset' or 'a very rare disease'. 
-The problem here, besides from the privacy part, is that it might be the anomalies we really are looking for.
+While synthetic data enhances privacy by removing personally identifiable information, it is not inherently risk-free. Some key challenges include:
 
-We are experimenting with various differential privacy strategies, but it is still early days, and we do not focus on them in the examples below.
+- Overfitting and Memorization: If a synthesizer is overfitted, it may generate synthetic records that closely resemble real data, leading to privacy leakage.
+- Anomaly Exposure: Unique individuals or rare events in the dataset (e.g., a very wealthy individual or a rare disease) may be unintentionally replicated in synthetic data, creating a risk of re-identification.
+- Re-identification Attacks: Even if synthetic data is statistically different from real data, attackers may use background knowledge to infer sensitive details about individuals.
+
+One additional problem here is that it might be the anomalies we really are looking for. Currently we are experimenting with various differential privacy strategies, but it is still early days, and we do not focus on them in the examples below.
 
 ### Our On-Premise Analytics Platform: ARCUS
 

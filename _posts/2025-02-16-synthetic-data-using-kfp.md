@@ -43,6 +43,41 @@ While the above focuses on speed of development in general, and augmentation of 
 - **Resilience Against Data Scarcity**  
   Enables AI development in domains where real-world data is limited, expensive, or difficult to obtain—such as healthcare and cybersecurity—by generating high-quality alternative datasets. 
 
+### Frameworks for Creating Synthetic Data 
+
+This post focuses exclusively on open source frameworks.
+Some data cannot be sent to the cloud, so some cloud-based SDG solutions are not always a good fit. 
+For data already in cloud, we can use other cloud-based frameworks.
+Synthesizers are motivated by multiple factors, but in this context, our focus remains on generating synthetic data for on-premise use.
+
+So, what framework did we (initially) choose? Currently, we are using the open source version of [SDV](https://sdv.dev/), 
+an easy-to-use framework with a strong community and many useful features out-of-the-box (e.g. built-in evaluators, many modeling techniques). 
+The field of synthetic data is evolving rapidly. While we do not aim to cover the latest advancements exhaustively, the use of Foundation models is certainly an area of interest.
+
+
+### The Synthetic Data Vault (SDV)
+
+When you initialize and fit a synthesizer (like GaussianCopulaSynthesizer, CTGANSynthesizer, etc.), it trains a model based on 
+the dataset you provide. This model learns the distribution of the data, capturing the relationships and dependencies between 
+different features in the dataset. Below are the (free) synthesizers provided by SDV that we evaluated on each use case.
+
+The synthesizer doesn't memorize individual records from the dataset. 
+Instead, it tries to learn the underlying statistical patterns, correlations, and distributions present in the data. 
+Each synthesizer does this differently:
+
+- **GaussianCopulaSynthesizer:** Models the distribution of each feature using copulas and marginal distributions. 
+- **CTGANSynthesizer:** Uses a GAN (Generative Adversarial Network) approach, which involves training two neural networks (a generator and a discriminator) to model complex data distributions, especially useful for discrete or mixed-type data.
+- **TVAESynthesizer:** Uses a Variational Autoencoder (VAE) approach to learn a lower-dimensional representation of the data and then generate new samples.
+- **CopulaGANSynthesizer:** Combines elements of copulas and GANs to capture complex dependencies.
+- **PARSynthesizer:** Uses Probabilistic AutoRegressive models to model sequential dependencies in the data.
+
+*There are more synthesizers, also from SDV, but not all are open source.* We used the first four, when evaluating optimal synthesizer for our different use cases.
+
+**Generators - generating new data - on demand**
+
+Once trained, the synthesizer uses the learned model to generate new synthetic data that follows the same statistical properties and 
+distributions as the original dataset, without directly copying any real data points. If you need more data? Just call the generator.
+
 ### Evaluation Criteria for Synthetic Data
 
 But, how good is synthetic data, how do we evaluate it?
@@ -70,42 +105,6 @@ A typical example could be 'a very rich person in the dataset' or 'a very rare d
 The problem here, besides from the privacy part, is that it might be the anomalies we really are looking for.
 
 We are experimenting with various differential privacy strategies, but it is still early days, and we do not focus on them in the examples below.
-
-### Frameworks for Creating Synthetic Data 
-
-This post focuses exclusively on open source frameworks.
-Some data cannot be sent to the cloud, so some cloud-based SDG solutions are not always a good fit. 
-For data already in cloud, we can use other cloud-based frameworks.
-Synthesizers are motivated by multiple factors, but in this context, our focus remains on generating synthetic data for on-premise use.
-
-So, what framework did we (initially) choose? Currently, we are using the open source version of [SDV](https://sdv.dev/), 
-an easy-to-use framework with a strong community and many useful features out-of-the-box (e.g. built-in evaluators, many modeling techniques). 
-The field of synthetic data is evolving rapidly. While we do not aim to cover the latest advancements exhaustively, the use of Foundation models is certainly an area of interest.
-
-
-
-### The Synthetic Data Vault (SDV)
-
-When you initialize and fit a synthesizer (like GaussianCopulaSynthesizer, CTGANSynthesizer, etc.), it trains a model based on 
-the dataset you provide. This model learns the distribution of the data, capturing the relationships and dependencies between 
-different features in the dataset. Below are the (free) synthesizers provided by SDV that we evaluated on each use case.
-
-The synthesizer doesn't memorize individual records from the dataset. 
-Instead, it tries to learn the underlying statistical patterns, correlations, and distributions present in the data. 
-Each synthesizer does this differently:
-
-- **GaussianCopulaSynthesizer:** Models the distribution of each feature using copulas and marginal distributions. 
-- **CTGANSynthesizer:** Uses a GAN (Generative Adversarial Network) approach, which involves training two neural networks (a generator and a discriminator) to model complex data distributions, especially useful for discrete or mixed-type data.
-- **TVAESynthesizer:** Uses a Variational Autoencoder (VAE) approach to learn a lower-dimensional representation of the data and then generate new samples.
-- **CopulaGANSynthesizer:** Combines elements of copulas and GANs to capture complex dependencies.
-- **PARSynthesizer:** Uses Probabilistic AutoRegressive models to model sequential dependencies in the data.
-
-*There are more synthesizers, also from SDV, but not all are open source.* We used the first four, when evaluating optimal synthesizer for our different use cases.
-
-**Generators - generating new data - on demand**
-
-Once trained, the synthesizer uses the learned model to generate new synthetic data that follows the same statistical properties and 
-distributions as the original dataset, without directly copying any real data points. If you need more data? Just call the generator.
 
 ### Our On-Premise Analytics Platform: ARCUS
 

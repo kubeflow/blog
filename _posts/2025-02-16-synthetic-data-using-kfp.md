@@ -46,8 +46,9 @@ While the above focuses on speed of development in general, and augmentation of 
 ### Frameworks for Creating Synthetic Data 
 
 This post focuses exclusively on open source frameworks.
-Some data cannot be sent to the cloud, so some cloud-based SDG solutions are not always a good fit. 
-For data already in cloud, we can use other cloud-based frameworks.
+Some data cannot be sent to the cloud, so some cloud-based synthetic data generation solutions are not always a good fit. 
+For data already in cloud, we can use other cloud-based frameworks to generate synthetic data.
+
 Synthesizers are motivated by multiple factors, but in this context, our focus remains on generating synthetic data for on-premise use.
 
 So, what framework did we (initially) choose? Currently, we are using the open source version of [SDV](https://sdv.dev/), 
@@ -57,13 +58,11 @@ The field of synthetic data is evolving rapidly. While we do not aim to cover th
 
 ### The Synthetic Data Vault (SDV)
 
-When you initialize and fit a synthesizer (like GaussianCopulaSynthesizer, CTGANSynthesizer, etc.), it trains a model based on 
+When you initialize and fit a synthesizer (like GaussianCopulaSynthesizer, CTGANSynthesizer, etc. - see below), it trains a model based on 
 the dataset you provide. This model learns the distribution of the data, capturing the relationships and dependencies between 
-different features in the dataset. Below are the (free) synthesizers provided by SDV that we evaluated on each use case.
+different features in the dataset. The synthesizer doesn't memorize individual records from the dataset. Instead, it tries to learn the underlying statistical patterns, correlations, and distributions present in the data. 
 
-The synthesizer doesn't memorize individual records from the dataset. 
-Instead, it tries to learn the underlying statistical patterns, correlations, and distributions present in the data. 
-Each synthesizer does this differently:
+Below are the (free) synthesizers provided by SDV that we evaluated on each use case. Each synthesizer does this differently:
 
 - **GaussianCopulaSynthesizer:** Models the distribution of each feature using copulas and marginal distributions. 
 - **CTGANSynthesizer:** Uses a GAN (Generative Adversarial Network) approach, which involves training two neural networks (a generator and a discriminator) to model complex data distributions, especially useful for discrete or mixed-type data.
@@ -75,14 +74,13 @@ Each synthesizer does this differently:
 
 **Generators - generating new data - on demand**
 
-Once trained, the synthesizer uses the learned model to generate new synthetic data that follows the same statistical properties and 
-distributions as the original dataset, without directly copying any real data points. If you need more data? Just call the generator.
+Synthesizers are statistical and (more often) AI models trained to mimic the real data. Once developed, the resulting models are used to create as much synthetic data as you find useful for your use case. Once trained, the synthesizer uses the learned model to generate new synthetic data that follows the same statistical properties and distributions as the original dataset, without directly copying any real data points. If you need more data? Just call the generator.
 
 ### Evaluation Criteria for Synthetic Data
 
 But, how good is synthetic data, how do we evaluate it?
 
-There are many aspects to consider when making use of synthetic data, and it is important to evaluate which synthetic data generation technique (synthesizer) is best for our specific dataset and use case. More on synthesizers below, when looking into the framework (SDV) we selected. For now, synthesizers are statistical and (more often) AI models trained to mimic the real data. Once developed, the resulting models are used to create as much synthetic data as you find useful for your use case. 
+There are many aspects to consider when making use of synthetic data, and it is important to evaluate which synthetic data generation technique (synthesizer) is best for our specific dataset and use case.  
 
 We need to ensure a good balance between: 
 

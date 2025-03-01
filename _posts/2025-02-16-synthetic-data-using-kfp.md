@@ -57,6 +57,20 @@ We need to ensure a good balance between:
 
 For now, we are focusing only on usability and fidelity, using framework-provided measurements for fidelity and workflows described below for usability.
 
+**Comments on privacy and privacy preserving techniques**
+
+Ensuring privacy in synthetic data is a non-trivial problem, even if there are techniques to ensure levels of privacy, it remains an active area of research. 
+
+*Privacy problems, in synthetic data?*
+
+When creating synthetic data we build models, models from which we generate synthetic data, which can expose privacy problems.
+These models can e.g. be overfitted (close, or fully, memorizing the training data), resulting in leakage of the real data it was trained on. 
+Another challenge lies in handling anomalies. If certain information in the real data stands out and we don't account for it when creating synthetic data, there is a risk of backtracking from the synthetic data to the real.
+A typical example could be 'a very rich person in the dataset' or 'a very rare disease'. 
+The problem here, besides from the privacy part, is that it might be the anomalies we really are looking for.
+
+We are experimenting with various differential privacy strategies, but it is still early days, and we do not focus on them in the examples below.
+
 ### Frameworks for Creating Synthetic Data 
 
 This post focuses exclusively on open source frameworks.
@@ -68,20 +82,7 @@ So, what framework did we (initially) choose? Currently, we are using the open s
 an easy-to-use framework with a strong community and many useful features out-of-the-box (e.g. built-in evaluators, many modeling techniques). 
 The field of synthetic data is evolving rapidly. While we do not aim to cover the latest advancements exhaustively, the use of Foundation models is certainly an area of interest.
 
-**Comments on privacy and privacy preserving techniques**
 
-Ensuring privacy in synthetic data is a non-trivial problem, even if there
-are techniques to ensure levels of privacy, it remains an active area of research. 
-
-*Privacy problems, in synthetic data?*
-
-When creating synthetic data we build models, models from which we generate synthetic data, which can expose privacy problems.
-These models can e.g. be overfitted (close, or fully, memorizing the training data), resulting in leakage of the real data it was trained on. 
-Another challenge lies in handling anomalies. If certain information in the real data stands out and we don't account for it when creating synthetic data, there is a risk of backtracking from the synthetic data to the real.
-A typical example could be 'a very rich person in the dataset' or 'a very rare disease'. 
-The problem here, besides from the privacy part, is that it might be the anomalies we really are looking for.
-
-We are experimenting with various differential privacy strategies, but it is still early days, and we do not focus on them in the examples below.
 
 ### The Synthetic Data Vault (SDV)
 

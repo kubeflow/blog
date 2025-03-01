@@ -6,15 +6,17 @@ comments: true
 categories: [kfp]
 author: "<a href='https://www.linkedin.com/in/aaked'>Åke Edlund</a>, <a href='https://www.linkedin.com/in/tarekabouzeid91'>Tarek Abouzeid</a>"
 ---
-## Synthetic Data Generation - Why and How?
+### Synthetic Data Generation - Why and How?
 
 When creating insights, decisions, and actions from data, the best results come from real data. But accessing real data often requires lengthy security and legal processes. The data may also be incomplete, biased, or too small, and during early exploration, we may not even know if it's worth pursuing. While real data is essential for proper evaluation, gaps or limited access frequently hinder progress until the formal process is complete. 
 
-Synthetic data, uses different techniques outlined below to generate data that mimics the statistical properties of real data, which opens up a good number of use cases. Synthetic data, depending on technique used, not only has similar statistical base properties as the real data, but also preserves correlations between features in the data. 
+To address these challenges, synthetic data provides an alternative. It mimics real data’s statistical properties while preserving privacy and accessibility. Synthetic data generators (synthesizers) are models trained on real data to generate new datasets that follow the same statistical distributions and relationships but do not contain real records. This allows for accelerated development, improved data availability, and enhanced privacy.
 
-While the above focuses on speed of development in general, and augmentation of data to improve performance of analytical modes, there are more motivations for *creating* (synthetic) data.  Using synthetic data *could* give us new ways to improve on speed of development, handling biases, and more.
+Depending on the technique used, synthetic data not only mirrors statistical base properties of real data but also preserves correlations between features. These synthesizers — such as those based on Gaussian Copulas, Generative Adversarial Networks (GANs), and Variational Autoencoders (VAEs) — enable the creation of high-fidelity synthetic datasets. See more description of these techniques below.
 
-#### **Key Benefits of Using Synthetic Data**  
+### Key Benefits of Using Synthetic Data
+
+While the above focuses on speed of development in general, and augmentation of data to improve performance of analytical modes, there are more motivations for *creating* (synthetic) data:
 
 - **Enhanced Privacy and Security**  
   Mimics real datasets without containing sensitive or personally identifiable information, mitigating privacy risks and ensuring compliance with regulations like GDPR.

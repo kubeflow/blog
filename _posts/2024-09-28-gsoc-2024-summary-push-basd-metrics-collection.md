@@ -24,7 +24,7 @@ The current implementation of Metrics Collector is pull-based, raising design pr
 
 We decided to implement a new API for Katib Python SDK to offer users a push-based way to store metrics directly into the Kaitb DB and resolve those issues raised by pull-based metrics collection.
 
-In the new design, users just need to call the `report_metrics()` API to push metrics to Katib DB directly. There are no sidecar containers and restricted metric log formats any more. After that, Trial Controller will continuously collect metrics from Katib DB and update the status of Trial, which is the same as pull-based metrics collection.
+In the new design, users just need to set `metrics_collector_config={"kind": "Push"}` in the `tune()` function and call the `report_metrics()` API in their objective function to push metrics to Katib DB directly. There are no sidecar containers and restricted metric log formats any more. After that, Trial Controller will continuously collect metrics from Katib DB and update the status of Trial, which is the same as pull-based metrics collection.
 
 If you are interested in it, please refer to this [doc](https://www.kubeflow.org/docs/components/katib/user-guides/metrics-collector/#push-based-metrics-collector) and [example](https://github.com/kubeflow/katib/blob/master/examples/v1beta1/sdk/mnist-with-push-metrics-collection.ipynb) for more details.
 

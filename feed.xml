@@ -1,4 +1,244 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2025-02-26T20:59:07-06:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow and Me: A Story Started with Push-based Metrics Collection</title><link href="https://blog.kubeflow.org/gsoc-2024-project-6/" rel="alternate" type="text/html" title="Kubeflow and Me: A Story Started with Push-based Metrics Collection" /><published>2024-09-28T00:00:00-05:00</published><updated>2024-09-28T00:00:00-05:00</updated><id>https://blog.kubeflow.org/gsoc-2024-summary-push-basd-metrics-collection</id><content type="html" xml:base="https://blog.kubeflow.org/gsoc-2024-project-6/">&lt;p&gt;This summer, I gained a precious opportunity to participate in the Google Summer of Code(GSoC), in which I would contribute to Katib and fulfill a project named &lt;a href=&quot;https://www.kubeflow.org/events/gsoc-2024/#project-6-push-based-metrics-collection-for-katib&quot;&gt;“Push-based Metrics Collection in Katib”&lt;/a&gt; within 12 weeks. 
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2025-03-03T04:17:08-06:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Synthetic Data Generation with Kubeflow Pipelines</title><link href="https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp.html" rel="alternate" type="text/html" title="Synthetic Data Generation with Kubeflow Pipelines" /><published>2025-02-16T00:00:00-06:00</published><updated>2025-02-16T00:00:00-06:00</updated><id>https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp</id><content type="html" xml:base="https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp.html">&lt;h3 id=&quot;synthetic-data-generation---why-and-how&quot;&gt;Synthetic Data Generation - Why and How?&lt;/h3&gt;
+
+&lt;p&gt;When creating insights, decisions, and actions from data, the best results come from real data. But accessing real data often requires lengthy security and legal processes. The data may also be incomplete, biased, or too small, and during early exploration, we may not even know if it’s worth pursuing. While real data is essential for proper evaluation, gaps or limited access frequently hinder progress until the formal process is complete.&lt;/p&gt;
+
+&lt;p&gt;To address these challenges, synthetic data provides an alternative. It mimics real data’s statistical properties while preserving privacy and accessibility. Synthetic data generators (synthesizers) are models trained on real data to generate new datasets that follow the same statistical distributions and relationships but do not contain real records. This allows for accelerated development, improved data availability, and enhanced privacy.&lt;/p&gt;
+
+&lt;p&gt;Depending on the technique used, synthetic data not only mirrors statistical base properties of real data but also preserves correlations between features. These synthesizers — such as those based on Gaussian Copulas, Generative Adversarial Networks (GANs), and Variational Autoencoders (VAEs) — enable the creation of high-fidelity synthetic datasets. See more description of these techniques below.&lt;/p&gt;
+
+&lt;h3 id=&quot;key-benefits-of-using-synthetic-data&quot;&gt;Key Benefits of Using Synthetic Data&lt;/h3&gt;
+
+&lt;p&gt;While the above focuses on speed of development in general, and augmentation of data to improve performance of analytical modes, there are more motivations for &lt;em&gt;creating&lt;/em&gt; (synthetic) data:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Enhanced Privacy and Security&lt;/strong&gt;&lt;br /&gt;
+Mimics real datasets without containing sensitive or personally identifiable information, mitigating privacy risks and ensuring compliance with regulations like GDPR.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Improved Data Availability&lt;/strong&gt;&lt;br /&gt;
+Enables testing and training of models without requiring extensive real-world data collection.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Innovation and Experimentation&lt;/strong&gt;&lt;br /&gt;
+Allows safe experimentation with new algorithms and models without exposing sensitive data, fostering rapid prototyping in a secure environment.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Ethical and Responsible AI Development&lt;/strong&gt;&lt;br /&gt;
+Ensures training data is free from biases present in real-world datasets, promoting fair and unbiased AI systems.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Accelerated Testing and Deployment&lt;/strong&gt;&lt;br /&gt;
+Supports testing of new products, services, and systems in a controlled yet realistic setting, ensuring they are robust, scalable, and ready for real-world use.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Cost Efficiency&lt;/strong&gt;&lt;br /&gt;
+Reduces expenses related to data collection, storage, and compliance by eliminating the need for large-scale real-world data acquisition.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Regulatory Compliance Simplification&lt;/strong&gt;&lt;br /&gt;
+Helps organizations navigate complex data regulations by offering a compliant alternative to real-world datasets, easing cross-border data transfers.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Balanced and Augmented Datasets&lt;/strong&gt;&lt;br /&gt;
+Supplements real-world data by balancing underrepresented classes, improving model performance, and reducing biases in AI training.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Resilience Against Data Scarcity&lt;/strong&gt;&lt;br /&gt;
+Enables AI development in domains where real-world data is limited, expensive, or difficult to obtain—such as healthcare and cybersecurity—by generating high-quality alternative datasets.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To realize these benefits, we need effective tools for generating synthetic data. Different frameworks exist for this purpose, ranging from cloud-based platforms to open-source solutions. In this post, we focus on &lt;strong&gt;open-source synthetic data generation frameworks&lt;/strong&gt; that provide control, flexibility, and on-premise deployment options.&lt;/p&gt;
+
+&lt;h3 id=&quot;frameworks-for-creating-synthetic-data&quot;&gt;Frameworks for Creating Synthetic Data&lt;/h3&gt;
+
+&lt;p&gt;This post focuses exclusively on open source frameworks.
+Some data cannot be sent to the cloud, so some cloud-based synthetic data generation solutions are not always a good fit. 
+For data already in cloud, we can use other cloud-based frameworks to generate synthetic data.&lt;/p&gt;
+
+&lt;p&gt;Synthesizers are motivated by multiple factors, but in this context, our focus remains on generating synthetic data for on-premise use.&lt;/p&gt;
+
+&lt;p&gt;So, what framework did we (initially) choose? Currently, we are using the open source version of &lt;a href=&quot;https://sdv.dev/&quot;&gt;SDV&lt;/a&gt;, 
+an easy-to-use framework with a strong community and many useful features out-of-the-box (e.g. built-in evaluators, many modeling techniques). 
+The field of synthetic data is evolving rapidly. While we do not aim to cover the latest advancements exhaustively, the use of Foundation models is certainly an area of interest.&lt;/p&gt;
+
+&lt;p&gt;One of the most widely used open-source libraries for synthetic data generation is &lt;strong&gt;Synthetic Data Vault (SDV)&lt;/strong&gt;. It provides multiple synthesizers, each tailored for different types of data and statistical properties.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-synthetic-data-vault-sdv&quot;&gt;The Synthetic Data Vault (SDV)&lt;/h3&gt;
+
+&lt;p&gt;When you initialize and fit a synthesizer (like GaussianCopulaSynthesizer, CTGANSynthesizer, etc. - see below), it trains a model based on 
+the dataset you provide. This model learns the distribution of the data, capturing the relationships and dependencies between 
+different features in the dataset. The synthesizer doesn’t memorize individual records from the dataset. Instead, it tries to learn the underlying statistical patterns, correlations, and distributions present in the data.&lt;/p&gt;
+
+&lt;p&gt;Below are the (free) synthesizers provided by SDV that we evaluated on each use case. Each synthesizer does this differently:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;GaussianCopulaSynthesizer:&lt;/strong&gt; Uses statistical copula functions to model relationships between features, ensuring accurate marginal distributions.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;CTGANSynthesizer:&lt;/strong&gt; Uses Generative Adversarial Networks (GANs) to learn complex data distributions, particularly effective for categorical and mixed-type data.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;TVAESynthesizer:&lt;/strong&gt; Leverages Variational Autoencoders (VAEs) to capture latent representations, useful for continuous and structured data.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;CopulaGANSynthesizer:&lt;/strong&gt; Combines Copula-based statistical modeling with GANs to generate data with complex dependencies.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;PARSynthesizer:&lt;/strong&gt; Uses autoregressive models to generate sequential data while preserving temporal dependencies.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;There are more synthesizers, also from SDV, but not all are open source.&lt;/em&gt; We used the first four, when evaluating optimal synthesizer for our different use cases.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Generators - generating new data - on demand&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Synthesizers are statistical and (more often) AI models trained to mimic the real data. Once developed, the resulting models are used to create as much synthetic data as you find useful for your use case. Once trained, the synthesizer uses the learned model to generate new synthetic data that follows the same statistical properties and distributions as the original dataset, without directly copying any real data points. If you need more data? Just call the generator.&lt;/p&gt;
+
+&lt;h3 id=&quot;evaluation-criteria-for-synthetic-data&quot;&gt;Evaluation Criteria for Synthetic Data&lt;/h3&gt;
+
+&lt;p&gt;But, how good is synthetic data, how do we evaluate it?&lt;/p&gt;
+
+&lt;p&gt;There are many aspects to consider when making use of synthetic data, and it is important to evaluate which synthetic data generation technique (synthesizer) is best for our specific dataset and use case.&lt;/p&gt;
+
+&lt;p&gt;We need to ensure a good balance between:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Usability – How useful is the synthetic data for the intended use case?&lt;/li&gt;
+  &lt;li&gt;Fidelity – How well does the synthetic data preserve statistical properties of the real data?&lt;/li&gt;
+  &lt;li&gt;Privacy – Does the generated data ensure an acceptable level of privacy for the given use case?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For now, we are focusing only on usability and fidelity, using framework-provided measurements for fidelity and workflows described below to assess usability.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Comments on privacy and privacy preserving techniques&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Ensuring privacy in synthetic data is a non-trivial problem, even if there are techniques to ensure levels of privacy, it remains an active area of research.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Privacy problems, in synthetic data?&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;While synthetic data enhances privacy by removing personally identifiable information, it is not inherently risk-free. Some key challenges include:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Overfitting and Memorization: If a synthesizer is overfitted, it may generate synthetic records that closely resemble real data, leading to privacy leakage.&lt;/li&gt;
+  &lt;li&gt;Anomaly Exposure: Unique individuals or rare events in the dataset (e.g., a very wealthy individual or a rare disease) may be unintentionally replicated in synthetic data, creating a risk of re-identification.&lt;/li&gt;
+  &lt;li&gt;Re-identification Attacks: Even if synthetic data is statistically different from real data, attackers may use background knowledge to infer sensitive details about individuals.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;One additional problem here is that it might be the anomalies we really are looking for. Currently we are experimenting with various differential privacy strategies, but it is still early days, and we do not focus on them in the examples below.&lt;/p&gt;
+
+&lt;h3 id=&quot;our-on-premise-analytics-platform-arcus&quot;&gt;Our On-Premise Analytics Platform: ARCUS&lt;/h3&gt;
+
+&lt;div style=&quot;display: flex; align-items: center; gap: 20px;&quot;&gt;
+  &lt;p&gt;
+    ARCUS is Telia’s advanced on-premise analytics platform, designed to support a wide range of use cases.
+    The platform provides a Kubeflow-based MLOps environment for descriptive, predictive, generative, and (ongoing) agentic AI. 
+    Fully built on open-source, ARCUS integrates a comprehensive stack of components into a unified platform - where Kubernetes is the cornerstone.
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;needed-environment-to-create-synthetic-data&quot;&gt;Needed environment to create synthetic data&lt;/h3&gt;
+
+&lt;p&gt;For an efficient, automated selection of the best synthesizer, we need a number of things - from the underlying platform with GPUs and MLOps (Kubeflow).&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Kubeflow pipelines&lt;/li&gt;
+  &lt;li&gt;GPU capabilities (for performance and efficiency)&lt;/li&gt;
+  &lt;li&gt;Development (IDE) environment (for framework building and running)&lt;/li&gt;
+  &lt;li&gt;Modern data platform (MinIO, Airflow) automating the synthetic data generation datasets&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;parallelism-needed&quot;&gt;Parallelism needed&lt;/h4&gt;
+
+&lt;p&gt;In the (Kube)flows below, we run evaluations in parallel - one for respective synthesizer, followed by a comparison of usability and fidelity scores, selecting the ‘winner’.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Note:&lt;/em&gt; In earlier version of Kubeflow we noticed that the parallelism wasn’t acting as expected, waiting for all threads to complete before moving to next step. We had to create a temporary workaround for this, now solved in Kubeflow Pipelines 2.3.0.&lt;/p&gt;
+
+&lt;p&gt;Below, we briefly describe the base flow for selecting synthesizer, followed by one use case where we use the resulting data generator for ML development in cloud.&lt;/p&gt;
+
+&lt;h2 id=&quot;exploring-the-creation-and-usefulness-of-synthetic-data&quot;&gt;Exploring the Creation and Usefulness of Synthetic Data&lt;/h2&gt;
+
+&lt;p&gt;This is what we want to do: we have a use case, the supporting data, and developed ML model.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;How similar is the synthetic data compared to the real data (interesting for e.g. visualization use cases)?&lt;/li&gt;
+  &lt;li&gt;How well do the ML models based on synthetic data keep up with ML models based on real data?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Validation of synthetic data techniques&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Create the synthetic data and save the best synthetic data generator. In this step similarity measures are created by the out of the box SDV framework&lt;/li&gt;
+  &lt;li&gt;Create the ML model (in our case classifier model) both on real data and the using the synthetic data. Compare the performance of both models against the same real data testset.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2025-02-16-synthetic-data-using-kfp/image-2.png&quot; width=&quot;800&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;From above, we have an example where the final synthesizer is collected and saved. This step is used in the example  below, exporting the resulting synthetic data generator to cloud.&lt;/p&gt;
+
+&lt;h2 id=&quot;using-synthetic-data-generators-to-enable-multiple-environments-without-data-transfer&quot;&gt;Using Synthetic Data Generators to Enable Multiple Environments without Data Transfer&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Below is a usecase where we need to make use of both on-premise and cloud, without moving data to cloud.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Problem statement:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Our data cannot be moved from on-premise to cloud.&lt;/li&gt;
+  &lt;li&gt;We need extra compute power, in our public cloud environment, to create an ML model for use on-premise.&lt;/li&gt;
+  &lt;li&gt;The ML model is to be used on-premise, on new incoming data streams (that cannot be moved to cloud)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Solution:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Create synthetic data for our on-premise environment use-cases, and - as a side product we save 
+away the synthetic data generator (the pickled model used to create synthetic data).&lt;/li&gt;
+  &lt;li&gt;Copy the synthetic data generator to cloud&lt;/li&gt;
+  &lt;li&gt;Use the synthetic data generator in the cloud, creating synthetic data for training of an ML model&lt;/li&gt;
+  &lt;li&gt;Copy the ML model on-premise, and use it for new incoming data&lt;/li&gt;
+  &lt;li&gt;Evaluate: Compare the on-premise AI model with the model created in the cloud - against the same test data&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2025-02-16-synthetic-data-using-kfp/image.png&quot; width=&quot;700&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Division of work, what is done on-premise with Kubeflow, and what is done in cloud (AWS SageMaker)?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;on-premise&quot;&gt;On-premise&lt;/h5&gt;
+
+&lt;p&gt;See the above &lt;em&gt;Validation of synthetic data techniques&lt;/em&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Develop the model on real data – for the comparison later with the cloud model.&lt;/li&gt;
+  &lt;li&gt;Create synthetic generators, evaluate the generators, and export the best generator to AWS.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h5 id=&quot;cloud&quot;&gt;Cloud&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Use the imported synthetic generator (from on-premise)&lt;/li&gt;
+  &lt;li&gt;Create synthetic data using the synthetic data generator&lt;/li&gt;
+  &lt;li&gt;Develop the model and determine which synthetic generator is the best&lt;/li&gt;
+  &lt;li&gt;Increase the amount of synthetic data, to see if the increase of synthetic data improves model performance (not for sure it will, see below comment)&lt;/li&gt;
+  &lt;li&gt;Export model to on-premise&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2025-02-16-synthetic-data-using-kfp/image-3.png&quot; width=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In some more detail below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2025-02-16-synthetic-data-using-kfp/image-4.png&quot; width=&quot;700&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;on-premise-1&quot;&gt;On-premise&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Compare real data model against synthetic data model – using real test data.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;In the current examples we see near equivalent performance of the ML models (a few percentage points lower for models created using synthetic data). We experimented with increasing the size of the synthetic dataset, with minor improvements. Augmenting the training data is expected (not tested here) to have more effects when using deep learning algorithms.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;summary&quot;&gt;Summary&lt;/h1&gt;
+
+&lt;p&gt;Clearly, the above workflows would be very cumbersome to build and maintain without Kubeflow. 
+Our solution is entirely open source, Kubernetes based, and uses Kubeflow and SDV to give us the scalability, robustness, and detailed control that is required.&lt;/p&gt;
+
+&lt;p&gt;The area of synthetic data generation is moving fast with the overall AI field. 
+Reports from &lt;a href=&quot;https://www.ibm.com/think/topics/synthetic-data&quot;&gt;IBM&lt;/a&gt; and others, of the increased usage of synthetic data for e.g. LLM training is frequent but the application areas are much greater.
+We also expect more capable synthesizers and, hopefully, privacy preserving techniques to keep up with the innovation in this area.
+Our original main motivator was speed up in innovation and experimentation, and overall - speed to market. Often a key pain for our teams.&lt;/p&gt;
+
+&lt;p&gt;Looking ahead, we are exploring the development of a synthesizer catalog — ideally integrated into our overall data catalog — to enable users to rapidly experiment with ideas and get started more efficiently.&lt;/p&gt;</content><author><name>&lt;a href='https://www.linkedin.com/in/aaked'&gt;Åke Edlund&lt;/a&gt;, &lt;a href='https://www.linkedin.com/in/tarekabouzeid91'&gt;Tarek Abouzeid&lt;/a&gt;</name></author><category term="kfp" /><summary type="html">Synthetic Data Generation - Why and How?</summary></entry><entry><title type="html">Kubeflow and Me: A Story Started with Push-based Metrics Collection</title><link href="https://blog.kubeflow.org/gsoc-2024-project-6/" rel="alternate" type="text/html" title="Kubeflow and Me: A Story Started with Push-based Metrics Collection" /><published>2024-09-28T00:00:00-05:00</published><updated>2024-09-28T00:00:00-05:00</updated><id>https://blog.kubeflow.org/gsoc-2024-summary-push-basd-metrics-collection</id><content type="html" xml:base="https://blog.kubeflow.org/gsoc-2024-project-6/">&lt;p&gt;This summer, I gained a precious opportunity to participate in the Google Summer of Code(GSoC), in which I would contribute to Katib and fulfill a project named &lt;a href=&quot;https://www.kubeflow.org/events/gsoc-2024/#project-6-push-based-metrics-collection-for-katib&quot;&gt;“Push-based Metrics Collection in Katib”&lt;/a&gt; within 12 weeks. 
 Firstly, I got to know about GSoC and Kubeflow with the recommendation from the former active maintainer Ce Gao(gaocegege)’s personal blog. And I was deeply impressed by the idea of cloud native AI toolkits, I decided to dive into this area and learn some skills to enhance my career and future.
 In the blog, I’ll provide my personal insight into Katib, for those who are interested in cloud native, AI, and hyperparameters tuning.&lt;/p&gt;
 
@@ -1053,152 +1293,4 @@ the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;Kub
 
 &lt;p&gt;A huge thank you to everyone who has contributed to Kubeflow over the years! We are excited for what lays ahead.&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;By Thea Lamkin, Senior Program Manager, Google, on behalf of the Kubeflow Project Steering Group&lt;/em&gt;&lt;/p&gt;</content><author><name>Thea Lamkin</name></author><category term="official" /><summary type="html">With support from the Kubeflow Project Steering Group, Google has just announced the application for Kubeflow to become an incubating project in the Cloud Native Computing Foundation (CNCF).</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Kubeflow v1.6 delivers support for Kubernetes v1.22 and introduces an alpha release of the Kubeflow Pipeline v2 functionality</title><link href="https://blog.kubeflow.org/kubeflow-1.6-release/" rel="alternate" type="text/html" title="Kubeflow v1.6 delivers support for Kubernetes v1.22 and introduces an alpha release of the Kubeflow Pipeline v2 functionality" /><published>2022-08-24T00:00:00-05:00</published><updated>2022-08-24T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.6-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.6-release/">&lt;p&gt;The Kubeflow Community is excited to announce the availability of the Kubeflow v1.6 software release, which includes
- support for Kubernetes v1.22 and introduces an alpha release of the Kubeflow Pipeline v2 (KFP v2) functionality.&lt;/p&gt;
-
-&lt;p&gt;Kubeflow v1.6 also adds new hyperparameter support for the population based algorithm in Katib, and provides a combined
- Python SDK for PyTorch, MXNet, MPI, XGBoost in Kubeflow’s distributed Training Operator. For model serving, v1.6 has
- new ClusterServingRuntime and ServingRuntime CRDs, and a new Model Spec was introduced to the InferenceService
- Predictor Spec, which provides a new way to specify models in KServe 0.8. Additionally, v1.6 cleans up a few CVEs in
- the central dashboard and enables the PodDefaults webhook to pick-up new certificate updates.   For the Kubernetes upgrade,
- the community developed and tested each Kubeflow component manifest with Kubernetes v1.22.  As v1.22 introduced some breaking changes, the upgrade was a team effort, and this Kubeflow release management process will be useful in the community’s future updates of Kubernetes and other software dependencies. The software is available &lt;a href=&quot;https://github.com/kubeflow/kubeflow/releases/tag/v1.6.0&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;In parallel to developing these new software features, the Kubeflow Community also completed its annual user survey.
- The survey generated many good user insights into requirements for Kubeflow, and you can see more on the
- &lt;a href=&quot;https://github.com/kubeflow/blog/pull/121&quot;&gt;survey results&lt;/a&gt;. Of the many
- highlights, we would like to identify the growing request for model monitoring as shown in the chart below.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/2022-08-24-kubeflow-1.6-release/2022-user-survey-gaps-in-ml-activities-and-workflow.png&quot; alt=&quot;2022 User Survey Gaps In ML Activities and Workflow&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;We believe the increased focus on monitoring identifies Kubeflow’s maturing user base. The Community is making efforts
- to explain Kubeflow’s current functionality and build into the users’ new model monitoring requirements. In addition,
- the user survey results and Kubeflow Working Group roadmaps will be discussed in the upcoming Kubeflow Summit. You can
- learn more about the Kubeflow Summit &lt;a href=&quot;https://docs.google.com/document/d/1fLg1EqVtJekcXxT8GM_Rqg0-G-vIDVCrzuxE06Oq9dI/edit&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;To round back to the current software delivery, the following takes a deeper look at the v1.6 highlights in more detail.&lt;/p&gt;
-
-&lt;h2 id=&quot;kubeflow-v16-details&quot;&gt;Kubeflow v1.6 details&lt;/h2&gt;
-
-&lt;p&gt;From a new feature introduction standpoint, Kubeflow v1.6 includes an experimental release of the KFP v2’s new front-end,
- back-end and SDK, which deliver a modern UI and DAG, first class support for metadata, and a simplified component
- authoring experience. This slide deck, &lt;a href=&quot;https://docs.google.com/presentation/d/1HzMwtI2QN67xQp2lSxmuXhitEsukLB7mvZx4KAPub3A/edit#slide=id.gecbd775238_0_20&quot;&gt;KFP v2 Introduction&lt;/a&gt;,
- provides a good overview of v2.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;The KFP v2 alpha introduces:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;An Argo-agnostic approach for creating and running pipelines&lt;/li&gt;
-  &lt;li&gt;A brand new DAG visualization, which uses the Pipeline Template and MLMD in this &lt;a href=&quot;https://github.com/kubeflow/pipelines/blob/master/api/v2alpha1/pipeline_spec.proto&quot;&gt;pipeline spec&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://docs.google.com/presentation/d/1HzMwtI2QN67xQp2lSxmuXhitEsukLB7mvZx4KAPub3A/edit#slide=id.gecbd775238_0_438&quot;&gt;Streamlined Component Authoring&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;You can learn more about KFP v2 and the related breaking changes in these docs:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://docs.google.com/presentation/d/1HzMwtI2QN67xQp2lSxmuXhitEsukLB7mvZx4KAPub3A/edit#slide=id.gb4a3fac3a8_7_1911&quot;&gt;KFP v2 Introduction&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://kubeflow-pipelines.readthedocs.io/en/master/&quot;&gt;The SDK reference&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://docs.google.com/document/d/1nCUUVRXexXbQ0LDkGHsMIBDSu1WvJA9Upy1JzybNVMk/edit&quot;&gt;Breaking changes&lt;/a&gt; including an SDK change from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kfp.v2&lt;/code&gt; to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kfp&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;For those users who are still relying on the KFP v1 functionality, Kubeflow v1.6 and its KFP v2 component are fully
- tested and supported with the mature features in the legacy Kubeflow Pipelines v1.8 SDK. This provides the same
- functionality that thousands of KFP v1 users leverage in production today.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;In addition to the KFP v2 alpha, Kubeflow 1.6 includes feature enhancements and operational improvements for Katib
- users. These include support for:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;The population based training algorithm&lt;/li&gt;
-  &lt;li&gt;Enhanced validation checks for configurations, which will save time debugging parameter misconfiguration&lt;/li&gt;
-  &lt;li&gt;Security fixes&lt;/li&gt;
-  &lt;li&gt;MetricsUnavailable Status support, which will make debugging easier&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;In Kubeflow v1.6, the Training Operator Working Group added these valuable enhancements:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Python SDK for PyTorch, MXNet, MPI, XGBoost&lt;/li&gt;
-  &lt;li&gt;The Clientset (Golang) is also generated for PyTorch, MXNet, MPI, XGBoost&lt;/li&gt;
-  &lt;li&gt;Gang scheduling support for MPI&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;Kubeflow v1.6 has several functional and operational improvements to Kubeflow notebooks, central dashboard, webapps and
- controllers. The following highlights the closed PRs that were considered medium-sized or larger. You can review
- the full list of the closed PRs &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pulls?page=1&amp;amp;q=is%3Apr+is%3Aclosed&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/6353&quot;&gt;Support for K8s 1.22&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/5560&quot;&gt;PodDefaults webhook picking up new certificates&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Show objects from all names spaces in Central Dashboard, Jupyter, Tensorboard, Volumes Mgr&lt;/li&gt;
-  &lt;li&gt;Updated the hosting container registry of images, note - this could be a breaking change for users with custom manifests&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6519&quot;&gt;CVE fixes for Central Dashboard&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;The Manifest Working Group contributed several enhancements in 1.6. These enhancements include the testing of each
- Kubeflow’s component manifest for:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/manifests/pull/2230&quot;&gt;Compatibility with K8s 1.22&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/manifests/pull/2230&quot;&gt;The manifests that can be applied&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/manifests/pull/2230&quot;&gt;The Pods of components that can become ready&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/manifests/pull/2249&quot;&gt;The basic objects that can be created&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;For model serving, Kubeflow v1.6 incorporates the KServe v0.8.0 release, which includes these enhancements:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;ClusterServingRuntime and ServingRuntime CRDs&lt;/li&gt;
-  &lt;li&gt;A new Model Spec is introduced to the InferenceService Predictor Spec as a new way to specify models&lt;/li&gt;
-  &lt;li&gt;Support for Knative 1.0+&lt;/li&gt;
-  &lt;li&gt;gRPC for transformer to predictor network communication&lt;/li&gt;
-  &lt;li&gt;Multi-namespace support for the ModelMesh alternative backend&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;KServe has these breaking changes to the Python SDK:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;KFModel is renamed to Model&lt;/li&gt;
-  &lt;li&gt;KFServer is renamed to ModelServer&lt;/li&gt;
-  &lt;li&gt;KFModelRepository is renamed to ModelRepository&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;To learn more please see the &lt;a href=&quot;https://github.com/kserve/kserve/releases/tag/v0.8.0&quot;&gt;KServe v0.8 release notes&lt;/a&gt; and
- Release &lt;a href=&quot;https://kserve.github.io/website/0.9/blog/articles/2022-02-18-KServe-0.8-release/&quot;&gt;blog post&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;join-the-community&quot;&gt;Join the community&lt;/h2&gt;
-
-&lt;p&gt;We would like to thank everyone for their contribution to Kubeflow 1.6, especially Anna Jung for her work as the v1.6 Release Manager. The Kubeflow community is incredibly pleased
- to have Amazon Web Services extending their support by offering &lt;a href=&quot;https://aws.amazon.com/awscredits/&quot;&gt;AWS promotional credits&lt;/a&gt;.
- We hope this sponsorship will enable many Kubeflow Working groups to sustainably host their testing and CI/CD
- infrastructure on AWS, which is essential for maintaining the community’s high development velocity. As you can see,
- the Kubeflow community is vibrant and diverse, solving real-world problems for organizations worldwide.&lt;/p&gt;
-
-&lt;p&gt;Want to help? The Kubeflow community &lt;a href=&quot;https://github.com/kubeflow/community/blob/master/wg-list.md&quot;&gt;Working Group&lt;/a&gt; hold
- open meetings and are always looking for more volunteers and users to unlock the potential of machine learning. If
- you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below. We look
- forward to working with you!&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Visit our &lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;Kubeflow website&lt;/a&gt; or &lt;a href=&quot;https://github.com/kubeflow&quot;&gt;Kubeflow GitHub Page&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Join the &lt;a href=&quot;https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg&quot;&gt;Kubeflow Slack channel&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Join the &lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss&quot;&gt;kubeflow-discuss&lt;/a&gt; mailing list&lt;/li&gt;
-  &lt;li&gt;Attend a &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;weekly community meeting&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Kubeflow 1.6 Release Team</name></author><category term="release" /><summary type="html">The Kubeflow Community is excited to announce the availability of the Kubeflow v1.6 software release, which includes support for Kubernetes v1.22 and introduces an alpha release of the Kubeflow Pipeline v2 (KFP v2) functionality.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;p&gt;&lt;em&gt;By Thea Lamkin, Senior Program Manager, Google, on behalf of the Kubeflow Project Steering Group&lt;/em&gt;&lt;/p&gt;</content><author><name>Thea Lamkin</name></author><category term="official" /><summary type="html">With support from the Kubeflow Project Steering Group, Google has just announced the application for Kubeflow to become an incubating project in the Cloud Native Computing Foundation (CNCF).</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

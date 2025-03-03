@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Synthetic Data Generation with Kubeflow Pipelines | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Synthetic Data Generation with Kubeflow Pipelines" />
+<meta name="author" content="<a href='https://www.linkedin.com/in/aaked'>Åke Edlund</a>, <a href='https://www.linkedin.com/in/tarekabouzeid91'>Tarek Abouzeid</a>" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Synthetic Data Generation - Why and How?" />
+<meta property="og:description" content="Synthetic Data Generation - Why and How?" />
+<link rel="canonical" href="https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp.html" />
+<meta property="og:url" content="https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp.html" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-02-16T00:00:00-06:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp.html","@type":"BlogPosting","headline":"Synthetic Data Generation with Kubeflow Pipelines","dateModified":"2025-02-16T00:00:00-06:00","datePublished":"2025-02-16T00:00:00-06:00","author":{"@type":"Person","name":"<a href='https://www.linkedin.com/in/aaked'>Åke Edlund</a>, <a href='https://www.linkedin.com/in/tarekabouzeid91'>Tarek Abouzeid</a>"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp.html"},"description":"Synthetic Data Generation - Why and How?","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Synthetic Data Generation with Kubeflow Pipelines</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2025-02-16T00:00:00-06:00" itemprop="datePublished">
+        Feb 16, 2025
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name"><a href='https://www.linkedin.com/in/aaked'>Åke Edlund</a>, <a href='https://www.linkedin.com/in/tarekabouzeid91'>Tarek Abouzeid</a></span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#kfp">kfp</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h3"><a href="#synthetic-data-generation---why-and-how">Synthetic Data Generation - Why and How?</a></li>
+<li class="toc-entry toc-h3"><a href="#key-benefits-of-using-synthetic-data">Key Benefits of Using Synthetic Data</a></li>
+<li class="toc-entry toc-h3"><a href="#frameworks-for-creating-synthetic-data">Frameworks for Creating Synthetic Data</a></li>
+<li class="toc-entry toc-h3"><a href="#the-synthetic-data-vault-sdv">The Synthetic Data Vault (SDV)</a></li>
+<li class="toc-entry toc-h3"><a href="#evaluation-criteria-for-synthetic-data">Evaluation Criteria for Synthetic Data</a></li>
+<li class="toc-entry toc-h3"><a href="#our-on-premise-analytics-platform-arcus">Our On-Premise Analytics Platform: ARCUS</a></li>
+<li class="toc-entry toc-h3"><a href="#needed-environment-to-create-synthetic-data">Needed environment to create synthetic data</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#parallelism-needed">Parallelism needed</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#exploring-the-creation-and-usefulness-of-synthetic-data">Exploring the Creation and Usefulness of Synthetic Data</a></li>
+<li class="toc-entry toc-h2"><a href="#using-synthetic-data-generators-to-enable-multiple-environments-without-data-transfer">Using Synthetic Data Generators to Enable Multiple Environments without Data Transfer</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#on-premise">On-premise</a></li>
+<li class="toc-entry toc-h5"><a href="#cloud">Cloud</a></li>
+<li class="toc-entry toc-h5"><a href="#on-premise-1">On-premise</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#summary">Summary</a></li>
+</ul><h3 id="synthetic-data-generation---why-and-how">
+<a class="anchor" href="#synthetic-data-generation---why-and-how" aria-hidden="true"><span class="octicon octicon-link"></span></a>Synthetic Data Generation - Why and How?</h3>
+
+<p>When creating insights, decisions, and actions from data, the best results come from real data. But accessing real data often requires lengthy security and legal processes. The data may also be incomplete, biased, or too small, and during early exploration, we may not even know if it’s worth pursuing. While real data is essential for proper evaluation, gaps or limited access frequently hinder progress until the formal process is complete.</p>
+
+<p>To address these challenges, synthetic data provides an alternative. It mimics real data’s statistical properties while preserving privacy and accessibility. Synthetic data generators (synthesizers) are models trained on real data to generate new datasets that follow the same statistical distributions and relationships but do not contain real records. This allows for accelerated development, improved data availability, and enhanced privacy.</p>
+
+<p>Depending on the technique used, synthetic data not only mirrors statistical base properties of real data but also preserves correlations between features. These synthesizers — such as those based on Gaussian Copulas, Generative Adversarial Networks (GANs), and Variational Autoencoders (VAEs) — enable the creation of high-fidelity synthetic datasets. See more description of these techniques below.</p>
+
+<h3 id="key-benefits-of-using-synthetic-data">
+<a class="anchor" href="#key-benefits-of-using-synthetic-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Key Benefits of Using Synthetic Data</h3>
+
+<p>While the above focuses on speed of development in general, and augmentation of data to improve performance of analytical modes, there are more motivations for <em>creating</em> (synthetic) data:</p>
+
+<ul>
+  <li>
+    <p><strong>Enhanced Privacy and Security</strong><br>
+Mimics real datasets without containing sensitive or personally identifiable information, mitigating privacy risks and ensuring compliance with regulations like GDPR.</p>
+  </li>
+  <li>
+    <p><strong>Improved Data Availability</strong><br>
+Enables testing and training of models without requiring extensive real-world data collection.</p>
+  </li>
+  <li>
+    <p><strong>Innovation and Experimentation</strong><br>
+Allows safe experimentation with new algorithms and models without exposing sensitive data, fostering rapid prototyping in a secure environment.</p>
+  </li>
+  <li>
+    <p><strong>Ethical and Responsible AI Development</strong><br>
+Ensures training data is free from biases present in real-world datasets, promoting fair and unbiased AI systems.</p>
+  </li>
+  <li>
+    <p><strong>Accelerated Testing and Deployment</strong><br>
+Supports testing of new products, services, and systems in a controlled yet realistic setting, ensuring they are robust, scalable, and ready for real-world use.</p>
+  </li>
+  <li>
+    <p><strong>Cost Efficiency</strong><br>
+Reduces expenses related to data collection, storage, and compliance by eliminating the need for large-scale real-world data acquisition.</p>
+  </li>
+  <li>
+    <p><strong>Regulatory Compliance Simplification</strong><br>
+Helps organizations navigate complex data regulations by offering a compliant alternative to real-world datasets, easing cross-border data transfers.</p>
+  </li>
+  <li>
+    <p><strong>Balanced and Augmented Datasets</strong><br>
+Supplements real-world data by balancing underrepresented classes, improving model performance, and reducing biases in AI training.</p>
+  </li>
+  <li>
+    <p><strong>Resilience Against Data Scarcity</strong><br>
+Enables AI development in domains where real-world data is limited, expensive, or difficult to obtain—such as healthcare and cybersecurity—by generating high-quality alternative datasets.</p>
+  </li>
+</ul>
+
+<p>To realize these benefits, we need effective tools for generating synthetic data. Different frameworks exist for this purpose, ranging from cloud-based platforms to open-source solutions. In this post, we focus on <strong>open-source synthetic data generation frameworks</strong> that provide control, flexibility, and on-premise deployment options.</p>
+
+<h3 id="frameworks-for-creating-synthetic-data">
+<a class="anchor" href="#frameworks-for-creating-synthetic-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Frameworks for Creating Synthetic Data</h3>
+
+<p>This post focuses exclusively on open source frameworks.
+Some data cannot be sent to the cloud, so some cloud-based synthetic data generation solutions are not always a good fit. 
+For data already in cloud, we can use other cloud-based frameworks to generate synthetic data.</p>
+
+<p>Synthesizers are motivated by multiple factors, but in this context, our focus remains on generating synthetic data for on-premise use.</p>
+
+<p>So, what framework did we (initially) choose? Currently, we are using the open source version of <a href="https://sdv.dev/">SDV</a>, 
+an easy-to-use framework with a strong community and many useful features out-of-the-box (e.g. built-in evaluators, many modeling techniques). 
+The field of synthetic data is evolving rapidly. While we do not aim to cover the latest advancements exhaustively, the use of Foundation models is certainly an area of interest.</p>
+
+<p>One of the most widely used open-source libraries for synthetic data generation is <strong>Synthetic Data Vault (SDV)</strong>. It provides multiple synthesizers, each tailored for different types of data and statistical properties.</p>
+
+<h3 id="the-synthetic-data-vault-sdv">
+<a class="anchor" href="#the-synthetic-data-vault-sdv" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Synthetic Data Vault (SDV)</h3>
+
+<p>When you initialize and fit a synthesizer (like GaussianCopulaSynthesizer, CTGANSynthesizer, etc. - see below), it trains a model based on 
+the dataset you provide. This model learns the distribution of the data, capturing the relationships and dependencies between 
+different features in the dataset. The synthesizer doesn’t memorize individual records from the dataset. Instead, it tries to learn the underlying statistical patterns, correlations, and distributions present in the data.</p>
+
+<p>Below are the (free) synthesizers provided by SDV that we evaluated on each use case. Each synthesizer does this differently:</p>
+
+<ul>
+  <li>
+<strong>GaussianCopulaSynthesizer:</strong> Uses statistical copula functions to model relationships between features, ensuring accurate marginal distributions.</li>
+  <li>
+<strong>CTGANSynthesizer:</strong> Uses Generative Adversarial Networks (GANs) to learn complex data distributions, particularly effective for categorical and mixed-type data.</li>
+  <li>
+<strong>TVAESynthesizer:</strong> Leverages Variational Autoencoders (VAEs) to capture latent representations, useful for continuous and structured data.</li>
+  <li>
+<strong>CopulaGANSynthesizer:</strong> Combines Copula-based statistical modeling with GANs to generate data with complex dependencies.</li>
+  <li>
+<strong>PARSynthesizer:</strong> Uses autoregressive models to generate sequential data while preserving temporal dependencies.</li>
+</ul>
+
+<p><em>There are more synthesizers, also from SDV, but not all are open source.</em> We used the first four, when evaluating optimal synthesizer for our different use cases.</p>
+
+<p><strong>Generators - generating new data - on demand</strong></p>
+
+<p>Synthesizers are statistical and (more often) AI models trained to mimic the real data. Once developed, the resulting models are used to create as much synthetic data as you find useful for your use case. Once trained, the synthesizer uses the learned model to generate new synthetic data that follows the same statistical properties and distributions as the original dataset, without directly copying any real data points. If you need more data? Just call the generator.</p>
+
+<h3 id="evaluation-criteria-for-synthetic-data">
+<a class="anchor" href="#evaluation-criteria-for-synthetic-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Evaluation Criteria for Synthetic Data</h3>
+
+<p>But, how good is synthetic data, how do we evaluate it?</p>
+
+<p>There are many aspects to consider when making use of synthetic data, and it is important to evaluate which synthetic data generation technique (synthesizer) is best for our specific dataset and use case.</p>
+
+<p>We need to ensure a good balance between:</p>
+
+<ul>
+  <li>Usability – How useful is the synthetic data for the intended use case?</li>
+  <li>Fidelity – How well does the synthetic data preserve statistical properties of the real data?</li>
+  <li>Privacy – Does the generated data ensure an acceptable level of privacy for the given use case?</li>
+</ul>
+
+<p>For now, we are focusing only on usability and fidelity, using framework-provided measurements for fidelity and workflows described below to assess usability.</p>
+
+<p><strong>Comments on privacy and privacy preserving techniques</strong></p>
+
+<p>Ensuring privacy in synthetic data is a non-trivial problem, even if there are techniques to ensure levels of privacy, it remains an active area of research.</p>
+
+<p><em>Privacy problems, in synthetic data?</em></p>
+
+<p>While synthetic data enhances privacy by removing personally identifiable information, it is not inherently risk-free. Some key challenges include:</p>
+
+<ul>
+  <li>Overfitting and Memorization: If a synthesizer is overfitted, it may generate synthetic records that closely resemble real data, leading to privacy leakage.</li>
+  <li>Anomaly Exposure: Unique individuals or rare events in the dataset (e.g., a very wealthy individual or a rare disease) may be unintentionally replicated in synthetic data, creating a risk of re-identification.</li>
+  <li>Re-identification Attacks: Even if synthetic data is statistically different from real data, attackers may use background knowledge to infer sensitive details about individuals.</li>
+</ul>
+
+<p>One additional problem here is that it might be the anomalies we really are looking for. Currently we are experimenting with various differential privacy strategies, but it is still early days, and we do not focus on them in the examples below.</p>
+
+<h3 id="our-on-premise-analytics-platform-arcus">
+<a class="anchor" href="#our-on-premise-analytics-platform-arcus" aria-hidden="true"><span class="octicon octicon-link"></span></a>Our On-Premise Analytics Platform: ARCUS</h3>
+
+<div style="display: flex; align-items: center; gap: 20px;">
+  <p>
+    ARCUS is Telia’s advanced on-premise analytics platform, designed to support a wide range of use cases.
+    The platform provides a Kubeflow-based MLOps environment for descriptive, predictive, generative, and (ongoing) agentic AI. 
+    Fully built on open-source, ARCUS integrates a comprehensive stack of components into a unified platform - where Kubernetes is the cornerstone.
+  </p>
+</div>
+
+<h3 id="needed-environment-to-create-synthetic-data">
+<a class="anchor" href="#needed-environment-to-create-synthetic-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Needed environment to create synthetic data</h3>
+
+<p>For an efficient, automated selection of the best synthesizer, we need a number of things - from the underlying platform with GPUs and MLOps (Kubeflow).</p>
+
+<ul>
+  <li>Kubeflow pipelines</li>
+  <li>GPU capabilities (for performance and efficiency)</li>
+  <li>Development (IDE) environment (for framework building and running)</li>
+  <li>Modern data platform (MinIO, Airflow) automating the synthetic data generation datasets</li>
+</ul>
+
+<h4 id="parallelism-needed">
+<a class="anchor" href="#parallelism-needed" aria-hidden="true"><span class="octicon octicon-link"></span></a>Parallelism needed</h4>
+
+<p>In the (Kube)flows below, we run evaluations in parallel - one for respective synthesizer, followed by a comparison of usability and fidelity scores, selecting the ‘winner’.</p>
+
+<p><em>Note:</em> In earlier version of Kubeflow we noticed that the parallelism wasn’t acting as expected, waiting for all threads to complete before moving to next step. We had to create a temporary workaround for this, now solved in Kubeflow Pipelines 2.3.0.</p>
+
+<p>Below, we briefly describe the base flow for selecting synthesizer, followed by one use case where we use the resulting data generator for ML development in cloud.</p>
+
+<h2 id="exploring-the-creation-and-usefulness-of-synthetic-data">
+<a class="anchor" href="#exploring-the-creation-and-usefulness-of-synthetic-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Exploring the Creation and Usefulness of Synthetic Data</h2>
+
+<p>This is what we want to do: we have a use case, the supporting data, and developed ML model.</p>
+
+<ul>
+  <li>How similar is the synthetic data compared to the real data (interesting for e.g. visualization use cases)?</li>
+  <li>How well do the ML models based on synthetic data keep up with ML models based on real data?</li>
+</ul>
+
+<p><strong>Validation of synthetic data techniques</strong></p>
+
+<ol>
+  <li>Create the synthetic data and save the best synthetic data generator. In this step similarity measures are created by the out of the box SDV framework</li>
+  <li>Create the ML model (in our case classifier model) both on real data and the using the synthetic data. Compare the performance of both models against the same real data testset.</li>
+</ol>
+
+<p><img src="/images/2025-02-16-synthetic-data-using-kfp/image-2.png" width="800"></p>
+
+<p>From above, we have an example where the final synthesizer is collected and saved. This step is used in the example  below, exporting the resulting synthetic data generator to cloud.</p>
+
+<h2 id="using-synthetic-data-generators-to-enable-multiple-environments-without-data-transfer">
+<a class="anchor" href="#using-synthetic-data-generators-to-enable-multiple-environments-without-data-transfer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using Synthetic Data Generators to Enable Multiple Environments without Data Transfer</h2>
+
+<p><em>Below is a usecase where we need to make use of both on-premise and cloud, without moving data to cloud.</em></p>
+
+<p><strong>Problem statement:</strong></p>
+
+<ul>
+  <li>Our data cannot be moved from on-premise to cloud.</li>
+  <li>We need extra compute power, in our public cloud environment, to create an ML model for use on-premise.</li>
+  <li>The ML model is to be used on-premise, on new incoming data streams (that cannot be moved to cloud)</li>
+</ul>
+
+<p><strong>Solution:</strong></p>
+
+<ol>
+  <li>Create synthetic data for our on-premise environment use-cases, and - as a side product we save 
+away the synthetic data generator (the pickled model used to create synthetic data).</li>
+  <li>Copy the synthetic data generator to cloud</li>
+  <li>Use the synthetic data generator in the cloud, creating synthetic data for training of an ML model</li>
+  <li>Copy the ML model on-premise, and use it for new incoming data</li>
+  <li>Evaluate: Compare the on-premise AI model with the model created in the cloud - against the same test data</li>
+</ol>
+
+<p><img src="/images/2025-02-16-synthetic-data-using-kfp/image.png" width="700"></p>
+
+<p><strong>Division of work, what is done on-premise with Kubeflow, and what is done in cloud (AWS SageMaker)?</strong></p>
+
+<h5 id="on-premise">
+<a class="anchor" href="#on-premise" aria-hidden="true"><span class="octicon octicon-link"></span></a>On-premise</h5>
+
+<p>See the above <em>Validation of synthetic data techniques</em>.</p>
+
+<ul>
+  <li>Develop the model on real data – for the comparison later with the cloud model.</li>
+  <li>Create synthetic generators, evaluate the generators, and export the best generator to AWS.</li>
+</ul>
+
+<h5 id="cloud">
+<a class="anchor" href="#cloud" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cloud</h5>
+
+<ul>
+  <li>Use the imported synthetic generator (from on-premise)</li>
+  <li>Create synthetic data using the synthetic data generator</li>
+  <li>Develop the model and determine which synthetic generator is the best</li>
+  <li>Increase the amount of synthetic data, to see if the increase of synthetic data improves model performance (not for sure it will, see below comment)</li>
+  <li>Export model to on-premise</li>
+</ul>
+
+<p><img src="/images/2025-02-16-synthetic-data-using-kfp/image-3.png" width="500"></p>
+
+<p>In some more detail below.</p>
+
+<p><img src="/images/2025-02-16-synthetic-data-using-kfp/image-4.png" width="700"></p>
+
+<h5 id="on-premise-1">
+<a class="anchor" href="#on-premise-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>On-premise</h5>
+
+<ul>
+  <li>Compare real data model against synthetic data model – using real test data.</li>
+</ul>
+
+<p><em>In the current examples we see near equivalent performance of the ML models (a few percentage points lower for models created using synthetic data). We experimented with increasing the size of the synthetic dataset, with minor improvements. Augmenting the training data is expected (not tested here) to have more effects when using deep learning algorithms.</em></p>
+
+<h1 id="summary">
+<a class="anchor" href="#summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Summary</h1>
+
+<p>Clearly, the above workflows would be very cumbersome to build and maintain without Kubeflow. 
+Our solution is entirely open source, Kubernetes based, and uses Kubeflow and SDV to give us the scalability, robustness, and detailed control that is required.</p>
+
+<p>The area of synthetic data generation is moving fast with the overall AI field. 
+Reports from <a href="https://www.ibm.com/think/topics/synthetic-data">IBM</a> and others, of the increased usage of synthetic data for e.g. LLM training is frequent but the application areas are much greater.
+We also expect more capable synthesizers and, hopefully, privacy preserving techniques to keep up with the innovation in this area.
+Our original main motivator was speed up in innovation and experimentation, and overall - speed to market. Often a key pain for our teams.</p>
+
+<p>Looking ahead, we are exploring the development of a synthesizer catalog — ideally integrated into our overall data catalog — to enable users to rapidly experiment with ideas and get started more efficiently.</p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/kfp/2025/02/16/synthetic-data-using-kfp.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

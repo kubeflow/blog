@@ -24,6 +24,10 @@ The current implementation of Metrics Collector is pull-based, raising design pr
 
 We decided to implement a new API for Katib Python SDK to offer users a push-based way to store metrics directly into the Kaitb DB and resolve those issues raised by pull-based metrics collection.
 
+In the new design, users just need to set `metrics_collector_config={"kind": "Push"}` in the `tune()` function and call the `report_metrics()` API in their objective function to push metrics to Katib DB directly. There are no sidecar containers and restricted metric log formats any more. After that, Trial Controller will continuously collect metrics from Katib DB and update the status of Trial, which is the same as pull-based metrics collection.
+
+If you are interested in it, please refer to this [doc](https://www.kubeflow.org/docs/components/katib/user-guides/metrics-collector/#push-based-metrics-collector) and [example](https://github.com/kubeflow/katib/blob/master/examples/v1beta1/sdk/mnist-with-push-metrics-collection.ipynb) for more details.
+
 ![](../images/2024-09-28-gsoc-2024-summary-push-based-metrics-collection/push-based-metrics-collection.png)
 
 ## My Contributions during the GSoC
@@ -40,7 +44,7 @@ For reference, the coding period can be rougly divided into 3 stages:
 
 Also, I raised some issues not only to describe the problems and bugs I met during the coding period, but also to suggest the future enhancement direction for Katib and the Training-Operator.
 
-There is an [Github Issue](https://github.com/kubeflow/katib/issues/2340) tracks the progress of developing push-based metrics collection for katib during the GSoC coding phase. If you are interested in my work or Katib, please can check this issue for more details.
+There is a [Github Issue](https://github.com/kubeflow/katib/issues/2340) tracks the progress of developing push-based metrics collection for katib during the GSoC coding phase. If you are interested in my work or Katib, please can check this issue for more details.
 
 ## Lessons Learned
 

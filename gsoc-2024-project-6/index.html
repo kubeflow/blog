@@ -125,6 +125,10 @@ In the blog, I’ll provide my personal insight into Katib, for those who are in
 
 <p>We decided to implement a new API for Katib Python SDK to offer users a push-based way to store metrics directly into the Kaitb DB and resolve those issues raised by pull-based metrics collection.</p>
 
+<p>In the new design, users just need to set <code class="language-plaintext highlighter-rouge">metrics_collector_config={"kind": "Push"}</code> in the <code class="language-plaintext highlighter-rouge">tune()</code> function and call the <code class="language-plaintext highlighter-rouge">report_metrics()</code> API in their objective function to push metrics to Katib DB directly. There are no sidecar containers and restricted metric log formats any more. After that, Trial Controller will continuously collect metrics from Katib DB and update the status of Trial, which is the same as pull-based metrics collection.</p>
+
+<p>If you are interested in it, please refer to this <a href="https://www.kubeflow.org/docs/components/katib/user-guides/metrics-collector/#push-based-metrics-collector">doc</a> and <a href="https://github.com/kubeflow/katib/blob/master/examples/v1beta1/sdk/mnist-with-push-metrics-collection.ipynb">example</a> for more details.</p>
+
 <p><img src="../images/2024-09-28-gsoc-2024-summary-push-based-metrics-collection/push-based-metrics-collection.png" alt="" /></p>
 
 <h2 id="my-contributions-during-the-gsoc">My Contributions during the GSoC</h2>
@@ -147,7 +151,7 @@ In the blog, I’ll provide my personal insight into Katib, for those who are in
 
 <p>Also, I raised some issues not only to describe the problems and bugs I met during the coding period, but also to suggest the future enhancement direction for Katib and the Training-Operator.</p>
 
-<p>There is an <a href="https://github.com/kubeflow/katib/issues/2340">Github Issue</a> tracks the progress of developing push-based metrics collection for katib during the GSoC coding phase. If you are interested in my work or Katib, please can check this issue for more details.</p>
+<p>There is a <a href="https://github.com/kubeflow/katib/issues/2340">Github Issue</a> tracks the progress of developing push-based metrics collection for katib during the GSoC coding phase. If you are interested in my work or Katib, please can check this issue for more details.</p>
 
 <h2 id="lessons-learned">Lessons Learned</h2>
 

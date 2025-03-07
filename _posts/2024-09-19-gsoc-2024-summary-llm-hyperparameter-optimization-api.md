@@ -18,7 +18,11 @@ The rapid advancements and rising popularity of LLMs, such as GPT and BERT, have
 
 ## Goal
 
-Hyperparameter optimization is a crucial but time-consuming task in fine-tuning machine learning models, especially for LLMs that involve billions of parameters. This API aims to streamline this process by abstracting the complexity of Kubernetes infrastructure, enabling data scientists to focus on model performance instead of system configuration.
+Hyperparameter optimization is essential but time-consuming, especially for LLMs with billions of parameters. This API simplifies the process by handling Kubernetes infrastructure, allowing data scientists to focus on model performance rather than system configuration.
+
+With this API, users can import pretrained models and datasets from Hugging Face and Amazon S3, define parameters including the hyperparameter search space, optimization objective, and resource configuration. The API then automates the creation of Experiment, which contains multiple Trials with different hyperparameter settings using PyTorch distributed training. It then collects and analyzes the metrics from each Trial to identify the optimal hyperparameter configuration.
+
+For detailed instruction on using the API, please refer to this [guide](https://github.com/kubeflow/website/blob/b253c9402be94e7c5c044a0b1d2d9d86fd473149/content/en/docs/components/katib/user-guides/llm-hp-optimization.md)
 
 ![Design of API](../images/2024-09-19-gsoc-2024-llm-hyperparameter-optimization-api/design_tune_api.png)
 

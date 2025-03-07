@@ -64,3 +64,5 @@ I am deeply grateful to everyone who supported me throughout this project. Your 
 I especially want to extend my heartfelt thanks to my mentor, Andrey Velichkevich. His deep knowledge of both the project and the industry, combined with his willingness to help, has been incredibly inspiring. I greatly appreciate the time and effort he dedicated to guiding me, from the high-level design of the API to the finer details like code formatting. I have learned so much from his mentorship.
 
 Looking ahead, I am excited to continue contributing to Kubeflow. I also look forward to helping future contributors by improving documentation and sharing my experiences with newcomers in the community.
+
+If you're interested in open-source and want to be part of Kubeflow, GSoC 2025 applications are now open! Check out the details [here](https://www.kubeflow.org/events/gsoc-2025/)—we’d love to have you join us!

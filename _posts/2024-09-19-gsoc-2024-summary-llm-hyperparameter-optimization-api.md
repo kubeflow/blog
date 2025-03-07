@@ -53,7 +53,7 @@ I used to feel overwhelmed by bugs and unsure how to tackle them. When a bug cau
 
 Communication is important in collaboration, especially in open source projects. There are various ways of communicating in open-source projects, such as GitHub issues or PRs, Slack, and community meetings. And I’m grateful to my mentor for discussing my challenges during weekly meeting and providing invaluable guidance.
 
-## Every Contribution Counts
+### Every Contribution Counts
 
 Initially, I thought contributing to open source was complex. I learned that every contribution, no matter how small, is valuable and appreciated. For example, contributing to documentation is crucial, especially for newcomers.
 

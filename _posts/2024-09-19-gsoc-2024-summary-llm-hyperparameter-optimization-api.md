@@ -20,7 +20,7 @@ The rapid advancements and rising popularity of LLMs, such as GPT and BERT, have
 
 Hyperparameter optimization is a crucial but time-consuming task in fine-tuning machine learning models, especially for LLMs that involve billions of parameters. This API aims to streamline this process by abstracting the complexity of Kubernetes infrastructure, enabling data scientists to focus on model performance instead of system configuration.
 
-![Design of API](../images/2024-09-19-gsoc-2024-llm-hyperparameter-optimization-api/design_tune_api.jpg)
+![Design of API](../images/2024-09-19-gsoc-2024-llm-hyperparameter-optimization-api/design_tune_api.png)
 
 ## What I Did in GSoC Project & Ongoing Works
 

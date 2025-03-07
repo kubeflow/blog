@@ -37,7 +37,7 @@ For those interested, here is a [detailed summary](https://github.com/kubeflow/k
 
 ## My Learning Journey
 
-This is my first experience with open source, and I gained extensive technical knowledge throughout this project, including Docker, Kubernetes, and Kubeflow itself. Before developing and implementing the API, I invested significant time onboarding and familiarizing myself with Kubeflow. The [official documentation](https://www.kubeflow.org/docs/) and [GitHub repository](https://github.com/kubeflow) were invaluable resources during this process.
+This is my first experience contributing to an open source project, and I gained extensive technical knowledge throughout this project, including Docker, Kubernetes, and Kubeflow itself. Before developing and implementing the API, I invested significant time onboarding and familiarizing myself with Kubeflow. The [official documentation](https://www.kubeflow.org/docs/) and [GitHub repository](https://github.com/kubeflow) were invaluable resources during this process.
 
 Beyond these technical skills, I also learned several key lessons that extend into broader personal and professional growth.
 

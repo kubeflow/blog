@@ -51,7 +51,7 @@ I used to feel overwhelmed by bugs and unsure how to tackle them. When a bug cau
 
 ### Communication is Important
 
-Communication is important in collaboration, especially in open source projects. There are various ways of communicating in open-source projects, such as GitHub issues or PRs, Slack, and community meetings. And I’m grateful to my mentor for discussing my challenges during weekly meeting and providing invaluable guidance.
+Communication is important in collaboration, especially in open source projects. There are various ways of communicating in open-source projects, such as GitHub issues or PRs, Slack, and community meetings. And I’m grateful to my mentor for discussing my challenges during our weekly meetings and providing invaluable guidance.
 
 ### Every Contribution Counts
 

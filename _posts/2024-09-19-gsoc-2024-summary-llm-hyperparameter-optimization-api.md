@@ -22,9 +22,7 @@ Hyperparameter optimization is a crucial but time-consuming task in fine-tuning 
 
 ![Design of API](../images/2024-09-19-gsoc-2024-llm-hyperparameter-optimization-api/design_tune_api.png)
 
-## What I Did in GSoC Project & Ongoing Works
-
-Before developing and implementing the API, I spent significant time onboarding and familiarizing myself with Kubeflow. The [official documentation](https://www.kubeflow.org/docs/) and [GitHub repository](https://github.com/kubeflow) were invaluable resources during this process.
+## My Contributions to the GSoC Project
 
 My work on the project can be broadly divided into four stages:
 
@@ -37,9 +35,11 @@ In addition, I addressed several critical bugs in previous Katib and Training Op
 
 For those interested, here is a [detailed summary](https://github.com/kubeflow/katib/issues/2339) of all the pull requests I submitted during this process.
 
-## What I Learned From This Project
+## My Learning Journey
 
-This is my first experience with open source, and as a beginner with Docker and Kubernetes, I gained significant knowledge throughout this project. Beyond understanding containers, Kubernetes, API development, and CI/CD pipelines, I’ve learned valuable lessons that will benefit my future studies and work:
+This is my first experience with open source, and I gained extensive technical knowledge throughout this project, including Docker, Kubernetes, and Kubeflow itself. Before developing and implementing the API, I invested significant time onboarding and familiarizing myself with Kubeflow. The [official documentation](https://www.kubeflow.org/docs/) and [GitHub repository](https://github.com/kubeflow) were invaluable resources during this process.
+
+Beyond these technical skills, I also learned several key lessons that extend into broader personal and professional growth:
 
 ### Think from the User's Perspective
 

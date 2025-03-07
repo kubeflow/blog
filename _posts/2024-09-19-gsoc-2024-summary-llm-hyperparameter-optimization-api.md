@@ -26,7 +26,7 @@ Hyperparameter optimization is a crucial but time-consuming task in fine-tuning 
 
 My work on the project can be broadly divided into four stages:
 
-- **Stage 1**: Writing the project proposal and converting it into a Kubeflow Enhancement Proposal (KEP).
+- **Stage 1**: Designing the API, drafting the project proposal, and refining it into a Kubeflow Enhancement Proposal (KEP).
 - **Stage 2**: Developing and implementing the high-level API.
 - **Stage 3**: Implementing unit tests and end-to-end tests for the API.
 - **Stage 4**: Creating documentation and presenting the work to the Kubeflow community.

@@ -1,4 +1,279 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2025-03-03T09:59:49-06:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Synthetic Data Generation with Kubeflow Pipelines</title><link href="https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp.html" rel="alternate" type="text/html" title="Synthetic Data Generation with Kubeflow Pipelines" /><published>2025-02-16T00:00:00-06:00</published><updated>2025-02-16T00:00:00-06:00</updated><id>https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp</id><content type="html" xml:base="https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp.html">&lt;h3 id=&quot;synthetic-data-generation---why-and-how&quot;&gt;Synthetic Data Generation - Why and How?&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2025-03-13T20:44:50-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Optimizing RAG Pipelines with Katib: Hyperparameter Tuning for Better Retrieval &amp;amp; Generation</title><link href="https://blog.kubeflow.org/katib/rag/" rel="alternate" type="text/html" title="Optimizing RAG Pipelines with Katib: Hyperparameter Tuning for Better Retrieval &amp;amp; Generation" /><published>2025-02-21T00:00:00-06:00</published><updated>2025-02-21T00:00:00-06:00</updated><id>https://blog.kubeflow.org/katib/katib-rag-optimization</id><content type="html" xml:base="https://blog.kubeflow.org/katib/rag/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+
+&lt;p&gt;As artificial intelligence and machine learning models become more
+sophisticated, optimising their performance remains a critical challenge.
+Kubeflow provides a robust component, &lt;a href=&quot;https://www.kubeflow.org/docs/components/katib/&quot;&gt;Katib&lt;/a&gt;, designed for
+hyperparameter optimization and neural architecture search. As a part of the
+Kubeflow ecosystem, Katib enables scalable, automated tuning of underlying
+machine learning models, reducing the manual effort required for parameter
+selection while improving model performance across diverse ML workflows.&lt;/p&gt;
+
+&lt;p&gt;With Retrieval-Augmented Generation (&lt;a href=&quot;https://en.wikipedia.org/wiki/Retrieval-augmented_generation&quot;&gt;RAG&lt;/a&gt;) becoming an increasingly
+popular approach for improving search and retrieval quality, optimizing its
+parameters is essential to achieving high-quality results. RAG pipelines involve
+multiple hyperparameters that influence retrieval accuracy, hallucination
+reduction, and language generation quality. In this blog, we will explore how
+Katib can be leveraged to fine-tune a RAG pipeline, ensuring optimal performance
+by systematically adjusting key hyperparameters.&lt;/p&gt;
+
+&lt;h1 id=&quot;lets-get-started&quot;&gt;Let’s Get Started!&lt;/h1&gt;
+
+&lt;h2 id=&quot;step-1-setup&quot;&gt;STEP 1: Setup&lt;/h2&gt;
+
+&lt;p&gt;Since compute resources are scarcer than a perfectly labeled dataset :), we’ll
+use a lightweight &lt;a href=&quot;https://kind.sigs.k8s.io/&quot;&gt;Kind cluster (Kubernetes in Docker)&lt;/a&gt;
+cluster to run this example locally. Rest assured, this setup can seamlessly
+scale to larger clusters by increasing the dataset size and the number of
+hyperparameters to tune.&lt;/p&gt;
+
+&lt;p&gt;To get started, we’ll first install the Katib control plane in our cluster by
+following the steps outlined &lt;a href=&quot;https://www.kubeflow.org/docs/components/katib/installation/&quot;&gt;in the documentation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-2-implementing-rag-pipeline&quot;&gt;STEP 2: Implementing RAG pipeline&lt;/h2&gt;
+
+&lt;p&gt;In this implementation, we use a &lt;a href=&quot;https://www.sciencedirect.com/topics/computer-science/retrieval-model&quot;&gt;retriever model&lt;/a&gt;, which
+encodes queries and documents into vector representations to find the most
+relevant matches, to fetch relevant documents based on a query and a generator
+model to produce coherent text responses.&lt;/p&gt;
+
+&lt;h3 id=&quot;implementation-details&quot;&gt;Implementation Details:&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Retriever: Sentence Transformer &amp;amp; FAISS (Facebook AI Similarity Search) Index
+    &lt;ul&gt;
+      &lt;li&gt;A SentenceTransformer model (paraphrase-MiniLM-L6-v2) encodes predefined
+documents into vector representations.&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://ai.meta.com/tools/faiss/&quot;&gt;FAISS&lt;/a&gt; is used to index these document embeddings and perform
+efficient similarity searches to retrieve the most relevant documents.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Generator: Pre-trained GPT-2 Model
+    &lt;ul&gt;
+      &lt;li&gt;A Hugging Face GPT-2 text generation pipeline (which can be replaced with
+any other model) is used to generate responses based on the retrieved
+documents. I chose GPT-2 for this example as it is lightweight enough to
+run on my local machine while still generating coherent responses.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Query Processing &amp;amp; Response Generation
+    &lt;ul&gt;
+      &lt;li&gt;When a query is submitted, the retriever encodes it and searches the FAISS
+index for the top-k most similar documents.&lt;/li&gt;
+      &lt;li&gt;These retrieved documents are concatenated to form the input context, which
+is then passed to the GPT-2 model to generate a response.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Evaluation: &lt;a href=&quot;https://huggingface.co/spaces/evaluate-metric/bleu&quot;&gt;BLEU&lt;/a&gt; (Bilingual Evaluation Understudy) Score Calculation
+    &lt;ul&gt;
+      &lt;li&gt;To assess the quality of generated responses, we use the BLEU score, a
+popular metric for evaluating text generation.&lt;/li&gt;
+      &lt;li&gt;The evaluate function takes a query, retrieves documents, generates a
+response, and compares it against a ground-truth reference to compute a
+BLEU score with smoothing functions from the nltk library.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;To run Katib, we will use the &lt;a href=&quot;https://www.kubeflow.org/docs/components/katib/installation/#installing-python-sdk&quot;&gt;Katib SDK&lt;/a&gt;, which provides a programmatic interface for defining and running 
+hyperparameter tuning experiments in Kubeflow.&lt;/p&gt;
+
+&lt;p&gt;Katib requires an &lt;a href=&quot;https://www.kubeflow.org/docs/components/katib/user-guides/hp-tuning/configure-experiment/#configuring-the-experiment&quot;&gt;objective&lt;/a&gt; function, which:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Defines what we want to optimize (e.g., BLEU score for text generation quality).&lt;/li&gt;
+  &lt;li&gt;Executes the RAG pipeline with different hyperparameter values.&lt;/li&gt;
+  &lt;li&gt;Returns an evaluation metric so Katib can compare different hyperparameter configurations.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;objective&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# Import dependencies inside the function (required for Katib)
+&lt;/span&gt;    &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;faiss&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sentence_transformers&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceTransformer&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;transformers&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;nltk.translate.bleu_score&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sentence_bleu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SmoothingFunction&lt;/span&gt;
+    
+    &lt;span class=&quot;c1&quot;&gt;# Function to fetch documents (Modify as needed)
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;fetch_documents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Returns a predefined list of documents or loads them from a file.&quot;&quot;&quot;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# OR, to load from a file:
+&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;# with open(&quot;/path/to/documents.json&quot;, &quot;r&quot;) as f:
+&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;#     return json.load(f)
+&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# Define the RAG pipeline within the function
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;rag_pipeline_execute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;top_k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temperature&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Retrieves relevant documents and generates a response using GPT-2.&quot;&quot;&quot;&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;# Initialize retriever
+&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;retriever_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceTransformer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;paraphrase-MiniLM-L6-v2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;# Sample documents
+&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;documents&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fetch_documents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;# Encode documents
+&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;doc_embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retriever_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;encode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;faiss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IndexFlatL2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;doc_embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;doc_embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;# Encode query and retrieve top-k documents
+&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;query_embedding&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;retriever_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;encode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;distances&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;indices&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;query_embedding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;top_k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;retrieved_docs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;indices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;# Generate response using GPT-2
+&lt;/span&gt;        &lt;span class=&quot;n&quot;&gt;generator&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text-generation&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gpt2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gpt2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot; &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;retrieved_docs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;generated&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;generator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;max_length&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temperature&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;temperature&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num_return_sequences&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;generated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;generated_text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;# TODO: Provide queries and ground truth directly here or load them dynamically from a file/external volume.
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;query&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Example: &quot;Tell me about the Eiffel Tower.&quot;
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;ground_truth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Example: &quot;The Eiffel Tower is a famous landmark in Paris.&quot;
+&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# Extract hyperparameters
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;top_k&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;top_k&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;temperature&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;temperature&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;# Generate response
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rag_pipeline_execute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;top_k&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temperature&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;# Compute BLEU score
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;reference&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ground_truth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()]&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Tokenized reference
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;candidate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Tokenized candidate response
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;smoothie&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SmoothingFunction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method1&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;bleu_score&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sentence_bleu&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;reference&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;candidate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;smoothing_function&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;smoothie&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;# Print BLEU score in Katib-compatible format
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;f&quot;BLEU=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bleu_score&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;Note&lt;/em&gt;: Make sure to return the result in the format of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;parameter&amp;gt;=&amp;lt;value&amp;gt;&lt;/code&gt;
+for Katib’s metrics collector to be able to utilize it. More ways to configure
+the output are available in &lt;a href=&quot;https://www.kubeflow.org/docs/components/katib/user-guides/metrics-collector/#pull-based-metrics-collector&quot;&gt;Katib Metrics
+Collector&lt;/a&gt; guide.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-3-run-a-katib-experiment&quot;&gt;STEP 3: Run a Katib Experiment&lt;/h2&gt;
+
+&lt;p&gt;Once our pipeline is encapsulated within the objective function, we can configure Katib to optimize the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BLEU&lt;/code&gt; score by 
+tuning the hyperparameters:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;top_k&lt;/code&gt;: The number of documents retrieved (eg. between 10 and 20).&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;temperature&lt;/code&gt;: The randomness of text generation (eg. between 0.5 and 1.0).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;define-hyperparameter-search-space&quot;&gt;Define hyperparameter search space&lt;/h1&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;parameters&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;top_k&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;katib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;temperature&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;katib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;double&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Let’s submit the experiment! We’ll use the &lt;a href=&quot;https://github.com/kubeflow/katib/blob/c18035e1041ca1b87ea7eb7c01cb81b5e2b922b3/sdk/python/v1beta1/kubeflow/katib/api/katib_client.py#L178&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tune&lt;/code&gt; API &lt;/a&gt; that will run multiple trials to find the optimal &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;top_k&lt;/code&gt; 
+and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;temperature&lt;/code&gt; values for our RAG pipeline.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;katib_client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;katib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;KatibClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;namespace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;kubeflow&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;rag-tuning-experiment&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;katib_client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tune&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;objective&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;objective&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;algorithm_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;grid&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Grid search for hyperparameter tuning
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;objective_metric_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;BLEU&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;objective_type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;maximize&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;objective_goal&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;max_trial_count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Run up to 10 trials
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;parallel_trial_count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Run 2 trials in parallel
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;resources_per_trial&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;cpu&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;memory&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;2Gi&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;base_image&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;python:3.10-slim&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;packages_to_install&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;transformers==4.36.0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;sentence-transformers==2.2.2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;faiss-cpu==1.7.4&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;numpy==1.23.5&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;huggingface_hub==0.20.0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;nltk==3.9.1&quot;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once the experiment is submitted, we can see output indicating that Katib has started the trials:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-commandline&quot;&gt;Experiment Trials status: 0 Trials, 0 Pending Trials, 0 Running Trials, 0 Succeeded Trials, 0 Failed Trials, 0 EarlyStopped Trials, 0 MetricsUnavailable Trials
+Current Optimal Trial:
+ {'best_trial_name': None,
+ 'observation': {'metrics': None},
+ 'parameter_assignments': None}
+Experiment conditions:
+ [{'last_transition_time': datetime.datetime(2025, 3, 13, 19, 40, 32, tzinfo=tzutc()),
+ 'last_update_time': datetime.datetime(2025, 3, 13, 19, 40, 32, tzinfo=tzutc()),
+ 'message': 'Experiment is created',
+ 'reason': 'ExperimentCreated',
+ 'status': 'True',
+ 'type': 'Created'}]
+Waiting for Experiment: kubeflow/rag-tuning-experiment to reach Succeeded condition
+
+.....
+
+Experiment Trials status: 9 Trials, 0 Pending Trials, 2 Running Trials, 7 Succeeded Trials, 0 Failed Trials, 0 EarlyStopped Trials, 0 MetricsUnavailable Trials
+Current Optimal Trial:
+ {'best_trial_name': 'rag-tuning-experiment-66tmh9g7',
+ 'observation': {'metrics': [{'latest': '0.047040418725887996',
+                              'max': '0.047040418725887996',
+                              'min': '0.047040418725887996',
+                              'name': 'BLEU'}]},
+ 'parameter_assignments': [{'name': 'top_k', 'value': '10'},
+                           {'name': 'temperature', 'value': '0.6'}]}
+Experiment conditions:
+ [{'last_transition_time': datetime.datetime(2025, 3, 13, 19, 40, 32, tzinfo=tzutc()),
+ 'last_update_time': datetime.datetime(2025, 3, 13, 19, 40, 32, tzinfo=tzutc()),
+ 'message': 'Experiment is created',
+ 'reason': 'ExperimentCreated',
+ 'status': 'True',
+ 'type': 'Created'}, {'last_transition_time': datetime.datetime(2025, 3, 13, 19, 40, 52, tzinfo=tzutc()),
+ 'last_update_time': datetime.datetime(2025, 3, 13, 19, 40, 52, tzinfo=tzutc()),
+ 'message': 'Experiment is running',
+ 'reason': 'ExperimentRunning',
+ 'status': 'True',
+ 'type': 'Running'}]
+Waiting for Experiment: kubeflow/rag-tuning-experiment to reach Succeeded condition
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can also see the experiments and trials being run to search for the optimized parameter:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-commandline&quot;&gt;kubectl get experiments.kubeflow.org -n kubeflow
+NAME                    TYPE      STATUS   AGE
+rag-tuning-experiment   Running   True     10m
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-commandline&quot;&gt;kubectl get trials --all-namespaces
+NAMESPACE   NAME                             TYPE      STATUS   AGE
+kubeflow    rag-tuning-experiment-7wskq9b9   Running   True     10m
+kubeflow    rag-tuning-experiment-cll6bt4z   Running   True     10m
+kubeflow    rag-tuning-experiment-hzxrzq2t   Running   True     10m
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The list of completed trials and their results will be shown in the UI like
+below. Steps to access Katib UI are available &lt;a href=&quot;https://www.kubeflow.org/docs/components/katib/user-guides/katib-ui/&quot;&gt;in the documentation&lt;/a&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2025-02-21-katib-rag-optimization/katib_experiment_run.jpeg&quot; alt=&quot;completed_runs&quot; /&gt;
+&lt;img src=&quot;/images/2025-02-21-katib-rag-optimization/katib_ui.jpeg&quot; alt=&quot;trial details&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
+
+&lt;p&gt;In this experiment, we leveraged Kubeflow Katib to optimize a
+Retrieval-Augmented Generation (RAG) pipeline, systematically tuning key
+hyperparameters like top_k and temperature to enhance retrieval precision and
+generative response quality.&lt;/p&gt;
+
+&lt;p&gt;For anyone working with RAG systems or hyperparameter optimization, Katib is a
+powerful tool—enabling scalable, efficient, and intelligent tuning of machine
+learning models! We hope this tutorial helps you streamline hyperparameter
+tuning and unlock new efficiencies in your ML workflows!&lt;/p&gt;</content><author><name>Varsha Prasad Narsing (@varshaprasad96)</name></author><category term="katib" /><summary type="html">Introduction</summary></entry><entry><title type="html">Synthetic Data Generation with Kubeflow Pipelines</title><link href="https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp.html" rel="alternate" type="text/html" title="Synthetic Data Generation with Kubeflow Pipelines" /><published>2025-02-16T00:00:00-06:00</published><updated>2025-02-16T00:00:00-06:00</updated><id>https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp</id><content type="html" xml:base="https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp.html">&lt;h3 id=&quot;synthetic-data-generation---why-and-how&quot;&gt;Synthetic Data Generation - Why and How?&lt;/h3&gt;
 
 &lt;p&gt;When creating insights, decisions, and actions from data, the best results come from real data. But accessing real data often requires lengthy security and legal processes. The data may also be incomplete, biased, or too small, and during early exploration, we may not even know if it’s worth pursuing. While real data is essential for proper evaluation, gaps or limited access frequently hinder progress until the formal process is complete.&lt;/p&gt;
 
@@ -1264,37 +1539,4 @@ the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;Kub
   &lt;li&gt;Join the &lt;a href=&quot;https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg&quot;&gt;Kubeflow Slack channel&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Join the &lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss&quot;&gt;kubeflow-discuss&lt;/a&gt; mailing list&lt;/li&gt;
   &lt;li&gt;Attend a &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;weekly community meeting&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Kubeflow 1.7 Release Team</name></author><category term="release" /><summary type="html">Kubeflow v1.7 users are capitalizing on their python knowledge to build seamless workflows without the need of Kubernetes CLI commands and without building container images for each iteration. With new UIs in multiple components, developers can correlate configuration parameters with logs which allow them to quickly analyze the results. When coupled with Kubeflow’s pythonic workflows and Kubernetes operating efficiencies, these enhancements save model developers material amounts of time and toil.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Kubeflow has applied to become a CNCF incubating project</title><link href="https://blog.kubeflow.org/kubeflow-applied-cncf-incubating/" rel="alternate" type="text/html" title="Kubeflow has applied to become a CNCF incubating project" /><published>2022-10-24T00:00:00-05:00</published><updated>2022-10-24T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-applied-cncf-incubating</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-applied-cncf-incubating/">&lt;p&gt;With support from the Kubeflow Project Steering Group, Google has just &lt;a href=&quot;https://opensource.googleblog.com/2022/10/kubeflow-applies-to-become-a-cncf-incubating-project.html&quot;&gt;announced&lt;/a&gt; the application for Kubeflow to become an incubating project in the Cloud Native Computing Foundation (CNCF).&lt;/p&gt;
-
-&lt;p&gt;We in the &lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;Kubeflow&lt;/a&gt; community are excited about how far the project has come since &lt;a href=&quot;https://kubernetes.io/blog/2017/12/introducing-kubeflow-composable/&quot;&gt;its inception&lt;/a&gt; in 2017, and are blown away by the diverse community of contributors and users we have built together. Today, Kubeflow has close to 200 contributors from over 30 organizations. Over the past five years, the project has seen almost 20,000 &lt;a href=&quot;https://github.com/kubeflow&quot;&gt;GitHub&lt;/a&gt; stars, tens of thousands of commits, and hosted several user and contributor gatherings across the world.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;What is Kubeflow&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;With the help of the project community, Kubeflow has developed into an end-to-end, extendable ML platform for Kubernetes, with mature components to address key stages of the ML lifecycle:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;model development (&lt;a href=&quot;https://en.wikipedia.org/wiki/Kubeflow#Kubeflow_Notebooks&quot;&gt;Kubeflow Notebooks&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;model training (&lt;a href=&quot;https://en.wikipedia.org/wiki/Kubeflow#Kubeflow_Pipelines&quot;&gt;Kubeflow Pipelines&lt;/a&gt; and &lt;a href=&quot;https://en.wikipedia.org/wiki/Kubeflow#Kubeflow_Training_Operator&quot;&gt;Kubeflow Training Operator&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;model serving (&lt;a href=&quot;https://en.wikipedia.org/wiki/Kubeflow#KServe&quot;&gt;KServe&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;automated machine learning (&lt;a href=&quot;https://en.wikipedia.org/wiki/Kubeflow#Katib&quot;&gt;Katib&lt;/a&gt;)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Kubeflow’s powerful development experience helps data scientists all around the world build, train, and deploy their ML models, and gives MLOps teams the tools they need to deploy and scale advanced workflows in a variety of infrastructures.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Project History&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;In May 2020, with the &lt;a href=&quot;https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html&quot;&gt;v1.0&lt;/a&gt; release, Kubeflow reached maturity across a core set of its stable applications. In 2022, we also graduated Kubeflow Serving as an independent project, &lt;a href=&quot;https://github.com/kserve/kserve&quot;&gt;KServe&lt;/a&gt;, which now, is incubating in &lt;a href=&quot;https://lfaidata.foundation/&quot;&gt;Linux Foundation AI &amp;amp; Data&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The &lt;a href=&quot;https://www.kubeflow.org/docs/releases/&quot;&gt;six releases&lt;/a&gt; since v1.0 have truly been a community effort. The community, collaborating together in &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/#kubeflow-working-groups&quot;&gt;16 Working Groups&lt;/a&gt;, brought to project a number of key improvements in ML workflow simplicity, resource efficiency, security, and tooling. The wider Kubeflow ecosystem has also added 10 Kubeflow distributions across multiple Cloud and on-prem environments.&lt;/p&gt;
-
-&lt;p&gt;Our application for Kubeflow to become a CNCF incubating project is the next big step for the project. We’re excited to see Kubeflow get closer to its roots in the cloud-native ecosystem, and for the community to continue driving innovation in the MLOps and data science experiences.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;What’s Next&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;The &lt;a href=&quot;https://github.com/cncf/toc/pull/950&quot;&gt;pull request&lt;/a&gt; we’ve opened today to join CNCF as an incubating project is only the first step. Google and the Kubeflow community will work with the CNCF and their Technical Oversight Committee (TOC), to meet the incubation stage requirements. While the due diligence and eventual TOC decision will take some time, the Kubeflow project will continue developing and releasing throughout this process.&lt;/p&gt;
-
-&lt;p&gt;If Kubeflow is accepted into CNCF, the project will transfer to the CNCF its source code, trademark, website, and other collaboration assets and social media accounts. As part of the donation, we will also work with the Kubeflow community to update the project governance to ensure diverse representation of the broader community. Open source comes with the responsibility to contribute, sustain, and improve the projects to make our ecosystem better. We at Google will continue to support Kubeflow and participate in the Kubeflow community as project maintainers, contributors, and users.&lt;/p&gt;
-
-&lt;p&gt;A huge thank you to everyone who has contributed to Kubeflow over the years! We are excited for what lays ahead.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;By Thea Lamkin, Senior Program Manager, Google, on behalf of the Kubeflow Project Steering Group&lt;/em&gt;&lt;/p&gt;</content><author><name>Thea Lamkin</name></author><category term="official" /><summary type="html">With support from the Kubeflow Project Steering Group, Google has just announced the application for Kubeflow to become an incubating project in the Cloud Native Computing Foundation (CNCF).</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;/ul&gt;</content><author><name>Kubeflow 1.7 Release Team</name></author><category term="release" /><summary type="html">Kubeflow v1.7 users are capitalizing on their python knowledge to build seamless workflows without the need of Kubernetes CLI commands and without building container images for each iteration. With new UIs in multiple components, developers can correlate configuration parameters with logs which allow them to quickly analyze the results. When coupled with Kubeflow’s pythonic workflows and Kubernetes operating efficiencies, these enhancements save model developers material amounts of time and toil.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Optimizing RAG Pipelines with Katib: Hyperparameter Tuning for Better Retrieval &amp; Generation | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Optimizing RAG Pipelines with Katib: Hyperparameter Tuning for Better Retrieval &amp; Generation" />
+<meta name="author" content="Varsha Prasad Narsing (@varshaprasad96)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Leveraging Katib for efficient RAG optimization." />
+<meta property="og:description" content="Leveraging Katib for efficient RAG optimization." />
+<link rel="canonical" href="https://blog.kubeflow.org/katib/rag/" />
+<meta property="og:url" content="https://blog.kubeflow.org/katib/rag/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-02-21T00:00:00-06:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/katib/rag/","@type":"BlogPosting","headline":"Optimizing RAG Pipelines with Katib: Hyperparameter Tuning for Better Retrieval &amp; Generation","dateModified":"2025-02-21T00:00:00-06:00","datePublished":"2025-02-21T00:00:00-06:00","author":{"@type":"Person","name":"Varsha Prasad Narsing (@varshaprasad96)"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/katib/rag/"},"description":"Leveraging Katib for efficient RAG optimization.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Optimizing RAG Pipelines with Katib: Hyperparameter Tuning for Better Retrieval &amp; Generation</h1><p class="page-description">Leveraging Katib for efficient RAG optimization.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2025-02-21T00:00:00-06:00" itemprop="datePublished">
+        Feb 21, 2025
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Varsha Prasad Narsing (@varshaprasad96)</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#katib">katib</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#introduction">Introduction</a></li>
+<li class="toc-entry toc-h1"><a href="#lets-get-started">Let’s Get Started!</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#step-1-setup">STEP 1: Setup</a></li>
+<li class="toc-entry toc-h2"><a href="#step-2-implementing-rag-pipeline">STEP 2: Implementing RAG pipeline</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#implementation-details">Implementation Details:</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#step-3-run-a-katib-experiment">STEP 3: Run a Katib Experiment</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#define-hyperparameter-search-space">Define hyperparameter search space</a></li>
+<li class="toc-entry toc-h1"><a href="#conclusion">Conclusion</a></li>
+</ul><h1 id="introduction">
+<a class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h1>
+
+<p>As artificial intelligence and machine learning models become more
+sophisticated, optimising their performance remains a critical challenge.
+Kubeflow provides a robust component, <a href="https://www.kubeflow.org/docs/components/katib/">Katib</a>, designed for
+hyperparameter optimization and neural architecture search. As a part of the
+Kubeflow ecosystem, Katib enables scalable, automated tuning of underlying
+machine learning models, reducing the manual effort required for parameter
+selection while improving model performance across diverse ML workflows.</p>
+
+<p>With Retrieval-Augmented Generation (<a href="https://en.wikipedia.org/wiki/Retrieval-augmented_generation">RAG</a>) becoming an increasingly
+popular approach for improving search and retrieval quality, optimizing its
+parameters is essential to achieving high-quality results. RAG pipelines involve
+multiple hyperparameters that influence retrieval accuracy, hallucination
+reduction, and language generation quality. In this blog, we will explore how
+Katib can be leveraged to fine-tune a RAG pipeline, ensuring optimal performance
+by systematically adjusting key hyperparameters.</p>
+
+<h1 id="lets-get-started">
+<a class="anchor" href="#lets-get-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Let’s Get Started!</h1>
+
+<h2 id="step-1-setup">
+<a class="anchor" href="#step-1-setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>STEP 1: Setup</h2>
+
+<p>Since compute resources are scarcer than a perfectly labeled dataset :), we’ll
+use a lightweight <a href="https://kind.sigs.k8s.io/">Kind cluster (Kubernetes in Docker)</a>
+cluster to run this example locally. Rest assured, this setup can seamlessly
+scale to larger clusters by increasing the dataset size and the number of
+hyperparameters to tune.</p>
+
+<p>To get started, we’ll first install the Katib control plane in our cluster by
+following the steps outlined <a href="https://www.kubeflow.org/docs/components/katib/installation/">in the documentation</a>.</p>
+
+<h2 id="step-2-implementing-rag-pipeline">
+<a class="anchor" href="#step-2-implementing-rag-pipeline" aria-hidden="true"><span class="octicon octicon-link"></span></a>STEP 2: Implementing RAG pipeline</h2>
+
+<p>In this implementation, we use a <a href="https://www.sciencedirect.com/topics/computer-science/retrieval-model">retriever model</a>, which
+encodes queries and documents into vector representations to find the most
+relevant matches, to fetch relevant documents based on a query and a generator
+model to produce coherent text responses.</p>
+
+<h3 id="implementation-details">
+<a class="anchor" href="#implementation-details" aria-hidden="true"><span class="octicon octicon-link"></span></a>Implementation Details:</h3>
+
+<ol>
+  <li>Retriever: Sentence Transformer &amp; FAISS (Facebook AI Similarity Search) Index
+    <ul>
+      <li>A SentenceTransformer model (paraphrase-MiniLM-L6-v2) encodes predefined
+documents into vector representations.</li>
+      <li>
+<a href="https://ai.meta.com/tools/faiss/">FAISS</a> is used to index these document embeddings and perform
+efficient similarity searches to retrieve the most relevant documents.</li>
+    </ul>
+  </li>
+  <li>Generator: Pre-trained GPT-2 Model
+    <ul>
+      <li>A Hugging Face GPT-2 text generation pipeline (which can be replaced with
+any other model) is used to generate responses based on the retrieved
+documents. I chose GPT-2 for this example as it is lightweight enough to
+run on my local machine while still generating coherent responses.</li>
+    </ul>
+  </li>
+  <li>Query Processing &amp; Response Generation
+    <ul>
+      <li>When a query is submitted, the retriever encodes it and searches the FAISS
+index for the top-k most similar documents.</li>
+      <li>These retrieved documents are concatenated to form the input context, which
+is then passed to the GPT-2 model to generate a response.</li>
+    </ul>
+  </li>
+  <li>Evaluation: <a href="https://huggingface.co/spaces/evaluate-metric/bleu">BLEU</a> (Bilingual Evaluation Understudy) Score Calculation
+    <ul>
+      <li>To assess the quality of generated responses, we use the BLEU score, a
+popular metric for evaluating text generation.</li>
+      <li>The evaluate function takes a query, retrieves documents, generates a
+response, and compares it against a ground-truth reference to compute a
+BLEU score with smoothing functions from the nltk library.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>To run Katib, we will use the <a href="https://www.kubeflow.org/docs/components/katib/installation/#installing-python-sdk">Katib SDK</a>, which provides a programmatic interface for defining and running 
+hyperparameter tuning experiments in Kubeflow.</p>
+
+<p>Katib requires an <a href="https://www.kubeflow.org/docs/components/katib/user-guides/hp-tuning/configure-experiment/#configuring-the-experiment">objective</a> function, which:</p>
+
+<ol>
+  <li>Defines what we want to optimize (e.g., BLEU score for text generation quality).</li>
+  <li>Executes the RAG pipeline with different hyperparameter values.</li>
+  <li>Returns an evaluation metric so Katib can compare different hyperparameter configurations.</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">parameters</span><span class="p">):</span>
+    <span class="c1"># Import dependencies inside the function (required for Katib)
+</span>    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+    <span class="kn">import</span> <span class="nn">faiss</span>
+    <span class="kn">from</span> <span class="nn">sentence_transformers</span> <span class="kn">import</span> <span class="n">SentenceTransformer</span>
+    <span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+    <span class="kn">from</span> <span class="nn">nltk.translate.bleu_score</span> <span class="kn">import</span> <span class="n">sentence_bleu</span><span class="p">,</span> <span class="n">SmoothingFunction</span>
+    
+    <span class="c1"># Function to fetch documents (Modify as needed)
+</span>    <span class="k">def</span> <span class="nf">fetch_documents</span><span class="p">():</span>
+        <span class="s">"""Returns a predefined list of documents or loads them from a file."""</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">...</span>
+        <span class="p">]</span>
+        <span class="c1"># OR, to load from a file:
+</span>        <span class="c1"># with open("/path/to/documents.json", "r") as f:
+</span>        <span class="c1">#     return json.load(f)
+</span>
+    <span class="c1"># Define the RAG pipeline within the function
+</span>    <span class="k">def</span> <span class="nf">rag_pipeline_execute</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">top_k</span><span class="p">,</span> <span class="n">temperature</span><span class="p">):</span>
+        <span class="s">"""Retrieves relevant documents and generates a response using GPT-2."""</span>
+
+        <span class="c1"># Initialize retriever
+</span>        <span class="n">retriever_model</span> <span class="o">=</span> <span class="n">SentenceTransformer</span><span class="p">(</span><span class="s">"paraphrase-MiniLM-L6-v2"</span><span class="p">)</span>
+
+        <span class="c1"># Sample documents
+</span>        <span class="n">documents</span> <span class="o">=</span> <span class="n">fetch_documents</span><span class="p">()</span>
+
+        <span class="c1"># Encode documents
+</span>        <span class="n">doc_embeddings</span> <span class="o">=</span> <span class="n">retriever_model</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">faiss</span><span class="p">.</span><span class="n">IndexFlatL2</span><span class="p">(</span><span class="n">doc_embeddings</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">index</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">doc_embeddings</span><span class="p">))</span>
+
+        <span class="c1"># Encode query and retrieve top-k documents
+</span>        <span class="n">query_embedding</span> <span class="o">=</span> <span class="n">retriever_model</span><span class="p">.</span><span class="n">encode</span><span class="p">([</span><span class="n">query</span><span class="p">])</span>
+        <span class="n">distances</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">index</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">query_embedding</span><span class="p">,</span> <span class="n">top_k</span><span class="p">)</span>
+        <span class="n">retrieved_docs</span> <span class="o">=</span> <span class="p">[</span><span class="n">documents</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+        <span class="c1"># Generate response using GPT-2
+</span>        <span class="n">generator</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">(</span><span class="s">"text-generation"</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s">"gpt2"</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="s">"gpt2"</span><span class="p">)</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="s">" "</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">retrieved_docs</span><span class="p">)</span>
+        <span class="n">generated</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span> <span class="n">num_return_sequences</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">generated</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">"generated_text"</span><span class="p">]</span>
+
+    <span class="c1"># TODO: Provide queries and ground truth directly here or load them dynamically from a file/external volume.
+</span>    <span class="n">query</span> <span class="o">=</span> <span class="s">""</span>  <span class="c1"># Example: "Tell me about the Eiffel Tower."
+</span>    <span class="n">ground_truth</span> <span class="o">=</span> <span class="s">""</span>  <span class="c1"># Example: "The Eiffel Tower is a famous landmark in Paris."
+</span>
+    <span class="c1"># Extract hyperparameters
+</span>    <span class="n">top_k</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s">"top_k"</span><span class="p">])</span>
+    <span class="n">temperature</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">parameters</span><span class="p">[</span><span class="s">"temperature"</span><span class="p">])</span>
+
+    <span class="c1"># Generate response
+</span>    <span class="n">response</span> <span class="o">=</span> <span class="n">rag_pipeline_execute</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">top_k</span><span class="p">,</span> <span class="n">temperature</span><span class="p">)</span>
+
+    <span class="c1"># Compute BLEU score
+</span>    <span class="n">reference</span> <span class="o">=</span> <span class="p">[</span><span class="n">ground_truth</span><span class="p">.</span><span class="n">split</span><span class="p">()]</span>  <span class="c1"># Tokenized reference
+</span>    <span class="n">candidate</span> <span class="o">=</span> <span class="n">response</span><span class="p">.</span><span class="n">split</span><span class="p">()</span>  <span class="c1"># Tokenized candidate response
+</span>    <span class="n">smoothie</span> <span class="o">=</span> <span class="n">SmoothingFunction</span><span class="p">().</span><span class="n">method1</span>
+    <span class="n">bleu_score</span> <span class="o">=</span> <span class="n">sentence_bleu</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span> <span class="n">candidate</span><span class="p">,</span> <span class="n">smoothing_function</span><span class="o">=</span><span class="n">smoothie</span><span class="p">)</span>
+
+    <span class="c1"># Print BLEU score in Katib-compatible format
+</span>    <span class="k">print</span><span class="p">(</span><span class="s">f"BLEU=</span><span class="si">{</span><span class="n">bleu_score</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+<p><em>Note</em>: Make sure to return the result in the format of <code class="language-plaintext highlighter-rouge">&lt;parameter&gt;=&lt;value&gt;</code>
+for Katib’s metrics collector to be able to utilize it. More ways to configure
+the output are available in <a href="https://www.kubeflow.org/docs/components/katib/user-guides/metrics-collector/#pull-based-metrics-collector">Katib Metrics
+Collector</a> guide.</p>
+
+<h2 id="step-3-run-a-katib-experiment">
+<a class="anchor" href="#step-3-run-a-katib-experiment" aria-hidden="true"><span class="octicon octicon-link"></span></a>STEP 3: Run a Katib Experiment</h2>
+
+<p>Once our pipeline is encapsulated within the objective function, we can configure Katib to optimize the <code class="language-plaintext highlighter-rouge">BLEU</code> score by 
+tuning the hyperparameters:</p>
+
+<ol>
+  <li>
+<code class="language-plaintext highlighter-rouge">top_k</code>: The number of documents retrieved (eg. between 10 and 20).</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">temperature</code>: The randomness of text generation (eg. between 0.5 and 1.0).</li>
+</ol>
+
+<h1 id="define-hyperparameter-search-space">
+<a class="anchor" href="#define-hyperparameter-search-space" aria-hidden="true"><span class="octicon octicon-link"></span></a>Define hyperparameter search space</h1>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"top_k"</span><span class="p">:</span> <span class="n">katib</span><span class="p">.</span><span class="n">search</span><span class="p">.</span><span class="nb">int</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">20</span><span class="p">),</span>
+    <span class="s">"temperature"</span><span class="p">:</span> <span class="n">katib</span><span class="p">.</span><span class="n">search</span><span class="p">.</span><span class="n">double</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Let’s submit the experiment! We’ll use the <a href="https://github.com/kubeflow/katib/blob/c18035e1041ca1b87ea7eb7c01cb81b5e2b922b3/sdk/python/v1beta1/kubeflow/katib/api/katib_client.py#L178"><code class="language-plaintext highlighter-rouge">tune</code> API </a> that will run multiple trials to find the optimal <code class="language-plaintext highlighter-rouge">top_k</code> 
+and <code class="language-plaintext highlighter-rouge">temperature</code> values for our RAG pipeline.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">katib_client</span> <span class="o">=</span> <span class="n">katib</span><span class="p">.</span><span class="n">KatibClient</span><span class="p">(</span><span class="n">namespace</span><span class="o">=</span><span class="s">"kubeflow"</span><span class="p">)</span>
+
+<span class="n">name</span> <span class="o">=</span> <span class="s">"rag-tuning-experiment"</span>
+<span class="n">katib_client</span><span class="p">.</span><span class="n">tune</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+    <span class="n">objective</span><span class="o">=</span><span class="n">objective</span><span class="p">,</span>
+    <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+    <span class="n">algorithm_name</span><span class="o">=</span><span class="s">"grid"</span><span class="p">,</span>  <span class="c1"># Grid search for hyperparameter tuning
+</span>    <span class="n">objective_metric_name</span><span class="o">=</span><span class="s">"BLEU"</span><span class="p">,</span>
+    <span class="n">objective_type</span><span class="o">=</span><span class="s">"maximize"</span><span class="p">,</span>
+    <span class="n">objective_goal</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">max_trial_count</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>  <span class="c1"># Run up to 10 trials
+</span>    <span class="n">parallel_trial_count</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># Run 2 trials in parallel
+</span>    <span class="n">resources_per_trial</span><span class="o">=</span><span class="p">{</span><span class="s">"cpu"</span><span class="p">:</span> <span class="s">"1"</span><span class="p">,</span> <span class="s">"memory"</span><span class="p">:</span> <span class="s">"2Gi"</span><span class="p">},</span>
+    <span class="n">base_image</span><span class="o">=</span><span class="s">"python:3.10-slim"</span><span class="p">,</span>
+    <span class="n">packages_to_install</span><span class="o">=</span><span class="p">[</span>
+        <span class="s">"transformers==4.36.0"</span><span class="p">,</span>
+        <span class="s">"sentence-transformers==2.2.2"</span><span class="p">,</span>
+        <span class="s">"faiss-cpu==1.7.4"</span><span class="p">,</span>
+        <span class="s">"numpy==1.23.5"</span><span class="p">,</span>
+        <span class="s">"huggingface_hub==0.20.0"</span><span class="p">,</span>
+        <span class="s">"nltk==3.9.1"</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Once the experiment is submitted, we can see output indicating that Katib has started the trials:</p>
+
+<pre><code class="language-commandline">Experiment Trials status: 0 Trials, 0 Pending Trials, 0 Running Trials, 0 Succeeded Trials, 0 Failed Trials, 0 EarlyStopped Trials, 0 MetricsUnavailable Trials
+Current Optimal Trial:
+ {'best_trial_name': None,
+ 'observation': {'metrics': None},
+ 'parameter_assignments': None}
+Experiment conditions:
+ [{'last_transition_time': datetime.datetime(2025, 3, 13, 19, 40, 32, tzinfo=tzutc()),
+ 'last_update_time': datetime.datetime(2025, 3, 13, 19, 40, 32, tzinfo=tzutc()),
+ 'message': 'Experiment is created',
+ 'reason': 'ExperimentCreated',
+ 'status': 'True',
+ 'type': 'Created'}]
+Waiting for Experiment: kubeflow/rag-tuning-experiment to reach Succeeded condition
+
+.....
+
+Experiment Trials status: 9 Trials, 0 Pending Trials, 2 Running Trials, 7 Succeeded Trials, 0 Failed Trials, 0 EarlyStopped Trials, 0 MetricsUnavailable Trials
+Current Optimal Trial:
+ {'best_trial_name': 'rag-tuning-experiment-66tmh9g7',
+ 'observation': {'metrics': [{'latest': '0.047040418725887996',
+                              'max': '0.047040418725887996',
+                              'min': '0.047040418725887996',
+                              'name': 'BLEU'}]},
+ 'parameter_assignments': [{'name': 'top_k', 'value': '10'},
+                           {'name': 'temperature', 'value': '0.6'}]}
+Experiment conditions:
+ [{'last_transition_time': datetime.datetime(2025, 3, 13, 19, 40, 32, tzinfo=tzutc()),
+ 'last_update_time': datetime.datetime(2025, 3, 13, 19, 40, 32, tzinfo=tzutc()),
+ 'message': 'Experiment is created',
+ 'reason': 'ExperimentCreated',
+ 'status': 'True',
+ 'type': 'Created'}, {'last_transition_time': datetime.datetime(2025, 3, 13, 19, 40, 52, tzinfo=tzutc()),
+ 'last_update_time': datetime.datetime(2025, 3, 13, 19, 40, 52, tzinfo=tzutc()),
+ 'message': 'Experiment is running',
+ 'reason': 'ExperimentRunning',
+ 'status': 'True',
+ 'type': 'Running'}]
+Waiting for Experiment: kubeflow/rag-tuning-experiment to reach Succeeded condition
+</code></pre>
+
+<p>We can also see the experiments and trials being run to search for the optimized parameter:</p>
+
+<pre><code class="language-commandline">kubectl get experiments.kubeflow.org -n kubeflow
+NAME                    TYPE      STATUS   AGE
+rag-tuning-experiment   Running   True     10m
+</code></pre>
+
+<pre><code class="language-commandline">kubectl get trials --all-namespaces
+NAMESPACE   NAME                             TYPE      STATUS   AGE
+kubeflow    rag-tuning-experiment-7wskq9b9   Running   True     10m
+kubeflow    rag-tuning-experiment-cll6bt4z   Running   True     10m
+kubeflow    rag-tuning-experiment-hzxrzq2t   Running   True     10m
+</code></pre>
+
+<p>The list of completed trials and their results will be shown in the UI like
+below. Steps to access Katib UI are available <a href="https://www.kubeflow.org/docs/components/katib/user-guides/katib-ui/">in the documentation</a>:</p>
+
+<p><img src="/images/2025-02-21-katib-rag-optimization/katib_experiment_run.jpeg" alt="completed_runs">
+<img src="/images/2025-02-21-katib-rag-optimization/katib_ui.jpeg" alt="trial details"></p>
+
+<h1 id="conclusion">
+<a class="anchor" href="#conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusion</h1>
+
+<p>In this experiment, we leveraged Kubeflow Katib to optimize a
+Retrieval-Augmented Generation (RAG) pipeline, systematically tuning key
+hyperparameters like top_k and temperature to enhance retrieval precision and
+generative response quality.</p>
+
+<p>For anyone working with RAG systems or hyperparameter optimization, Katib is a
+powerful tool—enabling scalable, efficient, and intelligent tuning of machine
+learning models! We hope this tutorial helps you streamline hyperparameter
+tuning and unlock new efficiencies in your ML workflows!</p>
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/katib/rag/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -7,7 +7,7 @@ image:
 hide: false
 categories: [operators, benchmarking, performance]
 permalink: 
-author: "<a href='https://www.linkedin.com/in/varaprofile/'>Vara Bonthu</a>"
+author: "<a href='https://www.linkedin.com/in/varaprofile/'>Vara Bonthu</a>, <a href='https://www.linkedin.com/in/manabumccloskey/'>Manabu McCloskey</a>, <a href='https://www.linkedin.com/in/ratnopamc/'>Ratnopam Chakrabarti </a>, <a href='https://www.linkedin.com/in/alanhalcyon/'>Alan Halcyon</a>"
 ---
 
 Kubernetes has become the go-to platform for running large-scale [Apache Spark](https://spark.apache.org/) workloads. But as workloads scale, **how do you ensure your Spark jobs run efficiently without hitting bottlenecks?** Managing thousands of concurrent Spark jobs can introduce **severe performance challenges**—from **CPU saturation** in the Spark Operator to **Kubernetes API slowdowns** and **job scheduling inefficiencies**.  

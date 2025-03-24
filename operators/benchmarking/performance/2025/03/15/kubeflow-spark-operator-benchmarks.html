@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>🚀 Announcing the Kubeflow Spark Operator Benchmarking Results | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="🚀 Announcing the Kubeflow Spark Operator Benchmarking Results" />
+<meta name="author" content="<a href='https://www.linkedin.com/in/varaprofile/'>Vara Bonthu</a>, <a href='https://www.linkedin.com/in/manabumccloskey/'>Manabu McCloskey</a>, <a href='https://www.linkedin.com/in/ratnopamc/'>Ratnopam Chakrabarti </a>, <a href='https://www.linkedin.com/in/alanhalcyon/'>Alan Halcyon</a>" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Kubernetes has become the go-to platform for running large-scale Apache Spark workloads. But as workloads scale, how do you ensure your Spark jobs run efficiently without hitting bottlenecks? Managing thousands of concurrent Spark jobs can introduce severe performance challenges—from CPU saturation in the Spark Operator to Kubernetes API slowdowns and job scheduling inefficiencies." />
+<meta property="og:description" content="Kubernetes has become the go-to platform for running large-scale Apache Spark workloads. But as workloads scale, how do you ensure your Spark jobs run efficiently without hitting bottlenecks? Managing thousands of concurrent Spark jobs can introduce severe performance challenges—from CPU saturation in the Spark Operator to Kubernetes API slowdowns and job scheduling inefficiencies." />
+<link rel="canonical" href="https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks.html" />
+<meta property="og:url" content="https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks.html" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-03-15T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks.html","@type":"BlogPosting","headline":"🚀 Announcing the Kubeflow Spark Operator Benchmarking Results","dateModified":"2025-03-15T00:00:00-05:00","datePublished":"2025-03-15T00:00:00-05:00","author":{"@type":"Person","name":"<a href='https://www.linkedin.com/in/varaprofile/'>Vara Bonthu</a>, <a href='https://www.linkedin.com/in/manabumccloskey/'>Manabu McCloskey</a>, <a href='https://www.linkedin.com/in/ratnopamc/'>Ratnopam Chakrabarti </a>, <a href='https://www.linkedin.com/in/alanhalcyon/'>Alan Halcyon</a>"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks.html"},"description":"Kubernetes has become the go-to platform for running large-scale Apache Spark workloads. But as workloads scale, how do you ensure your Spark jobs run efficiently without hitting bottlenecks? Managing thousands of concurrent Spark jobs can introduce severe performance challenges—from CPU saturation in the Spark Operator to Kubernetes API slowdowns and job scheduling inefficiencies.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">🚀 Announcing the Kubeflow Spark Operator Benchmarking Results</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2025-03-15T00:00:00-05:00" itemprop="datePublished">
+        Mar 15, 2025
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name"><a href='https://www.linkedin.com/in/varaprofile/'>Vara Bonthu</a>, <a href='https://www.linkedin.com/in/manabumccloskey/'>Manabu McCloskey</a>, <a href='https://www.linkedin.com/in/ratnopamc/'>Ratnopam Chakrabarti </a>, <a href='https://www.linkedin.com/in/alanhalcyon/'>Alan Halcyon</a></span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#operators">operators</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#benchmarking">benchmarking</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#performance">performance</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Kubernetes has become the go-to platform for running large-scale <a href="https://spark.apache.org/">Apache Spark</a> workloads. But as workloads scale, <strong>how do you ensure your Spark jobs run efficiently without hitting bottlenecks?</strong> Managing thousands of concurrent Spark jobs can introduce <strong>severe performance challenges</strong>—from <strong>CPU saturation</strong> in the Spark Operator to <strong>Kubernetes API slowdowns</strong> and <strong>job scheduling inefficiencies</strong>.</p>
+
+<p>To address these challenges, we are excited to introduce the <strong>Kubeflow Spark Operator Benchmarking Results and Toolkit</strong>—a comprehensive framework to analyze performance, pinpoint bottlenecks, and optimize your Spark on Kubernetes deployments.</p>
+
+<h2 id="-whats-included">🔍 What’s Included?</h2>
+<p>This benchmarking effort provides <strong>three key outcomes</strong> to help you take full control of your Spark on Kubernetes deployment:</p>
+
+<p>✅ <strong><a href="https://www.kubeflow.org/docs/components/spark-operator/performance/benchmarking/">Benchmarking Results</a></strong> – A detailed evaluation of performance insights and tuning recommendations for large-scale Spark workloads.<br />
+🛠 <strong><a href="https://github.com/awslabs/data-on-eks/tree/main/analytics/terraform/spark-k8s-operator/examples/benchmark/spark-operator-benchmark-kit">Benchmarking Test Toolkit</a></strong> – A fully reproducible test suite to help users evaluate their own Spark Operator performance and validate improvements.<br />
+📊 <strong><a href="https://grafana.com/grafana/dashboards/23032-spark-operator-scale-test-dashboard/">Open-Sourced Grafana Dashboard</a></strong> – A <strong>battle-tested</strong> visualization tool designed specifically to track large-scale Spark Operator deployments, providing real-time monitoring of job processing efficiency, API latencies, and system health.</p>
+
+<h2 id="-the-challenges-why-benchmarking-matters">❌ The Challenges: Why Benchmarking Matters</h2>
+<p>Running <strong>thousands of Spark jobs</strong> on Kubernetes at scale uncovers several <strong>performance roadblocks</strong> that can <strong>cripple efficiency</strong> if left unresolved:</p>
+
+<ul>
+  <li><strong>🚦 Spark Operator Becomes CPU-Bound</strong>: When handling thousands of Spark jobs, the controller pod maxes out CPU resources, limiting job submission rates.</li>
+  <li><strong>🐢 High API Server Latency</strong>: As workloads scale, Kubernetes API responsiveness degrades—job status updates slow down, affecting observability and scheduling efficiency.</li>
+  <li><strong>🕒 Webhook Overhead Slows Job Starts</strong>: Using webhooks adds <strong>~60 seconds</strong> of extra latency per job, reducing throughput in high-concurrency environments.</li>
+  <li><strong>💥 Namespace Overload Causes Failures</strong>: Running <strong>6,000+ SparkApplications in a single namespace</strong> resulted in <strong>pod failures</strong> due to excessive environment variables and service object overload.</li>
+</ul>
+
+<p>💡 <strong>So, how do you fix these issues and optimize your Spark Operator deployment?</strong><br />
+That’s where our <strong>benchmarking results and toolkit</strong> come in.</p>
+
+<h2 id="-tuning-best-practices-for-spark-operator">🛠 Tuning Best Practices for Spark Operator</h2>
+<p>Based on our benchmarking findings, we provide <strong>clear, actionable recommendations</strong> for improving Spark Operator performance at scale.</p>
+
+<p>If you’re running <strong>thousands of concurrent Spark jobs</strong>, here’s what you need to do:</p>
+
+<h3 id="deploy-multiple-spark-operator-instances"><strong>Deploy Multiple Spark Operator Instances</strong></h3>
+<p>💡 <strong>Why?</strong> A single Spark Operator instance struggles to keep up with high job submission rates.<br />
+✅ <strong>Solution</strong>: When a single Spark Operator instance struggles with high job submission rates, leading to CPU saturation and slower job launches, <strong>deploying multiple instances can help</strong>. Distribute the workload by assigning different namespaces to each instance. For example, one instance can manage `<strong>20 namespaces</strong> while another handles a separate set of <strong>20 namespaces</strong>. This prevents bottlenecks and ensures efficient Spark job execution.</p>
+
+<h3 id="disable-webhooks-for-faster-job-starts"><strong>Disable Webhooks for Faster Job Starts</strong></h3>
+<p>💡 <strong>Why?</strong> Webhooks introduce <code class="language-plaintext highlighter-rouge">~60 seconds</code> of delay per job due to validation and mutation overhead, reducing throughput in large workloads.
+✅ <strong>Solution</strong>: Instead of using <strong>webhooks</strong> for volume mounts, node selectors, or taints, define <strong>Spark Pod Templates</strong> directly within the Spark job definition—no additional files are needed. Disable webhooks by setting <code class="language-plaintext highlighter-rouge">webhook.enable=false</code> in the Helm chart.</p>
+
+<h3 id="increase-controller-workers"><strong>Increase Controller Workers</strong></h3>
+<p>💡 <strong>Why?</strong> By default, the operator runs with <strong>10 controller workers</strong>, but our benchmarks showed increasing this to <strong>20 or 30 workers</strong> improved job throughput.<br />
+✅ <strong>Solution</strong>: Set <code class="language-plaintext highlighter-rouge">controller.workers=20</code> if your Operator pod runs on a <code class="language-plaintext highlighter-rouge">36-core</code> CPU or higher to enable faster parallel job execution. For larger workloads (e.g., 72+ cores), increase to 40+ workers for better parallel job execution.</p>
+
+<h3 id="enable-a-batch-scheduler-volcano--yunikorn"><strong>Enable a Batch Scheduler (Volcano / YuniKorn)</strong></h3>
+<p>💡 <strong>Why?</strong> Kubernetes’ default scheduler isn’t optimized for batch workloads, leading to <strong>inefficient job placements</strong>.<br />
+✅ <strong>Solution</strong>: Enable <strong>Volcano</strong> or <strong>YuniKorn</strong> (<code class="language-plaintext highlighter-rouge">batchScheduler.enable=true</code>) to optimize job scheduling. These schedulers provide <strong>gang scheduling, queue management, and multi-tenant resource sharing</strong>. Benchmarks show that <strong>Apache YuniKorn</strong> schedules jobs faster than the default Kubernetes scheduler.</p>
+
+<h3 id="optimize-api-server-scaling"><strong>Optimize API Server Scaling</strong></h3>
+<p>💡 <strong>Why?</strong> API server latency spikes to <strong>600ms+ under heavy load</strong>, affecting Spark job responsiveness.<br />
+✅ <strong>Solution</strong>: Scale API server replicas, allocate more CPU and memory, and optimize event handling. Ensure your <strong>Kubernetes API server and etcd</strong> auto-scale to handle bursty workloads efficiently. Monitor <code class="language-plaintext highlighter-rouge">kube-apiserver</code> metrics and scale <code class="language-plaintext highlighter-rouge">etcd</code> accordingly. If running thousands of Spark pods, consider <strong>manually increasing control plane node sizes</strong>.</p>
+
+<h3 id="distribute-spark-jobs-across-multiple-namespaces"><strong>Distribute Spark Jobs Across Multiple Namespaces</strong></h3>
+<p>💡 <strong>Why?</strong> Running too many jobs in a single namespace causes <strong>environment variable overflows</strong>, leading to pod failures.<br />
+✅ <strong>Solution</strong>: When too many pods are placed in a single namespace, operations like listing or modifying resources can generate large <strong>API server</strong> responses, increasing latency. For example, retrieving all pods may result in a substantial size in response, consuming significant server resources. Additionally, <strong>etcd</strong>, Kubernetes’ key-value store, can become a bottleneck when handling frequent updates from a high number of pods in one namespace. Heavy read and write operations can strain etcd, causing increased latencies and potential timeouts. To improve performance and stability, it is recommended to <strong>distribute workloads across multiple namespaces</strong>.</p>
+
+<h3 id="monitor--tune-using-the-open-source-grafana-dashboard"><strong>Monitor &amp; Tune Using the Open-Source Grafana Dashboard</strong></h3>
+<p>💡 <strong>Why?</strong> Observability is key to identifying performance bottlenecks.<br />
+✅ <strong>Solution</strong>: Use our <strong><a href="https://grafana.com/grafana/dashboards/23032-spark-operator-scale-test-dashboard/">Spark Operator Scale Test Dashboard</a></strong> to track job submission rates, API latencies, and CPU utilization in real time.</p>
+
+<h2 id="-learn-more--get-started">📖 Learn More &amp; Get Started</h2>
+<p>The <strong>Kubeflow Spark Operator Benchmarking Results and Toolkit</strong> provide an in-depth <strong>performance playbook</strong> for running Spark at scale on Kubernetes. Whether you’re troubleshooting an existing deployment or planning for future growth, this toolkit arms you with <strong>data-driven insights</strong> and <strong>best practices</strong> for success.</p>
+
+<p>🚀 <strong>Ready to optimize your Spark workloads?</strong> Dive into the full results and toolkit below:<br />
+📖 <strong><a href="https://www.kubeflow.org/docs/components/spark-operator/performance/benchmarking/">Kubeflow Spark Operator Benchmarks</a></strong></p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

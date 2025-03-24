@@ -1,4 +1,65 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2025-03-13T20:44:50-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Optimizing RAG Pipelines with Katib: Hyperparameter Tuning for Better Retrieval &amp;amp; Generation</title><link href="https://blog.kubeflow.org/katib/rag/" rel="alternate" type="text/html" title="Optimizing RAG Pipelines with Katib: Hyperparameter Tuning for Better Retrieval &amp;amp; Generation" /><published>2025-02-21T00:00:00-06:00</published><updated>2025-02-21T00:00:00-06:00</updated><id>https://blog.kubeflow.org/katib/katib-rag-optimization</id><content type="html" xml:base="https://blog.kubeflow.org/katib/rag/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2025-03-23T22:24:02-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">🚀 Announcing the Kubeflow Spark Operator Benchmarking Results</title><link href="https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks.html" rel="alternate" type="text/html" title="🚀 Announcing the Kubeflow Spark Operator Benchmarking Results" /><published>2025-03-15T00:00:00-05:00</published><updated>2025-03-15T00:00:00-05:00</updated><id>https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks</id><content type="html" xml:base="https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks.html">&lt;p&gt;Kubernetes has become the go-to platform for running large-scale &lt;a href=&quot;https://spark.apache.org/&quot;&gt;Apache Spark&lt;/a&gt; workloads. But as workloads scale, &lt;strong&gt;how do you ensure your Spark jobs run efficiently without hitting bottlenecks?&lt;/strong&gt; Managing thousands of concurrent Spark jobs can introduce &lt;strong&gt;severe performance challenges&lt;/strong&gt;—from &lt;strong&gt;CPU saturation&lt;/strong&gt; in the Spark Operator to &lt;strong&gt;Kubernetes API slowdowns&lt;/strong&gt; and &lt;strong&gt;job scheduling inefficiencies&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;To address these challenges, we are excited to introduce the &lt;strong&gt;Kubeflow Spark Operator Benchmarking Results and Toolkit&lt;/strong&gt;—a comprehensive framework to analyze performance, pinpoint bottlenecks, and optimize your Spark on Kubernetes deployments.&lt;/p&gt;
+
+&lt;h2 id=&quot;-whats-included&quot;&gt;🔍 What’s Included?&lt;/h2&gt;
+&lt;p&gt;This benchmarking effort provides &lt;strong&gt;three key outcomes&lt;/strong&gt; to help you take full control of your Spark on Kubernetes deployment:&lt;/p&gt;
+
+&lt;p&gt;✅ &lt;strong&gt;&lt;a href=&quot;https://www.kubeflow.org/docs/components/spark-operator/performance/benchmarking/&quot;&gt;Benchmarking Results&lt;/a&gt;&lt;/strong&gt; – A detailed evaluation of performance insights and tuning recommendations for large-scale Spark workloads.&lt;br /&gt;
+🛠 &lt;strong&gt;&lt;a href=&quot;https://github.com/awslabs/data-on-eks/tree/main/analytics/terraform/spark-k8s-operator/examples/benchmark/spark-operator-benchmark-kit&quot;&gt;Benchmarking Test Toolkit&lt;/a&gt;&lt;/strong&gt; – A fully reproducible test suite to help users evaluate their own Spark Operator performance and validate improvements.&lt;br /&gt;
+📊 &lt;strong&gt;&lt;a href=&quot;https://grafana.com/grafana/dashboards/23032-spark-operator-scale-test-dashboard/&quot;&gt;Open-Sourced Grafana Dashboard&lt;/a&gt;&lt;/strong&gt; – A &lt;strong&gt;battle-tested&lt;/strong&gt; visualization tool designed specifically to track large-scale Spark Operator deployments, providing real-time monitoring of job processing efficiency, API latencies, and system health.&lt;/p&gt;
+
+&lt;h2 id=&quot;-the-challenges-why-benchmarking-matters&quot;&gt;❌ The Challenges: Why Benchmarking Matters&lt;/h2&gt;
+&lt;p&gt;Running &lt;strong&gt;thousands of Spark jobs&lt;/strong&gt; on Kubernetes at scale uncovers several &lt;strong&gt;performance roadblocks&lt;/strong&gt; that can &lt;strong&gt;cripple efficiency&lt;/strong&gt; if left unresolved:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;🚦 Spark Operator Becomes CPU-Bound&lt;/strong&gt;: When handling thousands of Spark jobs, the controller pod maxes out CPU resources, limiting job submission rates.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;🐢 High API Server Latency&lt;/strong&gt;: As workloads scale, Kubernetes API responsiveness degrades—job status updates slow down, affecting observability and scheduling efficiency.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;🕒 Webhook Overhead Slows Job Starts&lt;/strong&gt;: Using webhooks adds &lt;strong&gt;~60 seconds&lt;/strong&gt; of extra latency per job, reducing throughput in high-concurrency environments.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;💥 Namespace Overload Causes Failures&lt;/strong&gt;: Running &lt;strong&gt;6,000+ SparkApplications in a single namespace&lt;/strong&gt; resulted in &lt;strong&gt;pod failures&lt;/strong&gt; due to excessive environment variables and service object overload.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;💡 &lt;strong&gt;So, how do you fix these issues and optimize your Spark Operator deployment?&lt;/strong&gt;&lt;br /&gt;
+That’s where our &lt;strong&gt;benchmarking results and toolkit&lt;/strong&gt; come in.&lt;/p&gt;
+
+&lt;h2 id=&quot;-tuning-best-practices-for-spark-operator&quot;&gt;🛠 Tuning Best Practices for Spark Operator&lt;/h2&gt;
+&lt;p&gt;Based on our benchmarking findings, we provide &lt;strong&gt;clear, actionable recommendations&lt;/strong&gt; for improving Spark Operator performance at scale.&lt;/p&gt;
+
+&lt;p&gt;If you’re running &lt;strong&gt;thousands of concurrent Spark jobs&lt;/strong&gt;, here’s what you need to do:&lt;/p&gt;
+
+&lt;h3 id=&quot;deploy-multiple-spark-operator-instances&quot;&gt;&lt;strong&gt;Deploy Multiple Spark Operator Instances&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;💡 &lt;strong&gt;Why?&lt;/strong&gt; A single Spark Operator instance struggles to keep up with high job submission rates.&lt;br /&gt;
+✅ &lt;strong&gt;Solution&lt;/strong&gt;: When a single Spark Operator instance struggles with high job submission rates, leading to CPU saturation and slower job launches, &lt;strong&gt;deploying multiple instances can help&lt;/strong&gt;. Distribute the workload by assigning different namespaces to each instance. For example, one instance can manage `&lt;strong&gt;20 namespaces&lt;/strong&gt; while another handles a separate set of &lt;strong&gt;20 namespaces&lt;/strong&gt;. This prevents bottlenecks and ensures efficient Spark job execution.&lt;/p&gt;
+
+&lt;h3 id=&quot;disable-webhooks-for-faster-job-starts&quot;&gt;&lt;strong&gt;Disable Webhooks for Faster Job Starts&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;💡 &lt;strong&gt;Why?&lt;/strong&gt; Webhooks introduce &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;~60 seconds&lt;/code&gt; of delay per job due to validation and mutation overhead, reducing throughput in large workloads.
+✅ &lt;strong&gt;Solution&lt;/strong&gt;: Instead of using &lt;strong&gt;webhooks&lt;/strong&gt; for volume mounts, node selectors, or taints, define &lt;strong&gt;Spark Pod Templates&lt;/strong&gt; directly within the Spark job definition—no additional files are needed. Disable webhooks by setting &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;webhook.enable=false&lt;/code&gt; in the Helm chart.&lt;/p&gt;
+
+&lt;h3 id=&quot;increase-controller-workers&quot;&gt;&lt;strong&gt;Increase Controller Workers&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;💡 &lt;strong&gt;Why?&lt;/strong&gt; By default, the operator runs with &lt;strong&gt;10 controller workers&lt;/strong&gt;, but our benchmarks showed increasing this to &lt;strong&gt;20 or 30 workers&lt;/strong&gt; improved job throughput.&lt;br /&gt;
+✅ &lt;strong&gt;Solution&lt;/strong&gt;: Set &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;controller.workers=20&lt;/code&gt; if your Operator pod runs on a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;36-core&lt;/code&gt; CPU or higher to enable faster parallel job execution. For larger workloads (e.g., 72+ cores), increase to 40+ workers for better parallel job execution.&lt;/p&gt;
+
+&lt;h3 id=&quot;enable-a-batch-scheduler-volcano--yunikorn&quot;&gt;&lt;strong&gt;Enable a Batch Scheduler (Volcano / YuniKorn)&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;💡 &lt;strong&gt;Why?&lt;/strong&gt; Kubernetes’ default scheduler isn’t optimized for batch workloads, leading to &lt;strong&gt;inefficient job placements&lt;/strong&gt;.&lt;br /&gt;
+✅ &lt;strong&gt;Solution&lt;/strong&gt;: Enable &lt;strong&gt;Volcano&lt;/strong&gt; or &lt;strong&gt;YuniKorn&lt;/strong&gt; (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;batchScheduler.enable=true&lt;/code&gt;) to optimize job scheduling. These schedulers provide &lt;strong&gt;gang scheduling, queue management, and multi-tenant resource sharing&lt;/strong&gt;. Benchmarks show that &lt;strong&gt;Apache YuniKorn&lt;/strong&gt; schedules jobs faster than the default Kubernetes scheduler.&lt;/p&gt;
+
+&lt;h3 id=&quot;optimize-api-server-scaling&quot;&gt;&lt;strong&gt;Optimize API Server Scaling&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;💡 &lt;strong&gt;Why?&lt;/strong&gt; API server latency spikes to &lt;strong&gt;600ms+ under heavy load&lt;/strong&gt;, affecting Spark job responsiveness.&lt;br /&gt;
+✅ &lt;strong&gt;Solution&lt;/strong&gt;: Scale API server replicas, allocate more CPU and memory, and optimize event handling. Ensure your &lt;strong&gt;Kubernetes API server and etcd&lt;/strong&gt; auto-scale to handle bursty workloads efficiently. Monitor &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kube-apiserver&lt;/code&gt; metrics and scale &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;etcd&lt;/code&gt; accordingly. If running thousands of Spark pods, consider &lt;strong&gt;manually increasing control plane node sizes&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;distribute-spark-jobs-across-multiple-namespaces&quot;&gt;&lt;strong&gt;Distribute Spark Jobs Across Multiple Namespaces&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;💡 &lt;strong&gt;Why?&lt;/strong&gt; Running too many jobs in a single namespace causes &lt;strong&gt;environment variable overflows&lt;/strong&gt;, leading to pod failures.&lt;br /&gt;
+✅ &lt;strong&gt;Solution&lt;/strong&gt;: When too many pods are placed in a single namespace, operations like listing or modifying resources can generate large &lt;strong&gt;API server&lt;/strong&gt; responses, increasing latency. For example, retrieving all pods may result in a substantial size in response, consuming significant server resources. Additionally, &lt;strong&gt;etcd&lt;/strong&gt;, Kubernetes’ key-value store, can become a bottleneck when handling frequent updates from a high number of pods in one namespace. Heavy read and write operations can strain etcd, causing increased latencies and potential timeouts. To improve performance and stability, it is recommended to &lt;strong&gt;distribute workloads across multiple namespaces&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;monitor--tune-using-the-open-source-grafana-dashboard&quot;&gt;&lt;strong&gt;Monitor &amp;amp; Tune Using the Open-Source Grafana Dashboard&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;💡 &lt;strong&gt;Why?&lt;/strong&gt; Observability is key to identifying performance bottlenecks.&lt;br /&gt;
+✅ &lt;strong&gt;Solution&lt;/strong&gt;: Use our &lt;strong&gt;&lt;a href=&quot;https://grafana.com/grafana/dashboards/23032-spark-operator-scale-test-dashboard/&quot;&gt;Spark Operator Scale Test Dashboard&lt;/a&gt;&lt;/strong&gt; to track job submission rates, API latencies, and CPU utilization in real time.&lt;/p&gt;
+
+&lt;h2 id=&quot;-learn-more--get-started&quot;&gt;📖 Learn More &amp;amp; Get Started&lt;/h2&gt;
+&lt;p&gt;The &lt;strong&gt;Kubeflow Spark Operator Benchmarking Results and Toolkit&lt;/strong&gt; provide an in-depth &lt;strong&gt;performance playbook&lt;/strong&gt; for running Spark at scale on Kubernetes. Whether you’re troubleshooting an existing deployment or planning for future growth, this toolkit arms you with &lt;strong&gt;data-driven insights&lt;/strong&gt; and &lt;strong&gt;best practices&lt;/strong&gt; for success.&lt;/p&gt;
+
+&lt;p&gt;🚀 &lt;strong&gt;Ready to optimize your Spark workloads?&lt;/strong&gt; Dive into the full results and toolkit below:&lt;br /&gt;
+📖 &lt;strong&gt;&lt;a href=&quot;https://www.kubeflow.org/docs/components/spark-operator/performance/benchmarking/&quot;&gt;Kubeflow Spark Operator Benchmarks&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</content><author><name>&lt;a href='https://www.linkedin.com/in/varaprofile/'&gt;Vara Bonthu&lt;/a&gt;, &lt;a href='https://www.linkedin.com/in/manabumccloskey/'&gt;Manabu McCloskey&lt;/a&gt;, &lt;a href='https://www.linkedin.com/in/ratnopamc/'&gt;Ratnopam Chakrabarti &lt;/a&gt;, &lt;a href='https://www.linkedin.com/in/alanhalcyon/'&gt;Alan Halcyon&lt;/a&gt;</name></author><category term="operators" /><category term="benchmarking" /><category term="performance" /><summary type="html">Kubernetes has become the go-to platform for running large-scale Apache Spark workloads. But as workloads scale, how do you ensure your Spark jobs run efficiently without hitting bottlenecks? Managing thousands of concurrent Spark jobs can introduce severe performance challenges—from CPU saturation in the Spark Operator to Kubernetes API slowdowns and job scheduling inefficiencies.</summary></entry><entry><title type="html">Optimizing RAG Pipelines with Katib: Hyperparameter Tuning for Better Retrieval &amp;amp; Generation</title><link href="https://blog.kubeflow.org/katib/rag/" rel="alternate" type="text/html" title="Optimizing RAG Pipelines with Katib: Hyperparameter Tuning for Better Retrieval &amp;amp; Generation" /><published>2025-02-21T00:00:00-06:00</published><updated>2025-02-21T00:00:00-06:00</updated><id>https://blog.kubeflow.org/katib/katib-rag-optimization</id><content type="html" xml:base="https://blog.kubeflow.org/katib/rag/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 
 &lt;p&gt;As artificial intelligence and machine learning models become more
 sophisticated, optimising their performance remains a critical challenge.
@@ -1367,176 +1428,4 @@ Kubeflow Community is vibrant and diverse, solving real-world problems for organ
 
 &lt;p&gt;Want to help? The Kubeflow Community Working Groups hold open meetings and are always looking for more volunteers and
 users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, check out
-the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;Kubeflow community page&lt;/a&gt; to learn more. We look forward to working with you!&lt;/p&gt;</content><author><name>Anna Jung, Johnu George, and Josh Bottum</name></author><category term="community" /><summary type="html">In April 2023, the Kubeflow user survey opened, gathering community feedback. The survey aimed to comprehend the adoption of Kubeflow and collect input on the benefits, gaps, and requirements for machine learning use cases.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Kubeflow v1.7 simplifies Kubernetes native MLOps via enhanced UI, Katib Tuning API and new training frameworks</title><link href="https://blog.kubeflow.org/kubeflow-1.7-release/" rel="alternate" type="text/html" title="Kubeflow v1.7 simplifies Kubernetes native MLOps via enhanced UI, Katib Tuning API and new training frameworks" /><published>2023-03-29T00:00:00-05:00</published><updated>2023-03-29T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.7-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.7-release/">&lt;p&gt;Kubeflow v1.7 users are capitalizing on their python knowledge to build seamless workflows without the need of Kubernetes CLI commands and without building container images for each iteration. With new UIs in multiple components, developers can correlate configuration parameters with logs which allow them to quickly analyze the results. When coupled with Kubeflow’s pythonic workflows and Kubernetes operating efficiencies, these enhancements save model developers material amounts of time and toil.&lt;/p&gt;
-
-&lt;p&gt;This release includes hundreds of new commits, and the following sections provide details on the top features. You will also find updates on platform dependencies, changelogs, breaking changes, ecosystem partners, the new Security Team and Kubeflow’s transition to the CNCF. We encourage active users to contribute to our next release, and provide links to join the community at the end.&lt;/p&gt;
-
-&lt;h2 id=&quot;selected-and-highlighted-deliveries&quot;&gt;Selected and Highlighted deliveries&lt;/h2&gt;
-
-&lt;h3 id=&quot;katib&quot;&gt;Katib&lt;/h3&gt;
-
-&lt;p&gt;Katib includes new enhancements to the UI and SDK. The new Katib UI provides simplified fine-grained configuration and log correlation. Additionally sorting and filtering have been added, allowing a more organized view of your many experiments. In addition, these features minimize the necessity of manually employing low-level commands to locate and correlate logs with hyperparameter experiment configurations. This simplifies the process of in-depth performance analysis and subsequent iterations of model parameters.&lt;/p&gt;
-
-&lt;p&gt;In 1.7, the Katib SDK provides new features including a Tune API and the ability to retreive trial metrics from the Katib database. Model developers or data scientists can execute the Tune API to start a HyperParameter Experiment without any knowledge of underlying systems e.g. Kubernetes, Docker. It automatically converts user training scripts to a Katib Experiment. The Katib changelog provides details on over 100 updates and bug fixes including these SDK and UI top features:&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Narrow down Katib RBAC rules (&lt;a href=&quot;https://github.com/kubeflow/katib/pull/2091&quot;&gt;#2091&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;Support Postgres as a Katib DB (&lt;a href=&quot;https://github.com/kubeflow/katib/pull/1921&quot;&gt;#1921&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;[SDK] Create Tune API in the Katib SDK (&lt;a href=&quot;https://github.com/kubeflow/katib/pull/1951&quot;&gt;#1951&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;[SDK] Get Trial Metrics from Katib DB (&lt;a href=&quot;https://github.com/kubeflow/katib/pull/2050&quot;&gt;#2050&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;More Suggestion container fields in Katib Config (&lt;a href=&quot;https://github.com/kubeflow/katib/pull/2000&quot;&gt;#2000&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;Katib UI: Enable pagination/sorting/filtering (&lt;a href=&quot;https://github.com/kubeflow/katib/pull/2017&quot;&gt;#2017&lt;/a&gt; and &lt;a href=&quot;https://github.com/kubeflow/katib/pull/2040&quot;&gt;#2040&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;Katib UI: Add authorization mechanisms (&lt;a href=&quot;https://github.com/kubeflow/katib/pull/1983&quot;&gt;#1983&lt;/a&gt;)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;training-operator&quot;&gt;Training operator&lt;/h3&gt;
-
-&lt;p&gt;Kubeflow’s unified distributed training operator enhancements include configuration options for fine tuned resource scaling (processor, memory, storage). It now includes HPA support for Pytorch Elastic workloads where users can specify target metric/utilization in Job Spec. This is used for automatic scale up/down of Pytorch Job matching demand while ensuring the elastic policy configured by the user. These enhancements simplify user workflows significantly and reduce operational toil and costs. The Job Spec is flexible and supports multiple scheduler types: Kubernetes, volcano, custom. Major 1.7 training operator features include:&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;PodGroup enhancements(&lt;a href=&quot;https://github.com/kubeflow/training-operator/issues/1574&quot;&gt;#1574&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;Integration with other training frameworks - Paddlepaddle(&lt;a href=&quot;https://github.com/kubeflow/community/issues/520&quot;&gt;#520&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;Enhancements on Pytorch Elastic training (&lt;a href=&quot;https://github.com/kubeflow/training-operator/issues/1645&quot;&gt;#1645&lt;/a&gt;, &lt;a href=&quot;https://github.com/kubeflow/training-operator/issues/1626&quot;&gt;#1626&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;Support coscheduling plugin (&lt;a href=&quot;https://github.com/kubeflow/training-operator/issues/1722&quot;&gt;#1722&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;[SDK] Create Unify Training Client(&lt;a href=&quot;https://github.com/kubeflow/training-operator/pull/1719&quot;&gt;#1719&lt;/a&gt;)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;pipelines&quot;&gt;Pipelines&lt;/h3&gt;
-
-&lt;p&gt;In Kubeflow 1.7, the Pipelines Working Group (KFP) has continued its efforts towards KFP v2 with their latest 2.0.0-alpha.7 release. This release includes the following key enhancements:&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Pipelines as components: Pipelines can themselves be used as components in other pipelines, just as you would use any other single-step component in a pipeline. (&lt;a href=&quot;https://github.com/kubeflow/pipelines/pull/8179&quot;&gt;#8179&lt;/a&gt;, &lt;a href=&quot;https://github.com/kubeflow/pipelines/pull/8204&quot;&gt;#8204&lt;/a&gt;, &lt;a href=&quot;https://github.com/kubeflow/pipelines/pull/8209&quot;&gt;#8209&lt;/a&gt;, &lt;a href=&quot;https://github.com/kubeflow/pipelines/pull/8220&quot;&gt;#8220&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;Sub-DAG visualization that allows pipeline users to dive deep into sub-graph components of their pipeline. (&lt;a href=&quot;https://github.com/kubeflow/pipelines/pull/8326&quot;&gt;#8326&lt;/a&gt;)&lt;/li&gt;
-  &lt;li&gt;Miscellaneous bug and vulnerability fixes.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;Model developers recognize the time-saving pythonic workflows in Kubeflow Pipelines, which speed iteration by not requiring the generation of new images for pre-prod experimentation. The new V2 UI and SDK in Kubeflow 1.7 provide valuable details on each pipeline step. This simplifies the correlation and analysis of parameters, metadata and artifacts during iteration.&lt;/p&gt;
-
-&lt;h3 id=&quot;kubeflow-web-apps-notebooks-volumes-tensorboards-and-controllers&quot;&gt;Kubeflow web apps (Notebooks, Volumes, TensorBoards) and Controllers&lt;/h3&gt;
-
-&lt;p&gt;Kubeflow 1.7 delivers new web apps enhancements that expose more information to the end users and improve their UI interactions.&lt;/p&gt;
-
-&lt;p&gt;A valuable new delivery is that all of the main tables have filtering &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6754&quot;&gt;#6754&lt;/a&gt; and sorting &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6742&quot;&gt;#6742&lt;/a&gt; functionalities as well as showing objects from all namespaces at once &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6778&quot;&gt;#6778&lt;/a&gt;. This allows the end users to navigate through their tools and apps (notebooks, tensorboards, volumes etc) more efficiently.&lt;/p&gt;
-
-&lt;p&gt;Additionally, 1.7 provides an update to the Notebooks form page &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6826&quot;&gt;#6826&lt;/a&gt; as well as a dedicated page &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6769&quot;&gt;#6769&lt;/a&gt; &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6788&quot;&gt;#6788&lt;/a&gt; for the different types of tools managed by Kubeflow. These detailed pages allow users to view logs, events and configuration yamls and they also link from one another (i.e. going to a volume’s details page via a notebook details page). Previously these functions were only available through the Kubernetes API, which would require the user to have increased privileges and to have a more in-depth knowledge of Kubernetes CLI commands. With these new features the user has a simpler, more organized and more secure way of accessing crucial Kubeflow resource information.&lt;/p&gt;
-
-&lt;p&gt;Other notable features are small improvements on our user stories around PodDefaults. Aside from additional use-cases, like defining sidecar and init containers &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6749&quot;&gt;#6749&lt;/a&gt;, Kubeflow’s TensorBoard stack now integrates with PodDefaults &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6874&quot;&gt;#6874&lt;/a&gt; &lt;a href=&quot;https://github.com/kubeflow/kubeflow/pull/6924&quot;&gt;#6924&lt;/a&gt;. These enhancements enable the re-use of the user’s existing PodDefaults to gain S3 access from both Notebook and TensorBoard servers.&lt;/p&gt;
-
-&lt;h3 id=&quot;platform-dependencies-breaking-changes-add-ons&quot;&gt;Platform dependencies, breaking changes, add-ons&lt;/h3&gt;
-
-&lt;p&gt;Kubeflow 1.7 includes hundreds of commits. The Kubeflow release process includes several rounds of testing by the Kubeflow working groups and Kubeflow distributions. Kubeflow’s configuration options provide a high degree of flexibility. After considering all of the testing options, the 1.7 Release Team narrowed the critical dependencies for consistent testing and documentation to the following.&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;table&gt;
- &lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;K8s&lt;/strong&gt;
-&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;Istio&lt;/strong&gt;
-&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;KNative&lt;/strong&gt;
-&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;Kustomize&lt;/strong&gt;
-&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;Cert Mgr&lt;/strong&gt;
-&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;DEX&lt;/strong&gt;
-&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;Argo&lt;/strong&gt;
-&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;Tekton&lt;/strong&gt;
-&lt;/td&gt;
-&lt;td&gt;&lt;strong&gt;Oidc-authservice&lt;/strong&gt;
-&lt;/td&gt;
- &lt;/tr&gt;
- &lt;tr&gt;
-&lt;td&gt;1.25 / 1.24
-&lt;/td&gt;
-&lt;td&gt;1.16
-&lt;/td&gt;
-&lt;td&gt;1.8.1
-&lt;/td&gt;
-&lt;td&gt;3.2 or 5.0
-&lt;/td&gt;
-&lt;td&gt;1.10.1
-&lt;/td&gt;
-&lt;td&gt;2.31.2
-&lt;/td&gt;
-&lt;td&gt;3.3.8
-&lt;/td&gt;
-&lt;td&gt;1.5
-&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;e236439&lt;/code&gt;
-&lt;/td&gt;
- &lt;/tr&gt;
-&lt;/table&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;Another valuable platform enhancement is the support of additional processor architectures including IBM’s Power (&lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/6684&quot;&gt;#6684&lt;/a&gt;). This effort provides the foundation to add other processor types as well.&lt;/p&gt;
-
-&lt;p&gt;The 1.7 documentation includes overall &lt;a href=&quot;https://github.com/kubeflow/manifests#kubeflow-manifests&quot;&gt;installation instructions&lt;/a&gt; from the Manifest Working Group, and detailed feature reviews from each Kubeflow working group. Most of the working groups have broken their changelogs into subsections that highlight core features, UI enhancements, miscellaneous updates, bug fixes and breaking changes.&lt;/p&gt;
-
-&lt;p&gt;Working Group Changelogs including breaking changes&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/kubeflow/releases&quot;&gt;Notebooks&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/training-operator/blob/master/CHANGELOG.md&quot;&gt;Training Operator&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/katib/blob/master/CHANGELOG.md&quot;&gt;Katib&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/pipelines/blob/master/CHANGELOG.md&quot;&gt;Pipelines&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kserve/kserve/releases/&quot;&gt;KServe&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The community has continued its work to identify core components and add-ons. Significant enhancements in add-ons include the continued integration with KServe’s v.10 release, as well as a new serving option from BentoML. The BentoML team has done a tremendous job in supporting the Kubeflow community in 1.7 and their documentation is excellent. Details on BentoML are available &lt;a href=&quot;https://modelserving.com/blog/streamline-production-ml-with-bentoml-and-kubeflow&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;whats-next&quot;&gt;What’s next&lt;/h2&gt;
-
-&lt;p&gt;The community continues to see a large increase in activity since the &lt;a href=&quot;https://blog.kubeflow.org/kubeflow-applied-cncf-incubating/&quot;&gt;announcement&lt;/a&gt; that Kubeflow will be donated to the CNCF by Google. The community holds regular meetings to review progress on the checklist items needed for the CNCF due diligence (&lt;a href=&quot;https://docs.google.com/document/d/1HXAl6ew5ZUgQaAnEHS1qEPxA5puUz2knUwXOZHU39sA/edit?userstoinvite=mchmarny@google.com&amp;amp;actionButton=1&quot;&gt;meeting notes&lt;/a&gt;).&lt;/p&gt;
-
-&lt;p&gt;During the 1.7 release cycle, the community formed a Security Team, which is working to improve the security profile of Kubeflow components and their dependencies. The Security Team has completed these three deliveries:&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Set-up a github directory, slack channel and regular meeting schedule with &lt;a href=&quot;https://docs.google.com/document/d/10_uYpaFWvY2NyqGBPd0dbTt1RumX8MedNcGzKSdtSOY/edit?pli=1#&quot;&gt;notes&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Created an &lt;a href=&quot;https://github.com/kubeflow/manifests/blob/v1.7-branch/docs/kf_images.txt&quot;&gt;inventory&lt;/a&gt; of container images used by Kubeflow&lt;/li&gt;
-  &lt;li&gt;Created a list of common vulnerabilities and errors (CVEs) in the container images.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;Going forward, the Security Team will work to develop on-going policies and to remedy security issues. For example, fixing CVEs is an on-going maintenance requirement and this function is currently provided by Kubeflow distribution providers as a value added delivery. Some distributions and end-users are working to fix CVEs in the upstream projects and the Security Team is looking for help on defining and delivering those deliveries and expectations.&lt;/p&gt;
-
-&lt;p&gt;The Kubeflow team is working on integration efforts with the Ray and MLflow communities.The Ray integration progress has moved closer to user testing and users can find more information on this &lt;a href=&quot;https://github.com/kubeflow/manifests/pull/2383&quot;&gt;tracking issue&lt;/a&gt;. The MLflow integration is progressing and its integration is tracked &lt;a href=&quot;https://github.com/kubeflow/kubeflow/issues/6647&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-get-started-with-17&quot;&gt;How to get started with 1.7&lt;/h2&gt;
-
-&lt;p&gt;For trying out Kubeflow 1.7 we recommend our &lt;a href=&quot;https://www.kubeflow.org/docs/started/installing-kubeflow/&quot;&gt;installation page&lt;/a&gt; where you can choose between a selection of Kubeflow distributions. For more advanced users we recommend the manifest &lt;a href=&quot;https://github.com/kubeflow/manifests#installation&quot;&gt;installation guide&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;join-the-community&quot;&gt;Join the Community&lt;/h2&gt;
-
-&lt;p&gt;We would like to thank everyone for their contribution to Kubeflow 1.7, especially Dominik Fleischmann for his work as the v1.7 Release Manager. As you can see, the Kubeflow community is vibrant and diverse, solving real-world problems for organizations worldwide.&lt;/p&gt;
-
-&lt;p&gt;Want to help? The Kubeflow community &lt;a href=&quot;https://github.com/kubeflow/community/blob/master/wg-list.md&quot;&gt;Working Groups&lt;/a&gt; hold open meetings and are always looking for more volunteers and users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below. We look forward to working with you!&lt;/p&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Visit our &lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;Kubeflow website&lt;/a&gt; or &lt;a href=&quot;https://github.com/kubeflow&quot;&gt;Kubeflow GitHub Page&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Join the &lt;a href=&quot;https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg&quot;&gt;Kubeflow Slack channel&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Join the &lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss&quot;&gt;kubeflow-discuss&lt;/a&gt; mailing list&lt;/li&gt;
-  &lt;li&gt;Attend a &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;weekly community meeting&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Kubeflow 1.7 Release Team</name></author><category term="release" /><summary type="html">Kubeflow v1.7 users are capitalizing on their python knowledge to build seamless workflows without the need of Kubernetes CLI commands and without building container images for each iteration. With new UIs in multiple components, developers can correlate configuration parameters with logs which allow them to quickly analyze the results. When coupled with Kubeflow’s pythonic workflows and Kubernetes operating efficiencies, these enhancements save model developers material amounts of time and toil.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;Kubeflow community page&lt;/a&gt; to learn more. We look forward to working with you!&lt;/p&gt;</content><author><name>Anna Jung, Johnu George, and Josh Bottum</name></author><category term="community" /><summary type="html">In April 2023, the Kubeflow user survey opened, gathering community feedback. The survey aimed to comprehend the adoption of Kubeflow and collect input on the benefits, gaps, and requirements for machine learning use cases.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

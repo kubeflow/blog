@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2025-03-23T22:24:02-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">🚀 Announcing the Kubeflow Spark Operator Benchmarking Results</title><link href="https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks.html" rel="alternate" type="text/html" title="🚀 Announcing the Kubeflow Spark Operator Benchmarking Results" /><published>2025-03-15T00:00:00-05:00</published><updated>2025-03-15T00:00:00-05:00</updated><id>https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks</id><content type="html" xml:base="https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks.html">&lt;p&gt;Kubernetes has become the go-to platform for running large-scale &lt;a href=&quot;https://spark.apache.org/&quot;&gt;Apache Spark&lt;/a&gt; workloads. But as workloads scale, &lt;strong&gt;how do you ensure your Spark jobs run efficiently without hitting bottlenecks?&lt;/strong&gt; Managing thousands of concurrent Spark jobs can introduce &lt;strong&gt;severe performance challenges&lt;/strong&gt;—from &lt;strong&gt;CPU saturation&lt;/strong&gt; in the Spark Operator to &lt;strong&gt;Kubernetes API slowdowns&lt;/strong&gt; and &lt;strong&gt;job scheduling inefficiencies&lt;/strong&gt;.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2025-03-26T12:51:49-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">🚀 Announcing the Kubeflow Spark Operator Benchmarking Results</title><link href="https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks.html" rel="alternate" type="text/html" title="🚀 Announcing the Kubeflow Spark Operator Benchmarking Results" /><published>2025-03-15T00:00:00-05:00</published><updated>2025-03-15T00:00:00-05:00</updated><id>https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks</id><content type="html" xml:base="https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks.html">&lt;p&gt;Kubernetes has become the go-to platform for running large-scale &lt;a href=&quot;https://spark.apache.org/&quot;&gt;Apache Spark&lt;/a&gt; workloads. But as workloads scale, &lt;strong&gt;how do you ensure your Spark jobs run efficiently without hitting bottlenecks?&lt;/strong&gt; Managing thousands of concurrent Spark jobs can introduce &lt;strong&gt;severe performance challenges&lt;/strong&gt;—from &lt;strong&gt;CPU saturation&lt;/strong&gt; in the Spark Operator to &lt;strong&gt;Kubernetes API slowdowns&lt;/strong&gt; and &lt;strong&gt;job scheduling inefficiencies&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;p&gt;To address these challenges, we are excited to introduce the &lt;strong&gt;Kubeflow Spark Operator Benchmarking Results and Toolkit&lt;/strong&gt;—a comprehensive framework to analyze performance, pinpoint bottlenecks, and optimize your Spark on Kubernetes deployments.&lt;/p&gt;
 
@@ -657,7 +657,68 @@ In the blog, I’ll provide my personal insight into Katib, for those who are in
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;https://www.kubeflow.org&quot;&gt;What is Kubeflow?&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://www.kubeflow.org/events/gsoc-2025/&quot;&gt;Kubeflow GSoC’25 Event&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Shao Wang(Electronic-Waste)</name></author><category term="gsoc" /><summary type="html">This summer, I gained a precious opportunity to participate in the Google Summer of Code(GSoC), in which I would contribute to Katib and fulfill a project named “Push-based Metrics Collection in Katib” within 12 weeks. Firstly, I got to know about GSoC and Kubeflow with the recommendation from the former active maintainer Ce Gao(gaocegege)’s personal blog. And I was deeply impressed by the idea of cloud native AI toolkits, I decided to dive into this area and learn some skills to enhance my career and future. In the blog, I’ll provide my personal insight into Katib, for those who are interested in cloud native, AI, and hyperparameters tuning.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Kubeflow 1.9: New Tools for Model Management and Training Optimization</title><link href="https://blog.kubeflow.org/kubeflow-1.9-release/" rel="alternate" type="text/html" title="Kubeflow 1.9: New Tools for Model Management and Training Optimization" /><published>2024-07-22T00:00:00-05:00</published><updated>2024-07-22T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.9-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.9-release/">&lt;p&gt;Kubeflow 1.9 significantly simplifies the development, tuning and management of secure machine learning models and LLMs. Highlights include:&lt;/p&gt;
+&lt;/ul&gt;</content><author><name>Shao Wang(Electronic-Waste)</name></author><category term="gsoc" /><summary type="html">This summer, I gained a precious opportunity to participate in the Google Summer of Code(GSoC), in which I would contribute to Katib and fulfill a project named “Push-based Metrics Collection in Katib” within 12 weeks. Firstly, I got to know about GSoC and Kubeflow with the recommendation from the former active maintainer Ce Gao(gaocegege)’s personal blog. And I was deeply impressed by the idea of cloud native AI toolkits, I decided to dive into this area and learn some skills to enhance my career and future. In the blog, I’ll provide my personal insight into Katib, for those who are interested in cloud native, AI, and hyperparameters tuning.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">LLM Hyperparameter Optimization API: My Google Summer of Code Journey with Kubeflow</title><link href="https://blog.kubeflow.org/gsoc-2024-project-4/" rel="alternate" type="text/html" title="LLM Hyperparameter Optimization API: My Google Summer of Code Journey with Kubeflow" /><published>2024-09-19T00:00:00-05:00</published><updated>2024-09-19T00:00:00-05:00</updated><id>https://blog.kubeflow.org/gsoc-2024-summary-llm-hyperparameter-optimization-api</id><content type="html" xml:base="https://blog.kubeflow.org/gsoc-2024-project-4/">&lt;p&gt;This summer, I had the opportunity to participate in the Google Summer of Code (GSoC) program, where I contributed to Kubeflow, an open-source machine learning toolkit. My project focused on developing a high-level API for optimizing hyperparameters in Large Language Models (LLMs) within Katib, Kubeflow’s automated hyperparameter tuning system. I’d like to share insights from this experience with others interested in Kubeflow, GSoC, or optimizing LLMs.&lt;/p&gt;
+
+&lt;h2 id=&quot;motivation&quot;&gt;Motivation&lt;/h2&gt;
+
+&lt;p&gt;The rapid advancements and rising popularity of LLMs, such as GPT and BERT, have created a growing demand for efficient LLMOps in Kubernetes. To address this, we have developed a &lt;a href=&quot;https://www.kubeflow.org/docs/components/training/user-guides/fine-tuning/&quot;&gt;train API&lt;/a&gt; within the Training Python SDK, simplifying the process of fine-tuning LLMs using distributed PyTorchJob workers. However, hyperparameter optimization remains a crucial yet labor-intensive task for enhancing model performance.&lt;/p&gt;
+
+&lt;h2 id=&quot;goal&quot;&gt;Goal&lt;/h2&gt;
+
+&lt;p&gt;Hyperparameter optimization is essential but time-consuming, especially for LLMs with billions of parameters. This API simplifies the process by handling Kubernetes infrastructure, allowing data scientists to focus on model performance rather than system configuration.&lt;/p&gt;
+
+&lt;p&gt;With this API, users can import pretrained models and datasets from Hugging Face and Amazon S3, define parameters including the hyperparameter search space, optimization objective, and resource configuration. The API then automates the creation of Experiment, which contains multiple Trials with different hyperparameter settings using PyTorch distributed training. It then collects and analyzes the metrics from each Trial to identify the optimal hyperparameter configuration.&lt;/p&gt;
+
+&lt;p&gt;For detailed instruction on using the API, please refer to this &lt;a href=&quot;https://github.com/kubeflow/website/blob/b253c9402be94e7c5c044a0b1d2d9d86fd473149/content/en/docs/components/katib/user-guides/llm-hp-optimization.md&quot;&gt;guide&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/2024-09-19-gsoc-2024-llm-hyperparameter-optimization-api/design_tune_api.png&quot; alt=&quot;Design of API&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;my-contributions-to-the-gsoc-project&quot;&gt;My Contributions to the GSoC Project&lt;/h2&gt;
+
+&lt;p&gt;My work on the project can be broadly divided into four stages:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Stage 1&lt;/strong&gt;: Designing the API, drafting the project proposal, and refining it into a Kubeflow Enhancement Proposal (KEP).&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Stage 2&lt;/strong&gt;: Developing and implementing the high-level API.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Stage 3&lt;/strong&gt;: Implementing unit tests and end-to-end tests for the API.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Stage 4&lt;/strong&gt;: Creating documentation and presenting the work to the Kubeflow community.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In addition, I addressed several critical bugs in previous Katib and Training Operator releases and contributed new features, such as writing end-to-end tests for the train API.&lt;/p&gt;
+
+&lt;p&gt;For those interested, here is a &lt;a href=&quot;https://github.com/kubeflow/katib/issues/2339&quot;&gt;detailed summary&lt;/a&gt; of all the pull requests I submitted during this process.&lt;/p&gt;
+
+&lt;h2 id=&quot;lessons-learned&quot;&gt;Lessons Learned&lt;/h2&gt;
+
+&lt;p&gt;This is my first experience contributing to an open source project, and I gained extensive technical knowledge throughout this project, including Docker, Kubernetes, and Kubeflow itself. Before developing and implementing the API, I invested significant time onboarding and familiarizing myself with Kubeflow. The &lt;a href=&quot;https://www.kubeflow.org/docs/&quot;&gt;official documentation&lt;/a&gt; and &lt;a href=&quot;https://github.com/kubeflow&quot;&gt;GitHub repository&lt;/a&gt; were invaluable resources during this process.&lt;/p&gt;
+
+&lt;p&gt;Beyond these technical skills, I also learned several key lessons that extend into broader personal and professional growth.&lt;/p&gt;
+
+&lt;h3 id=&quot;think-from-the-users-perspective&quot;&gt;Think from the User’s Perspective&lt;/h3&gt;
+
+&lt;p&gt;One key lesson was the importance of considering the user’s needs. Discussing API design with my mentors taught me to focus on what functionalities users need and how they prefer to use them. Listening to users’ feedback is crucial for effective product design.&lt;/p&gt;
+
+&lt;h3 id=&quot;dont-fear-bugs&quot;&gt;Don’t Fear Bugs&lt;/h3&gt;
+
+&lt;p&gt;I used to feel overwhelmed by bugs and unsure how to tackle them. When a bug caused a container failure during a Katib trial, my mentor guided me through the debugging process, teaching me how to systematically trace and understand the issue. The key is to approach debugging methodically and think through each step of the problem.&lt;/p&gt;
+
+&lt;h3 id=&quot;communication-is-important&quot;&gt;Communication is Important&lt;/h3&gt;
+
+&lt;p&gt;Communication is important in collaboration, especially in open source projects. There are various ways of communicating in open-source projects, such as GitHub issues or PRs, Slack, and community meetings. And I’m grateful to my mentor for discussing my challenges during our weekly meetings and providing invaluable guidance.&lt;/p&gt;
+
+&lt;h3 id=&quot;every-contribution-counts&quot;&gt;Every Contribution Counts&lt;/h3&gt;
+
+&lt;p&gt;Initially, I thought contributing to open source was complex. I learned that every contribution, no matter how small, is valuable and appreciated. For example, contributing to documentation is crucial, especially for newcomers.&lt;/p&gt;
+
+&lt;h2 id=&quot;in-the-end&quot;&gt;In The End&lt;/h2&gt;
+
+&lt;p&gt;I am deeply grateful to everyone who supported me throughout this project. Your suggestions, advice, and encouragement were invaluable in helping me complete my work.&lt;/p&gt;
+
+&lt;p&gt;I especially want to extend my heartfelt thanks to my mentor, Andrey Velichkevich. His deep knowledge of both the project and the industry, combined with his willingness to help, has been incredibly inspiring. I greatly appreciate the time and effort he dedicated to guiding me, from the high-level design of the API to the finer details like code formatting. I have learned so much from his mentorship.&lt;/p&gt;
+
+&lt;p&gt;Looking ahead, I am excited to continue contributing to Kubeflow. I also look forward to helping future contributors by improving documentation and sharing my experiences with newcomers in the community.&lt;/p&gt;
+
+&lt;p&gt;If you’re interested in open-source and want to be part of Kubeflow, GSoC 2025 applications are now open! Check out the details &lt;a href=&quot;https://www.kubeflow.org/events/gsoc-2025/&quot;&gt;here&lt;/a&gt;—we’d love to have you join us!&lt;/p&gt;</content><author><name>Hezhi(Helen) Xie</name></author><category term="gsoc" /><summary type="html">This summer, I had the opportunity to participate in the Google Summer of Code (GSoC) program, where I contributed to Kubeflow, an open-source machine learning toolkit. My project focused on developing a high-level API for optimizing hyperparameters in Large Language Models (LLMs) within Katib, Kubeflow’s automated hyperparameter tuning system. I’d like to share insights from this experience with others interested in Kubeflow, GSoC, or optimizing LLMs.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Kubeflow 1.9: New Tools for Model Management and Training Optimization</title><link href="https://blog.kubeflow.org/kubeflow-1.9-release/" rel="alternate" type="text/html" title="Kubeflow 1.9: New Tools for Model Management and Training Optimization" /><published>2024-07-22T00:00:00-05:00</published><updated>2024-07-22T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.9-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.9-release/">&lt;p&gt;Kubeflow 1.9 significantly simplifies the development, tuning and management of secure machine learning models and LLMs. Highlights include:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;strong&gt;Model Registry&lt;/strong&gt;: Centralized management for ML models, versions, and artifacts.&lt;/li&gt;
@@ -1274,158 +1335,4 @@ The 1.8 documentation includes overall installation instructions from the Manife
   &lt;li&gt;Join the &lt;a href=&quot;https://join.slack.com/t/kubeflow/shared_invite/enQtMjgyMzMxNDgyMTQ5LWUwMTIxNmZlZTk2NGU0MmFiNDE4YWJiMzFiOGNkZGZjZmRlNTExNmUwMmQ2NzMwYzk5YzQxOWQyODBlZGY2OTg&quot;&gt;Kubeflow Slack channel&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Join the &lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss&quot;&gt;kubeflow-discuss&lt;/a&gt; mailing list&lt;/li&gt;
   &lt;li&gt;Attend a &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;weekly community meeting&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Kubeflow 1.8 Release Team, David Cardozo and Josh Bottum</name></author><category term="release" /><summary type="html">Kubeflow v1.8’s powerful workflows uniquely deliver Kubernetes-native MLOps, which dramatically reduce yaml wrangling. ML pipelines are now constructed as modular components, enabling easily chainable and reusable ML workflows. The new Katib SDK reduces manual configuration and simplifies the delivery of your tuned model. v1.8 also introduces the PVC Viewer for easier persistent storage management eliminating the need for Kubernetes CLI storage commands.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Kubeflow User Survey 2023</title><link href="https://blog.kubeflow.org/kubeflow-user-survey-2023/" rel="alternate" type="text/html" title="Kubeflow User Survey 2023" /><published>2023-07-26T00:00:00-05:00</published><updated>2023-07-26T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-user-survey-2023</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-user-survey-2023/">&lt;p&gt;In April 2023, the Kubeflow user survey opened, gathering community feedback. The survey aimed to comprehend the
-adoption of Kubeflow and collect input on the benefits, gaps, and requirements for machine learning use cases.&lt;/p&gt;
-
-&lt;p&gt;The survey consisted of 21 questions, including multiple-choice and freeform formats. It ran from April 11th to May 26th
-and received 90 responses. The 2023 survey yielded more targeted and actionable freeform answers, which provided further
-insights into users’ requirements and potential enhancements for Kubeflow. Furthermore, we received a significant amount
-of positive feedback regarding the factors that contribute to the success of Kubeflow and its community. One survey
-respondent expressed their appreciation, stating, &lt;em&gt;“I love that it helps teams do high-quality ML work while providing
-flexibility. I love that it is open-source. I love that the community keeps working hard and making it better.”&lt;/em&gt; Another
-respondent highlighted their liking for Kubeflow due to &lt;em&gt;“the broad potential of some of the projects (like Pipelines
-components) and the different integrations that make for more of an end-to-end experience.”&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;We thank everyone for participating in the survey and we will use both the improvements and positive feedback to steer
-our efforts in enhancing Kubeflow, ensuring it remains a user-centric platform for all.&lt;/p&gt;
-
-&lt;h2 id=&quot;key-takeaways&quot;&gt;Key Takeaways&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;84% of the users deploy more than one Kubeflow component&lt;/li&gt;
-  &lt;li&gt;The top 3 Kubeflow components are Pipelines (90%), Notebooks (76%), and Katib (47%)&lt;/li&gt;
-  &lt;li&gt;The top contrib component used by the user is KServe (62%)&lt;/li&gt;
-  &lt;li&gt;Documentation (55%) is the biggest gap in Kubeflow, followed by tutorials (50%) and tied for third place,
-installation (39%) and upgrades (39%)&lt;/li&gt;
-  &lt;li&gt;Monitoring models (45%) is the biggest gap in the users’ ML lifecycle, followed by model registry (44%) and initial
-setup (39%)&lt;/li&gt;
-  &lt;li&gt;52% of the users use the raw manifest installation to install Kubeflow&lt;/li&gt;
-  &lt;li&gt;The top distribution used to install Kubeflow is AWS (28%) followed by Google Cloud (17%)&lt;/li&gt;
-  &lt;li&gt;74% of the users deploy Kubeflow on the cloud and 45% on-prem&lt;/li&gt;
-  &lt;li&gt;49% of the users are running Kubeflow in production&lt;/li&gt;
-  &lt;li&gt;17% of the users are contributing back to Kubeflow&lt;/li&gt;
-  &lt;li&gt;49% of the users are keeping up with the latest Kubeflow 1.7 release and 43% are running a version behind Kubeflow 1.6&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;survey-respondents&quot;&gt;Survey Respondents&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/2023-07-26-kubeflow-user-survey-2023/demographics_location_industry.png&quot; alt=&quot;2023 survey demographics and location graph&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The Kubeflow user survey drew responses from 90 members of the community mostly made up of members from the United
-States (43%), Europe (34%), and Asia-Pacific (10%). The majority of the respondents were from the Tech industry (49%),
-followed by Finance (13%) and Consulting (11%).&lt;/p&gt;
-
-&lt;p&gt;While there is diversity in roles that make up the community, most of the community members had the title MLOps
-Engineer (18%), ML Engineer (17%), and Architect (15%).&lt;/p&gt;
-
-&lt;p&gt;In the last year’s 2022 User Survey, we started to see an increase in the number of users adopting Kubeflow in their
-production environment and actively contributing to the Kubeflow project as their expertise with the project grew. This
-year, we see the trend continuing with the highest percentage of Kubeflow running in production (49%) and the highest
-number of users contributing to the project (17%). As the adoption of Kubeflow continues to rise, this will have a
-significant impact on the positive growth and development of the project.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/2023-07-26-kubeflow-user-survey-2023/demographics_kubeflow_experience.png&quot; alt=&quot;2023 survey demographics kubeflow experience graph&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;documentation-and-tutorials&quot;&gt;Documentation and Tutorials&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/2023-07-26-kubeflow-user-survey-2023/kubeflow_gaps.png&quot; alt=&quot;2023 survey Kubeflow gaps graph&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Documentation and tutorial have been a challenge in the community for a while, and the trend continues this year with
-documentation (55%) voted as the number one biggest gap in Kubeflow, followed by Tutorials (49%) as the second biggest
-gap.&lt;/p&gt;
-
-&lt;p&gt;In the previous surveys, the feedback on documentation and tutorials was very generic. However, this year, the users are
-asking for specific documentation to help them adopt Kubeflow better. Some of the documentation and tutorials users are
-looking for are the following:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Tutorials and examples of how to leverage the new features delivered with the new releases&lt;/li&gt;
-  &lt;li&gt;An architecture diagram of Kubeflow of how each component works&lt;/li&gt;
-  &lt;li&gt;How to setup Transport Layer Security (TLS) with raw manifest installation&lt;/li&gt;
-  &lt;li&gt;A user onboarding documentation on how to add contributors to the platform and map credentials&lt;/li&gt;
-  &lt;li&gt;Documentation to show integration with other tools like MLflow&lt;/li&gt;
-  &lt;li&gt;Examples of all the capabilities of KFP packages&lt;/li&gt;
-  &lt;li&gt;Documentation to cover the RBAC and authorization in Kubeflow&lt;/li&gt;
-  &lt;li&gt;Upgrade guide for every release&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;In addition to the specific ask, the major themes in what type of documentation improvements users are asking for are&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Documentation for advanced users and advanced use cases&lt;/li&gt;
-  &lt;li&gt;Documentation for best practices around Kubeflow&lt;/li&gt;
-  &lt;li&gt;More diverse end-to-end examples, not just the mnist example&lt;/li&gt;
-  &lt;li&gt;Frequent updates to documentation as many are out of date&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;To address the challenges of Kubeflow documentation, we are looking for help from our community. If you are interested in
-improving current Kubeflow documentation and work on future improvements, we invite you to join us at the next community
-meeting to introduce yourself to the community.&lt;/p&gt;
-
-&lt;h3 id=&quot;installation-and-upgrades&quot;&gt;Installation and Upgrades&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/2023-07-26-kubeflow-user-survey-2023/kubeflow_installation.png&quot; alt=&quot;2023 survey Kubeflow installation graph&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;One of the top three voted answers to the biggest gap in Kubeflow was installation tied with upgrades. The survey result
-showed that 52% of the users use the raw manifest installation to install Kubeflow. With the sole support of Kustomize
-as a choice of installation tool for Kubeflow, many users are looking for more diverse support for tooling, especially
-Helm.&lt;/p&gt;
-
-&lt;p&gt;One of the biggest reasons for Helm support requests is due to complexity of installation. One survey respondent shared,
-&lt;em&gt;“Kustomize does not quite provide the same experience and requires a lot more familiarity with the underlying systems
-and manifests to properly configure…,”&lt;/em&gt; which makes installation too difficult for a small team trying to adopt
-Kubeflow.&lt;/p&gt;
-
-&lt;p&gt;For some, support for a different installation tool isn’t the answer. We also received much feedback on the installation
-needing to be more lightweight. Due to the complexity of the stack and integration of many components, people are
-struggling to customize their Kubeflow instance due to tight coupling and requirements of large resources.&lt;/p&gt;
-
-&lt;p&gt;In addition to installation, upgrades are also on top of the mind for many of the users. While there are some upgrade
-guides for specific distributions, many of the users are installing Kubeflow without distribution. Without upgrade
-guides provided for the raw manifest installation, upgrades are taking a great amount of effort for the users.&lt;/p&gt;
-
-&lt;h3 id=&quot;monitoring-models-and-model-registry&quot;&gt;Monitoring Models and Model Registry&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/2023-07-26-kubeflow-user-survey-2023/kubeflow_gaps_ml_lifecycle.png&quot; alt=&quot;2023 survey Kubeflow ML lifecycle gaps graph&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;In last year’s survey, monitoring surged to the top as the biggest gap in the machine learning lifecycle. This year, the
-trend continued with monitoring (45%) voted as the number one concern, closely followed by model registry (44%).&lt;/p&gt;
-
-&lt;p&gt;For both gaps, users are looking for a built-in solution that addresses monitoring and model registry needs, with
-specific requests for support of Grafana and MLflow integrations to enable a seamless experience with Kubeflow
-pipelines. With a lack of support for both of these tools, users are expressing concerns about the challenges they face
-in managing and tracking their models.&lt;/p&gt;
-
-&lt;h3 id=&quot;security&quot;&gt;Security&lt;/h3&gt;
-
-&lt;p&gt;In the previous &lt;a href=&quot;https://blog.kubeflow.org/kubeflow-user-survey-2022/&quot;&gt;2022 Kubeflow User Survey&lt;/a&gt;, security emerged as
-one of the top three voted answers, highlighting it as a significant gap in Kubeflow. Since then, the community has
-placed a strong emphasis on security, leading to the formation of the Kubeflow Security Team comprising members with a
-security-focused mindset. Their primary objective is to address security concerns and ensure that Kubeflow remains a
-robust and secure platform for all its users. For further details, visit
-the &lt;a href=&quot;https://github.com/kubeflow/kubeflow/tree/master/security&quot;&gt;Kubeflow security team&lt;/a&gt; and consider joining the next
-security team meeting.&lt;/p&gt;
-
-&lt;h2 id=&quot;whats-next&quot;&gt;What’s Next?&lt;/h2&gt;
-
-&lt;p&gt;Currently, all working groups are working towards the 1.8 release, planned to release
-on &lt;a href=&quot;https://github.com/kubeflow/community/tree/master/releases/release-1.8&quot;&gt;October 4th, 2023&lt;/a&gt;. Upon successful delivery
-of the 1.8 release, each working group will shift their focus towards prioritizing features for the next subsequent
-release. During the initial planning phase of the new release, each working group leads will reevaluate the survey
-results to determine their priorities driven by your survey feedback. If you are interested in the future direction of
-each working group, join them in discussing their roadmap at their future meetings. All Kubeflow community meetings can
-be found in
-the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/#kubeflow-community-calendars&quot;&gt;Kubeflow community calendar&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;As for improvements to the documentation and tutorials, Kubeflow community is actively seeking help from our community
-members. If you are interested in improving current Kubeflow documentation and work on future improvements, we invite
-you to join us at the next community meeting to introduce yourself to the community and express your interest in joining this effort.&lt;/p&gt;
-
-&lt;h2 id=&quot;join-the-community&quot;&gt;Join the Community&lt;/h2&gt;
-
-&lt;p&gt;We would like to thank everyone for their participation in the survey. As you can see from the survey results, the
-Kubeflow Community is vibrant and diverse, solving real-world problems for organizations worldwide.&lt;/p&gt;
-
-&lt;p&gt;Want to help? The Kubeflow Community Working Groups hold open meetings and are always looking for more volunteers and
-users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, check out
-the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;Kubeflow community page&lt;/a&gt; to learn more. We look forward to working with you!&lt;/p&gt;</content><author><name>Anna Jung, Johnu George, and Josh Bottum</name></author><category term="community" /><summary type="html">In April 2023, the Kubeflow user survey opened, gathering community feedback. The survey aimed to comprehend the adoption of Kubeflow and collect input on the benefits, gaps, and requirements for machine learning use cases.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;/ul&gt;</content><author><name>Kubeflow 1.8 Release Team, David Cardozo and Josh Bottum</name></author><category term="release" /><summary type="html">Kubeflow v1.8’s powerful workflows uniquely deliver Kubernetes-native MLOps, which dramatically reduce yaml wrangling. ML pipelines are now constructed as modular components, enabling easily chainable and reusable ML workflows. The new Katib SDK reduces manual configuration and simplifies the delivery of your tuned model. v1.8 also introduces the PVC Viewer for easier persistent storage management eliminating the need for Kubernetes CLI storage commands.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

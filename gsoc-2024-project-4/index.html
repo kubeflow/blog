@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>LLM Hyperparameter Optimization API: My Google Summer of Code Journey with Kubeflow | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="LLM Hyperparameter Optimization API: My Google Summer of Code Journey with Kubeflow" />
+<meta name="author" content="Hezhi(Helen) Xie" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This summer, I had the opportunity to participate in the Google Summer of Code (GSoC) program, where I contributed to Kubeflow, an open-source machine learning toolkit. My project focused on developing a high-level API for optimizing hyperparameters in Large Language Models (LLMs) within Katib, Kubeflow’s automated hyperparameter tuning system. I’d like to share insights from this experience with others interested in Kubeflow, GSoC, or optimizing LLMs." />
+<meta property="og:description" content="This summer, I had the opportunity to participate in the Google Summer of Code (GSoC) program, where I contributed to Kubeflow, an open-source machine learning toolkit. My project focused on developing a high-level API for optimizing hyperparameters in Large Language Models (LLMs) within Katib, Kubeflow’s automated hyperparameter tuning system. I’d like to share insights from this experience with others interested in Kubeflow, GSoC, or optimizing LLMs." />
+<link rel="canonical" href="https://blog.kubeflow.org/gsoc-2024-project-4/" />
+<meta property="og:url" content="https://blog.kubeflow.org/gsoc-2024-project-4/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-09-19T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/gsoc-2024-project-4/","@type":"BlogPosting","headline":"LLM Hyperparameter Optimization API: My Google Summer of Code Journey with Kubeflow","dateModified":"2024-09-19T00:00:00-05:00","datePublished":"2024-09-19T00:00:00-05:00","image":"https://blog.kubeflow.org/images/logo.png","author":{"@type":"Person","name":"Hezhi(Helen) Xie"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/gsoc-2024-project-4/"},"description":"This summer, I had the opportunity to participate in the Google Summer of Code (GSoC) program, where I contributed to Kubeflow, an open-source machine learning toolkit. My project focused on developing a high-level API for optimizing hyperparameters in Large Language Models (LLMs) within Katib, Kubeflow’s automated hyperparameter tuning system. I’d like to share insights from this experience with others interested in Kubeflow, GSoC, or optimizing LLMs.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">LLM Hyperparameter Optimization API: My Google Summer of Code Journey with Kubeflow</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2024-09-19T00:00:00-05:00" itemprop="datePublished">
+        Sep 19, 2024
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Hezhi(Helen) Xie</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#gsoc">gsoc</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>This summer, I had the opportunity to participate in the Google Summer of Code (GSoC) program, where I contributed to Kubeflow, an open-source machine learning toolkit. My project focused on developing a high-level API for optimizing hyperparameters in Large Language Models (LLMs) within Katib, Kubeflow’s automated hyperparameter tuning system. I’d like to share insights from this experience with others interested in Kubeflow, GSoC, or optimizing LLMs.</p>
+
+<h2 id="motivation">Motivation</h2>
+
+<p>The rapid advancements and rising popularity of LLMs, such as GPT and BERT, have created a growing demand for efficient LLMOps in Kubernetes. To address this, we have developed a <a href="https://www.kubeflow.org/docs/components/training/user-guides/fine-tuning/">train API</a> within the Training Python SDK, simplifying the process of fine-tuning LLMs using distributed PyTorchJob workers. However, hyperparameter optimization remains a crucial yet labor-intensive task for enhancing model performance.</p>
+
+<h2 id="goal">Goal</h2>
+
+<p>Hyperparameter optimization is essential but time-consuming, especially for LLMs with billions of parameters. This API simplifies the process by handling Kubernetes infrastructure, allowing data scientists to focus on model performance rather than system configuration.</p>
+
+<p>With this API, users can import pretrained models and datasets from Hugging Face and Amazon S3, define parameters including the hyperparameter search space, optimization objective, and resource configuration. The API then automates the creation of Experiment, which contains multiple Trials with different hyperparameter settings using PyTorch distributed training. It then collects and analyzes the metrics from each Trial to identify the optimal hyperparameter configuration.</p>
+
+<p>For detailed instruction on using the API, please refer to this <a href="https://github.com/kubeflow/website/blob/b253c9402be94e7c5c044a0b1d2d9d86fd473149/content/en/docs/components/katib/user-guides/llm-hp-optimization.md">guide</a></p>
+
+<p><img src="../images/2024-09-19-gsoc-2024-llm-hyperparameter-optimization-api/design_tune_api.png" alt="Design of API" /></p>
+
+<h2 id="my-contributions-to-the-gsoc-project">My Contributions to the GSoC Project</h2>
+
+<p>My work on the project can be broadly divided into four stages:</p>
+
+<ul>
+  <li><strong>Stage 1</strong>: Designing the API, drafting the project proposal, and refining it into a Kubeflow Enhancement Proposal (KEP).</li>
+  <li><strong>Stage 2</strong>: Developing and implementing the high-level API.</li>
+  <li><strong>Stage 3</strong>: Implementing unit tests and end-to-end tests for the API.</li>
+  <li><strong>Stage 4</strong>: Creating documentation and presenting the work to the Kubeflow community.</li>
+</ul>
+
+<p>In addition, I addressed several critical bugs in previous Katib and Training Operator releases and contributed new features, such as writing end-to-end tests for the train API.</p>
+
+<p>For those interested, here is a <a href="https://github.com/kubeflow/katib/issues/2339">detailed summary</a> of all the pull requests I submitted during this process.</p>
+
+<h2 id="lessons-learned">Lessons Learned</h2>
+
+<p>This is my first experience contributing to an open source project, and I gained extensive technical knowledge throughout this project, including Docker, Kubernetes, and Kubeflow itself. Before developing and implementing the API, I invested significant time onboarding and familiarizing myself with Kubeflow. The <a href="https://www.kubeflow.org/docs/">official documentation</a> and <a href="https://github.com/kubeflow">GitHub repository</a> were invaluable resources during this process.</p>
+
+<p>Beyond these technical skills, I also learned several key lessons that extend into broader personal and professional growth.</p>
+
+<h3 id="think-from-the-users-perspective">Think from the User’s Perspective</h3>
+
+<p>One key lesson was the importance of considering the user’s needs. Discussing API design with my mentors taught me to focus on what functionalities users need and how they prefer to use them. Listening to users’ feedback is crucial for effective product design.</p>
+
+<h3 id="dont-fear-bugs">Don’t Fear Bugs</h3>
+
+<p>I used to feel overwhelmed by bugs and unsure how to tackle them. When a bug caused a container failure during a Katib trial, my mentor guided me through the debugging process, teaching me how to systematically trace and understand the issue. The key is to approach debugging methodically and think through each step of the problem.</p>
+
+<h3 id="communication-is-important">Communication is Important</h3>
+
+<p>Communication is important in collaboration, especially in open source projects. There are various ways of communicating in open-source projects, such as GitHub issues or PRs, Slack, and community meetings. And I’m grateful to my mentor for discussing my challenges during our weekly meetings and providing invaluable guidance.</p>
+
+<h3 id="every-contribution-counts">Every Contribution Counts</h3>
+
+<p>Initially, I thought contributing to open source was complex. I learned that every contribution, no matter how small, is valuable and appreciated. For example, contributing to documentation is crucial, especially for newcomers.</p>
+
+<h2 id="in-the-end">In The End</h2>
+
+<p>I am deeply grateful to everyone who supported me throughout this project. Your suggestions, advice, and encouragement were invaluable in helping me complete my work.</p>
+
+<p>I especially want to extend my heartfelt thanks to my mentor, Andrey Velichkevich. His deep knowledge of both the project and the industry, combined with his willingness to help, has been incredibly inspiring. I greatly appreciate the time and effort he dedicated to guiding me, from the high-level design of the API to the finer details like code formatting. I have learned so much from his mentorship.</p>
+
+<p>Looking ahead, I am excited to continue contributing to Kubeflow. I also look forward to helping future contributors by improving documentation and sharing my experiences with newcomers in the community.</p>
+
+<p>If you’re interested in open-source and want to be part of Kubeflow, GSoC 2025 applications are now open! Check out the details <a href="https://www.kubeflow.org/events/gsoc-2025/">here</a>—we’d love to have you join us!</p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/gsoc-2024-project-4/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

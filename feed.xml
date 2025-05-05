@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2025-04-04T20:44:31-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow 1.10 Release Announcement</title><link href="https://blog.kubeflow.org/kubeflow-1.10-release/" rel="alternate" type="text/html" title="Kubeflow 1.10 Release Announcement" /><published>2025-03-26T00:00:00-05:00</published><updated>2025-03-26T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.10-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.10-release/">&lt;p&gt;Kubeflow 1.10.0 delivers essential updates that enhance the flexibility, efficiency, and scalability of machine learning
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2025-05-05T11:35:53-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow 1.10 Release Announcement</title><link href="https://blog.kubeflow.org/kubeflow-1.10-release/" rel="alternate" type="text/html" title="Kubeflow 1.10 Release Announcement" /><published>2025-03-26T00:00:00-05:00</published><updated>2025-03-26T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.10-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.10-release/">&lt;p&gt;Kubeflow 1.10.0 delivers essential updates that enhance the flexibility, efficiency, and scalability of machine learning
 workflows. The new features span across several components, improving both user experience and system performance.&lt;/p&gt;
 
 &lt;h2 id=&quot;highlight-features&quot;&gt;Highlight features&lt;/h2&gt;
@@ -358,7 +358,7 @@ Started and Support pages.&lt;/p&gt;
 work as the v1.10 Release Manager, all the release team and the working group leads, who relentlessly dedicate their
 time to this great project.&lt;/p&gt;
 
-&lt;p&gt;Release team members : Ricardo Martinelli De Oliveira, Dimitris Poulopoulos, Matteo Morttari, Julius von Kohout
+&lt;p&gt;Release team members : Ricardo Martinelli De Oliveira, Dimitris Poulopoulos, Matteo Mortari, Julius von Kohout
 Valentina Rodriguez Sosa, Helber Belmiro, Vraj Bhatt, Diego Lovison, Dagvanorov Lkhagvajav, Sailesh Duddupudi,
 Manos Vlassis, Tarek Abouzeid, Milos Grubjesic&lt;/p&gt;
 

@@ -1,3 +1,14 @@
+---
+toc: true
+layout: post
+categories: [ trainer ]
+comments: true
+title: "Introducing Kubeflow Trainer V2"
+hide: false
+permalink: /trainer/intro/
+author: "AutoML & Training WG"
+---
+
 Running machine learning workloads on Kubernetes can be challenging. Distributed training, in particular, involves managing multiple nodes, GPUs, large datasets, and fault tolerance, which often requires deep Kubernetes knowledge. The **Kubeflow Trainer v2 (KF Trainer)** was created to simplify this complexity, by making training on Kubernetes easier for data scientists and machine learning engineers.
 
 **The main goals of KF Trainer v2 include:**

@@ -9,7 +9,7 @@ permalink: /trainer/intro/
 author: "AutoML & Training WG"
 ---
 
-Running machine learning workloads on Kubernetes can be challenging. Distributed training, in particular, involves managing multiple nodes, GPUs, large datasets, and fault tolerance, which often requires deep Kubernetes knowledge. The **Kubeflow Trainer v2 (KF Trainer)** was created to simplify this complexity, by making training on Kubernetes easier for data scientists and machine learning engineers.
+Running machine learning workloads on Kubernetes can be challenging. Distributed training, in particular, involves managing multiple nodes, GPUs, large datasets, and fault tolerance, which often requires deep Kubernetes knowledge. The **Kubeflow Trainer v2 (KF Trainer)** was created to simplify this complexity, by making training on Kubernetes easier for AI Practitioners.
 
 **The main goals of KF Trainer v2 include:**
 - Make AI/ML workloads easier to manage at scale
@@ -34,7 +34,7 @@ Over the years, the project expanded to support multiple ML frameworks including
 
 # Division of Labor
 
-One of the main challenges with ML training on Kubernetes is that it often requires **data scientists** to have an understanding of **Kubernetes concepts** and the **infrastructure** being used for training. This distracts data scientists from their primary focus.
+One of the main challenges with ML training on Kubernetes is that it often requires **AI Practitioners** to have an understanding of **Kubernetes concepts** and the **infrastructure** being used for training. This distracts AI Practitioners from their primary focus.
 
 **The KF Trainer v2** addresses this by **separating the infrastructure configuration from the training job definition**. This separation is built around three new custom resources definitions (CRDs):
 - `TrainingRuntime` - a namespace-scoped resource that contains the infrastructure details that are required for a training job, such as the training image to use, failure policy, and gang-scheduling configuration.
@@ -43,14 +43,14 @@ One of the main challenges with ML training on Kubernetes is that it often requi
 
 The diagram below shows how different personas interact with these custom resources:
 
-![division_of_labor](/images/2025-07-09-introducing-trainer-v2/division_of_labour.png)
+![division_of_labor](/images/2025-07-09-introducing-trainer-v2/user-personas.drawio.svg)
 
 - **Platform Engineers** define and manage **the infrastructure configurations** required for training jobs using `TrainingRuntimes` or `ClusterTrainingRuntimes`. 
-- **Data Scientists** focus on model development using the simplified `TrainJob` resource or **Python SDK** wrapper, providing a reference to **the training runtime** created by **Platform Engineers**.
+- **AI Practitioners** focus on model development using the simplified `TrainJob` resource or **Python SDK** wrapper, providing a reference to **the training runtime** created by **Platform Engineers**.
 
 # Python SDK
 
-**The KF Trainer v2** introduces a **redesigned Python SDK**, which is intended to be the **primary interface for data scientist users**. The SDK provides a unified interface across multiple ML frameworks and cloud environments, abstracting away the underlying Kubernetes complexity.
+**The KF Trainer v2** introduces a **redesigned Python SDK**, which is intended to be the **primary interface for AI Practitioners**. The SDK provides a unified interface across multiple ML frameworks and cloud environments, abstracting away the underlying Kubernetes complexity.
 
 The diagram below illustrates how Kubeflow Trainer provides a unified layer across different ML frameworks, Kubernetes infrastructure and cloud providers:
 
@@ -81,7 +81,7 @@ for step in job.steps:
 
 client.get_job_logs(job_name, follow=True)
 ```
-The SDK handles all Kubernetes API interactions. This eliminates the need for data scientists to directly interact with the Kubernetes API.
+The SDK handles all Kubernetes API interactions. This eliminates the need for AI Practitioners to directly interact with the Kubernetes API.
 
 # Simplified API
 
@@ -145,7 +145,7 @@ spec:
     kind: ClusterTrainingRuntime
 ```
 
-Additional **infrastructure** and **Kubernetes-specific** details are provided in the referenced **runtime** definition, and managed separately by **platform engineers**.
+Additional **infrastructure** and **Kubernetes-specific** details are provided in the referenced **runtime** definition, and managed separately by **Platform Engineers**.
 
 # Extensibility and Pipeline Framework
 
@@ -160,10 +160,10 @@ The framework works through a series of phases - **Startup**, **PreExecution**, 
 # LLM Fine-Tuning Support
 
 Another improvement of **Trainer v2** is its **built-in support for fine-tuning large language models**, where we provide two types of trainers:
-- `BuiltinTrainer` - already includes the fine-tuning logic and allows data scientists to quickly start fine-tuning requiring only parameter adjustments.
+- `BuiltinTrainer` - already includes the fine-tuning logic and allows AI Practitioners to quickly start fine-tuning requiring only parameter adjustments.
 - `CustomTrainer` - allows users to provide their own training function that encapsulates the entire model training process.
 
-This approach means that in the future, we can add more frameworks, as `BuiltinTrainer` options, for example [unsloth](https://github.com/unslothai/unsloth). It makes it easier for data scientists to fine-tune LLMs using the KF Trainer with their preferred framework. Here’s an example using the `BuiltinTrainer` with **torchtune**:
+This approach means that in the future, we can add more frameworks, as `BuiltinTrainer` options, for example [unsloth](https://github.com/unslothai/unsloth). It makes it easier for AI Practitioners to fine-tune LLMs using the KF Trainer with their preferred framework. Here’s an example using the `BuiltinTrainer` with **torchtune**:
 
 ```
 job_name = TrainerClient().train(
@@ -186,7 +186,7 @@ job_name = TrainerClient().train(
 )
 ```
 
-This example uses a **builtin runtime image** that uses a foundation Llama model, and fine-tunes it using a dataset pulled from Hugging Face, with the torchtune configuration provided by the data scientist.
+This example uses a **builtin runtime image** that uses a foundation Llama model, and fine-tunes it using a dataset pulled from Hugging Face, with the torchtune configuration provided by the AI Practitioner.
 
 To further simplify LLM fine-tuning, the **KF Trainer v2** provides **runtime configurations** for models such as **Llama 3.2** (available in 1B and 3B variants), which makes it easier for users to configure common LLM fine-tuning jobs.
 

@@ -20,11 +20,15 @@ Running machine learning workloads on Kubernetes can be challenging. Distributed
 
 We’re deeply grateful to all contributors and community members who made the **Trainer v2** possible with their hard work and valuable feedback. We’re deeply grateful to all contributors and community members who made the Trainer v2 possible with their hard work and valuable feedback. We'd like to give special recognition to [andreyvelich](https://github.com/andreyvelich), [tenzen-y](https://github.com/tenzen-y), [electronic-waste](https://github.com/electronic-waste), [astefanutti](https://github.com/astefanutti), [ironicbo](https://github.com/ironicbo), [mahdikhashan](https://github.com/mahdikhashan), [kramaranya](https://github.com/kramaranya), [harshal292004](https://github.com/harshal292004), [akshaychitneni](https://github.com/akshaychitneni), [chenyi015](https://github.com/chenyi015) and the rest of the contributors. See the full [contributor list](https://kubeflow.devstats.cncf.io/d/66/developer-activity-counts-by-companies?orgId=1&var-period_name=Last%206%20months&var-metric=commits&var-repogroup_name=kubeflow%2Ftrainer&var-country_name=All&var-companies=All) for everyone who helped make this release possible.
 
+For more details about Kubeflow Trainer, you can also watch our KubeCon presentations:
+- [Democratizing AI Model Training on Kubernetes with Kubeflow TrainJob and JobSet](https://youtu.be/Lgy4ir1AhYw)
+- [From High Performance Computing To AI Workloads on Kubernetes: MPI Runtime in Kubeflow TrainJob](https://youtu.be/Fnb1a5Kaxgo)
+
 # Background and Evolution
 
 **Kubeflow Trainer v2** represents the next evolution of the **Kubeflow Training Operator**, building on over seven years of experience running ML workloads on Kubernetes. The journey began in 2017 when the **Kubeflow** project introduced **TFJob** to orchestrate TensorFlow training on Kubernetes. At that time, Kubernetes lacked many of the advanced batch processing features needed for distributed ML training, so the community had to implement these capabilities from scratch.
 
-Over the years, the project expanded to support multiple ML frameworks including **PyTorch**, **MXNet**, **MPI**, and **XGBoost** through various specialized operators. In 2021, these were consolidated into the unified **Training Operator v1**. Meanwhile, the Kubernetes community introduced the **Batch Working Group**, developing important APIs like JobSet, Kueue, Indexed Jobs, and PodFailurePolicy that improved HPC and AI workload management.
+Over the years, the project expanded to support multiple ML frameworks including **PyTorch**, **MXNet**, **MPI**, and **XGBoost** through various specialized operators. In 2021, these were consolidated into the unified **[Training Operator v1](https://docs.google.com/document/d/1x1JPDQfDMIbnoQRftDH1IzGU0qvHGSU4W6Jl4rJLPhI/edit?tab=t.0#heading=h.e33ufidnl8z6)**. Meanwhile, the Kubernetes community introduced the **Batch Working Group**, developing important APIs like JobSet, Kueue, Indexed Jobs, and PodFailurePolicy that improved HPC and AI workload management.
 
 **Trainer v2** leverages these Kubernetes-native improvements to re-use existing functionality and not reinventing the wheel. This collaboration between the Kubernetes and Kubeflow communities delivers a more standardized approach to ML training on Kubernetes.
 
@@ -198,7 +202,7 @@ Under the hood, the **KF Trainer v2** uses **[JobSet](https://jobset.sigs.k8s.io
 
 # Kueue Integration
 
-Resource management is improved through integration with **[Kueue](https://kueue.sigs.k8s.io/)**, a **Kubernetes-native queueing system**. The KF Trainer v2 includes initial support for Kueue through Pod Integration, which allows individual training pods to be queued when resources are busy. We are working on **native Kueue support** for `TrainJob` to provide richer queueing features in future releases.
+Resource management is improved through integration with **[Kueue](https://kueue.sigs.k8s.io/)**, a **Kubernetes-native queueing system**. The KF Trainer v2 includes initial support for Kueue through Pod Integration, which allows individual training pods to be queued when resources are busy. We are working on **[native Kueue support](https://github.com/kubernetes-sigs/kueue/issues/3884)** for `TrainJob` to provide richer queueing features in future releases.
 
 # MPI Support
 

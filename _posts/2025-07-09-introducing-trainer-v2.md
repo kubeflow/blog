@@ -15,7 +15,7 @@ Running machine learning workloads on Kubernetes can be challenging. Distributed
 - Make AI/ML workloads easier to manage at scale
 - Improve the Python interface
 - Add built-in support for fine-tuning large language models
-- Abstract Kubernetes complexity from data scientists
+- Abstract Kubernetes complexity from AI Practitioners
 - Consolidate efforts between Kubernetes Batch WG and Kubeflow community
 
 We’re deeply grateful to all contributors and community members who made the **Trainer v2** possible with their hard work and valuable feedback. We’re deeply grateful to all contributors and community members who made the Trainer v2 possible with their hard work and valuable feedback. We'd like to give special recognition to [andreyvelich](https://github.com/andreyvelich), [tenzen-y](https://github.com/tenzen-y), [electronic-waste](https://github.com/electronic-waste), [astefanutti](https://github.com/astefanutti), [ironicbo](https://github.com/ironicbo), [mahdikhashan](https://github.com/mahdikhashan), [kramaranya](https://github.com/kramaranya), [harshal292004](https://github.com/harshal292004), [akshaychitneni](https://github.com/akshaychitneni), [chenyi015](https://github.com/chenyi015) and the rest of the contributors. See the full [contributor list](https://kubeflow.devstats.cncf.io/d/66/developer-activity-counts-by-companies?orgId=1&var-period_name=Last%206%20months&var-metric=commits&var-repogroup_name=kubeflow%2Ftrainer&var-country_name=All&var-companies=All) for everyone who helped make this release possible.
@@ -153,7 +153,7 @@ One of the challenges in **KF Trainer v1** was supporting additional ML framewor
 
 The diagram below shows Kubeflow Trainer Pipeline Framework overview:
 
-![trainer_pipeline_framework](/images/2025-07-09-introducing-trainer-v2/trainer_pipeline_framework.drawio.svg)
+![trainer_pipeline_framework](/images/2025-07-09-introducing-trainer-v2/trainer-pipeline-framework.drawio.svg)
 
 The framework works through a series of phases - **Startup**, **PreExecution**, **Build**, and **PostExecution** - each with **extension points** where custom Plugins can hook in. This approach allows adding support for new frameworks, custom validation logic, or specialized training orchestration without changing the underlying system.
 
@@ -208,7 +208,7 @@ Resource management is improved through integration with **[Kueue](https://kueue
 
 The **KF Trainer v2** also provides **MPI support**, which includes **automatic generation of SSH keys** for secure inter-node communication.
 
-![MPI_support](/images/2025-07-09-introducing-trainer-v2/MPI_support.png)
+![MPI_support](/images/2025-07-09-introducing-trainer-v2/MPI-support.drawio.svg)
 
 The diagram above shows how this works in practice - the **KF Trainer** automatically **handles the SSH key generation** and **MPI communication** between training pods, which allows frameworks like DeepSpeed to coordinate training across multiple GPU nodes without requiring manual configuration of inter-node communication.
 

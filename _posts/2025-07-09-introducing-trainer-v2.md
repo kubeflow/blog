@@ -26,13 +26,13 @@ We’re deeply grateful to all contributors and community members who made the *
 
 Over the years, the project expanded to support multiple ML frameworks including **PyTorch**, **MXNet**, **MPI**, and **XGBoost** through various specialized operators. In 2021, these were consolidated into the unified **Training Operator v1**. Meanwhile, the Kubernetes community introduced the **Batch Working Group**, developing important APIs like JobSet, Kueue, Indexed Jobs, and PodFailurePolicy that improved HPC and AI workload management.
 
-**Trainer v2** leverages these Kubernetes-native improvements to not reimplement batch orchestration features. This collaboration between the Kubernetes and Kubeflow communities delivers a more standardized approach to ML training on Kubernetes.
+**Trainer v2** leverages these Kubernetes-native improvements to re-use existing functionality and not reinventing the wheel. This collaboration between the Kubernetes and Kubeflow communities delivers a more standardized approach to ML training on Kubernetes.
 
 # Division of Labor
 
 One of the main challenges with ML training on Kubernetes is that it often requires **data scientists** to have an understanding of **Kubernetes concepts** and the **infrastructure** being used for training. This distracts data scientists from their primary focus.
 
-**The KF Trainer v2** addresses this by **separating the infrastructure configuration from the training job definition**. This separation is built around three new custom resources definition (CRD):
+**The KF Trainer v2** addresses this by **separating the infrastructure configuration from the training job definition**. This separation is built around three new custom resources definitions (CRDs):
 - `TrainingRuntime` - a namespace-scoped resource that contains the infrastructure details that are required for a training job, such as the training image to use, failure policy, and gang-scheduling configuration.
 - `ClusterTrainingRuntime` - similar to `TrainingRuntime`, but cluster scoped.
 - `TrainJob` - specifies the training job configuration, including the training code to run, config for pulling the training dataset & model, and a reference to the training runtime.
@@ -156,7 +156,7 @@ The framework works through a series of phases - **Startup**, **PreExecution**, 
 # LLM Fine-Tuning Support
 
 Another improvement of **Trainer v2** is its **built-in support for fine-tuning large language models**, where we provide two types of trainers:
-- `BuiltinTrainer` - already includes the fine-tuning logic and allows data scientists to quickly start fine-tuning requiring only parameter adjustments,
+- `BuiltinTrainer` - already includes the fine-tuning logic and allows data scientists to quickly start fine-tuning requiring only parameter adjustments.
 - `CustomTrainer` - allows users to provide their own training function that encapsulates the entire model training process.
 
 This approach means that in the future, we can add more frameworks, as `BuiltinTrainer` options, for example [unsloth](https://github.com/unslothai/unsloth). It makes it easier for data scientists to fine-tune LLMs using the KF Trainer with their preferred framework. Here’s an example using the `BuiltinTrainer` with **torchtune**:
@@ -206,7 +206,7 @@ The **KF Trainer v2** also provides **MPI support**, which includes **automatic 
 
 ![MPI_support](/images/2025-07-09-introducing-trainer-v2/MPI_support.png)
 
-The diagram above shows how this works in practice - the **KF Trainer** automatically **handles the SSH key generation** and **MPI communication** between training pods, which allows frameworks like DeppSpeed to coordinate training across multiple GPU nodes without requiring manual configuration of inter-node communication.
+The diagram above shows how this works in practice - the **KF Trainer** automatically **handles the SSH key generation** and **MPI communication** between training pods, which allows frameworks like DeepSpeed to coordinate training across multiple GPU nodes without requiring manual configuration of inter-node communication.
 
 # Fault Tolerance Improvements
 

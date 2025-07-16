@@ -447,7 +447,12 @@ def register_model(model: Input[Model]) -> NamedTuple('outputs', model_name=str,
         name=model_name,
         uri=model.uri,
         version=model_version,
-        model_format_name="onnx"
+        model_format_name="onnx",
+        model_source_class="pipelinerun",
+        model_source_group="fraud-detection",
+        model_source_id="{{workflow.uid}}",
+        model_source_kind="kfp",
+        model_source_name="fraud-detection-e2e-pipeline",
     )
 
     return (model_name, model_version)

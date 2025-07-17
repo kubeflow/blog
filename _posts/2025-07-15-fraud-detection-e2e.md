@@ -321,7 +321,7 @@ All of this logic is orchestrated by the `prepare_data` component in the pipelin
 
 ### 2. Feature Engineering with Feast
 
-[Feast](https://feast.dev/) is an open source feature store that lets you manage and serve features for both training and inference, ensuring consistency and reducing the risk of training/serving skew.
+[Feast](https://feast.dev/) is an open source feature store that lets you manage and serve features for both training and inference, ensuring consistency and reducing the risk of training/serving skew. In machine learning, a "feature" is an individual measurable property or characteristic of the data being analyzed—in our fraud detection case, features include transaction amounts, distances from previous transactions, merchant types, and user behavior patterns that help the model distinguish between legitimate and fraudulent activity.
 
 #### Container Image for Feature Engineering
 

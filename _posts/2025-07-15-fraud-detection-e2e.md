@@ -12,7 +12,7 @@ author: "Helber Belmiro"
 
 # From Raw Data to Model Serving: A Blueprint for the AI/ML Lifecycle with Kubeflow
 
-Are you looking for a practical, reproducible way to take a machine learning project from raw data all the way to a deployed, production-ready model? This post is your blueprint for the AI/ML lifecycle: you'll learn how to use [Kubeflow](https://www.kubeflow.org) and open source tools to build a workflow you can run on your laptop and adapt to your own projects.
+Are you looking for a practical, reproducible way to take a machine learning project from raw data all the way to a deployed, production-ready model? This post is your blueprint for the AI/ML lifecycle: you'll learn how to use [Kubeflow](https://www.kubeflow.org) and open source tools such as [Feast](https://github.com/feast-dev/feast) to build a workflow you can run on your laptop and adapt to your own projects.
 
 We'll walk through the entire ML lifecycle—from data preparation to live inference—leveraging the Kubeflow platform to create a cohesive, production-grade MLOps workflow.
 

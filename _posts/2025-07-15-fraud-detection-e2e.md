@@ -48,7 +48,7 @@ This project demonstrates the power of using Kubeflow to abstract away the compl
 
 **Infrastructure Abstraction**: Instead of manually managing Kubernetes deployments, service accounts, networking, and storage configurations, the pipeline handles all the infrastructure complexity behind the scenes. You define your ML workflow as code, and Kubeflow takes care of orchestrating the execution across your Kubernetes cluster.
 
-**Focus on Data Science, Not DevOps**: With the infrastructure automated, you can spend your time on the activities that directly impact model performance:
+**Focus on AI, Not DevOps**: With the infrastructure automated, you can spend your time on the activities that directly impact model performance:
 
 - Experimenting with different feature engineering approaches
 - Tuning hyperparameters and model architectures  

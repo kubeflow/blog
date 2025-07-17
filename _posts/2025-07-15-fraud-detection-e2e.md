@@ -562,7 +562,7 @@ Once your environment is set up and the data is uploaded, you're ready to run th
 
 1. After uploading, click on your pipeline in the list.
 2. Click **Create run**.
-3. Fill in the run details and click **Start**.
+3. Optionally customize the run name and description (the defaults work fine), then click **Start**.
 
 You can monitor the progress and view logs for each step directly in the UI.
 

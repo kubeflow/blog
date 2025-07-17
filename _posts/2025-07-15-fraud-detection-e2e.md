@@ -42,7 +42,7 @@ The pipeline assumes that the initial datasets (`train.csv`, `test.csv`, etc.) a
 
 ## Why Kubeflow?
 
-This project demonstrates the power of using Kubeflow to abstract away the complexity of Kubernetes infrastructure, allowing data scientists and ML engineers to focus on what matters most: the data and model performance.
+This project demonstrates the power of using Kubeflow to abstract away the complexity of Kubernetes infrastructure, allowing AI Engineers, Data Scientists, and ML engineers to focus on what matters most: the data and model performance.
 
 ### Key Benefits
 

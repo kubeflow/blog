@@ -227,7 +227,7 @@ Repeat this process for each component, adjusting the tag and directory as neede
 
 ### Pushing Images
 
-After building, push the images to a container registry accessible by your Kubernetes cluster. Update the image references in your pipeline or manifests as needed.
+After building, push the images to a container registry accessible by your Kubernetes cluster. Update the image references in your pipeline as needed.
 
 ## The Kubeflow Pipeline
 

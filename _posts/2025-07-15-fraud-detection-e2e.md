@@ -104,6 +104,44 @@ Before uploading, you need to port-forward the MinIO service so it's accessible 
 kubectl port-forward --namespace kubeflow svc/minio-service 9000:9000
 ```
 
+Next, generate the synthetic data and copy it to `feature_engineering/feature_repo/data/input/` if you haven't done yet. The synthetic data generation script creates the `raw_transaction_datasource.csv` file that serves as the primary input for the pipeline.
+
+```sh
+cd synthetic_data_generation
+uv sync
+source .venv/bin/activate
+python synthetic_data_generation.py
+cp raw_transaction_datasource.csv ../feature_engineering/feature_repo/data/input
+cd ..
+```
+
+You should see an output similar to the following. The generation may take a few minutes depending on your hardware.
+
+```sh
+Using CPython 3.11.11
+Creating virtual environment at: .venv
+Resolved 7 packages in 14ms
+Installed 6 packages in 84ms
+ + numpy==2.3.0
+ + pandas==2.3.0
+ + python-dateutil==2.9.0.post0
+ + pytz==2025.2
+ + six==1.17.0
+ + tzdata==2025.2
+loading data...
+generating transaction level data...
+        0 of 1,000,000 (0%) complete
+  100,000 of 1,000,000 (10%) complete
+  200,000 of 1,000,000 (20%) complete
+  300,000 of 1,000,000 (30%) complete
+  400,000 of 1,000,000 (40%) complete
+  500,000 of 1,000,000 (50%) complete
+  600,000 of 1,000,000 (60%) complete
+  700,000 of 1,000,000 (70%) complete
+  800,000 of 1,000,000 (80%) complete
+  900,000 of 1,000,000 (90%) complete
+```
+
 Next, install and configure the [MinIO Client (`mc`)](https://min.io/docs/minio/linux/reference/minio-mc.html) if you haven't already. Then, set up the alias and upload the datasets:
 
 ```sh

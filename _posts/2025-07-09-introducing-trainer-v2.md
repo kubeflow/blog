@@ -67,6 +67,36 @@ from kubeflow.trainer import TrainerClient
 
 client = TrainerClient()
 
+def my_train_func():
+    """User defined function that runs on each distributed node process"""
+    import os
+    import torch
+    import torch.distributed as dist
+    from torch.utils.data import DataLoader, DistributedSampler
+    
+    # Setup PyTorch distributed
+    local_rank = int(os.getenv("LOCAL_RANK", 0))
+    dist.init_process_group(backend=backend)
+    
+    # Define your model, dataset, and training loop
+    model = YourModel()
+    dataset = YourDataset()
+    train_loader = DataLoader(dataset, sampler=DistributedSampler(dataset))
+    
+    # Your training logic here
+    for epoch in range(num_epochs):
+        for batch in train_loader:
+            # Forward pass, backward pass, optimizer step
+            ...
+            
+    # Wait for the distributed training to complete
+    dist.barrier()
+    if dist.get_rank() == 0:
+        print("Training is finished")
+
+    # Clean up PyTorch distributed
+    dist.destroy_process_group()
+
 job_name = client.train(
   runtime=client.get_runtime("torch-distributed"),
   trainer=CustomTrainer(

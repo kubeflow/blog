@@ -1,4 +1,660 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2025-05-05T11:35:53-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Kubeflow 1.10 Release Announcement</title><link href="https://blog.kubeflow.org/kubeflow-1.10-release/" rel="alternate" type="text/html" title="Kubeflow 1.10 Release Announcement" /><published>2025-03-26T00:00:00-05:00</published><updated>2025-03-26T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.10-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.10-release/">&lt;p&gt;Kubeflow 1.10.0 delivers essential updates that enhance the flexibility, efficiency, and scalability of machine learning
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2025-07-18T07:51:40-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">From Raw Data to Model Serving: A Blueprint for the AI/ML Lifecycle with Kubeflow</title><link href="https://blog.kubeflow.org/fraud-detection-e2e/" rel="alternate" type="text/html" title="From Raw Data to Model Serving: A Blueprint for the AI/ML Lifecycle with Kubeflow" /><published>2025-07-15T00:00:00-05:00</published><updated>2025-07-15T00:00:00-05:00</updated><id>https://blog.kubeflow.org/fraud-detection-e2e</id><content type="html" xml:base="https://blog.kubeflow.org/fraud-detection-e2e/">&lt;h1 id=&quot;from-raw-data-to-model-serving-a-blueprint-for-the-aiml-lifecycle-with-kubeflow&quot;&gt;From Raw Data to Model Serving: A Blueprint for the AI/ML Lifecycle with Kubeflow&lt;/h1&gt;
+
+&lt;p&gt;Are you looking for a practical, reproducible way to take a machine learning project from raw data all the way to a deployed, production-ready model? This post is your blueprint for the AI/ML lifecycle: you’ll learn how to use &lt;a href=&quot;https://www.kubeflow.org&quot;&gt;Kubeflow&lt;/a&gt; and open source tools such as &lt;a href=&quot;https://github.com/feast-dev/feast&quot;&gt;Feast&lt;/a&gt; to build a workflow you can run on your laptop and adapt to your own projects.&lt;/p&gt;
+
+&lt;p&gt;We’ll walk through the entire ML lifecycle—from data preparation to live inference—leveraging the Kubeflow platform to create a cohesive, production-grade MLOps workflow.&lt;/p&gt;
+
+&lt;h2 id=&quot;project-overview&quot;&gt;Project Overview&lt;/h2&gt;
+
+&lt;p&gt;The project implements a complete MLOps workflow for a fraud detection use case. Fraud detection is a critical application in financial services, where organizations need to identify potentially fraudulent transactions in real-time while minimizing false positives that could disrupt legitimate customer activity.&lt;/p&gt;
+
+&lt;p&gt;Our fraud detection system leverages machine learning to analyze large volumes of transaction data, learn patterns from historical behavior, and flag suspicious transactions that deviate from normal patterns. The model considers various features such as transaction amounts, location data, merchant information, and user behavior patterns to make predictions. This makes fraud detection an ideal use case for demonstrating MLOps concepts because it requires:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Real-time inference&lt;/strong&gt;: Fraud detection decisions must be made instantly as transactions occur&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Feature consistency&lt;/strong&gt;: The same features used in training must be available during inference to ensure model accuracy&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Scalability&lt;/strong&gt;: The system must handle high transaction volumes&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Continuous learning&lt;/strong&gt;: Models need regular retraining as fraud patterns evolve&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Compliance and auditability&lt;/strong&gt;: Financial services require comprehensive model tracking and governance&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The workflow ingests raw transaction data, proceeds through data preparation and feature engineering, then model training and registration, and finally deploys the model as a production-ready inference service that can evaluate transactions in real-time.&lt;/p&gt;
+
+&lt;p&gt;The entire workflow is orchestrated as a Kubeflow Pipeline, which provides a powerful framework for defining, deploying, and managing complex machine learning pipelines on Kubernetes.&lt;/p&gt;
+
+&lt;p&gt;Here is a high-level overview of the pipeline:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/2025-07-15-fraud-detection-e2e/pipeline.png&quot; alt=&quot;pipeline.png&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;a-note-on-the-data&quot;&gt;A Note on the Data&lt;/h2&gt;
+
+&lt;p&gt;The pipeline assumes that the initial datasets (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;train.csv&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test.csv&lt;/code&gt;, etc.) are already available. For readers who wish to follow along or generate their own sample data, a script is provided in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;synthetic_data_generation&lt;/code&gt; directory. This script was used to create the initial data for this project but is not part of the automated Kubeflow pipeline itself.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-kubeflow&quot;&gt;Why Kubeflow?&lt;/h2&gt;
+
+&lt;p&gt;This project demonstrates the power of using Kubeflow to abstract away the complexity of Kubernetes infrastructure, allowing AI Engineers, Data Scientists, and ML engineers to focus on what matters most: the data and model performance.&lt;/p&gt;
+
+&lt;h3 id=&quot;key-benefits&quot;&gt;Key Benefits&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Infrastructure Abstraction&lt;/strong&gt;: Instead of manually managing Kubernetes deployments, service accounts, networking, and storage configurations, the pipeline handles all the infrastructure complexity behind the scenes. You define your ML workflow as code, and Kubeflow takes care of orchestrating the execution across your Kubernetes cluster.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Focus on AI, Not DevOps&lt;/strong&gt;: With the infrastructure automated, you can spend your time on the activities that directly impact model performance:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Experimenting with different feature engineering approaches&lt;/li&gt;
+  &lt;li&gt;Tuning hyperparameters and model architectures&lt;/li&gt;
+  &lt;li&gt;Analyzing prediction results and model behavior&lt;/li&gt;
+  &lt;li&gt;Iterating on data preparation and validation strategies&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Reproducible and Scalable&lt;/strong&gt;: The pipeline ensures that every run follows the same steps with the same environment configurations, making your experiments reproducible. When you’re ready to scale up, the same pipeline can run on larger Kubernetes clusters without code changes.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Production-Ready from Day One&lt;/strong&gt;: By using production-grade tools like KServe for model serving, Feast for feature management, and the Model Registry for governance, your development pipeline is already structured for production deployment.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Portable and Cloud-Agnostic&lt;/strong&gt;: The entire workflow runs on standard Kubernetes, making it portable across different cloud providers or on-premises environments. What works on your laptop will work in production.&lt;/p&gt;
+
+&lt;p&gt;This approach shifts the cognitive load from infrastructure management to data science innovation, enabling faster experimentation and more reliable production deployments.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;getting-started-prerequisites-and-cluster-setup&quot;&gt;Getting Started: Prerequisites and Cluster Setup&lt;/h2&gt;
+
+&lt;p&gt;Before diving into the pipeline, you need to set up your local environment. This project is designed to run on a local Kubernetes cluster using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kind&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;prerequisites&quot;&gt;Prerequisites&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;A container engine, like &lt;a href=&quot;https://podman.io/&quot;&gt;Podman&lt;/a&gt; or &lt;a href=&quot;https://www.docker.com/get-started&quot;&gt;Docker&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.python.org/downloads/&quot;&gt;Python&lt;/a&gt; (3.11 or newer).&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/astral-sh/uv&quot;&gt;uv&lt;/a&gt;: A fast Python package installer.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://kubernetes.io/docs/tasks/tools/install-kubectl/&quot;&gt;kubectl&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://kind.sigs.k8s.io/docs/user/quick-start/#installation&quot;&gt;kind&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://min.io/docs/minio/linux/reference/minio-mc.html&quot;&gt;mc (MinIO Client)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; This setup was tested on a VM with 12GB RAM, 8 CPUs, and 150GB of disk space.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;1-create-a-local-kubernetes-cluster&quot;&gt;1. Create a Local Kubernetes Cluster&lt;/h3&gt;
+
+&lt;p&gt;First, create a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kind&lt;/code&gt; cluster. The following command will set up a new cluster with a specific node image compatible with the required components:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kind create cluster &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; fraud-detection-e2e-demo &lt;span class=&quot;nt&quot;&gt;--image&lt;/span&gt; kindest/node:v1.31.6
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;2-deploy-kubeflow-pipelines&quot;&gt;2. Deploy Kubeflow Pipelines&lt;/h3&gt;
+
+&lt;p&gt;With your cluster running, the next step is to deploy Kubeflow Pipelines. For this project, the &lt;a href=&quot;https://www.kubeflow.org/docs/components/pipelines/operator-guides/installation/#deploying-kubeflow-pipelines&quot;&gt;standalone installation&lt;/a&gt; is recommended, as it’s lighter and faster to set up than a full Kubeflow deployment.&lt;/p&gt;
+
+&lt;p&gt;Follow the official &lt;a href=&quot;https://www.kubeflow.org/docs/components/pipelines/operator-guides/installation/#deploying-kubeflow-pipelines&quot;&gt;Kubeflow Pipelines standalone installation guide&lt;/a&gt; for the latest instructions.&lt;/p&gt;
+
+&lt;h3 id=&quot;3-upload-the-raw-data-to-minio&quot;&gt;3. Upload the Raw Data to MinIO&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://min.io/&quot;&gt;MinIO&lt;/a&gt; is an open source, S3-compatible object storage system. In this project, MinIO is used to store raw datasets, intermediate artifacts, and model files, making them accessible to all pipeline components running in Kubernetes.&lt;/p&gt;
+
+&lt;p&gt;Before uploading, you need to port-forward the MinIO service so it’s accessible locally. &lt;strong&gt;Run the following command in a separate terminal window:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl port-forward &lt;span class=&quot;nt&quot;&gt;--namespace&lt;/span&gt; kubeflow svc/minio-service 9000:9000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, generate the synthetic data and copy it to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;feature_engineering/feature_repo/data/input/&lt;/code&gt; if you haven’t done yet. The synthetic data generation script creates the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;raw_transaction_datasource.csv&lt;/code&gt; file that serves as the primary input for the pipeline.&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;synthetic_data_generation
+uv &lt;span class=&quot;nb&quot;&gt;sync
+source&lt;/span&gt; .venv/bin/activate
+python synthetic_data_generation.py
+&lt;span class=&quot;nb&quot;&gt;cp &lt;/span&gt;raw_transaction_datasource.csv ../feature_engineering/feature_repo/data/input
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ..
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You should see an output similar to the following. The generation may take a few minutes depending on your hardware.&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Using CPython 3.11.11
+Creating virtual environment at: .venv
+Resolved 7 packages &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;14ms
+Installed 6 packages &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;84ms
+ + &lt;span class=&quot;nv&quot;&gt;numpy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;2.3.0
+ + &lt;span class=&quot;nv&quot;&gt;pandas&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;2.3.0
+ + python-dateutil&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;2.9.0.post0
+ + &lt;span class=&quot;nv&quot;&gt;pytz&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;2025.2
+ + &lt;span class=&quot;nv&quot;&gt;six&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;1.17.0
+ + &lt;span class=&quot;nv&quot;&gt;tzdata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;2025.2
+loading data...
+generating transaction level data...
+        0 of 1,000,000 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;0%&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;complete
+  &lt;/span&gt;100,000 of 1,000,000 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;10%&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;complete
+  &lt;/span&gt;200,000 of 1,000,000 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;20%&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;complete
+  &lt;/span&gt;300,000 of 1,000,000 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;30%&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;complete
+  &lt;/span&gt;400,000 of 1,000,000 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;40%&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;complete
+  &lt;/span&gt;500,000 of 1,000,000 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;50%&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;complete
+  &lt;/span&gt;600,000 of 1,000,000 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;60%&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;complete
+  &lt;/span&gt;700,000 of 1,000,000 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;70%&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;complete
+  &lt;/span&gt;800,000 of 1,000,000 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;80%&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;complete
+  &lt;/span&gt;900,000 of 1,000,000 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;90%&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;complete&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, install and configure the &lt;a href=&quot;https://min.io/docs/minio/linux/reference/minio-mc.html&quot;&gt;MinIO Client (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mc&lt;/code&gt;)&lt;/a&gt; if you haven’t already. Then, set up the alias and upload the datasets:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mc &lt;span class=&quot;nb&quot;&gt;alias set &lt;/span&gt;minio-local http://localhost:9000 minio minio123
+mc mb minio-local/mlpipeline
+mc &lt;span class=&quot;nb&quot;&gt;cp&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt; feature_engineering/feature_repo/data/input/ minio-local/mlpipeline/artifacts/feature_repo/data/
+mc &lt;span class=&quot;nb&quot;&gt;cp &lt;/span&gt;feature_engineering/feature_repo/feature_store.yaml minio-local/mlpipeline/artifacts/feature_repo/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This will create the required bucket and directory structure in MinIO and upload your raw datasets, making them available for the pipeline.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Once the upload is complete, you can stop the port-forward process.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;4-install-model-registry-kserve-spark-operator-and-set-policies&quot;&gt;4. Install Model Registry, KServe, Spark Operator, and Set Policies&lt;/h3&gt;
+
+&lt;p&gt;While the datasets are uploading to MinIO, you can proceed to install the remaining Kubeflow components and set up the required Kubernetes policies. The following steps summarize what’s in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;setup.sh&lt;/code&gt;:&lt;/p&gt;
+
+&lt;h4 id=&quot;install-model-registry&quot;&gt;Install Model Registry&lt;/h4&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl apply &lt;span class=&quot;nt&quot;&gt;-k&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;https://github.com/kubeflow/model-registry/manifests/kustomize/overlays/db?ref=v0.2.16&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;install-kserve&quot;&gt;Install KServe&lt;/h4&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl create namespace kserve
+kubectl config set-context &lt;span class=&quot;nt&quot;&gt;--current&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--namespace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kserve
+curl &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;https://raw.githubusercontent.com/kserve/kserve/release-0.15/hack/quick_install.sh&quot;&lt;/span&gt; | bash
+kubectl config set-context &lt;span class=&quot;nt&quot;&gt;--current&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--namespace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;kubeflow
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;install-kubeflow-spark-operator&quot;&gt;Install Kubeflow Spark Operator&lt;/h4&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;helm repo add &lt;span class=&quot;nt&quot;&gt;--force-update&lt;/span&gt; spark-operator https://kubeflow.github.io/spark-operator
+helm &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;spark-operator spark-operator/spark-operator &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--namespace&lt;/span&gt; spark-operator &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--create-namespace&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Make sure the Spark Operator is watching all namespaces:&lt;/span&gt;
+helm upgrade spark-operator spark-operator/spark-operator &lt;span class=&quot;nt&quot;&gt;--set&lt;/span&gt; spark.jobNamespaces&lt;span class=&quot;o&quot;&gt;={}&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--namespace&lt;/span&gt; spark-operator
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;apply-service-accounts-roles-secrets-and-serving-runtime&quot;&gt;Apply Service Accounts, Roles, Secrets, and Serving Runtime&lt;/h4&gt;
+
+&lt;p&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;manifests/&lt;/code&gt; directory contains several YAML files that set up the necessary service accounts, permissions, secrets, and runtime configuration for both KServe and Spark jobs. Here’s what each file does:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kserve-sa.yaml&lt;/code&gt;: Creates a service account for KServe, referencing the MinIO secret.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kserve-minio-secret.yaml&lt;/code&gt;: Creates a secret with MinIO credentials and endpoint info, so KServe can access models and artifacts in MinIO.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kserve-role.yaml&lt;/code&gt;: Defines a ClusterRole allowing management of KServe InferenceService resources.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kserve-role-binding.yaml&lt;/code&gt;: Binds the above ClusterRole to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pipeline-runner&lt;/code&gt; service account in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubeflow&lt;/code&gt; namespace, so pipeline steps can create/manage inference services.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;serving-runtime.yaml&lt;/code&gt;: Registers a custom ServingRuntime for ONNX models, specifying the container image and runtime configuration for model serving.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;spark-sa.yaml&lt;/code&gt;: Creates a service account for Spark jobs in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubeflow&lt;/code&gt; namespace.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;spark-role.yaml&lt;/code&gt;: Defines a Role granting Spark jobs permissions to manage pods, configmaps, services, secrets, PVCs, and SparkApplication resources in the namespace.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;spark-role-binding.yaml&lt;/code&gt;: Binds the above Role to both the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;spark&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pipeline-runner&lt;/code&gt; service accounts in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kubeflow&lt;/code&gt; namespace.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kustomization.yaml&lt;/code&gt;: A Kustomize manifest that groups all the above resources for easy application.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Apply all of these with:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl apply &lt;span class=&quot;nt&quot;&gt;-k&lt;/span&gt; ./manifests &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; kubeflow
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;These resources ensure that KServe and Spark jobs have the right permissions and configuration to run in your Kubeflow environment.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;building-and-understanding-the-pipeline-images&quot;&gt;Building and Understanding the Pipeline Images&lt;/h2&gt;
+
+&lt;p&gt;In Kubeflow Pipelines, each step of a pipeline runs inside a container. This containerized approach provides several key benefits: isolation between steps, reproducible environments, and the ability to use different runtime requirements for different stages of your pipeline.&lt;/p&gt;
+
+&lt;p&gt;While Kubeflow Pipelines provides default images for common tasks, most real-world ML projects require custom images tailored to their specific needs. Each pipeline component in this project uses a specialized container image that includes the necessary dependencies, libraries, and code to execute that particular step of the ML workflow.&lt;/p&gt;
+
+&lt;p&gt;This section covers how to build these custom images. For detailed information about what each image does and how the code inside each container works, refer to the individual pipeline step sections that follow.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; You only need to build and push these images if you want to modify the code for any of the pipeline components. If you’re using the project as-is, you can use the prebuilt images referenced in the pipeline.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The pipeline uses custom container images for the following components:&lt;/p&gt;
+
+&lt;h3 id=&quot;image-locations&quot;&gt;Image Locations&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data_preparation/Containerfile&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;feature_engineering/Containerfile&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pipeline/Containerfile&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rest_predictor/Containerfile&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;train/Containerfile&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;how-to-build&quot;&gt;How to Build&lt;/h3&gt;
+
+&lt;p&gt;You can build each image using Podman or Docker. For example, to build the data preparation image:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;data_preparation
+podman build &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; fraud-detection-e2e-demo-data-preparation:latest &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# or&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# docker build -t fraud-detection-e2e-demo-data-preparation:latest .&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can also refer to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;build_images.sh&lt;/code&gt; script in the project root to see how to build all images in sequence.&lt;/p&gt;
+
+&lt;p&gt;Repeat this process for each component, adjusting the tag and directory as needed.&lt;/p&gt;
+
+&lt;h3 id=&quot;entry-points&quot;&gt;Entry points&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;data_preparation:&lt;/strong&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python main.py&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;feature_engineering:&lt;/strong&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python feast_feature_engineering.py&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;pipeline:&lt;/strong&gt; Used for orchestrating the pipeline steps (see &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fraud-detection-e2e.py&lt;/code&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;rest_predictor:&lt;/strong&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python predictor.py&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;train:&lt;/strong&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python train.py&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;pushing-images&quot;&gt;Pushing Images&lt;/h3&gt;
+
+&lt;p&gt;After building, push the images to a container registry accessible by your Kubernetes cluster. Update the image references in your pipeline as needed.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-kubeflow-pipeline&quot;&gt;The Kubeflow Pipeline&lt;/h2&gt;
+
+&lt;p&gt;The main pipeline definition is in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pipeline/fraud-detection-e2e.py&lt;/code&gt;. This file is the entrypoint for the Kubeflow pipeline and orchestrates all the steps described below.&lt;/p&gt;
+
+&lt;p&gt;With your environment and permissions set up, you’re ready to run the end-to-end pipeline. Let’s walk through each stage of the workflow and see how Kubeflow orchestrates the entire machine learning lifecycle—from data preparation to real-time inference.&lt;/p&gt;
+
+&lt;h3 id=&quot;1-data-preparation-with-spark&quot;&gt;1. Data Preparation with Spark&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://spark.apache.org/&quot;&gt;Apache Spark&lt;/a&gt; is a powerful open source engine for large-scale data processing and analytics. In this project, we use Spark to efficiently process and transform raw transaction data before it enters the ML pipeline.&lt;/p&gt;
+
+&lt;p&gt;To run Spark jobs on Kubernetes, we use the &lt;a href=&quot;https://www.kubeflow.org/docs/components/spark-operator/&quot;&gt;Kubeflow Spark Operator&lt;/a&gt;. The Spark Operator makes it easy to submit and manage Spark applications as native Kubernetes resources, enabling scalable, distributed data processing as part of your MLOps workflow.&lt;/p&gt;
+
+&lt;h4 id=&quot;container-image-for-data-preparation&quot;&gt;Container Image for Data Preparation&lt;/h4&gt;
+
+&lt;p&gt;This pipeline step uses a custom container image built from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data_preparation/Containerfile&lt;/code&gt;. The image includes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;PySpark and dependencies:&lt;/strong&gt; Required libraries for distributed data processing&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;MinIO client libraries:&lt;/strong&gt; For reading from and writing to object storage&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Custom data processing code:&lt;/strong&gt; The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;main.py&lt;/code&gt; script that implements the data transformation logic&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The container runs with the entry point &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python main.py&lt;/code&gt;, which orchestrates all the data preparation tasks within the Spark job.&lt;/p&gt;
+
+&lt;p&gt;The pipeline begins by launching a Spark job that performs several key data preparation steps, implemented in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data_preparation/main.py&lt;/code&gt;:&lt;/p&gt;
+
+&lt;h4 id=&quot;combining-datasets&quot;&gt;Combining Datasets&lt;/h4&gt;
+
+&lt;p&gt;The job reads the raw &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;train.csv&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test.csv&lt;/code&gt;, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;validate.csv&lt;/code&gt; datasets, adds a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;set&lt;/code&gt; column to each, and combines them:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;train_set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;INPUT_DIR&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;train.csv&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inferSchema&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;test_set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;INPUT_DIR&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;test.csv&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inferSchema&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;validate_set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;INPUT_DIR&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;validate.csv&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inferSchema&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;train_set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;train_set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;set&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;train&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;test_set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test_set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;set&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;test&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;validate_set&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;validate_set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;set&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;valid&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;all_sets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;train_set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unionByName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test_set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unionByName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;validate_set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;type-conversion-and-feature-engineering&quot;&gt;Type Conversion and Feature Engineering&lt;/h4&gt;
+
+&lt;p&gt;It converts certain columns to boolean types and generates unique IDs:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;all_sets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;all_sets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;fraud&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;col&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;fraud&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;all_sets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;all_sets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;repeat_retailer&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;col&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;repeat_retailer&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;all_sets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;all_sets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;used_chip&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;col&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;used_chip&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;all_sets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;all_sets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;used_pin_number&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;col&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;used_pin_number&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;all_sets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;all_sets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;online_order&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;col&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;online_order&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;w&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;orderBy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;all_sets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;all_sets&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;idx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;row_number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;over&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;w&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user_id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;concat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user_&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;col&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;idx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;transaction_id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;concat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;txn_&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;col&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;idx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;drop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;idx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;timestamping&quot;&gt;Timestamping&lt;/h4&gt;
+
+&lt;p&gt;The job adds &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;created&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;updated&lt;/code&gt; timestamp columns:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;date_col&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;created&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;updated&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;all_sets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;all_sets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;date_col&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;current_timestamp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;point-in-time-feature-calculation&quot;&gt;Point-in-Time Feature Calculation&lt;/h4&gt;
+
+&lt;p&gt;Using the raw transaction history, the Spark job calculates features such as the number of previous transactions, average/max/stddev of previous transaction amounts, and days since the last/first transaction:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;calculate_point_in_time_features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label_dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;transactions_df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# ... (see full code in data_preparation/main.py)
+&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# Aggregates and joins features for each user at each point in time
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;output&quot;&gt;Output&lt;/h4&gt;
+
+&lt;p&gt;The final processed data is saved as both a CSV (for entity definitions) and a Parquet file (for feature storage) in MinIO:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;entity_df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;header&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;overwrite&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;entity_file_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;overwrite&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parquet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parquet_file_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;All of this logic is orchestrated by the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;prepare_data&lt;/code&gt; component in the pipeline, which launches the Spark job on Kubernetes.&lt;/p&gt;
+
+&lt;h3 id=&quot;2-feature-engineering-with-feast&quot;&gt;2. Feature Engineering with Feast&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://feast.dev/&quot;&gt;Feast&lt;/a&gt; is an open source feature store that lets you manage and serve features for both training and inference, ensuring consistency and reducing the risk of training/serving skew. In machine learning, a “feature” is an individual measurable property or characteristic of the data being analyzed—in our fraud detection case, features include transaction amounts, distances from previous transactions, merchant types, and user behavior patterns that help the model distinguish between legitimate and fraudulent activity.&lt;/p&gt;
+
+&lt;h4 id=&quot;container-image-for-feature-engineering&quot;&gt;Container Image for Feature Engineering&lt;/h4&gt;
+
+&lt;p&gt;This pipeline step uses a custom container image built from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;feature_engineering/Containerfile&lt;/code&gt;. The image includes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Feast feature store:&lt;/strong&gt; The complete Feast installation for feature management&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Python dependencies:&lt;/strong&gt; Required libraries for feature processing and materialization&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Feature repository definition:&lt;/strong&gt; The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;repo_definition.py&lt;/code&gt; file that defines the feature views and entities&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;MinIO client libraries:&lt;/strong&gt; For uploading the materialized features and online store to object storage&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The container runs with the entry point &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python feast_feature_engineering.py&lt;/code&gt;, which handles the Feast operations including applying feature definitions, materializing features, and uploading the results to MinIO.&lt;/p&gt;
+
+&lt;p&gt;After data preparation, the pipeline uses Feast to register, materialize, and store features for downstream steps. This process starts with defining the features you want to use. For example, in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;feature_repo/repo_definition.py&lt;/code&gt;, you’ll find a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FeatureView&lt;/code&gt; that lists features like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;distance_from_home&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ratio_to_median_purchase_price&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;transactions_fv&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FeatureView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;transactions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;entities&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transaction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;schema&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Field&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user_id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dtype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feast&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;types&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Field&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distance_from_home&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dtype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feast&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;types&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Float32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Field&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ratio_to_median_purchase_price&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dtype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feast&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;types&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Float32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# ... other features
+&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;online&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transaction_source&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once the features are defined, the pipeline runs two key Feast commands. First, it applies the feature definitions to the store:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;subprocess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;feast&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;apply&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cwd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feature_repo_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;check&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, it materializes the computed features from the Parquet file into Feast’s online store, making them available for real-time inference:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;subprocess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;feast&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;materialize&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start_date&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end_date&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cwd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feature_repo_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;check&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Finally, the resulting feature data and the online store database are uploaded to MinIO, so they’re accessible to the rest of the pipeline:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fput_object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MINIO_BUCKET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;object_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;local_file_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;By using Feast in this way, you ensure that the same features are available for both model training and real-time predictions, making your ML workflow robust and reproducible.&lt;/p&gt;
+
+&lt;h3 id=&quot;3-model-training&quot;&gt;3. Model Training&lt;/h3&gt;
+
+&lt;p&gt;With the features materialized in Feast, the next step is to train the fraud detection model. The pipeline’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;train_model&lt;/code&gt; component retrieves the processed features and prepares them for training. The features used include behavioral and transaction-based signals such as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;distance_from_last_transaction&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ratio_to_median_purchase_price&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;used_chip&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;used_pin_number&lt;/code&gt;, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;online_order&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;container-image-for-model-training&quot;&gt;Container Image for Model Training&lt;/h4&gt;
+
+&lt;p&gt;This pipeline step uses a custom container image built from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;train/Containerfile&lt;/code&gt;. The image includes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Machine learning libraries:&lt;/strong&gt; TensorFlow/Keras for neural network training, scikit-learn for data preprocessing&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;ONNX Runtime:&lt;/strong&gt; For converting and exporting the trained model to ONNX format&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;PySpark:&lt;/strong&gt; For loading and processing the feature data from Parquet files&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;MinIO client libraries:&lt;/strong&gt; For downloading features and uploading the trained model artifacts&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The container runs with the entry point &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python train.py&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The training script loads the features, splits the data into train, validation, and test sets, and scales the input features for better model performance:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;train_features&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;set&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;train&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;validate_features&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;set&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;valid&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;test_features&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;set&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;test&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# ... select and scale features ...
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It then builds and trains a neural network model using Keras, handling class imbalance and exporting the trained model in ONNX format for portable, high-performance inference:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;build_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feature_indexes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;epochs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;validation_data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x_val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;class_weight&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;class_weights&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;save_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Exports to ONNX
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;By structuring the training step this way, the pipeline ensures that the model is trained on the same features that will be available at inference time, supporting a robust and reproducible MLOps workflow.&lt;/p&gt;
+
+&lt;h3 id=&quot;4-model-registration&quot;&gt;4. Model Registration&lt;/h3&gt;
+
+&lt;p&gt;Once the model is trained, it’s important to track, version, and manage it before deploying to production. This is where the &lt;a href=&quot;https://www.kubeflow.org/docs/components/model-registry/&quot;&gt;Kubeflow Model Registry&lt;/a&gt; comes in. The Model Registry acts as a centralized service for managing machine learning models and their metadata, making it easier to manage deployments, rollbacks, and audits.&lt;/p&gt;
+
+&lt;h4 id=&quot;container-image-for-model-registration&quot;&gt;Container Image for Model Registration&lt;/h4&gt;
+
+&lt;p&gt;This pipeline step uses a custom container image built from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pipeline/Containerfile&lt;/code&gt;. The image includes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Kubeflow Pipelines SDK:&lt;/strong&gt; For pipeline orchestration and component definitions&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Model Registry client:&lt;/strong&gt; Python libraries for interacting with the Kubeflow Model Registry&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Pipeline orchestration code:&lt;/strong&gt; The core pipeline definition and component functions&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The container is used as the base image for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;register_model&lt;/code&gt; component, which executes the model registration logic inline within the pipeline definition. This approach allows the registration step to run lightweight operations without requiring a separate, specialized container image.&lt;/p&gt;
+
+&lt;p&gt;In the pipeline, the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;register_model&lt;/code&gt; component takes the trained model artifact and registers it in the Model Registry. This process includes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Assigning a unique name and version:&lt;/strong&gt; The model is registered with a name (e.g., &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;fraud-detection&quot;&lt;/code&gt;) and a version, which is typically tied to the pipeline run ID for traceability.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Storing metadata:&lt;/strong&gt; Along with the model artifact, metadata such as the model format, storage location, and additional tags or descriptions can be stored for governance and reproducibility.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Making the model discoverable:&lt;/strong&gt; Registered models can be easily found and referenced for deployment, monitoring, or rollback.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here’s how the registration step is implemented in the pipeline:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dsl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;component&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;base_image&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PIPELINE_IMAGE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;register_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NamedTuple&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'outputs'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model_version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;model_registry&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ModelRegistry&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;registry&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ModelRegistry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;server_address&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://model-registry-service.kubeflow.svc.cluster.local&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8080&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;fraud-detection-e2e-pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;user_token&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;non-used&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;is_secure&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;model_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;fraud-detection&quot;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;model_version&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;registry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;register_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;uri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uri&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model_version&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;model_format_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;onnx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;model_source_class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;pipelinerun&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;model_source_group&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;fraud-detection&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;model_source_id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;model_source_kind&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;kfp&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;model_source_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;fraud-detection-e2e-pipeline&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model_version&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;By registering the model in this way, you ensure that every model deployed for inference is discoverable, reproducible, and governed—an essential part of any production-grade MLOps workflow.&lt;/p&gt;
+
+&lt;h3 id=&quot;5-real-time-inference-with-kserve&quot;&gt;5. Real-Time Inference with KServe&lt;/h3&gt;
+
+&lt;p&gt;The final stage of the pipeline is deploying the registered model as a real-time inference service using KServe. &lt;a href=&quot;https://kserve.github.io/website/&quot;&gt;KServe&lt;/a&gt; is an open source model serving platform for Kubernetes that standardizes how you deploy, scale, and manage machine learning models in production.&lt;/p&gt;
+
+&lt;h4 id=&quot;container-image-for-real-time-inference&quot;&gt;Container Image for Real-Time Inference&lt;/h4&gt;
+
+&lt;p&gt;This pipeline step uses a custom container image built from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rest_predictor/Containerfile&lt;/code&gt;. The image includes:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;KServe Python SDK:&lt;/strong&gt; For building custom model serving endpoints&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;ONNX Runtime:&lt;/strong&gt; For running the trained model in ONNX format&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Feast feature store client:&lt;/strong&gt; For retrieving real-time features during inference&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Model Registry client:&lt;/strong&gt; For downloading the registered model artifacts&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Custom predictor code:&lt;/strong&gt; The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;predictor.py&lt;/code&gt; script that implements the inference logic&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The container runs with the entry point &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python predictor.py&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The pipeline’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;serve&lt;/code&gt; component creates a KServe InferenceService using this custom Python predictor.&lt;/p&gt;
+
+&lt;p&gt;This is done by creating a Kubernetes custom resource (CR) of kind &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;InferenceService&lt;/code&gt;, which tells KServe how to deploy and manage the model server. The resource specifies the container image, command, arguments, and service account to use for serving the model.&lt;/p&gt;
+
+&lt;p&gt;Here’s how the InferenceService is defined and created in the pipeline:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;inference_service&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kserve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V1beta1InferenceService&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;api_version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kserve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;constants&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;KSERVE_GROUP&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;/v1beta1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;InferenceService&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V1ObjectMeta&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;-&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;job_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;namespace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kserve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utils&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_default_target_namespace&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;labels&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;&quot;modelregistry/registered-model-id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;&quot;modelregistry/model-version-id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model_version&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kserve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V1beta1InferenceServiceSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;predictor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kserve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;V1beta1PredictorSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;service_account_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;kserve-sa&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;containers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;V1Container&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;inference-container&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rest_predictor_image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;python&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;predictor.py&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;--model-name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;--model-version&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model_version_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ks_client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kserve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;KServeClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ks_client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inference_service&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The custom predictor does more than just run the model: it also integrates directly with the Feast online feature store. When a prediction request arrives with a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user_id&lt;/code&gt;, the predictor first fetches the user’s latest features from Feast and then feeds them to the ONNX model for inference. Here’s a simplified view of the predictor’s logic:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ONNXModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kserve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# ... download model and initialize Feast feature store ...
+&lt;/span&gt;        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feature_store&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FeatureStore&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;repo_path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feature_repo_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InferenceSession&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/app/model&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ready&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;payload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;user_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;payload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user_id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;feature_dict&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feature_store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_online_features&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;entity_rows&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user_id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}],&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;features&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;features_to_request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;input_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;feature_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distance_from_last_transaction&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;feature_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ratio_to_median_purchase_price&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;feature_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;used_chip&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;feature_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;used_pin_number&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;feature_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;online_order&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dtype&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;float32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_inputs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;input_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user_id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;prediction&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tolist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt;&lt;br /&gt;
+By default, KServe supports several model serving runtimes, including &lt;a href=&quot;https://github.com/triton-inference-server/server&quot;&gt;Triton Inference Server&lt;/a&gt; (often used via the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kserve-tritonserver&lt;/code&gt; runtime). However, the official Triton server does not support macOS/arm64, which is why this project uses a custom Python predictor for local development and demonstration.&lt;br /&gt;
+If you are running on a supported platform (such as x86_64 Linux), you may want to use the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kserve-tritonserver&lt;/code&gt; runtime for production workloads, as it offers high performance and native ONNX support.&lt;br /&gt;
+If you want to use Feast for online feature retrieval at inference time, a custom Python predictor (like the one in this repo) is the most straightforward approach. If you use the standard &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;kserve-tritonserver&lt;/code&gt; runtime, you would need to implement feature fetching as a &lt;a href=&quot;https://github.com/triton-inference-server/python_backend&quot;&gt;Triton Python backend&lt;/a&gt; or as a pre-processing step outside of Triton, since Triton itself does not natively integrate with Feast.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;By structuring the inference step this way, the pipeline ensures that the deployed model always uses the freshest features for each prediction, supporting robust, real-time fraud detection.&lt;/p&gt;
+
+&lt;h2 id=&quot;importing-and-running-the-pipeline&quot;&gt;Importing and Running the Pipeline&lt;/h2&gt;
+
+&lt;p&gt;Once your environment is set up and the data is uploaded, you’re ready to run the pipeline.&lt;/p&gt;
+
+&lt;h3 id=&quot;import-the-pipeline&quot;&gt;Import the Pipeline&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Open the Kubeflow Pipelines UI (usually at &lt;a href=&quot;http://localhost:8080&quot;&gt;http://localhost:8080&lt;/a&gt; if you used the default port-forward).&lt;/li&gt;
+  &lt;li&gt;Click &lt;strong&gt;Pipelines&lt;/strong&gt; in the sidebar, then click &lt;strong&gt;Upload pipeline&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;Upload the compiled pipeline YAML file (e.g., &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pipeline/fraud-detection-e2e.yaml&lt;/code&gt;).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;run-the-pipeline&quot;&gt;Run the Pipeline&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;After uploading, click on your pipeline in the list.&lt;/li&gt;
+  &lt;li&gt;Click &lt;strong&gt;Create run&lt;/strong&gt;.&lt;/li&gt;
+  &lt;li&gt;Optionally customize the run name and description (the defaults work fine), then click &lt;strong&gt;Start&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;You can monitor the progress and view logs for each step directly in the UI.&lt;/p&gt;
+
+&lt;h2 id=&quot;testing-the-live-endpoint&quot;&gt;Testing the Live Endpoint&lt;/h2&gt;
+
+&lt;p&gt;With the inference service running, you can now interact with your deployed model in real time. Let’s see how to send prediction requests and interpret the results.&lt;/p&gt;
+
+&lt;p&gt;Before sending requests, port-forward the inference pod so the service is accessible locally. &lt;strong&gt;Run this command in a separate terminal window:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;kubectl &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; kubeflow get pods &lt;span class=&quot;nt&quot;&gt;-l&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;component&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;predictor &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;jsonpath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;{.items[*].metadata.name}&quot;&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;tr&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;' '&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'\n'&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'^fraud-detection'&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-n1&lt;/span&gt; | xargs &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{}&lt;/span&gt; kubectl port-forward &lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt; kubeflow pod/&lt;span class=&quot;o&quot;&gt;{}&lt;/span&gt; 8081:8080
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With the port-forward active, you can now send a request to the model:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-X&lt;/span&gt; POST http://localhost:8081/v1/models/onnx-model:predict &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;-H&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Content-Type: application/json&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{&quot;user_id&quot;: &quot;user_0&quot;}'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The service retrieves features for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user_0&lt;/code&gt;, runs a prediction, and returns the fraud probability.&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;user_id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;user_0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;prediction&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.8173668384552002&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Note: The result of the prediction may vary depending on the initial raw data you uploaded.&lt;br /&gt;
+Try sending requests with a few different &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user_id&lt;/code&gt; values (e.g., &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;user_1&quot;&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;user_2&quot;&lt;/code&gt;, etc.) to see how the predictions change.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;This post has walked you through a complete, reproducible AI/ML workflow—from raw data to a live model serving endpoint—using Kubeflow and open source tools. Along the way, you’ve seen how to prepare data with Spark, manage features with Feast, train and register models, and deploy real-time inference services with KServe, all orchestrated in a portable pipeline you can run on your own laptop.&lt;/p&gt;
+
+&lt;p&gt;By following this blueprint, you can adapt and extend the process for your own machine learning projects, whether you’re working locally or scaling up to production. Kubeflow’s modular platform and ecosystem make it possible to manage the entire ML lifecycle in a consistent, automated, and open way.&lt;/p&gt;
+
+&lt;p&gt;Ready to try it yourself? The complete source code for this project is available on &lt;a href=&quot;https://github.com/hbelmiro/fraud_detection_e2e_demo/tree/kubeflow&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</content><author><name>Helber Belmiro</name></author><category term="mlops" /><category term="pipelines" /><category term="spark" /><category term="feast" /><category term="model-registry" /><category term="kserve" /><summary type="html">From Raw Data to Model Serving: A Blueprint for the AI/ML Lifecycle with Kubeflow</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Kubeflow 1.10 Release Announcement</title><link href="https://blog.kubeflow.org/kubeflow-1.10-release/" rel="alternate" type="text/html" title="Kubeflow 1.10 Release Announcement" /><published>2025-03-26T00:00:00-05:00</published><updated>2025-03-26T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-1.10-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.10-release/">&lt;p&gt;Kubeflow 1.10.0 delivers essential updates that enhance the flexibility, efficiency, and scalability of machine learning
 workflows. The new features span across several components, improving both user experience and system performance.&lt;/p&gt;
 
 &lt;h2 id=&quot;highlight-features&quot;&gt;Highlight features&lt;/h2&gt;
@@ -1513,32 +2169,4 @@ data processing.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;&lt;em&gt;Get Involved&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;Getting involved in the &lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;Kubeflow &lt;/a&gt;Community offers numerous opportunities for learning, networking, and contributing to open-source development. Participating in the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;Kubeflow community&lt;/a&gt; you’ll be joining a vibrant ecosystem of developers, data scientists, AI enthusiasts and others who are pushing the boundaries of machine learning operations with Kubeflow. By actively participating and sharing your ideas, you can make a meaningful impact and be part of this dynamic community.  Check out the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/#kubeflow-community-call&quot;&gt;weekly community call&lt;/a&gt;, get involved in discussions on the [mailing list]&lt;/p&gt;</content><author><name>Amber Graner, David Cardozo</name></author><category term="election" /><summary type="html">We’re thrilled to announce the results of the 2023 Kubeflow Steering Committee (KSC) election.</summary></entry><entry><title type="html">Kubeflow Community Holds First Election for Kubeflow Steering Committee</title><link href="https://blog.kubeflow.org/election/2023/12/12/kubeflow-community-holds-first-election-for-kubeflow-steering-committee.html" rel="alternate" type="text/html" title="Kubeflow Community Holds First Election for Kubeflow Steering Committee" /><published>2023-12-12T00:00:00-06:00</published><updated>2023-12-12T00:00:00-06:00</updated><id>https://blog.kubeflow.org/election/2023/12/12/kubeflow-community-holds-first-election-for-kubeflow-steering-committee</id><content type="html" xml:base="https://blog.kubeflow.org/election/2023/12/12/kubeflow-community-holds-first-election-for-kubeflow-steering-committee.html">&lt;p&gt;The Kubeflow Community, known for its dedication to making machine learning workflows on Kubernetes simple, portable, and scalable, &lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss/c/54PGJ-ypqc8&quot;&gt;has recently announced&lt;/a&gt; a significant milestone in its journey. For the first time, they are holding elections for the Kubeflow Steering Committee (KSC)!&lt;/p&gt;
-
-&lt;p&gt;The KSC will be crucial in guiding the project’s direction, ensuring it continues to meet the needs of its growing user base. Candidates for this committee are drawn from the community’s diverse members, embodying the spirit of open-source collaboration that Kubeflow cherishes.
-This election marks a new chapter in Kubeflow’s history, reflecting the community’s commitment to a democratic project governance model. It serves as a testament to the community’s growth, maturity, and dedication to inclusivity and shared decision-making.&lt;/p&gt;
-
-&lt;p&gt;The election process for the KSC is structured to ensure that every phase is transparent and fair. As per &lt;a href=&quot;https://github.com/kubeflow/community/blob/master/elections/kubeflow-steering-committee-elections-2023.md&quot;&gt;the announced timeline&lt;/a&gt;, we are currently in &lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss/c/dEs1aGSd_X4/m/n-6pMaCnAQAJ&quot;&gt;the nomination phase&lt;/a&gt;, where &lt;a href=&quot;https://github.com/kubeflow/community/blob/master/elections/eligible-candidates-and-voters-2023-KSC.md&quot;&gt;eligible community members&lt;/a&gt; are encouraged to nominate themselves or others for a position on the Committee. This stage will determine the group of candidates who will move forward to the testimonial phase and then the voting phase. It’s an exciting time for the community, as members step up to the challenge and show their readiness to drive the project’s future direction.&lt;/p&gt;
-
-&lt;p&gt;Elections like this in the open source ecosystem highlight the collaborative spirit that drives these initiatives. They provide the opportunity for anyone, regardless of their role in the project, to step up and help guide its future. Let’s all join in congratulating the &lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;Kubeflow Community&lt;/a&gt; on this milestone and look forward to the outcomes of this exciting election!&lt;/p&gt;
-
-&lt;h3 id=&quot;get-involved&quot;&gt;&lt;em&gt;Get Involved:&lt;/em&gt;&lt;/h3&gt;
-&lt;p&gt;We are an open and welcoming &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;community&lt;/a&gt; of software developers, data scientists, AI enthusiasts, organizations and more!  Getting involved in the Kubeflow Community is an exciting journey that offers numerous opportunities for learning, networking, and contributing to open-source development. By actively participating and sharing your ideas, you can make a meaningful impact and be part of this dynamic community. Check out the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/#kubeflow-community-call&quot;&gt;weekly community call&lt;/a&gt;, get involved in discussions on &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/#kubeflow-mailing-list&quot;&gt;the mailing list&lt;/a&gt; or chat with others on the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/#kubeflow-slack&quot;&gt;Slack Workspace&lt;/a&gt;!&lt;/p&gt;
-
-&lt;h3 id=&quot;important-dates&quot;&gt;&lt;em&gt;Important Dates:&lt;/em&gt;&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;Exceptions Phase:&lt;/strong&gt;  4 December 2023 at 0900 Pacific Time  (Starts) - 10 December 2023 at 12:00pm Pacific Time (Ends)&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Nomination Phase:&lt;/strong&gt; 11 December 2023 at 0900 Pacific Time  (Starts) - 24 December 2023 at 12:00pm Pacific Time (Ends)&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Testimonial Phase:&lt;/strong&gt; 25 December 2023 at 0900 Pacific Time (Starts) - 7 January 2024 at 12:00pm Pacific Time (Ends)&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Voting Phase:&lt;/strong&gt; 8 January 2024 at 0900 Pacific Time (Starts) - 29 January 2024 at 12:00pm Pacific Time (Ends)&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Announcement&lt;/strong&gt; of Election Results:  30 January 2024&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;additional-information&quot;&gt;&lt;em&gt;Additional Information:&lt;/em&gt;&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/community/blob/master/elections/kubeflow-steering-committee-elections-2023.md&quot;&gt;Kubeflow Project Steering Committee Elections 2023&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/community/blob/master/elections/eligible-candidates-and-voters-2023-KSC.md&quot;&gt;List of Eligible Voters and Candidates 2023&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss/c/dEs1aGSd_X4/m/n-6pMaCnAQAJ&quot;&gt;[Elections] Nominations Phase - 2023 Kubeflow Project Steering Committee Elections - Opens Today&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss/c/aIkzJVgsSp4/m/crpQv1EZAgAJ&quot;&gt;[Elections] 2023 Kubeflow Project Steering Committee Elections - Eligible Voters and Candidates&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://groups.google.com/g/kubeflow-discuss/c/54PGJ-ypqc8/m/iRC2UXcvAQAJ&quot;&gt;[Elections] 2023 Kubeflow Project Steering Committee Elections - Timeline and Update&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Amber Graner</name></author><category term="election" /><summary type="html">The Kubeflow Community, known for its dedication to making machine learning workflows on Kubernetes simple, portable, and scalable, has recently announced a significant milestone in its journey. For the first time, they are holding elections for the Kubeflow Steering Committee (KSC)!</summary></entry></feed>
+&lt;p&gt;Getting involved in the &lt;a href=&quot;https://www.kubeflow.org/&quot;&gt;Kubeflow &lt;/a&gt;Community offers numerous opportunities for learning, networking, and contributing to open-source development. Participating in the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/&quot;&gt;Kubeflow community&lt;/a&gt; you’ll be joining a vibrant ecosystem of developers, data scientists, AI enthusiasts and others who are pushing the boundaries of machine learning operations with Kubeflow. By actively participating and sharing your ideas, you can make a meaningful impact and be part of this dynamic community.  Check out the &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/#kubeflow-community-call&quot;&gt;weekly community call&lt;/a&gt;, get involved in discussions on the [mailing list]&lt;/p&gt;</content><author><name>Amber Graner, David Cardozo</name></author><category term="election" /><summary type="html">We’re thrilled to announce the results of the 2023 Kubeflow Steering Committee (KSC) election.</summary></entry></feed>

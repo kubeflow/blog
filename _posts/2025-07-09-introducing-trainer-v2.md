@@ -163,32 +163,36 @@ Another improvement of **Trainer v2** is its **built-in support for fine-tuning 
 - `BuiltinTrainer` - already includes the fine-tuning logic and allows AI Practitioners to quickly start fine-tuning requiring only parameter adjustments.
 - `CustomTrainer` - allows users to provide their own training function that encapsulates the entire model training process.
 
-This approach means that in the future, we can add more frameworks, as `BuiltinTrainer` options, for example [unsloth](https://github.com/unslothai/unsloth). It makes it easier for AI Practitioners to fine-tune LLMs using the KF Trainer with their preferred framework. Here’s an example using the `BuiltinTrainer` with **torchtune**:
+In the first release, we support **TorchTune LLM Trainer** as the initial option for `BuiltinTrainer`. For TorchTune, we provide pre-configured runtimes (`ClusterTrainingRuntime`) that currently support `Llama-3.2-1B-Instruct` and `Llama-3.2-3B-Instruct` in the [manifest](https://github.com/kubeflow/trainer/tree/master/manifests/base/runtimes/torchtune/llama3_2). This approach means that in the future, we can add more frameworks, such as [unsloth](https://github.com/unslothai/unsloth), as additional `BuiltinTrainer` options. Here's an example using the `BuiltinTrainer` with **TorchTune**:
 
 ```
-job_name = TrainerClient().train(
-    trainer=BuiltinTrainer(
-        config=TorchTuneConfig(
-            dtype="bf16",
-            batch_size=1,
-            epochs=1,
-            num_nodes=5,
-        ),
+job_name = client.train(
+    runtime=Runtime(
+        name="torchtune-llama3.2-1b"
     ),
     initializer=Initializer(
         dataset=HuggingFaceDatasetInitializer(
-            storage_uri="tatsu-lab/alpaca",
+            storage_uri="hf://tatsu-lab/alpaca/data"
+        ),
+        model=HuggingFaceModelInitializer(
+            storage_uri="hf://meta-llama/Llama-3.2-1B-Instruct",
+            access_token="<YOUR_HF_TOKEN>"  # Replace with your Hugging Face token,
         )
     ),
-    runtime=Runtime(
-      name="torchtune-llama3.1-8b",
-    ),
+    trainer=BuiltinTrainer(
+        config=TorchTuneConfig(
+            dataset_preprocess_config=TorchTuneInstructDataset(
+                source=DataFormat.PARQUET,
+            ),
+            resources_per_node={
+                "gpu": 1,
+            }
+        )
+    )
 )
 ```
 
-This example uses a **builtin runtime image** that uses a foundation Llama model, and fine-tunes it using a dataset pulled from Hugging Face, with the torchtune configuration provided by the AI Practitioner.
-
-To further simplify LLM fine-tuning, the **KF Trainer v2** provides **runtime configurations** for models such as **Llama 3.2** (available in 1B and 3B variants), which makes it easier for users to configure common LLM fine-tuning jobs.
+This example uses a **builtin runtime image** that uses a foundation Llama model, and fine-tunes it using a dataset pulled from Hugging Face, with the TorchTune configuration provided by the AI Practitioner. For more details, please refer to [this example](https://github.com/kubeflow/trainer/blob/master/examples/torchtune/llama3_2/alpaca-trainjob-yaml.ipynb).
 
 # Dataset and Model Initializers
 

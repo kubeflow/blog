@@ -43,7 +43,7 @@ One of the main challenges with ML training on Kubernetes is that it often requi
 
 The diagram below shows how different personas interact with these custom resources:
 
-![division_of_labor](/images/2025-07-09-introducing-trainer-v2/user-personas.drawio.svg)
+![user_personas](/images/2025-07-09-introducing-trainer-v2/user-personas.drawio.svg)
 
 - **Platform Engineers** define and manage **the infrastructure configurations** required for training jobs using `TrainingRuntimes` or `ClusterTrainingRuntimes`. 
 - **AI Practitioners** focus on model development using the simplified `TrainJob` resource or **Python SDK** wrapper, providing a reference to **the training runtime** created by **Platform Engineers**.

@@ -277,6 +277,35 @@ The **KF Trainer v2** also provides **MPI v2 support**, which includes **automat
 
 The diagram above shows how this works in practice - the **KF Trainer** automatically **handles the SSH key generation** and **MPI communication** between training pods, which allows frameworks like [DeepSpeed](https://www.deepspeed.ai/) to coordinate training across multiple GPU nodes without requiring manual configuration of inter-node communication.
 
+# Gang-Scheduling
+
+**Gang-scheduling** is an important feature for distributed training that ensures **all pods in a training job are scheduled together** or not at all.
+This prevents scenarios where only some pods are scheduled while others remain pending due to resource constraints, which would waste GPU resources and prevent training from starting.
+
+**The KF Trainer v2** provides **built-in gang-scheduling support** through **PodGroupPolicy API**.
+This creates **PodGroup resources** that ensure all required pods can be scheduled simultaneously before the training job starts.
+
+**Platform Engineers** can configure gang-scheduling in their **TrainingRuntime** or **ClusterTrainingRuntime** definitions. Here's an example:
+
+```yaml
+apiVersion: trainer.kubeflow.org/v1alpha1
+kind: ClusterTrainingRuntime
+metadata:
+  name: torch-distributed-gang-scheduling
+spec:
+  mlPolicy:
+    numNodes: 3
+    torch:
+      numProcPerNode: 2
+  podGroupPolicy:
+    coscheduling:
+      scheduleTimeoutSeconds: 120
+  # ... rest of runtime configuration
+```
+
+Currently, **KF Trainer v2** supports the **Co-Scheduling plugin** from [Kubernetes scheduler-plugins](https://github.com/kubernetes-sigs/scheduler-plugins) project.
+**[Volcano](https://github.com/kubeflow/trainer/pull/2672)** and **[KAI](https://github.com/kubeflow/trainer/pull/2663)** scheduler support is coming in future releases to provide more advanced scheduling capabilities.
+
 # Fault Tolerance Improvements
 
 Training jobs can sometimes fail due to node issues or other problems. The **KF Trainer v2** improves handling these faults by supporting **Kubernetes PodFailurePolicy**, which allows users to **define specific rules** for handling different types of failures, such as restarting the job after temporary node issues or terminating the job after critical errors.

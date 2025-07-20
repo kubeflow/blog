@@ -11,11 +11,12 @@ author: "Kubeflow Trainer Team"
 
 Running machine learning workloads on Kubernetes can be challenging.
 Distributed training and LLMs fine-tuning, in particular, involves managing multiple nodes, GPUs, large datasets, and fault tolerance, which often requires deep Kubernetes knowledge.
-The **Kubeflow Trainer v2 (KF Trainer)** was created to hide this complexity, by making training on Kubernetes easier for AI Practitioners.
+The **Kubeflow Trainer v2 (KF Trainer)** was created to hide this complexity, by abstracting Kubernetes from AI Practitioners and providing the easiest, most scalable way to run distributed PyTorch jobs.
 
 **The main goals of Kubeflow Trainer v2 include:**
 - Make AI/ML workloads easier to manage at scale
 - Provide a Pythonic interface to train models
+- Deliver the easiest and most scalable PyTorch distributed training on Kubernetes
 - Add built-in support for fine-tuning large language models
 - Abstract Kubernetes complexity from AI Practitioners
 - Consolidate efforts between Kubernetes Batch WG and Kubeflow community

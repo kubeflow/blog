@@ -15,9 +15,9 @@
 <meta property="og:url" content="https://blog.kubeflow.org/trainer/intro/" />
 <meta property="og:site_name" content="Kubeflow" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2025-07-09T00:00:00-05:00" />
+<meta property="article:published_time" content="2025-07-21T00:00:00-05:00" />
 <script type="application/ld+json">
-{"url":"https://blog.kubeflow.org/trainer/intro/","@type":"BlogPosting","headline":"Democratizing AI Model Training on Kubernetes: Introducing Kubeflow Trainer V2","dateModified":"2025-07-09T00:00:00-05:00","datePublished":"2025-07-09T00:00:00-05:00","author":{"@type":"Person","name":"Kubeflow Trainer Team"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/trainer/intro/"},"description":"Running machine learning workloads on Kubernetes can be challenging. Distributed training and LLMs fine-tuning, in particular, involves managing multiple nodes, GPUs, large datasets, and fault tolerance, which often requires deep Kubernetes knowledge. The Kubeflow Trainer v2 (KF Trainer) was created to hide this complexity, by abstracting Kubernetes from AI Practitioners and providing the easiest, most scalable way to run distributed PyTorch jobs.","@context":"https://schema.org"}</script>
+{"url":"https://blog.kubeflow.org/trainer/intro/","@type":"BlogPosting","headline":"Democratizing AI Model Training on Kubernetes: Introducing Kubeflow Trainer V2","dateModified":"2025-07-21T00:00:00-05:00","datePublished":"2025-07-21T00:00:00-05:00","author":{"@type":"Person","name":"Kubeflow Trainer Team"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/trainer/intro/"},"description":"Running machine learning workloads on Kubernetes can be challenging. Distributed training and LLMs fine-tuning, in particular, involves managing multiple nodes, GPUs, large datasets, and fault tolerance, which often requires deep Kubernetes knowledge. The Kubeflow Trainer v2 (KF Trainer) was created to hide this complexity, by abstracting Kubernetes from AI Practitioners and providing the easiest, most scalable way to run distributed PyTorch jobs.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -86,8 +86,8 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Democratizing AI Model Training on Kubernetes: Introducing Kubeflow Trainer V2</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2025-07-09T00:00:00-05:00" itemprop="datePublished">
-        Jul 9, 2025
+    <h1 class="post-title p-name" itemprop="name headline">Democratizing AI Model Training on Kubernetes: Introducing Kubeflow Trainer V2</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2025-07-21T00:00:00-05:00" itemprop="datePublished">
+        Jul 21, 2025
       </time>• 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
             <span class="p-author h-card" itemprop="name">Kubeflow Trainer Team</span></span>
@@ -177,7 +177,7 @@ This separation is built around three new custom resources definitions (CRDs):</
 
 <p>The diagram below shows how different personas interact with these custom resources:</p>
 
-<p><img src="/images/2025-07-09-introducing-trainer-v2/user-personas.drawio.svg" alt="user_personas"></p>
+<p><img src="/images/2025-07-21-introducing-trainer-v2/user-personas.drawio.svg" alt="user_personas"></p>
 
 <ul>
   <li>
@@ -194,11 +194,11 @@ The SDK provides a unified interface across multiple ML frameworks and cloud env
 
 <p>The diagram below illustrates how Kubeflow Trainer provides a consistent experience for running ML jobs across different ML frameworks, Kubernetes infrastructures, and cloud providers:</p>
 
-<p><img src="/images/2025-07-09-introducing-trainer-v2/trainerv2.png" alt="trainerv2"></p>
+<p><img src="/images/2025-07-21-introducing-trainer-v2/trainerv2.png" alt="trainerv2"></p>
 
 <p><strong>Kubeflow Trainer v2</strong> supports multiple ML frameworks through <strong>pre-configured runtimes</strong>. The table below shows the current framework support:</p>
 
-<p><img src="/images/2025-07-09-introducing-trainer-v2/runtimes.png" alt="runtimes"></p>
+<p><img src="/images/2025-07-21-introducing-trainer-v2/runtimes.png" alt="runtimes"></p>
 
 <p>The SDK makes it easier for users familiar with Python to <strong>create, manage, and monitor training jobs</strong>, without requiring them to deal with any YAML definitions:</p>
 
@@ -332,7 +332,7 @@ The v2 architecture addresses this by introducing a <strong>Pipeline Framework</
 
 <p>The diagram below shows Kubeflow Trainer Pipeline Framework overview:</p>
 
-<p><img src="/images/2025-07-09-introducing-trainer-v2/trainer-pipeline-framework.drawio.svg" alt="trainer_pipeline_framework"></p>
+<p><img src="/images/2025-07-21-introducing-trainer-v2/trainer-pipeline-framework.drawio.svg" alt="trainer_pipeline_framework"></p>
 
 <p>The framework works through a series of phases - <strong>Startup</strong>, <strong>PreExecution</strong>, <strong>Build</strong>, and <strong>PostExecution</strong> - each with <strong>extension points</strong> where custom Plugins can hook in.
 This approach allows adding support for new frameworks, custom validation logic, or specialized training orchestration without changing the underlying system.</p>
@@ -408,7 +408,7 @@ We are working on <strong><a href="https://github.com/kubernetes-sigs/kueue/issu
 
 <p>The <strong>KF Trainer v2</strong> also provides <strong>MPI v2 support</strong>, which includes <strong>automatic generation of SSH keys</strong> for secure inter-node communication and boosting performance MPI on Kubernetes.</p>
 
-<p><img src="/images/2025-07-09-introducing-trainer-v2/MPI-support.drawio.svg" alt="MPI_support"></p>
+<p><img src="/images/2025-07-21-introducing-trainer-v2/MPI-support.drawio.svg" alt="MPI_support"></p>
 
 <p>The diagram above shows how this works in practice - the <strong>KF Trainer</strong> automatically <strong>handles the SSH key generation</strong> and <strong>MPI communication</strong> between training pods, which allows frameworks like <a href="https://www.deepspeed.ai/">DeepSpeed</a> to coordinate training across multiple GPU nodes without requiring manual configuration of inter-node communication.</p>
 

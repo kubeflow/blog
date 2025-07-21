@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Democratizing AI Model Training on Kubernetes: Introducing Kubeflow Trainer V2 | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Democratizing AI Model Training on Kubernetes: Introducing Kubeflow Trainer V2" />
+<meta name="author" content="Kubeflow Trainer Team" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Running machine learning workloads on Kubernetes can be challenging. Distributed training and LLMs fine-tuning, in particular, involves managing multiple nodes, GPUs, large datasets, and fault tolerance, which often requires deep Kubernetes knowledge. The Kubeflow Trainer v2 (KF Trainer) was created to hide this complexity, by abstracting Kubernetes from AI Practitioners and providing the easiest, most scalable way to run distributed PyTorch jobs." />
+<meta property="og:description" content="Running machine learning workloads on Kubernetes can be challenging. Distributed training and LLMs fine-tuning, in particular, involves managing multiple nodes, GPUs, large datasets, and fault tolerance, which often requires deep Kubernetes knowledge. The Kubeflow Trainer v2 (KF Trainer) was created to hide this complexity, by abstracting Kubernetes from AI Practitioners and providing the easiest, most scalable way to run distributed PyTorch jobs." />
+<link rel="canonical" href="https://blog.kubeflow.org/trainer/intro/" />
+<meta property="og:url" content="https://blog.kubeflow.org/trainer/intro/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-07-09T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/trainer/intro/","@type":"BlogPosting","headline":"Democratizing AI Model Training on Kubernetes: Introducing Kubeflow Trainer V2","dateModified":"2025-07-09T00:00:00-05:00","datePublished":"2025-07-09T00:00:00-05:00","author":{"@type":"Person","name":"Kubeflow Trainer Team"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/trainer/intro/"},"description":"Running machine learning workloads on Kubernetes can be challenging. Distributed training and LLMs fine-tuning, in particular, involves managing multiple nodes, GPUs, large datasets, and fault tolerance, which often requires deep Kubernetes knowledge. The Kubeflow Trainer v2 (KF Trainer) was created to hide this complexity, by abstracting Kubernetes from AI Practitioners and providing the easiest, most scalable way to run distributed PyTorch jobs.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Democratizing AI Model Training on Kubernetes: Introducing Kubeflow Trainer V2</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2025-07-09T00:00:00-05:00" itemprop="datePublished">
+        Jul 9, 2025
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Kubeflow Trainer Team</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#trainer">trainer</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#background-and-evolution">Background and Evolution</a></li>
+<li class="toc-entry toc-h1"><a href="#user-personas">User Personas</a></li>
+<li class="toc-entry toc-h1"><a href="#python-sdk">Python SDK</a></li>
+<li class="toc-entry toc-h1"><a href="#simplified-api">Simplified API</a></li>
+<li class="toc-entry toc-h1"><a href="#extensibility-and-pipeline-framework">Extensibility and Pipeline Framework</a></li>
+<li class="toc-entry toc-h1"><a href="#llms-fine-tuning-support">LLMs Fine-Tuning Support</a></li>
+<li class="toc-entry toc-h1"><a href="#dataset-and-model-initializers">Dataset and Model Initializers</a></li>
+<li class="toc-entry toc-h1"><a href="#use-of-jobset-api">Use of JobSet API</a></li>
+<li class="toc-entry toc-h1"><a href="#kueue-integration">Kueue Integration</a></li>
+<li class="toc-entry toc-h1"><a href="#mpi-support">MPI Support</a></li>
+<li class="toc-entry toc-h1"><a href="#gang-scheduling">Gang-Scheduling</a></li>
+<li class="toc-entry toc-h1"><a href="#fault-tolerance-improvements">Fault Tolerance Improvements</a></li>
+<li class="toc-entry toc-h1"><a href="#whats-next">What’s Next?</a></li>
+<li class="toc-entry toc-h1"><a href="#migration-from-training-operator-v1">Migration from Training Operator v1</a></li>
+<li class="toc-entry toc-h1"><a href="#resources-and-community">Resources and Community</a></li>
+</ul><p>Running machine learning workloads on Kubernetes can be challenging.
+Distributed training and LLMs fine-tuning, in particular, involves managing multiple nodes, GPUs, large datasets, and fault tolerance, which often requires deep Kubernetes knowledge.
+The <strong>Kubeflow Trainer v2 (KF Trainer)</strong> was created to hide this complexity, by abstracting Kubernetes from AI Practitioners and providing the easiest, most scalable way to run distributed PyTorch jobs.</p>
+
+<p><strong>The main goals of Kubeflow Trainer v2 include:</strong></p>
+<ul>
+  <li>Make AI/ML workloads easier to manage at scale</li>
+  <li>Provide a Pythonic interface to train models</li>
+  <li>Deliver the easiest and most scalable PyTorch distributed training on Kubernetes</li>
+  <li>Add built-in support for fine-tuning large language models</li>
+  <li>Abstract Kubernetes complexity from AI Practitioners</li>
+  <li>Consolidate efforts between Kubernetes Batch WG and Kubeflow community</li>
+</ul>
+
+<p>We’re deeply grateful to all contributors and community members who made the <strong>Trainer v2</strong> possible with their hard work and valuable feedback.
+We’d like to give special recognition to <a href="https://github.com/andreyvelich">andreyvelich</a>, <a href="https://github.com/tenzen-y">tenzen-y</a>, <a href="https://github.com/electronic-waste">electronic-waste</a>, <a href="https://github.com/astefanutti">astefanutti</a>, <a href="https://github.com/ironicbo">ironicbo</a>, <a href="https://github.com/mahdikhashan">mahdikhashan</a>, <a href="https://github.com/kramaranya">kramaranya</a>, <a href="https://github.com/harshal292004">harshal292004</a>, <a href="https://github.com/akshaychitneni">akshaychitneni</a>, <a href="https://github.com/chenyi015">chenyi015</a> and the rest of the contributors.
+We would also like to highlight <a href="https://github.com/ahg-g">ahg-g</a>, <a href="https://github.com/kannon92">kannon92</a>, and <a href="https://github.com/vsoch">vsoch</a> whose feedback was essential while we designed the Kubeflow Trainer architecture together with the Batch WG.
+See the full <a href="https://kubeflow.devstats.cncf.io/d/66/developer-activity-counts-by-companies?orgId=1&amp;var-period_name=Last%206%20months&amp;var-metric=commits&amp;var-repogroup_name=kubeflow%2Ftrainer&amp;var-country_name=All&amp;var-companies=All">contributor list</a> for everyone who helped make this release possible.</p>
+
+<h1 id="background-and-evolution">
+<a class="anchor" href="#background-and-evolution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Background and Evolution</h1>
+
+<p><strong>Kubeflow Trainer v2</strong> represents the next evolution of the <strong>Kubeflow Training Operator</strong>, building on over seven years of experience running ML workloads on Kubernetes.
+The journey began in 2017 when the <strong>Kubeflow</strong> project introduced <strong>TFJob</strong> to orchestrate TensorFlow training on Kubernetes.
+At that time, Kubernetes lacked many of the advanced batch processing features needed for distributed ML training, so the community had to implement these capabilities from scratch.</p>
+
+<p>Over the years, the project expanded to support multiple ML frameworks including <strong>PyTorch</strong>, <strong>MXNet</strong>, <strong>MPI</strong>, and <strong>XGBoost</strong> through various specialized operators.
+In 2021, these were consolidated into the unified <strong><a href="https://docs.google.com/document/d/1x1JPDQfDMIbnoQRftDH1IzGU0qvHGSU4W6Jl4rJLPhI/edit?tab=t.0#heading=h.e33ufidnl8z6">Training Operator v1</a></strong>.
+Meanwhile, the Kubernetes community introduced the <strong>Batch Working Group</strong>, developing important APIs like JobSet, Kueue, Indexed Jobs, and PodFailurePolicy that improved HPC and AI workload management.</p>
+
+<p><strong>Trainer v2</strong> leverages these Kubernetes-native improvements to make use of existing functionality and not reinvent the wheel.
+This collaboration between the Kubernetes and Kubeflow communities delivers a more standardized approach to ML training on Kubernetes.</p>
+
+<h1 id="user-personas">
+<a class="anchor" href="#user-personas" aria-hidden="true"><span class="octicon octicon-link"></span></a>User Personas</h1>
+
+<p>One of the main challenges with ML training on Kubernetes is that it often requires <strong>AI Practitioners</strong> to have an understanding of <strong>Kubernetes concepts</strong> and the <strong>infrastructure</strong> being used for training. This distracts AI Practitioners from their primary focus.</p>
+
+<p><strong>The KF Trainer v2</strong> addresses this by <strong>separating the infrastructure configuration from the training job definition</strong>.
+This separation is built around three new custom resources definitions (CRDs):</p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">TrainingRuntime</code> - a namespace-scoped resource that contains the infrastructure details that are required for a training job, such as the training image to use, failure policy, and gang-scheduling configuration.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">ClusterTrainingRuntime</code> - similar to <code class="language-plaintext highlighter-rouge">TrainingRuntime</code>, but cluster scoped.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">TrainJob</code> - specifies the training job configuration, including the training code to run, config for pulling the training dataset &amp; model, and a reference to the training runtime.</li>
+</ul>
+
+<p>The diagram below shows how different personas interact with these custom resources:</p>
+
+<p><img src="/images/2025-07-09-introducing-trainer-v2/user-personas.drawio.svg" alt="user_personas"></p>
+
+<ul>
+  <li>
+<strong>Platform Administrators</strong> define and manage <strong>the infrastructure configurations</strong> required for training jobs using <code class="language-plaintext highlighter-rouge">TrainingRuntimes</code> or <code class="language-plaintext highlighter-rouge">ClusterTrainingRuntimes</code>.</li>
+  <li>
+<strong>AI Practitioners</strong> focus on model development using the simplified <code class="language-plaintext highlighter-rouge">TrainJob</code> resource or <strong>Python SDK</strong> wrapper, providing a reference to <strong>the training runtime</strong> created by <strong>Platform Administrators</strong>.</li>
+</ul>
+
+<h1 id="python-sdk">
+<a class="anchor" href="#python-sdk" aria-hidden="true"><span class="octicon octicon-link"></span></a>Python SDK</h1>
+
+<p><strong>The KF Trainer v2</strong> introduces a <strong>redesigned Python SDK</strong>, which is intended to be the <strong>primary interface for AI Practitioners</strong>.
+The SDK provides a unified interface across multiple ML frameworks and cloud environments, abstracting away the underlying Kubernetes complexity.</p>
+
+<p>The diagram below illustrates how Kubeflow Trainer provides a consistent experience for running ML jobs across different ML frameworks, Kubernetes infrastructures, and cloud providers:</p>
+
+<p><img src="/images/2025-07-09-introducing-trainer-v2/trainerv2.png" alt="trainerv2"></p>
+
+<p><strong>Kubeflow Trainer v2</strong> supports multiple ML frameworks through <strong>pre-configured runtimes</strong>. The table below shows the current framework support:</p>
+
+<p><img src="/images/2025-07-09-introducing-trainer-v2/runtimes.png" alt="runtimes"></p>
+
+<p>The SDK makes it easier for users familiar with Python to <strong>create, manage, and monitor training jobs</strong>, without requiring them to deal with any YAML definitions:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from kubeflow.trainer import TrainerClient
+
+client = TrainerClient()
+
+def my_train_func():
+    """User defined function that runs on each distributed node process"""
+    import os
+    import torch
+    import torch.distributed as dist
+    from torch.utils.data import DataLoader, DistributedSampler
+    
+    # Setup PyTorch distributed
+    backend = "nccl" if torch.cuda.is_available() else "gloo"
+    local_rank = int(os.getenv("LOCAL_RANK", 0))
+    dist.init_process_group(backend=backend)
+    
+    # Define your model, dataset, and training loop
+    model = YourModel()
+    dataset = YourDataset()
+    train_loader = DataLoader(dataset, sampler=DistributedSampler(dataset))
+    
+    # Your training logic here
+    for epoch in range(num_epochs):
+        for batch in train_loader:
+            # Forward pass, backward pass, optimizer step
+            ...
+            
+    # Wait for the distributed training to complete
+    dist.barrier()
+    if dist.get_rank() == 0:
+        print("Training is finished")
+
+    # Clean up PyTorch distributed
+    dist.destroy_process_group()
+
+job_name = client.train(
+  runtime=client.get_runtime("torch-distributed"),
+  trainer=CustomTrainer(
+    func=my_train_func,
+    num_nodes=5,
+    resources_per_node={
+      "gpu": 2,
+     },
+  ),
+)
+
+job = client.get_job(name=job_name)
+
+for step in job.steps:
+   print(f"Step: {step.name}, Status: {step.status}")
+
+client.get_job_logs(job_name, follow=True)
+</code></pre></div></div>
+<p>The SDK handles all Kubernetes API interactions. This eliminates the need for AI Practitioners to directly interact with the Kubernetes API.</p>
+
+<h1 id="simplified-api">
+<a class="anchor" href="#simplified-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simplified API</h1>
+
+<p>Previously, in the <strong>Kubeflow Training Operator</strong> users worked with different custom resources for each ML framework, each with their own framework-specific configurations.
+The <strong>KF Trainer v2</strong> replaces these multiple CRDs with a <strong>unified TrainJob API</strong> that works with <strong>multiple ML frameworks</strong>.</p>
+
+<p>For example, here’s how a <strong>PyTorch training job</strong> looks like using <strong>KF Trainer v1</strong>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: kubeflow.org/v1
+kind: PyTorchJob
+metadata:
+  name: pytorch-simple
+  namespace: kubeflow
+spec:
+  pytorchReplicaSpecs:
+    Master:
+      replicas: 1
+      restartPolicy: OnFailure
+      template:
+        spec:
+          containers:
+            - name: pytorch
+              image: docker.io/kubeflowkatib/pytorch-mnist:v1beta1-45c5727
+              imagePullPolicy: Always
+              command:
+                - "python3"
+                - "/opt/pytorch-mnist/mnist.py"
+                - "--epochs=1"
+    Worker:
+      replicas: 1
+      restartPolicy: OnFailure
+      template:
+        spec:
+          containers:
+            - name: pytorch
+              image: docker.io/kubeflowkatib/pytorch-mnist:v1beta1-45c5727
+              imagePullPolicy: Always
+              command:
+                - "python3"
+                - "/opt/pytorch-mnist/mnist.py"
+                - "--epochs=1"
+</code></pre></div></div>
+
+<p>In the <strong>KF Trainer v2</strong>, creating an equivalent job becomes much simpler:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: trainer.kubeflow.org/v1alpha1
+kind: TrainJob
+metadata:
+  name: pytorch-simple
+  namespace: kubeflow
+spec:
+  trainer:
+    numNodes: 2
+    image: docker.io/kubeflowkatib/pytorch-mnist:v1beta1-45c5727
+    command:
+      - "python3"
+      - "/opt/pytorch-mnist/mnist.py"
+      - "--epochs=1"
+  runtimeRef:
+    name: torch-distributed
+    apiGroup: trainer.kubeflow.org
+    kind: ClusterTrainingRuntime
+</code></pre></div></div>
+
+<p>Additional <strong>infrastructure</strong> and <strong>Kubernetes-specific</strong> details are provided in the referenced <strong>runtime</strong> definition, and managed separately by <strong>Platform Administrators</strong>.
+In the future, we might support other runtimes in addition to <code class="language-plaintext highlighter-rouge">TrainingRuntime</code> and <code class="language-plaintext highlighter-rouge">ClusterTrainingRuntime</code>, for example <a href="https://github.com/kubeflow/trainer/issues/2249">SlurmRuntime</a>.</p>
+
+<h1 id="extensibility-and-pipeline-framework">
+<a class="anchor" href="#extensibility-and-pipeline-framework" aria-hidden="true"><span class="octicon octicon-link"></span></a>Extensibility and Pipeline Framework</h1>
+
+<p>One of the challenges in <strong>KF Trainer v1</strong> was supporting additional ML frameworks, especially for closed-sourced frameworks.
+The v2 architecture addresses this by introducing a <strong>Pipeline Framework</strong> that allows Platform Administrators  to <strong>extend the Plugins</strong> and <strong>support orchestration</strong> for their custom in-house ML frameworks.</p>
+
+<p>The diagram below shows Kubeflow Trainer Pipeline Framework overview:</p>
+
+<p><img src="/images/2025-07-09-introducing-trainer-v2/trainer-pipeline-framework.drawio.svg" alt="trainer_pipeline_framework"></p>
+
+<p>The framework works through a series of phases - <strong>Startup</strong>, <strong>PreExecution</strong>, <strong>Build</strong>, and <strong>PostExecution</strong> - each with <strong>extension points</strong> where custom Plugins can hook in.
+This approach allows adding support for new frameworks, custom validation logic, or specialized training orchestration without changing the underlying system.</p>
+
+<h1 id="llms-fine-tuning-support">
+<a class="anchor" href="#llms-fine-tuning-support" aria-hidden="true"><span class="octicon octicon-link"></span></a>LLMs Fine-Tuning Support</h1>
+
+<p>Another improvement of <strong>Trainer v2</strong> is its <strong>built-in support for fine-tuning large language models</strong>, where we provide two types of trainers:</p>
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">BuiltinTrainer</code> - already includes the fine-tuning logic and allows AI Practitioners to quickly start fine-tuning requiring only parameter adjustments.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">CustomTrainer</code> - allows users to provide their own training function that encapsulates the entire LLMs fine-tuning.</li>
+</ul>
+
+<p>In the first release, we support <strong>TorchTune LLM Trainer</strong> as the initial option for <code class="language-plaintext highlighter-rouge">BuiltinTrainer</code>.
+For TorchTune, we provide pre-configured runtimes (<code class="language-plaintext highlighter-rouge">ClusterTrainingRuntime</code>) that currently support <code class="language-plaintext highlighter-rouge">Llama-3.2-1B-Instruct</code> and <code class="language-plaintext highlighter-rouge">Llama-3.2-3B-Instruct</code> in the <a href="https://github.com/kubeflow/trainer/tree/master/manifests/base/runtimes/torchtune/llama3_2">manifest</a>.
+This approach means that in the future, we can add more frameworks, such as <a href="https://github.com/unslothai/unsloth">unsloth</a>, as additional <code class="language-plaintext highlighter-rouge">BuiltinTrainer</code> options.
+Here’s an example using the <code class="language-plaintext highlighter-rouge">BuiltinTrainer</code> with <strong>TorchTune</strong>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>job_name = client.train(
+    runtime=Runtime(
+        name="torchtune-llama3.2-1b"
+    ),
+    initializer=Initializer(
+        dataset=HuggingFaceDatasetInitializer(
+            storage_uri="hf://tatsu-lab/alpaca/data"
+        ),
+        model=HuggingFaceModelInitializer(
+            storage_uri="hf://meta-llama/Llama-3.2-1B-Instruct",
+            access_token="&lt;YOUR_HF_TOKEN&gt;"  # Replace with your Hugging Face token,
+        )
+    ),
+    trainer=BuiltinTrainer(
+        config=TorchTuneConfig(
+            dataset_preprocess_config=TorchTuneInstructDataset(
+                source=DataFormat.PARQUET,
+            ),
+            resources_per_node={
+                "gpu": 1,
+            }
+        )
+    )
+)
+</code></pre></div></div>
+
+<p>This example uses a <strong>builtin runtime image</strong> that uses a foundation Llama model, and fine-tunes it using a dataset pulled from Hugging Face, with the TorchTune configuration provided by the AI Practitioner.
+For more details, please refer to <a href="https://github.com/kubeflow/trainer/blob/master/examples/torchtune/llama3_2/alpaca-trainjob-yaml.ipynb">this example</a>.</p>
+
+<h1 id="dataset-and-model-initializers">
+<a class="anchor" href="#dataset-and-model-initializers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dataset and Model Initializers</h1>
+
+<p><strong>Trainer v2</strong> provides <strong>dedicated initializers</strong> for datasets and models, which significantly simplify the setup process.
+Instead of each training pod independently downloading large models and datasets, <strong>initializers handle this once</strong> and <strong>share the data</strong> across all training nodes through a <strong>shared volume</strong>.</p>
+
+<p>This approach saves both <strong>time and resources</strong> by preventing network slowdowns, and <strong>reducing GPU waiting time</strong> during setup by offloading data loading tasks to CPU-based initializers, which preserves expensive GPU resources for the actual training.</p>
+
+<h1 id="use-of-jobset-api">
+<a class="anchor" href="#use-of-jobset-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use of JobSet API</h1>
+
+<p>Under the hood, the <strong>KF Trainer v2</strong> uses <strong><a href="https://jobset.sigs.k8s.io/docs/overview/">JobSet</a></strong>, a <strong>Kubernetes-native API</strong> for managing groups of jobs.
+This integration allows the KF Trainer v2 to better utilize standard Kubernetes features instead of trying to recreate them.</p>
+
+<h1 id="kueue-integration">
+<a class="anchor" href="#kueue-integration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kueue Integration</h1>
+
+<p>Resource management is improved through integration with <strong><a href="https://kueue.sigs.k8s.io/">Kueue</a></strong>, a <strong>Kubernetes-native queueing system</strong>.
+The KF Trainer v2 includes initial support for Kueue through Pod Integration, which allows individual training pods to be queued when resources are busy.
+We are working on <strong><a href="https://github.com/kubernetes-sigs/kueue/issues/3884">native Kueue support</a></strong> for <code class="language-plaintext highlighter-rouge">TrainJob</code> to provide richer queueing features in future releases.</p>
+
+<h1 id="mpi-support">
+<a class="anchor" href="#mpi-support" aria-hidden="true"><span class="octicon octicon-link"></span></a>MPI Support</h1>
+
+<p>The <strong>KF Trainer v2</strong> also provides <strong>MPI v2 support</strong>, which includes <strong>automatic generation of SSH keys</strong> for secure inter-node communication and boosting performance MPI on Kubernetes.</p>
+
+<p><img src="/images/2025-07-09-introducing-trainer-v2/MPI-support.drawio.svg" alt="MPI_support"></p>
+
+<p>The diagram above shows how this works in practice - the <strong>KF Trainer</strong> automatically <strong>handles the SSH key generation</strong> and <strong>MPI communication</strong> between training pods, which allows frameworks like <a href="https://www.deepspeed.ai/">DeepSpeed</a> to coordinate training across multiple GPU nodes without requiring manual configuration of inter-node communication.</p>
+
+<h1 id="gang-scheduling">
+<a class="anchor" href="#gang-scheduling" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gang-Scheduling</h1>
+
+<p><strong>Gang-scheduling</strong> is an important feature for distributed training that ensures <strong>all pods in a training job are scheduled together</strong> or not at all.
+This prevents scenarios where only some pods are scheduled while others remain pending due to resource constraints, which would waste GPU resources and prevent training from starting.</p>
+
+<p><strong>The KF Trainer v2</strong> provides <strong>built-in gang-scheduling support</strong> through <strong>PodGroupPolicy API</strong>.
+This creates <strong>PodGroup resources</strong> that ensure all required pods can be scheduled simultaneously before the training job starts.</p>
+
+<p><strong>Platform Administrators</strong> can configure gang-scheduling in their <strong>TrainingRuntime</strong> or <strong>ClusterTrainingRuntime</strong> definitions. Here’s an example:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">trainer.kubeflow.org/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">ClusterTrainingRuntime</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">torch-distributed-gang-scheduling</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">mlPolicy</span><span class="pi">:</span>
+    <span class="na">numNodes</span><span class="pi">:</span> <span class="m">3</span>
+    <span class="na">torch</span><span class="pi">:</span>
+      <span class="na">numProcPerNode</span><span class="pi">:</span> <span class="m">2</span>
+  <span class="na">podGroupPolicy</span><span class="pi">:</span>
+    <span class="na">coscheduling</span><span class="pi">:</span>
+      <span class="na">scheduleTimeoutSeconds</span><span class="pi">:</span> <span class="m">120</span>
+  <span class="c1"># ... rest of runtime configuration</span>
+</code></pre></div></div>
+
+<p>Currently, <strong>KF Trainer v2</strong> supports the <strong>Co-Scheduling plugin</strong> from <a href="https://github.com/kubernetes-sigs/scheduler-plugins">Kubernetes scheduler-plugins</a> project.
+<strong><a href="https://github.com/kubeflow/trainer/pull/2672">Volcano</a></strong> and <strong><a href="https://github.com/kubeflow/trainer/pull/2663">KAI</a></strong> scheduler support is coming in future releases to provide more advanced scheduling capabilities.</p>
+
+<h1 id="fault-tolerance-improvements">
+<a class="anchor" href="#fault-tolerance-improvements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fault Tolerance Improvements</h1>
+
+<p>Training jobs can sometimes fail due to node issues or other problems. The <strong>KF Trainer v2</strong> improves handling these faults by supporting <strong>Kubernetes PodFailurePolicy</strong>, which allows users to <strong>define specific rules</strong> for handling different types of failures, such as restarting the job after temporary node issues or terminating the job after critical errors.</p>
+
+<h1 id="whats-next">
+<a class="anchor" href="#whats-next" aria-hidden="true"><span class="octicon octicon-link"></span></a>What’s Next?</h1>
+
+<p>Future enhancements will continue to improve the user experience, integrate deeper with other Kubeflow components, and support more training frameworks.
+<strong>Upcoming features</strong> include:</p>
+<ul>
+  <li>
+<strong><a href="https://github.com/kubeflow/sdk/issues/22">Local Execution</a></strong> - run training jobs locally without Kubernetes</li>
+  <li>
+<strong><a href="https://docs.google.com/document/d/1rX7ELAHRb_lvh0Y7BK1HBYAbA0zi9enB0F_358ZC58w/edit?tab=t.0#heading=h.e0573r7wwkgl">Unified Kubeflow SDK</a></strong> - a single SDK for all Kubeflow projects</li>
+  <li>
+<strong><a href="https://github.com/kubeflow/trainer/issues/2648">Trainer UI</a></strong> - a user interface to expose high level metrics for training jobs and monitor training logs</li>
+  <li>
+<strong><a href="https://github.com/kubernetes-sigs/kueue/issues/3884">Native Kueue integration</a></strong> - improve resource management and scheduling capabilities for TrainJob resources</li>
+  <li>
+<strong><a href="https://github.com/kubeflow/trainer/issues/2245">Model Registry integrations</a></strong> - export trained models directly to Model Registry</li>
+  <li>
+<strong><a href="https://github.com/kubeflow/community/pull/864">Distributed Data Cache</a></strong> - in-memory Apache Arrow caching for tabular datasets</li>
+  <li>
+<strong><a href="https://github.com/kubeflow/trainer/pull/2672">Volcano support</a></strong> - advanced AI-specific scheduling with gang scheduling, priority queues, and resource management capabilities</li>
+  <li>
+<strong><a href="https://github.com/kubeflow/trainer/pull/2643">JAX runtime support</a></strong> - ClusterTrainingRuntime for JAX distributed training</li>
+  <li>
+<strong><a href="https://github.com/kubeflow/trainer/pull/2663">KAI Scheduler support</a></strong> - NVIDIA’s GPU-optimized scheduler for AI workloads</li>
+</ul>
+
+<h1 id="migration-from-training-operator-v1">
+<a class="anchor" href="#migration-from-training-operator-v1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Migration from Training Operator v1</h1>
+
+<p>For users migrating from <strong>Kubeflow Training Operator v1</strong>, check out a <a href="https://www.kubeflow.org/docs/components/trainer/operator-guides/migration/"><strong>Migration Guide</strong></a>.</p>
+
+<h1 id="resources-and-community">
+<a class="anchor" href="#resources-and-community" aria-hidden="true"><span class="octicon octicon-link"></span></a>Resources and Community</h1>
+
+<p>For more information about <strong>Trainer V2</strong>, check out the <a href="https://www.kubeflow.org/docs/components/trainer/">Kubeflow Trainer documentation</a> and the <a href="https://github.com/kubeflow/trainer/tree/master/docs/proposals/2170-kubeflow-trainer-v2">design proposal</a> for technical implementation details.</p>
+
+<p>For more details about Kubeflow Trainer, you can also watch our KubeCon presentations:</p>
+<ul>
+  <li><a href="https://youtu.be/Lgy4ir1AhYw">Democratizing AI Model Training on Kubernetes with Kubeflow TrainJob and JobSet</a></li>
+  <li><a href="https://youtu.be/Fnb1a5Kaxgo">From High Performance Computing To AI Workloads on Kubernetes: MPI Runtime in Kubeflow TrainJob</a></li>
+</ul>
+
+<p>Join the community via the <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels">#kubeflow-trainer</a> channel on CNCF Slack, or attend the <a href="https://docs.google.com/document/d/1MChKfzrKAeFRtYqypFbMXL6ZIc_OgijjkvbqmwRV-64/edit?tab=t.0#heading=h.o8oe6e5kry87">AutoML and Training Working Group</a> meetings to contribute or ask questions.
+Your feedback, contributions, and questions are always welcome!</p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/trainer/intro/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

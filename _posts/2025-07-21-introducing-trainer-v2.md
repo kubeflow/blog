@@ -51,7 +51,7 @@ This separation is built around three new custom resources definitions (CRDs):
 
 The diagram below shows how different personas interact with these custom resources:
 
-![user_personas](/images/2025-07-09-introducing-trainer-v2/user-personas.drawio.svg)
+![user_personas](/images/2025-07-21-introducing-trainer-v2/user-personas.drawio.svg)
 
 - **Platform Administrators** define and manage **the infrastructure configurations** required for training jobs using `TrainingRuntimes` or `ClusterTrainingRuntimes`. 
 - **AI Practitioners** focus on model development using the simplified `TrainJob` resource or **Python SDK** wrapper, providing a reference to **the training runtime** created by **Platform Administrators**.
@@ -63,11 +63,11 @@ The SDK provides a unified interface across multiple ML frameworks and cloud env
 
 The diagram below illustrates how Kubeflow Trainer provides a consistent experience for running ML jobs across different ML frameworks, Kubernetes infrastructures, and cloud providers:
 
-![trainerv2](/images/2025-07-09-introducing-trainer-v2/trainerv2.png)
+![trainerv2](/images/2025-07-21-introducing-trainer-v2/trainerv2.png)
 
 **Kubeflow Trainer v2** supports multiple ML frameworks through **pre-configured runtimes**. The table below shows the current framework support:
 
-![runtimes](/images/2025-07-09-introducing-trainer-v2/runtimes.png)
+![runtimes](/images/2025-07-21-introducing-trainer-v2/runtimes.png)
 
 The SDK makes it easier for users familiar with Python to **create, manage, and monitor training jobs**, without requiring them to deal with any YAML definitions:
 
@@ -202,7 +202,7 @@ The v2 architecture addresses this by introducing a **Pipeline Framework** that 
 
 The diagram below shows Kubeflow Trainer Pipeline Framework overview:
 
-![trainer_pipeline_framework](/images/2025-07-09-introducing-trainer-v2/trainer-pipeline-framework.drawio.svg)
+![trainer_pipeline_framework](/images/2025-07-21-introducing-trainer-v2/trainer-pipeline-framework.drawio.svg)
 
 The framework works through a series of phases - **Startup**, **PreExecution**, **Build**, and **PostExecution** - each with **extension points** where custom Plugins can hook in.
 This approach allows adding support for new frameworks, custom validation logic, or specialized training orchestration without changing the underlying system.
@@ -270,7 +270,7 @@ We are working on **[native Kueue support](https://github.com/kubernetes-sigs/ku
 
 The **KF Trainer v2** also provides **MPI v2 support**, which includes **automatic generation of SSH keys** for secure inter-node communication and boosting performance MPI on Kubernetes.
 
-![MPI_support](/images/2025-07-09-introducing-trainer-v2/MPI-support.drawio.svg)
+![MPI_support](/images/2025-07-21-introducing-trainer-v2/MPI-support.drawio.svg)
 
 The diagram above shows how this works in practice - the **KF Trainer** automatically **handles the SSH key generation** and **MPI communication** between training pods, which allows frameworks like [DeepSpeed](https://www.deepspeed.ai/) to coordinate training across multiple GPU nodes without requiring manual configuration of inter-node communication.
 

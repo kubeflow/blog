@@ -26,10 +26,6 @@ We'd like to give special recognition to [andreyvelich](https://github.com/andre
 We would also like to highlight [ahg-g](https://github.com/ahg-g), [kannon92](https://github.com/kannon92), and [vsoch](https://github.com/vsoch) whose feedback was essential while we designed the Kubeflow Trainer architecture together with the Batch WG.
 See the full [contributor list](https://kubeflow.devstats.cncf.io/d/66/developer-activity-counts-by-companies?orgId=1&var-period_name=Last%206%20months&var-metric=commits&var-repogroup_name=kubeflow%2Ftrainer&var-country_name=All&var-companies=All) for everyone who helped make this release possible.
 
-For more details about Kubeflow Trainer, you can also watch our KubeCon presentations:
-- [Democratizing AI Model Training on Kubernetes with Kubeflow TrainJob and JobSet](https://youtu.be/Lgy4ir1AhYw)
-- [From High Performance Computing To AI Workloads on Kubernetes: MPI Runtime in Kubeflow TrainJob](https://youtu.be/Fnb1a5Kaxgo)
-
 # Background and Evolution
 
 **Kubeflow Trainer v2** represents the next evolution of the **Kubeflow Training Operator**, building on over seven years of experience running ML workloads on Kubernetes.
@@ -40,7 +36,7 @@ Over the years, the project expanded to support multiple ML frameworks including
 In 2021, these were consolidated into the unified **[Training Operator v1](https://docs.google.com/document/d/1x1JPDQfDMIbnoQRftDH1IzGU0qvHGSU4W6Jl4rJLPhI/edit?tab=t.0#heading=h.e33ufidnl8z6)**.
 Meanwhile, the Kubernetes community introduced the **Batch Working Group**, developing important APIs like JobSet, Kueue, Indexed Jobs, and PodFailurePolicy that improved HPC and AI workload management.
 
-**Trainer v2** leverages these Kubernetes-native improvements to re-use existing functionality and not reinventing the wheel.
+**Trainer v2** leverages these Kubernetes-native improvements to make use of existing functionality and not reinvent the wheel.
 This collaboration between the Kubernetes and Kubeflow communities delivers a more standardized approach to ML training on Kubernetes.
 
 # User Personas
@@ -65,7 +61,7 @@ The diagram below shows how different personas interact with these custom resour
 **The KF Trainer v2** introduces a **redesigned Python SDK**, which is intended to be the **primary interface for AI Practitioners**.
 The SDK provides a unified interface across multiple ML frameworks and cloud environments, abstracting away the underlying Kubernetes complexity.
 
-The diagram below illustrates how Kubeflow Trainer provides a unified layer across different ML frameworks, Kubernetes infrastructure and cloud providers:
+The diagram below illustrates how Kubeflow Trainer provides a consistent experience for running ML jobs across different ML frameworks, Kubernetes infrastructures, and cloud providers:
 
 ![trainerv2](/images/2025-07-09-introducing-trainer-v2/trainerv2.png)
 
@@ -202,7 +198,7 @@ In the future, we might support other runtimes in addition to `TrainingRuntime` 
 # Extensibility and Pipeline Framework
 
 One of the challenges in **KF Trainer v1** was supporting additional ML frameworks, especially for closed-sourced frameworks.
-The v2 architecture addresses this by introducing a **Pipeline Framewor**k that allows customers to **extend the Plugins** and **support orchestration** for their custom in-house ML frameworks.
+The v2 architecture addresses this by introducing a **Pipeline Framewor**k that allows users to **extend the Plugins** and **support orchestration** for their custom in-house ML frameworks.
 
 The diagram below shows Kubeflow Trainer Pipeline Framework overview:
 
@@ -331,8 +327,11 @@ For users migrating from **Kubeflow Training Operator v1**, check out a [**Migra
 
 # Resources and Community
 
-For more information about **Trainer V2**, check out the [Kubeflow Trainer documentation](https://www.kubeflow.org/docs/components/trainer/).
-For more technical information and implementation details, check out the [design proposal](https://github.com/kubeflow/trainer/tree/master/docs/proposals/2170-kubeflow-trainer-v2).
+For more information about **Trainer V2**, check out the [Kubeflow Trainer documentation](https://www.kubeflow.org/docs/components/trainer/) and the [design proposal](https://github.com/kubeflow/trainer/tree/master/docs/proposals/2170-kubeflow-trainer-v2) for technical implementation details.
+
+For more details about Kubeflow Trainer, you can also watch our KubeCon presentations:
+- [Democratizing AI Model Training on Kubernetes with Kubeflow TrainJob and JobSet](https://youtu.be/Lgy4ir1AhYw)
+- [From High Performance Computing To AI Workloads on Kubernetes: MPI Runtime in Kubeflow TrainJob](https://youtu.be/Fnb1a5Kaxgo)
 
 Join the community via the [#kubeflow-trainer](https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels) channel on CNCF Slack, or attend the [AutoML and Training Working Group](https://docs.google.com/document/d/1MChKfzrKAeFRtYqypFbMXL6ZIc_OgijjkvbqmwRV-64/edit?tab=t.0#heading=h.o8oe6e5kry87) meetings to contribute or ask questions.
 Your feedback, contributions, and questions are always welcome!

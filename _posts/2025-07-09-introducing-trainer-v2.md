@@ -53,8 +53,8 @@ The diagram below shows how different personas interact with these custom resour
 
 ![user_personas](/images/2025-07-09-introducing-trainer-v2/user-personas.drawio.svg)
 
-- **Platform Engineers** define and manage **the infrastructure configurations** required for training jobs using `TrainingRuntimes` or `ClusterTrainingRuntimes`. 
-- **AI Practitioners** focus on model development using the simplified `TrainJob` resource or **Python SDK** wrapper, providing a reference to **the training runtime** created by **Platform Engineers**.
+- **Platform Administrators** define and manage **the infrastructure configurations** required for training jobs using `TrainingRuntimes` or `ClusterTrainingRuntimes`. 
+- **AI Practitioners** focus on model development using the simplified `TrainJob` resource or **Python SDK** wrapper, providing a reference to **the training runtime** created by **Platform Administrators**.
 
 # Python SDK
 
@@ -192,13 +192,13 @@ spec:
     kind: ClusterTrainingRuntime
 ```
 
-Additional **infrastructure** and **Kubernetes-specific** details are provided in the referenced **runtime** definition, and managed separately by **Platform Engineers**.
+Additional **infrastructure** and **Kubernetes-specific** details are provided in the referenced **runtime** definition, and managed separately by **Platform Administrators**.
 In the future, we might support other runtimes in addition to `TrainingRuntime` and `ClusterTrainingRuntime`, for example [SlurmRuntime](https://github.com/kubeflow/trainer/issues/2249).
 
 # Extensibility and Pipeline Framework
 
 One of the challenges in **KF Trainer v1** was supporting additional ML frameworks, especially for closed-sourced frameworks.
-The v2 architecture addresses this by introducing a **Pipeline Framewor**k that allows users to **extend the Plugins** and **support orchestration** for their custom in-house ML frameworks.
+The v2 architecture addresses this by introducing a **Pipeline Framework** that allows Platform Administrators  to **extend the Plugins** and **support orchestration** for their custom in-house ML frameworks.
 
 The diagram below shows Kubeflow Trainer Pipeline Framework overview:
 
@@ -282,7 +282,7 @@ This prevents scenarios where only some pods are scheduled while others remain p
 **The KF Trainer v2** provides **built-in gang-scheduling support** through **PodGroupPolicy API**.
 This creates **PodGroup resources** that ensure all required pods can be scheduled simultaneously before the training job starts.
 
-**Platform Engineers** can configure gang-scheduling in their **TrainingRuntime** or **ClusterTrainingRuntime** definitions. Here's an example:
+**Platform Administrators** can configure gang-scheduling in their **TrainingRuntime** or **ClusterTrainingRuntime** definitions. Here's an example:
 
 ```yaml
 apiVersion: trainer.kubeflow.org/v1alpha1

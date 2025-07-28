@@ -77,7 +77,10 @@ Model Registry Pods Missing / CreateContainerConfigError: This usually indicates
 model_registry.exceptions.StoreError: Version X already exists: This error occurs when you try to register a model version with a model_name and model_version_name combination that already exists in the Model Registry.
 Solution: This indicates the Model Registry is working as intended! Simply provide a new, unique model_version_name for your pipeline run (e.g., v1.0.1, v2.0.0, or v1.0.0-run-timestamp).
 Deployment Steps:
-Install kind (if not already installed via dnf):
+
+Install `kind` (if not already installed via dnf):
+
+```
 sudo dnf install kind # Recommended for Fedora
 # OR manual install if dnf fails (e.g., if 'No match for argument: kind'):
 # cd ~
@@ -85,6 +88,7 @@ sudo dnf install kind # Recommended for Fedora
 # chmod +x kind
 # sudo mv kind /usr/local/bin/kind
 # Perform a full system logout and login after any kind installation/update.
+```
 
 Clone Kubeflow Pipelines Repository:
 

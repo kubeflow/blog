@@ -1,3 +1,22 @@
+---
+layout: post
+title: "Integrating Kubeflow Model Registry into Your Kubeflow Pipelines"
+author: "Hailey Purdom" # Your Name
+date: 2025-07-25 # Use the date you want to appear
+categories: # Add relevant categories/tags for the blog post
+  - mlops
+  - pipelines
+  - model-registry
+  - kubeflow
+tags:
+  - mlops
+  - kubeflow
+  - pipelines
+  - model-registry
+  - kind
+  - tutorial
+---
+
 Integrating Kubeflow Model Registry into Your Kubeflow Pipelines
 Introduction: Centralizing Your ML Models with Kubeflow
 In the journey of Machine Learning Operations (MLOps), managing trained models effectively is as crucial as building them. While Kubeflow Pipelines (KFP) provides powerful orchestration for your ML workflows, the Kubeflow Model Registry steps in as the centralized hub for versioning, cataloging, and discovering your machine learning models.

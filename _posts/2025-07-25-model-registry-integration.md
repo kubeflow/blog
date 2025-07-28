@@ -19,7 +19,7 @@ tags:
 
 
 
-Integrating Kubeflow Model Registry into Your Kubeflow Pipelines
+# Integrating Kubeflow Model Registry into Your Kubeflow Pipelines
 
 
 

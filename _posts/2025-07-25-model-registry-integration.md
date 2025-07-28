@@ -17,17 +17,42 @@ tags:
   - tutorial
 ---
 
+
+
 Integrating Kubeflow Model Registry into Your Kubeflow Pipelines
+
+
+
+
 Introduction: Centralizing Your ML Models with Kubeflow
+
+
+
 In the journey of Machine Learning Operations (MLOps), managing trained models effectively is as crucial as building them. While Kubeflow Pipelines (KFP) provides powerful orchestration for your ML workflows, the Kubeflow Model Registry steps in as the centralized hub for versioning, cataloging, and discovering your machine learning models.
+
+
+
+
 This blog post will serve as a practical guide, walking you through the process of integrating the Kubeflow Model Registry directly into your KFP pipelines. We'll cover the benefits, best practices for model registration, and provide a hands-on example, drawing from real-world troubleshooting steps encountered during setup on a local kind cluster.
+
+
+
 Why Leverage Model Registry in Your Pipelines?
+
 Integrating model registration as a native step within your Kubeflow Pipelines offers significant advantages for robust MLOps:
+
 Centralized Cataloging: Move beyond scattered model files. The Model Registry provides a single source of truth for all your models, making them easily discoverable across your organization.
+
 Structured Versioning & Lineage: Automatically track different iterations of your models. Each model version can be linked back to the exact pipeline run that produced it, ensuring full traceability and reproducibility.
+
 Enhanced Governance & Auditability: Maintain a clear record of model lifecycles, crucial for compliance and auditing.
+
 Seamless Handover to Serving: Registered models can be easily referenced by model serving platforms like KServe (formerly KFServing), streamlining deployment and management.
+
 Automated Workflow: Eliminate manual steps. Once a model passes evaluation within a pipeline, it can be automatically registered, reducing human error and accelerating deployment.
+
+
+
 You'd typically want to register a model from a pipeline when it has met predefined performance criteria, passed validation, and is ready to be shared, deployed, or archived.
 Models vs. Model Versions: A Key Distinction
 Understanding the core entities in the Model Registry is fundamental:

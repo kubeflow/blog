@@ -35,7 +35,7 @@ This blog post will serve as a practical guide, walking you through the process 
 
 # Why Leverage Model Registry in Your Pipelines?
 
-# Integrating model registration as a native step within your Kubeflow Pipelines offers significant advantages for robust MLOps:
+**Integrating model registration as a native step within your Kubeflow Pipelines offers significant advantages for robust MLOps:**
 
 - Centralized Cataloging: Move beyond scattered model files. The Model Registry provides a single source of truth for all your models, making them easily discoverable across your organization.
 

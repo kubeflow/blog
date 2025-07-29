@@ -50,33 +50,53 @@ This blog post will serve as a practical guide, walking you through the process 
 
 
 You'd typically want to register a model from a pipeline when it has met predefined performance criteria, passed validation, and is ready to be shared, deployed, or archived.
-Models vs. Model Versions: A Key Distinction
+
+# Models vs. Model Versions: A Key Distinction
+
 Understanding the core entities in the Model Registry is fundamental:
-Registered Model: This represents the conceptual model. Think of it as a logical grouping for all iterations of a particular ML solution (e.g., "Fraud Detection Classifier," "Customer Churn Predictor").
-Model Version: This is a specific iteration or snapshot of a Registered Model. Each version is immutable and holds unique artifacts, metadata, and a precise lineage (e.g., "v1.0.0," "v1.0.1-retrained," "v2025-07-18-production").
-Getting Started: Setting Up Your Local Kubeflow Environment
-To follow this guide, you'll need a local Kubernetes cluster with Kubeflow Pipelines and the Kubeflow Model Registry deployed. We'll use kind (Kubernetes in Docker) for this setup.
-Prerequisites
-A container engine (e.g., Docker).
-Python (3.11 or newer).
-kubectl: Kubernetes command-line tool.
-kind: Kubernetes in Docker.
-helm: Kubernetes package manager.
-git: For cloning repositories.
-Common Troubleshooting during Setup:
+
+- Registered Model: This represents the conceptual model. Think of it as a logical grouping for all iterations of a particular ML solution (e.g., "Fraud Detection Classifier," "Customer Churn Predictor").
+
+- Model Version: This is a specific iteration or snapshot of a Registered Model. Each version is immutable and holds unique artifacts, metadata, and a precise lineage (e.g., "v1.0.0," "v1.0.1-retrained," "v2025-07-18-production").
+
+# Getting Started: Setting Up Your Local Kubeflow Environment
+
+To follow this guide, you'll need a local Kubernetes cluster with Kubeflow Pipelines and the Kubeflow Model Registry deployed. We'll use [kind](https://kind.sigs.k8s.io/) (Kubernetes in Docker) for this setup.
+
+
+# Prerequisites
+
+* A container engine (e.g., [Docker](https://docs.docker.com/get-docker/)).
+* [Python](https://www.python.org/downloads/) (3.11 or newer).
+* [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/): Kubernetes command-line tool.
+* [kind](https://kind.sigs.k8s.io/docs/user/quick-start/): Kubernetes in Docker.
+* [helm](https://helm.sh/docs/intro/install/): Kubernetes package manager.
+* [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git): For cloning repositories.
+
+ # Common Troubleshooting during Setup:
 Setting up complex MLOps tools locally can be challenging. Here, we provide the robust deployment steps, incorporating solutions for common issues encountered during this process:
-kind Cluster Instability / DNS Issues (ImagePullBackOff, Temporary failure in name resolution, nf_conntrack_ipv4 not found): These often stem from conflicts with your host's Docker networking, VPNs, or missing kernel modules.
-Solution: Aggressive Docker/kind cleanup (sudo docker system prune -a --volumes -f), ensuring kind is installed correctly (refer to kind's installation guide), and a full system logout/login to refresh the environment.
-KFP Core Component Crashes (metadata-grpc-deployment CrashLoopBackOff with Exit Code 139 - Segmentation Fault): This often indicates an incompatibility between the ml_metadata_store_server image and your host's kernel.
-Solution: Patch the local KFP manifests to use an older, more compatible image version (e.g., 1.13.0 or 1.12.0) in ~/kfp-local-manifests/manifests/kustomize/base/metadata/base/metadata-grpc-deployment.yaml.
-PersistentVolumeClaim (PVC) Pending: This means the cluster's local storage provisioner isn't working.
-Solution: A full kind and Docker reset (sudo systemctl stop docker, sudo systemctl start docker) often resolves this by restarting the kind's default local path provisioner.
-"Pipeline version creation failed" / "Cannot find context" in KFP UI: These are symptoms of KFP's core components (especially ML Metadata and the KFP API server) not being fully Running and READY.
-Solution: Patience and verifying kubectl get pods -n kubeflow are key.
-Model Registry Pods Missing / CreateContainerConfigError: This usually indicates a configuration problem preventing the container from starting. While transient network issues can sometimes cause similar symptoms, for CreateContainerConfigError, a manifest fix is often needed. If persistent, ensure your Model Registry deployment manifests (e.g., from your cloned repository) are up-to-date, as an outdated fork might lead to incompatibilities with other Kubeflow components. We found success deploying the Model Registry using its Kustomize manifests from the kubeflow/model-registry repository's overlays/db directory.
-model_registry.exceptions.StoreError: Version X already exists: This error occurs when you try to register a model version with a model_name and model_version_name combination that already exists in the Model Registry.
-Solution: This indicates the Model Registry is working as intended! Simply provide a new, unique model_version_name for your pipeline run (e.g., v1.0.1, v2.0.0, or v1.0.0-run-timestamp).
-Deployment Steps:
+
+- `kind` Cluster Instability / DNS Issues (`ImagePullBackOff, Temporary failure in name resolution, nf_conntrack_ipv4 not found`): These often stem from conflicts with your host's Docker networking, VPNs, or missing kernel modules.
+- **Solution:** Aggressive Docker/`kind` cleanup (`sudo docker system prune -a --volumes -f`), ensuring `kind` is installed correctly (refer to `kind`'s [installation guide](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)), and a full system logout/login to refresh the environment.
+
+- KFP Core Component Crashes (`metadata-grpc-deployment CrashLoopBackOff` with `Exit Code 139` - Segmentation Fault): This often indicates an incompatibility between the `ml_metadata_store_server` image and your host's kernel.
+
+- **Solution:** Patch the local KFP manifests to use an older, more compatible image version (e.g., `1.13.0` or `1.12.0`) in `~/kfp-local-manifests/manifests/kustomize/base/metadata/base/metadata-grpc-deployment.yaml.`
+
+- PersistentVolumeClaim (PVC) `Pending`: This means the cluster's local storage provisioner isn't working.
+
+- **Solution:** A full `kind` and Docker reset (`sudo systemctl stop docker, sudo systemctl start docker`) often resolves this by restarting the `kind`'s default local path provisioner.
+
+- "Pipeline version creation failed" / "Cannot find context" in KFP UI: These are symptoms of KFP's core components (especially ML Metadata and the KFP API server) not being fully `Running` and `READY`.
+
+- **Solution:** Patience and verifying `kubectl get pods -n kubeflow` are key.
+
+- Model Registry Pods Missing / `CreateContainerConfigError`: This usually indicates a configuration problem preventing the container from starting. While transient network issues can sometimes cause similar symptoms, for `CreateContainerConfigError`, a manifest fix is often needed. If persistent, ensure your Model Registry deployment manifests (e.g., from your cloned repository) are up-to-date, as an outdated fork might lead to incompatibilities with other Kubeflow components. We found success deploying the Model Registry using its Kustomize manifests from the `kubeflow/model-registry` repository's `overlays/db` directory.
+
+- `Model_registry.exceptions.StoreError: Version X already exists`: This error occurs when you try to register a model version with a `model_name` and `model_version_name `combination that already exists in the Model Registry.
+- **Solution:** This indicates the Model Registry is working as intended! Simply provide a new, unique `model_version_name` for your pipeline run (e.g., `v1.0.1`, `v2.0.0`, or `v1.0.0-run-timestamp`).
+
+- Deployment Steps:
 
 Install `kind` (if not already installed via dnf):
 
@@ -91,9 +111,9 @@ sudo dnf install kind # Recommended for Fedora
 ```
 
 Clone Kubeflow Pipelines Repository:
-
-cd ~
-git clone https://github.com/kubeflow/pipelines.git kfp-local-manifests
+```
+cd ~ git clone https://github.com/kubeflow/pipelines.git kfp-local-manifests
+```
 
 
 

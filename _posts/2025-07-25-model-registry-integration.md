@@ -64,7 +64,7 @@ Understanding the core entities in the Model Registry is fundamental:
 To follow this guide, you'll need a local Kubernetes cluster with Kubeflow Pipelines and the Kubeflow Model Registry deployed. We'll use [kind](https://kind.sigs.k8s.io/) (Kubernetes in Docker) for this setup.
 
 
-# Prerequisites
+**Prerequisites**
 
 * A container engine (e.g., [Docker](https://docs.docker.com/get-docker/)).
 * [Python](https://www.python.org/downloads/) (3.11 or newer).
@@ -96,7 +96,8 @@ Setting up complex MLOps tools locally can be challenging. Here, we provide the 
 - `Model_registry.exceptions.StoreError: Version X already exists`: This error occurs when you try to register a model version with a `model_name` and `model_version_name `combination that already exists in the Model Registry.
 - **Solution:** This indicates the Model Registry is working as intended! Simply provide a new, unique `model_version_name` for your pipeline run (e.g., `v1.0.1`, `v2.0.0`, or `v1.0.0-run-timestamp`).
 
-- Deployment Steps:
+
+# Deployment Steps:
 
 Install `kind` (if not already installed via dnf):
 

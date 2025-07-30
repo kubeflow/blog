@@ -152,7 +152,7 @@ Verify KFP Health:
 kubectl get pods -n kubeflow
 ```
 
-- This is crucial. Do not proceed until KFP is healthy.
+- ***This is crucial. Do not proceed until KFP is healthy.***
 
 
 Clone Kubeflow Model Registry Repository:

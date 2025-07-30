@@ -118,62 +118,79 @@ cd ~ git clone https://github.com/kubeflow/pipelines.git kfp-local-manifests
 
 
 
-If you needed to patch metadata-grpc-deployment.yaml for image compatibility (e.g., changing ml_metadata_store_server:1.14.0 to 1.13.0 for Exit Code 139 fix), do it now in ~/kfp-local-manifests/manifests/kustomize/base/metadata/base/metadata-grpc-deployment.yaml.
-Deploy Kubeflow Pipelines on kind (Recommended Method): This make target automates the kind cluster creation and KFP deployment using the platform-agnostic manifests.
+If you needed to patch `metadata-grpc-deployment.yaml` for image compatibility (e.g., changing `ml_metadata_store_server:1.14.0` to `1.13.0` for `Exit Code 139` fix), do it now in `~/kfp-local-manifests/manifests/kustomize/base/metadata/base/metadata-grpc-deployment.yaml.`
 
+Deploy Kubeflow Pipelines on `kind`(Recommended Method): This `make` target automates the `kind` cluster creation and KFP deployment using the `platform-agnostic` manifests.
+```
 cd ~/kfp-local-manifests/backend # Navigate to the backend directory
 make kind-cluster-agnostic
+```
 
 
+***Note:*** This command will create the `kind` cluster (if it doesn't exist), deploy all necessary KFP components, and wait for core deployments (MySQL, MLMD, KFP API) to become available. This process can take 10-20 minutes or more. Monitor its output carefully.
 
-Note: This command will create the kind cluster (if it doesn't exist), deploy all necessary KFP components, and wait for core deployments (MySQL, MLMD, KFP API) to become available. This process can take 10-20 minutes or more. Monitor its output carefully.
-Troubleshooting make kind-cluster-agnostic: If you encounter "No rule to make target" or other errors, ensure your kubeflow/pipelines repository clone is up-to-date and contains this target in backend/Makefile.
+
+Troubleshooting `make kind-cluster-agnostic`: 
+If you encounter "No rule to make target" or other errors, ensure your `kubeflow/pipelines` repository clone is up-to-date and contains this target in `backend/Makefile`.
+
 Verify KFP Health:
-After make kind-cluster-agnostic finishes, open a new terminal.
-Run this command repeatedly until ALL (or almost all) pods in the kubeflow namespace are Running and READY (1/1 or X/Y where X=Y).
+- After `make kind-cluster-agnostic` finishes, open a new terminal.
+- Run this command repeatedly until ALL (or almost all) pods in the `kubeflow` namespace are `Running` and `READY` `1/1`.
 
+```
 kubectl get pods -n kubeflow
+```
 
-This is crucial. Do not proceed until KFP is healthy.
+- This is crucial. Do not proceed until KFP is healthy.
+
+
 Clone Kubeflow Model Registry Repository:
-
+```
 cd ~
 git clone https://github.com/kubeflow/model-registry.git
+```
 
 Deploy Kubeflow Model Registry (API Server): This deploys the Model Registry API server, which stores and serves model metadata.
-
+```
 cd ~/model-registry/manifests/kustomize/overlays/db # Navigate to the correct overlay for embedded DB
 kubectl apply -k . -n kubeflow
+```
 
 
+- Troubleshooting Model Registry Pods: Wait for `model-registry-deployment pod` to become `Running` and `READY` (`kubectl get pods -n kubeflow | grep model-registry`).
 
-Troubleshooting Model Registry Pods: Wait for model-registry-deployment pod to become Running and READY (kubectl get pods -n kubeflow | grep model-registry).
 Install and Deploy Kubeflow Model Registry UI: The Model Registry UI is a separate frontend application that provides a browsable interface to your registered models. There are two primary ways to deploy it: a simpler method for basic setups, and a more comprehensive method for multi-user Kubeflow environments.
-Option A: Basic UI Deployment (Recommended for simplicity with standalone KFP): This method deploys the UI without requiring Istio or other multi-user components.
-Installation (Cloning the kubeflow/manifests repository, pinned to a compatible release): First, clone the Kubeflow manifests repository (if you haven't already). We recommend pinning to a specific release (e.g., v1.7.0) compatible with KFP 2.5.0.
 
+**- Option A:** Basic UI Deployment (Recommended for simplicity with standalone KFP): This method deploys the UI without requiring Istio or other multi-user components.
+
+Installation (Cloning the `kubeflow/manifests` repository, pinned to a compatible release): First, clone the [Kubeflow manifests repository](https://github.com/kubeflow/manifests), (if you haven't already). We recommend pinning to a specific release (e.g., v1.7.0) compatible with KFP 2.5.0.
+```
 cd ~
 git clone https://github.com/kubeflow/manifests.git kubeflow-manifests-repo # Clone to a distinct name
 cd kubeflow-manifests-repo
 git fetch --tags
 git checkout tags/v1.7.0 # Pin to Kubeflow manifests v1.7.0 (compatible with KFP 2.5.0)
+```
 
-Deployment (Applying manifests): Navigate to the Model Registry UI base overlay:
-
+- Deployment (Applying manifests): Navigate to the Model Registry UI `base` overlay:
+```
 cd ~/kubeflow-manifests-repo/applications/model-registry/upstream/options/ui/base # Using 'base' overlay for non-Istio
-
-
+```
 
 Apply the UI manifests:
-
+```
 kubectl apply -k . -n kubeflow
+```
 
 Wait for the UI pod to be ready:
-
+```
 kubectl get pods -n kubeflow -l app=model-registry-ui
+```
 
-Option B: Multi-User Kubeflow Deployment (More comprehensive, but complex): This option deploys a full multi-user Kubeflow environment, which includes Istio, Dex, and other components necessary for authentication and traffic management. This path is significantly more time-consuming and complex to set up, but it enables the Model Registry UI to integrate with the Central Dashboard in a production-like, authenticated manner.
-Note: This is a major deployment effort that goes beyond the scope of a simple Model Registry integration. It involves deploying many components from the root of the kubeflow/manifests repository. The exact steps are detailed in the Kubeflow manifests README under the "Deploy Kubeflow in Multi-User Mode" section.
+**-Option B:*** Multi-User Kubeflow Deployment (More comprehensive, but complex): This option deploys a full multi-user Kubeflow environment, which includes Istio, Dex, and other components necessary for authentication and traffic management. This path is significantly more time-consuming and complex to set up, but it enables the Model Registry UI to integrate with the Central Dashboard in a production-like, authenticated manner.
+
+***Note:*** This is a major deployment effort that goes beyond the scope of a simple Model Registry integration. It involves deploying many components from the root of the `kubeflow/manifests` repository. The exact steps are detailed in the [Kubeflow manifests README](https://github.com/kubeflow/manifests) under the "Deploy Kubeflow in Multi-User Mode" section.
+
 Steps (summary from kubeflow/manifests README):
 Create the Kind cluster (if not already done).
 Install cert-manager.

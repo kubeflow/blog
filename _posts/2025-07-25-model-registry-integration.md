@@ -187,7 +187,7 @@ Wait for the UI pod to be ready:
 kubectl get pods -n kubeflow -l app=model-registry-ui
 ```
 
-- **Option B:*** Multi-User Kubeflow Deployment (More comprehensive, but complex): This option deploys a full multi-user Kubeflow environment, which includes Istio, Dex, and other components necessary for authentication and traffic management. This path is significantly more time-consuming and complex to set up, but it enables the Model Registry UI to integrate with the Central Dashboard in a production-like, authenticated manner.
+- **Option B:** Multi-User Kubeflow Deployment (More comprehensive, but complex): This option deploys a full multi-user Kubeflow environment, which includes Istio, Dex, and other components necessary for authentication and traffic management. This path is significantly more time-consuming and complex to set up, but it enables the Model Registry UI to integrate with the Central Dashboard in a production-like, authenticated manner.
 
 ***Note:*** This is a major deployment effort that goes beyond the scope of a simple Model Registry integration. It involves deploying many components from the root of the `kubeflow/manifests` repository. The exact steps are detailed in the [Kubeflow manifests README](https://github.com/kubeflow/manifests) under the "Deploy Kubeflow in Multi-User Mode" section.
 

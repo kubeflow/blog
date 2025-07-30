@@ -72,6 +72,17 @@ To follow this guide, you'll need a local Kubernetes cluster with Kubeflow Pipel
 * [kind](https://kind.sigs.k8s.io/docs/user/quick-start/): Kubernetes in Docker.
 * [helm](https://helm.sh/docs/intro/install/): Kubernetes package manager.
 * [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git): For cloning repositories.
+- **Install Kustomize:**
+Kustomize is a standalone tool for customizing Kubernetes configurations. It's essential for applying the manifests in this guide.
+```
+curl -Lo kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.7.1/kustomize_v5.7.1_linux_amd64.tar.gz
+tar -xzvf kustomize.tar.gz
+mv kustomize ~/bin # Or /usr/local/bin if you prefer a system-wide install
+chmod +x ~/bin/kustomize
+rm -f kustomize.tar.gz
+# Ensure ~/bin is in your PATH, or if moved to /usr/local/bin, it's already in PATH.
+# Perform a full system logout and login after installation to refresh PATH.
+```
 
  # Common Troubleshooting during Setup:
 Setting up complex MLOps tools locally can be challenging. Here, we provide the robust deployment steps, incorporating solutions for common issues encountered during this process:
@@ -159,7 +170,8 @@ kubectl apply -k . -n kubeflow
 
 - Troubleshooting Model Registry Pods: Wait for `model-registry-deployment pod` to become `Running` and `READY` (`kubectl get pods -n kubeflow | grep model-registry`).
 
-Install and Deploy Kubeflow Model Registry UI: The Model Registry UI is a separate frontend application that provides a browsable interface to your registered models. There are two primary ways to deploy it: a simpler method for basic setups, and a more comprehensive method for multi-user Kubeflow environments.
+**Install and Deploy Kubeflow Model Registry UI:**
+/ The Model Registry UI is a separate frontend application that provides a browsable interface to your registered models. There are two primary ways to deploy it: a simpler method for basic setups, and a more comprehensive method for multi-user Kubeflow environments.
 
 - **Option A:** Basic UI Deployment (Recommended for simplicity with standalone KFP): This method deploys the UI without requiring Istio or other multi-user components.
 
@@ -191,50 +203,88 @@ kubectl get pods -n kubeflow -l app=model-registry-ui
 
 ***Note:*** This is a major deployment effort that goes beyond the scope of a simple Model Registry integration. It involves deploying many components from the root of the `kubeflow/manifests` repository. The exact steps are detailed in the [Kubeflow manifests README](https://github.com/kubeflow/manifests) under the "Deploy Kubeflow in Multi-User Mode" section.
 
-Steps (summary from kubeflow/manifests README):
-Create the Kind cluster (if not already done).
-Install cert-manager.
-Install Istio.
-Install Oauth2-proxy.
-Install Dex (skip identity provider connection for basic setup).
-Deploy Kubeflow Namespace, Roles, and Istio Resources.
-Install Kubeflow Pipelines (full version).
-Install Central Dashboard.
-Configure Profiles + KFAM (Kubeflow Access Management).
-Configure User Namespaces.
-Accessing the cluster: After this complex setup, you would typically access the Kubeflow Central Dashboard via an Ingress or LoadBalancer, as described in the Connect to your Kubeflow cluster section of the kubeflow/manifests README.
-Once the full multi-user Kubeflow is deployed, you would then apply the Model Registry UI's Istio-dependent overlay:
+**Steps (summary from `kubeflow/manifests` README):**
+- Create the Kind cluster (if not already done).
+- Install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/).
+- Install [Istio](https://istio.io/latest/docs/setup/getting-started/).
+- Install [Oauth2-proxy](https://oauth2-proxy.github.io/oauth2-proxy/installation/).
+- Install [Dex](https://dexidp.io/docs/getting-started/) (skip identity provider connection for basic setup).
+- Deploy Kubeflow Namespace, Roles, and Istio Resources.
+- Install Kubeflow Pipelines (full version).
+- Install Central Dashboard.
+- Configure Profiles + KFAM (Kubeflow Access Management).
+- Configure User Namespaces.
 
+**Accessing the cluster:**
+ After this complex setup, you would typically access the Kubeflow Central Dashboard via an Ingress or LoadBalancer, as described in the [Connect to your Kubeflow cluster](https://github.com/kubeflow/manifests?tab=readme-ov-file#connect-to-your-kubeflow-cluster) section of the `kubeflow/manifests` README.
+
+***Once the full multi-user Kubeflow is deployed, you would then apply the Model Registry UI's Istio-dependent overlay:***
+```
 cd ~/kubeflow-manifests-repo/applications/model-registry/upstream/options/ui/overlays/istio
 kubectl apply -k . -n kubeflow
-
+```
 
 
 This would then work because Istio would be present.
-Integrate Model Registry UI with Kubeflow Central Dashboard (Optional but Recommended): This step adds a direct link to the Model Registry UI in the Kubeflow Central Dashboard's navigation menu.
 
+- Integrate Model Registry UI with Kubeflow Central Dashboard (Optional but Recommended): This step adds a direct link to the Model Registry UI in the Kubeflow Central Dashboard's navigation menu.
+```
 kubectl get configmap centraldashboard-config -n kubeflow -o json | \
 jq '.data.links |= (fromjson | .menuLinks += [{"icon": "assignment", "link": "/model-registry/", "text": "Model Registry", "type": "item"}] | tojson)' | \
 kubectl apply -f - -n kubeflow
+```
 
+***Note: This command requires jq to be installed (sudo dnf install jq). If you prefer, you can edit the ConfigMap manually: kubectl edit configmap -n kubeflow centraldashboard-config and add the menu item under data.links.menuLinks.***
 
+**Set Up Port-Forwards:** 
 
-Note: This command requires jq to be installed (sudo dnf install jq). If you prefer, you can edit the ConfigMap manually: kubectl edit configmap -n kubeflow centraldashboard-config and add the menu item under data.links.menuLinks.
-Set Up Port-Forwards: Open three separate terminal windows and run:
-KFP UI: kubectl port-forward -n kubeflow svc/ml-pipeline-ui 8080:80
-Model Registry API: kubectl port-forward -n kubeflow svc/model-registry-service 8082:8080
-Model Registry UI: kubectl port-forward -n kubeflow svc/model-registry-ui-service 8084:80
-Connecting KFP to Model Registry: Best Practices
+Open three separate terminal windows and run:
+
+- KFP UI: `kubectl port-forward -n kubeflow svc/ml-pipeline-ui 8080:80`
+- Model Registry API: `kubectl port-forward -n kubeflow svc/model-registry-service 8082:8080`
+- Model Registry UI: `kubectl port-forward -n kubeflow svc/model-registry-ui-service 8084:80`
+- Minio (for KFP logs): `kubectl; port-forward -n kubeflow svc/minio-service 9000:9000`
+
+# Connecting KFP to Model Registry: Best Practices
+
 To enable your KFP component to register models, you need to provide it with the Model Registry's API endpoint and, ideally, an authentication token. While the Model Registry API can be accessed directly, using a Kubernetes Secret for sensitive information like tokens is a best practice.
-Create a Kubernetes Secret for the Model Registry Token: For local development, you might use a dummy token. For production, you'd generate a secure one.
-
-kubectl create secret generic model-registry-auth --from-literal=token='your-dummy-token' -n kubeflow
 
 
+**Create a Kubernetes Secret for the Model Registry Token:**
 
-Note: In a real-world scenario, you would ensure the pipeline-runner ServiceAccount (or the ServiceAccount used by your pipeline) has permissions to read this Secret and that the Secret is mounted as an environment variable into your component's pod. This is often handled by a higher-level Kubeflow deployment or by manually patching the ServiceAccount/Deployment if needed.
-Building the KFP Pipeline for Model Registration
-Now, let's define a sample KFP pipeline that registers a fake model. This pipeline demonstrates best practices for setting model_source metadata, which is crucial for tracing model lineage back to its originating pipeline run.
-We'll use placeholders from kfp.dsl and os.environ to dynamically inject values like the pipeline run ID and name.
+For local development, you might use a dummy token. For production, you'd generate a secure one.
+
+`kubectl create secret generic model-registry-auth --from-literal=token='your-dummy-token' -n kubeflow`
 
 
+***Note: In a real-world scenario, you would ensure the `pipeline-runner` ServiceAccount (or the ServiceAccount used by your pipeline) has permissions to read this Secret and that the Secret is mounted as an environment variable into your component's pod. This is often handled by a higher-level Kubeflow deployment or by manually patching the ServiceAccount/Deployment if needed.***
+
+# Building the KFP Pipeline for Model Registration
+
+### The `register_model_to_kubeflow_registry` Component
+
+Our pipeline consists of a single custom component, `register_model_to_kubeflow_registry`, defined using KFP's `@dsl.component` decorator. This component encapsulates the logic for interacting with the Model Registry API.
+
+* **Base Image & Dependencies:** The component uses a `python:3.11-slim-buster` base image, and the `model-registry==0.2.19` client library is automatically installed into its container environment via the `packages_to_install` argument in the decorator.
+* **Model Registry Connection:** Inside the component, the `ModelRegistry` client is initialized. It connects to the Model Registry API server using its internal Kubernetes DNS name (`http://model-registry-service.kubeflow.svc.cluster.local:8080`).
+* **Authentication:** For authentication, the component retrieves a token from the `MR_AUTH_TOKEN` environment variable using `os.environ.get()`. This environment variable is populated by mounting a Kubernetes Secret (`model-registry-auth`) into the component's pod, ensuring sensitive credentials are not hardcoded.
+* **Dynamic Metadata for Lineage:** To achieve robust cross-referencing and lineage tracking, the component dynamically captures details about its own pipeline run. It retrieves values like `KFP_RUN_ID`, `KFP_PIPELINE_NAME`, and `KFP_POD_NAMESPACE` from environment variables that Kubeflow Pipelines automatically inject into every component pod. These values are then passed as `model_source_id`, `model_source_name`, `model_source_class`, `model_source_kind`, and `model_source_group` when registering the model.
+* **Model Registration:** The core action involves calling `registry.register_model()`. This single call registers both the conceptual model and its specific version, requiring parameters such as `name`, `uri` (the model's artifact location), `description`, `model_format_name`, `model_format_version`, and the `version` string itself.
+* **KFP Output Model Metadata:** To further enhance traceability within the KFP UI, the component writes a dummy model artifact to its `output_model` path. More importantly, it populates this `output_model`'s metadata with key information about the registered model, including its `modelName`, `versionName`, `modelID`, and a constructed `modelRegistryURL`. This metadata will be visible in the KFP UI's "Artifacts" tab for the pipeline run.
+
+### The `model_registration_pipeline` Definition
+
+The `model_registration_pipeline` orchestrates the `register_model_to_kubeflow_registry` component. This pipeline defines input parameters for the model's name, version, artifact URI, and author, allowing for flexible configuration when launching a run. It then invokes the component, passing these parameters. The pipeline is designed to return the registered model's ID as an output.
+
+### Compiling and Deploying the Pipeline
+
+Once defined in Python, the pipeline needs to be compiled into a YAML file, which is the format Kubeflow Pipelines understands. The `kfp.compiler.Compiler().compile()` function handles this, generating a `model_registration_pipeline.yaml` file. This YAML file can then be uploaded to the Kubeflow Pipelines UI and executed.
+
+
+
+
+***Now, let's define a sample KFP pipeline that registers a fake model. This pipeline demonstrates best practices for setting `model_source` metadata, which is crucial for tracing model lineage back to its originating pipeline run.***
+
+We'll use placeholders from `kfp.dsl` and `os.environ` to dynamically inject values like the pipeline run ID and name.
+
+**The complete pipeline code is available on this [GitHub](https://github.com/hpurdom/blog/blob/master/code_examples/model_registration_pipeline_example.py) link here.**

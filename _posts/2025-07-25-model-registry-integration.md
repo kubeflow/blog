@@ -215,6 +215,160 @@ kubectl get pods -n kubeflow -l app=model-registry-ui
 - Configure Profiles + KFAM (Kubeflow Access Management).
 - Configure User Namespaces.
 
+**The following `install.sh script`, developed by Matt Prahl, automates the complex, multi-component Kubeflow deployment stated above on Kind.**
+```
+    #!/bin/bash
+    set -euo pipefail
+
+    # Prior to running this, consider setting the /etc/sysctl.d/99-inotify.conf file to:
+    # fs.inotify.max_user_watches = 524288
+    # fs.inotify.max_user_instances = 1024
+
+    # Then run sudo sysctl --system to apply the change
+
+    # Check if there's already a Kind cluster running
+    if kind get clusters | grep -q .; then
+        echo "Error: There is already a Kind cluster running. Please delete it first with:"
+        echo "  kind delete clusters --all"
+        exit 1
+    fi
+
+    cat <<EOF | kind create cluster --name=kubeflow --config=-
+    kind: Cluster
+    apiVersion: kind.x-k8s.io/v1alpha4
+    nodes:
+    - role: control-plane
+      image: kindest/node:v1.32.0@sha256:c48c62eac5da28cdadcf560d1d8616cfa6783b58f0d94cf63ad1bf49600cb027
+      kubeadmConfigPatches:
+      - |
+        kind: ClusterConfiguration
+        apiServer:
+          extraArgs:
+            "service-account-issuer": "[https://kubernetes.default.svc](https://kubernetes.default.svc)"
+            "service-account-signing-key-file": "/etc/kubernetes/pki/sa.key"
+    EOF
+
+    echo "Install cert-manager"
+    # Retry loop for cert-manager installation
+    retry_count=0
+
+    while true; do
+        retry_count=$((retry_count + 1))
+        echo "Attempting to install cert-manager (attempt $retry_count)"
+
+        # Try both commands
+        if kustomize build common/cert-manager/base | kubectl apply -f - && \
+           kustomize build common/cert-manager/kubeflow-issuer/base | kubectl apply -f -; then
+            echo "Cert-manager installation successful!"
+            break
+        else
+            echo "Cert-manager installation failed. Waiting 5 seconds before retry..."
+            sleep 5
+        fi
+    done
+
+    echo "Installing Istio CNI configured with external authorization..."
+    kustomize build common/istio/istio-crds/base | kubectl apply -f -
+    kustomize build common/istio/istio-namespace/base | kubectl apply -f -
+    kustomize build common/istio/istio-install/overlays/oauth2-proxy | kubectl apply -f -
+
+    echo "Installing oauth2-proxy..."
+    kustomize build common/oauth2-proxy/overlays/m2m-dex-only/ | kubectl apply -f -
+    kubectl wait --for=condition=Ready pod -l 'app.kubernetes.io/name=oauth2-proxy' --timeout=180s -n oauth2-proxy
+
+    echo "Installing Dex..."
+    kustomize build common/dex/overlays/oauth2-proxy | kubectl apply -f -
+    kubectl wait --for=condition=Ready pods --all --timeout=180s -n auth
+
+    echo "Creating Kubeflow namespace..."
+    kustomize build common/kubeflow-namespace/base | kubectl apply -f -
+
+    echo "Creating Istio resources..."
+    kustomize build common/istio/kubeflow-istio-resources/base | kubectl apply -f -
+
+    echo "Installing KFP..."
+    # Retry loop for KFP installation
+    retry_count=0
+
+    while true; do
+        retry_count=$((retry_count + 1))
+        echo "Attempting to install KFP (attempt $retry_count)"
+
+        if kustomize build applications/pipeline/upstream/env/cert-manager/platform-agnostic-multi-user | kubectl apply -f -; then
+            echo "KFP installation successful!"
+            break
+        else
+            echo "KFP installation failed. Waiting 5 seconds before retry..."
+            sleep 5
+        fi
+    done
+
+    echo "Installing the dashboard..."
+    kustomize build common/kubeflow-roles/base | kubectl apply -f -
+    kustomize build applications/centraldashboard/overlays/oauth2-proxy | kubectl apply -f -
+
+    echo "Installing profiles..."
+    kustomize build applications/profiles/upstream/overlays/kubeflow | kubectl apply -f -
+
+    echo "Setting up the user namespace..."
+    kustomize build common/user-namespace/base | kubectl apply -f -
+
+    echo "Waiting for the kubeflow-user-example-com namespace to be created..."
+    # Retry loop for namespace creation
+    retry_count=0
+
+    while true; do
+        retry_count=$((retry_count + 1))
+        echo "Checking for namespace kubeflow-user-example-com (attempt $retry_count)"
+
+        if kubectl get namespace kubeflow-user-example-com >/dev/null 2>&1; then
+            echo "Namespace kubeflow-user-example-com found!"
+            kubectl get namespace kubeflow-user-example-com
+            break
+        else
+            echo "Namespace not found yet. Waiting 5 seconds before retry..."
+            sleep 5
+        fi
+    done
+
+    echo "Deploying Model Registry..."
+    kubectl apply -k applications/model-registry/upstream/overlays/db -n kubeflow-user-example-com
+    kubectl apply -k applications/model-registry/upstream/options/istio -n kubeflow-user-example-com
+
+    echo "Waiting for Model Registry..."
+    kubectl wait --for=condition=available -n kubeflow-user-example-com deployment/model-registry-deployment --timeout=2m
+
+    echo "Deploying Model Registry UI..."
+    kubectl apply -k applications/model-registry/upstream/options/ui/overlays/istio
+    # Update central dashboard config to add Model Registry menu item
+    kubectl get configmap centraldashboard-config -n kubeflow -o json | \
+      jq '.data.links |= (fromjson | .menuLinks += [{"icon": "assignment", "link": "/model-registry/", "text": "Model Registry", "type": "item"}] | tojson)' | \
+      kubectl apply -f - -n kubeflow
+    echo "Waiting for the dashboard..."
+    kubectl wait --for=condition=Ready pod -l 'app.kubernetes.io/name=centraldashboard' --timeout=180s -n kubeflow
+
+    echo "Waiting for KFP..."
+    kubectl wait --for=condition=Ready pod -l 'app.kubernetes.io/name=kubeflow-pipelines' --timeout=180s -n kubeflow
+
+    echo ""
+    echo "🎉 Installation complete! 🎉"
+    echo ""
+    echo "📋 Next steps:"
+    echo "   1. Run this command to start port forwarding:"
+    echo "      kubectl port-forward svc/istio-ingressgateway -n istio-system 8080:80"
+    echo ""
+    echo "   2. Open your browser and go to:"
+    echo "      http://localhost:8080"
+    echo ""
+    echo "   3. Login with these credentials:"
+    echo "      Username: user@example.com"
+    echo "      Password: 12341234"
+    echo ""
+```
+
+**Note:** This script assumes `kustomize` and `jq` are installed and in your PATH. Ensure you have followed the prerequisites section to install these tools. Also, ensure you have cloned the `kubeflow/manifests` repository to `~/kubeflow-manifests-repo` and are running this script from that directory.
+
+
 **Accessing the cluster:**
  After this complex setup, you would typically access the Kubeflow Central Dashboard via an Ingress or LoadBalancer, as described in the [Connect to your Kubeflow cluster](https://github.com/kubeflow/manifests?tab=readme-ov-file#connect-to-your-kubeflow-cluster) section of the `kubeflow/manifests` README.
 

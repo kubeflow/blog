@@ -369,6 +369,7 @@ kubectl get pods -n kubeflow -l app=model-registry-ui
 **Note:** This script assumes `kustomize` and `jq` are installed and in your PATH. Ensure you have followed the prerequisites section to install these tools. Also, ensure you have cloned the `kubeflow/manifests` repository to `~/kubeflow-manifests-repo` and are running this script from that directory.
 
 
+
 **Accessing the cluster:**
  After this complex setup, you would typically access the Kubeflow Central Dashboard via an Ingress or LoadBalancer, as described in the [Connect to your Kubeflow cluster](https://github.com/kubeflow/manifests?tab=readme-ov-file#connect-to-your-kubeflow-cluster) section of the `kubeflow/manifests` README.
 

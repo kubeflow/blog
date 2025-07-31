@@ -371,6 +371,8 @@ kubectl get pods -n kubeflow -l app=model-registry-ui
 
 
 
+
+
 **Accessing the cluster:**
  After this complex setup, you would typically access the Kubeflow Central Dashboard via an Ingress or LoadBalancer, as described in the [Connect to your Kubeflow cluster](https://github.com/kubeflow/manifests?tab=readme-ov-file#connect-to-your-kubeflow-cluster) section of the `kubeflow/manifests` README.
 

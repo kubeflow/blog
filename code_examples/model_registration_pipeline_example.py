@@ -51,8 +51,7 @@ def register_model_to_kubeflow_registry(
     from model_registry import ModelRegistry
     from model_registry.types import RegisteredModel
 
-    # EXACT PATTERN: Extract the port out of the URL because the ModelRegistry client expects those as separate arguments
-    # This follows the exact logic from opendatahub-io/ilab-on-ocp/utils/components.py lines 195-273
+   
     model_registry_api_url_parsed = urllib.parse.urlparse(model_registry_api_url)
     model_registry_api_url_port = model_registry_api_url_parsed.port
     if model_registry_api_url_port:
@@ -78,7 +77,7 @@ def register_model_to_kubeflow_registry(
 
     print(f"Connecting to Model Registry at {model_registry_api_server_address}:{model_registry_api_url_port}")
 
-    # EXACT PATTERN: Model registration with retry logic from opendatahub-io/ilab-on-ocp
+   
     tries = 0
     while True:
         try:
@@ -86,16 +85,16 @@ def register_model_to_kubeflow_registry(
             registry = ModelRegistry(
                 server_address=model_registry_api_server_address,
                 port=model_registry_api_url_port,
-                author=model_author,  # Following "InstructLab Pipeline" pattern but using parameter
+                author=model_author,  
                 user_token=token,
             )
             registered_model = registry.register_model(
                 name=model_name,
                 version=model_version_name,
                 uri=model_artifact_uri,
-                model_format_name="custom-format",  # Can be "vLLM" for LLMs
+                model_format_name="custom-format",  
                 model_format_version="1.0",
-                # EXACT PATTERN: model_source_* fields for cross-referencing
+            
                 model_source_id=pipeline_run_id,      # run_id parameter
                 model_source_name=pipeline_name,      # run_name parameter  
                 model_source_class="pipelinerun",     # KFP-specific identifier
@@ -109,7 +108,7 @@ def register_model_to_kubeflow_registry(
             print(f"Failed to register the model on attempt {tries}/3: {e}")
             time.sleep(1)
     
-    # EXACT PATTERN: Get the model version ID to add as metadata on the output model artifact
+    # Get the model version ID to add as metadata on the output model artifact
     tries = 0
     while True:
         try:
@@ -124,7 +123,7 @@ def register_model_to_kubeflow_registry(
             print(f"Failed to get the model version ID on attempt {tries}/3: {e}")
             time.sleep(1)
     
-    # EXACT PATTERN: If model_registry_name is not provided, parse it from the URL
+    # If model_registry_name is not provided, parse it from the URL
     if not model_registry_name:
         model_registry_name = urllib.parse.urlparse(
             model_registry_api_url
@@ -139,8 +138,7 @@ def register_model_to_kubeflow_registry(
     with open(output_model.path, 'w') as f:
         f.write(f"This is a model artifact for {model_name} version {model_version_name}.")
     
-    # EXACT PATTERN: Set comprehensive metadata on the KFP output model artifact
-    # Following the opendatahub-io/ilab-on-ocp approach for KFP UI integration
+    
     output_model.metadata["registered_model"] = {
         "modelName": model_name,
         "versionName": model_version_name,
@@ -242,8 +240,7 @@ def iris_model_registration_pipeline(
     # Step 1: Train the model
     train_task = train_iris_model()
     
-    # Step 2: Register the model using the EXACT PATTERN from opendatahub-io/ilab-on-ocp
-    # This matches the approach in pipeline.py lines 438-450
+    # Step 2: Register the model 
     register_task = register_model_to_kubeflow_registry(
         model_name=model_name,
         model_version_name=model_version_name,
@@ -251,8 +248,7 @@ def iris_model_registration_pipeline(
         model_author=model_author,
         model_description=f"Random Forest classifier trained on Iris dataset",
         model_registry_api_url=model_registry_api_url,
-        # EXACT PATTERN: Use proper KFP placeholders like opendatahub-io/ilab-on-ocp
-        # Using available placeholders with fallback for namespace
+        # EXACT PATTERN: Use proper KFP placeholders
         pipeline_run_id=PIPELINE_JOB_ID_PLACEHOLDER,        # run_id parameter
         pipeline_name=PIPELINE_JOB_NAME_PLACEHOLDER,        # run_name parameter  
         pipeline_namespace=PIPELINE_JOB_NAMESPACE_PLACEHOLDER,  # namespace context
@@ -282,22 +278,4 @@ compiler.Compiler().compile(iris_model_registration_pipeline, pipeline_filename)
 print(f"\nPipeline compiled to {pipeline_filename}")
 print(f"You can now upload '{pipeline_filename}' to the Kubeflow Pipelines UI.")
 print("\n" + "="*80)
-print("✅ IMPLEMENTATION FOLLOWS EXACT opendatahub-io/ilab-on-ocp PATTERN")
-print("="*80)
-print("✅ Exact URL parsing logic from the reference")
-print("✅ Retry mechanisms for robust operation")  
-print("✅ Proper error handling patterns")
-print("✅ Real version ID retrieval logic")
-print("✅ Registry name parsing from URL")
-print("✅ Same parameter patterns as the working example")
-print("✅ Uses proper KFP placeholders (with fallback for namespace)")
-print("✅ PIPELINE_JOB_ID_PLACEHOLDER and PIPELINE_JOB_NAME_PLACEHOLDER")
-print("✅ Proper model_source_* fields for cross-referencing")
-print("✅ Comprehensive KFP output model metadata")
-print("✅ Realistic model training component")
-print("\n📝 Model Registry Integration KEP:")
-print("This manual process could be enhanced by the Model Registry integration KEP")
-print("which proposes automatic registration during pipeline execution.")
-print("\n🔗 References:")
-print("- opendatahub-io/ilab-on-ocp/utils/components.py#L195-L273")
-print("- opendatahub-io/ilab-on-ocp/pipeline.py#L438-L450")
+

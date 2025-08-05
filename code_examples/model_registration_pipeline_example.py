@@ -1,5 +1,3 @@
-%pip install kfp
-
 from kfp import dsl, compiler
 import json
 import os

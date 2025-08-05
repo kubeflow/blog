@@ -1,0 +1,309 @@
+# PIPELINE DEFINITION
+# Name: iris-model-registration-pipeline-following-opendatahub-io-ilab-on-ocp-pattern
+# Description: A KFP pipeline that trains an Iris model and registers it in Kubeflow Model Registry using the exact pattern from opendatahub-io/ilab-on-ocp.
+# Inputs:
+#    model_author: str [Default: 'ML Engineering Team']
+#    model_name: str [Default: 'iris-classifier']
+#    model_registry_api_url: str [Default: 'http://model-registry-service.kubeflow.svc.cluster.local:8080']
+#    model_version_name: str [Default: 'v1.0.0']
+components:
+  comp-register-model-to-kubeflow-registry:
+    executorLabel: exec-register-model-to-kubeflow-registry
+    inputDefinitions:
+      artifacts:
+        model_artifact_uri:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+      parameters:
+        model_author:
+          defaultValue: Data Science Pipelines Team
+          isOptional: true
+          parameterType: STRING
+        model_description:
+          defaultValue: A model for demonstration purposes
+          isOptional: true
+          parameterType: STRING
+        model_name:
+          parameterType: STRING
+        model_registry_api_url:
+          defaultValue: http://model-registry-service.kubeflow.svc.cluster.local:8080
+          isOptional: true
+          parameterType: STRING
+        model_registry_name:
+          defaultValue: ''
+          isOptional: true
+          parameterType: STRING
+        model_version_name:
+          parameterType: STRING
+        pipeline_name:
+          parameterType: STRING
+        pipeline_namespace:
+          parameterType: STRING
+        pipeline_run_id:
+          parameterType: STRING
+    outputDefinitions:
+      artifacts:
+        output_model:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+      parameters:
+        Output:
+          parameterType: STRING
+  comp-train-iris-model:
+    executorLabel: exec-train-iris-model
+    outputDefinitions:
+      artifacts:
+        output_model:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+      parameters:
+        Output:
+          parameterType: STRING
+deploymentSpec:
+  executors:
+    exec-register-model-to-kubeflow-registry:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - register_model_to_kubeflow_registry
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.13.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'model-registry==0.2.19'\
+          \ && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef register_model_to_kubeflow_registry(\n    model_name: str,\n\
+          \    model_version_name: str,\n    model_artifact_uri: dsl.Input[dsl.Model],\n\
+          \    pipeline_run_id: str,\n    pipeline_name: str,\n    pipeline_namespace:\
+          \ str,\n    model_registry_api_url: str = \"http://model-registry-service.kubeflow.svc.cluster.local:8080\"\
+          ,\n    model_registry_name: str = \"\",\n    model_description: str = \"\
+          A model for demonstration purposes\",\n    model_author: str = \"Data Science\
+          \ Pipelines Team\",\n    output_model: dsl.Output[dsl.Model] = None\n) ->\
+          \ str:\n    \"\"\"\n    KFP component to register a model and version in\
+          \ the Kubeflow Model Registry.\n    This implementation follows the EXACT\
+          \ pattern from opendatahub-io/ilab-on-ocp\n    utils/components.py lines\
+          \ 195-273 for proven reliability and best practices.\n    \"\"\"\n    print(\"\
+          model-registry client is being installed by KFP before this script runs.\"\
+          )\n\n    # Import required modules - following opendatahub-io/ilab-on-ocp\
+          \ pattern\n    import urllib.parse\n    import time\n    from model_registry\
+          \ import ModelRegistry\n    from model_registry.types import RegisteredModel\n\
+          \n    # EXACT PATTERN: Extract the port out of the URL because the ModelRegistry\
+          \ client expects those as separate arguments\n    # This follows the exact\
+          \ logic from opendatahub-io/ilab-on-ocp/utils/components.py lines 195-273\n\
+          \    model_registry_api_url_parsed = urllib.parse.urlparse(model_registry_api_url)\n\
+          \    model_registry_api_url_port = model_registry_api_url_parsed.port\n\
+          \    if model_registry_api_url_port:\n        model_registry_api_server_address\
+          \ = model_registry_api_url.replace(\n            model_registry_api_url_parsed.netloc,\n\
+          \            model_registry_api_url_parsed.hostname,\n        )\n    else:\n\
+          \        if model_registry_api_url_parsed.scheme == \"http\":\n        \
+          \    model_registry_api_url_port = 80\n        else:\n            model_registry_api_url_port\
+          \ = 443\n        model_registry_api_server_address = model_registry_api_url\n\
+          \    if not model_registry_api_url_parsed.scheme:\n        model_registry_api_server_address\
+          \ = (\n            \"https://\" + model_registry_api_server_address\n  \
+          \      )\n\n    # Retrieve authentication token from environment variable\n\
+          \    token = os.environ.get(\"MR_AUTH_TOKEN\", \"\")\n    if not token:\n\
+          \        print(\"Warning: MR_AUTH_TOKEN environment variable not found.\
+          \ Proceeding without authentication.\")\n\n    print(f\"Connecting to Model\
+          \ Registry at {model_registry_api_server_address}:{model_registry_api_url_port}\"\
+          )\n\n    # EXACT PATTERN: Model registration with retry logic from opendatahub-io/ilab-on-ocp\n\
+          \    tries = 0\n    while True:\n        try:\n            tries += 1\n\
+          \            registry = ModelRegistry(\n                server_address=model_registry_api_server_address,\n\
+          \                port=model_registry_api_url_port,\n                author=model_author,\
+          \  # Following \"InstructLab Pipeline\" pattern but using parameter\n  \
+          \              user_token=token,\n            )\n            registered_model\
+          \ = registry.register_model(\n                name=model_name,\n       \
+          \         version=model_version_name,\n                uri=model_artifact_uri,\n\
+          \                model_format_name=\"custom-format\",  # Can be \"vLLM\"\
+          \ for LLMs\n                model_format_version=\"1.0\",\n            \
+          \    # EXACT PATTERN: model_source_* fields for cross-referencing\n    \
+          \            model_source_id=pipeline_run_id,      # run_id parameter\n\
+          \                model_source_name=pipeline_name,      # run_name parameter\
+          \  \n                model_source_class=\"pipelinerun\",     # KFP-specific\
+          \ identifier\n                model_source_kind=\"kfp\",              #\
+          \ KFP-specific identifier\n                model_source_group=pipeline_namespace,\
+          \ # pod_namespace equivalent\n            )\n            break\n       \
+          \ except Exception as e:\n            if tries >= 3:\n                raise\n\
+          \            print(f\"Failed to register the model on attempt {tries}/3:\
+          \ {e}\")\n            time.sleep(1)\n\n    # EXACT PATTERN: Get the model\
+          \ version ID to add as metadata on the output model artifact\n    tries\
+          \ = 0\n    while True:\n        try:\n            tries += 1\n         \
+          \   model_version_id = registry.get_model_version(\n                model_name,\
+          \ model_version_name\n            ).id\n            break\n        except\
+          \ Exception as e:\n            if tries >= 3:\n                raise\n \
+          \           print(f\"Failed to get the model version ID on attempt {tries}/3:\
+          \ {e}\")\n            time.sleep(1)\n\n    # EXACT PATTERN: If model_registry_name\
+          \ is not provided, parse it from the URL\n    if not model_registry_name:\n\
+          \        model_registry_name = urllib.parse.urlparse(\n            model_registry_api_url\n\
+          \        ).hostname.split(\".\")[0]\n        if model_registry_name.endswith(\"\
+          -rest\"):\n            model_registry_name = model_registry_name[: -len(\"\
+          -rest\")]\n\n    print(f\"Successfully registered model - ID: {registered_model.id},\
+          \ Name: {registered_model.name}\")\n    print(f\"Model version ID: {model_version_id}\"\
+          )\n\n    # Write content to the output model path (simulating a model artifact)\n\
+          \    with open(output_model.path, 'w') as f:\n        f.write(f\"This is\
+          \ a model artifact for {model_name} version {model_version_name}.\")\n\n\
+          \    # EXACT PATTERN: Set comprehensive metadata on the KFP output model\
+          \ artifact\n    # Following the opendatahub-io/ilab-on-ocp approach for\
+          \ KFP UI integration\n    output_model.metadata[\"registered_model\"] =\
+          \ {\n        \"modelName\": model_name,\n        \"versionName\": model_version_name,\n\
+          \        \"modelID\": registered_model.id,\n        \"versionID\": model_version_id,\
+          \  # Real version ID from API\n        \"modelRegistryURL\": f\"{model_registry_api_server_address}:{model_registry_api_url_port}/models/{registered_model.id}/versions/{model_version_id}\"\
+          ,\n        \"modelRegistryAPIEndpoint\": model_registry_api_server_address,\n\
+          \        \"modelRegistryName\": model_registry_name,\n        \"registrationTimestamp\"\
+          : time.time(),\n        \"pipelineSource\": {\n            \"runId\": pipeline_run_id,\n\
+          \            \"pipelineName\": pipeline_name,\n            \"namespace\"\
+          : pipeline_namespace\n        }\n    }\n\n    print(f\"KFP output model\
+          \ artifact metadata set: {output_model.metadata}\")\n\n    return registered_model.id\n\
+          \n"
+        image: python:3.11-slim-buster
+    exec-train-iris-model:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - train_iris_model
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.13.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'scikit-learn==1.3.0'\
+          \ 'pandas==2.0.3' && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef train_iris_model(\n    output_model: dsl.Output[dsl.Model]\n\
+          ) -> str:\n    \"\"\"\n    Simple component that trains an Iris classification\
+          \ model.\n    This demonstrates a realistic pipeline that produces a model\
+          \ to register.\n    \"\"\"\n    import pickle\n    import pandas as pd\n\
+          \    from sklearn.datasets import load_iris\n    from sklearn.ensemble import\
+          \ RandomForestClassifier\n    from sklearn.model_selection import train_test_split\n\
+          \    from sklearn.metrics import accuracy_score\n    import json\n\n   \
+          \ # Load and prepare the Iris dataset\n    iris = load_iris()\n    X, y\
+          \ = iris.data, iris.target\n\n    # Split the data\n    X_train, X_test,\
+          \ y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\
+          \n    # Train a simple Random Forest model\n    model = RandomForestClassifier(n_estimators=100,\
+          \ random_state=42)\n    model.fit(X_train, y_train)\n\n    # Calculate accuracy\n\
+          \    y_pred = model.predict(X_test)\n    accuracy = accuracy_score(y_test,\
+          \ y_pred)\n\n    print(f\"Model trained with accuracy: {accuracy:.4f}\"\
+          )\n\n    # Save the model\n    with open(output_model.path, 'wb') as f:\n\
+          \        pickle.dump(model, f)\n\n    # Set model metadata\n    output_model.metadata\
+          \ = {\n        \"accuracy\": accuracy,\n        \"model_type\": \"RandomForestClassifier\"\
+          ,\n        \"n_estimators\": 100,\n        \"dataset\": \"iris\",\n    \
+          \    \"features\": iris.feature_names,\n        \"target_classes\": iris.target_names.tolist()\n\
+          \    }\n\n    return f\"s3://my-model-bucket/iris-models/run-{hash(str(accuracy))}/model.pkl\"\
+          \n\n"
+        image: python:3.11-slim-buster
+pipelineInfo:
+  description: A KFP pipeline that trains an Iris model and registers it in Kubeflow
+    Model Registry using the exact pattern from opendatahub-io/ilab-on-ocp.
+  name: iris-model-registration-pipeline-following-opendatahub-io-ilab-on-ocp-pattern
+root:
+  dag:
+    tasks:
+      register-model-to-kubeflow-registry:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-register-model-to-kubeflow-registry
+        dependentTasks:
+        - train-iris-model
+        inputs:
+          artifacts:
+            model_artifact_uri:
+              taskOutputArtifact:
+                outputArtifactKey: output_model
+                producerTask: train-iris-model
+          parameters:
+            model_author:
+              componentInputParameter: model_author
+            model_description:
+              runtimeValue:
+                constant: Random Forest classifier trained on Iris dataset
+            model_name:
+              componentInputParameter: model_name
+            model_registry_api_url:
+              componentInputParameter: model_registry_api_url
+            model_version_name:
+              componentInputParameter: model_version_name
+            pipeline_name:
+              runtimeValue:
+                constant: '{{$.pipeline_job_name}}'
+            pipeline_namespace:
+              runtimeValue:
+                constant: '{{workflow.namespace}}'
+            pipeline_run_id:
+              runtimeValue:
+                constant: '{{$.pipeline_job_uuid}}'
+        taskInfo:
+          name: Register Model in Registry
+      train-iris-model:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-train-iris-model
+        taskInfo:
+          name: Train Iris Model
+  inputDefinitions:
+    parameters:
+      model_author:
+        defaultValue: ML Engineering Team
+        isOptional: true
+        parameterType: STRING
+      model_name:
+        defaultValue: iris-classifier
+        isOptional: true
+        parameterType: STRING
+      model_registry_api_url:
+        defaultValue: http://model-registry-service.kubeflow.svc.cluster.local:8080
+        isOptional: true
+        parameterType: STRING
+      model_version_name:
+        defaultValue: v1.0.0
+        isOptional: true
+        parameterType: STRING
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.13.0
+---
+platforms:
+  kubernetes:
+    deploymentSpec:
+      executors:
+        exec-register-model-to-kubeflow-registry:
+          secretAsEnv:
+          - keyToEnv:
+            - envVar: MR_AUTH_TOKEN
+              secretKey: token
+            secretName: model-registry-auth
+            secretNameParameter:
+              runtimeValue:
+                constant: model-registry-auth

@@ -221,22 +221,7 @@ def iris_model_registration_pipeline(
     model_author: str = "ML Engineering Team",
     model_registry_api_url: str = "http://model-registry-service.kubeflow.svc.cluster.local:8080"
 ):
-    """
-    Complete pipeline demonstrating the EXACT pattern from opendatahub-io/ilab-on-ocp.
-    
-    This pipeline follows the proven approach from:
-    - utils/components.py lines 195-273 (component implementation)  
-    - pipeline.py lines 438-450 (pipeline usage with placeholders)
-    
-    Features implemented:
-    1. ✅ Exact URL parsing logic from the reference
-    2. ✅ Retry mechanisms for robust operation  
-    3. ✅ Proper error handling patterns
-    4. ✅ Real version ID retrieval logic
-    5. ✅ Registry name parsing from URL
-    6. ✅ Same parameter patterns as the working example
-    """
-    
+   
     # Step 1: Train the model
     train_task = train_iris_model()
     

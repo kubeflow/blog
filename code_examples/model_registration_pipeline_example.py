@@ -218,7 +218,7 @@ def train_iris_model(
 def iris_model_registration_pipeline(
     model_name: str = "iris-classifier",
     model_version_name: str = "v1.0.0",
-    model_author: str = "ML Engineering Team",
+    model_author: str = "Data Science Pipelines Team",
     model_registry_api_url: str = "http://model-registry-service.kubeflow.svc.cluster.local:8080"
 ):
    

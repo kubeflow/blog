@@ -1,5 +1,8 @@
 name: Setup
-on: push
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   setup:
@@ -10,7 +13,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: 3.11
+        python-version: "3.11"
 
     - name: Copy Repository Contents
       uses: actions/checkout@v2

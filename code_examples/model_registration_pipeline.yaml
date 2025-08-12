@@ -1,0 +1,222 @@
+# PIPELINE DEFINITION
+# Name: model-registration-pipeline
+# Description: A KFP pipeline to demonstrate registering a model in Kubeflow Model Registry.
+# Inputs:
+#    model_artifact_uri: str [Default: 's3://my-model-bucket/fake/v1.0.0/model.pkl']
+#    model_author: str [Default: 'Kubeflow Community']
+#    model_name: str [Default: 'MyFakeModel']
+#    model_version_name: str [Default: 'v1.0.0-blog-post']
+components:
+  comp-register-model-to-kubeflow-registry:
+    executorLabel: exec-register-model-to-kubeflow-registry
+    inputDefinitions:
+      parameters:
+        model_artifact_uri:
+          parameterType: STRING
+        model_author:
+          defaultValue: Data Science Pipelines Team
+          isOptional: true
+          parameterType: STRING
+        model_container_image:
+          defaultValue: my-fake-model-server:latest
+          isOptional: true
+          parameterType: STRING
+        model_data_type:
+          defaultValue: tabular
+          isOptional: true
+          parameterType: STRING
+        model_description:
+          defaultValue: A model for demonstration purposes
+          isOptional: true
+          parameterType: STRING
+        model_name:
+          parameterType: STRING
+        model_serving_input_schema:
+          defaultValue: '{"type": "object", "properties": {"feature1": {"type": "number"}}}'
+          isOptional: true
+          parameterType: STRING
+        model_serving_output_schema:
+          defaultValue: '{"type": "object", "properties": {"prediction": {"type":
+            "number"}}}'
+          isOptional: true
+          parameterType: STRING
+        model_serving_path:
+          defaultValue: /mnt/models/fake_model.pkl
+          isOptional: true
+          parameterType: STRING
+        model_storage_format:
+          defaultValue: pickle
+          isOptional: true
+          parameterType: STRING
+        model_version_name:
+          parameterType: STRING
+        pipeline_name:
+          parameterType: STRING
+        pipeline_namespace:
+          parameterType: STRING
+        pipeline_run_id:
+          parameterType: STRING
+    outputDefinitions:
+      artifacts:
+        output_model:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+      parameters:
+        Output:
+          parameterType: STRING
+deploymentSpec:
+  executors:
+    exec-register-model-to-kubeflow-registry:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - register_model_to_kubeflow_registry
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.13.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'model-registry==0.2.19'\
+          \ && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef register_model_to_kubeflow_registry(\n    model_name: str,\n\
+          \    model_version_name: str,\n    model_artifact_uri: str,\n    pipeline_run_id:\
+          \ str,\n    pipeline_name: str,\n    pipeline_namespace: str,\n    model_description:\
+          \ str = \"A model for demonstration purposes\",\n    model_author: str =\
+          \ \"Data Science Pipelines Team\",\n    model_data_type: str = \"tabular\"\
+          ,\n    model_storage_format: str = \"pickle\",\n    model_container_image:\
+          \ str = \"my-fake-model-server:latest\",\n    model_serving_path: str =\
+          \ \"/mnt/models/fake_model.pkl\",\n    model_serving_input_schema: str =\
+          \ '{\"type\": \"object\", \"properties\": {\"feature1\": {\"type\": \"number\"\
+          }}}',\n    model_serving_output_schema: str = '{\"type\": \"object\", \"\
+          properties\": {\"prediction\": {\"type\": \"number\"}}}',\n    output_model:\
+          \ dsl.Output[dsl.Model] = None\n) -> str:\n    \"\"\"\n    KFP component\
+          \ to register a model and version in the Kubeflow Model Registry.\n    It\
+          \ demonstrates best practices for model source metadata.\n    \"\"\"\n \
+          \   print(\"model-registry client is being installed by KFP before this\
+          \ script runs.\")\n\n    # Import ModelRegistry client within the component\
+          \ function\n    from model_registry import ModelRegistry\n    from model_registry.types\
+          \ import RegisteredModel\n\n    # Model Registry service address within\
+          \ the Kubernetes cluster\n    MODEL_REGISTRY_SERVER_ADDRESS = \"http://model-registry-service.kubeflow-user-example-com.svc.cluster.local\"\
+          \n    MODEL_REGISTRY_PORT = 8080\n\n    # Retrieve authentication token\
+          \ from environment variable\n    auth_token = os.environ.get(\"MR_AUTH_TOKEN\"\
+          , \"\")\n    if not auth_token:\n        print(\"Warning: MR_AUTH_TOKEN\
+          \ environment variable not found. Proceeding without authentication.\")\n\
+          \n    print(f\"Connecting to Model Registry at {MODEL_REGISTRY_SERVER_ADDRESS}:{MODEL_REGISTRY_PORT}\"\
+          )\n    registry = ModelRegistry(\n        server_address=MODEL_REGISTRY_SERVER_ADDRESS,\n\
+          \        port=MODEL_REGISTRY_PORT,\n        author=model_author,\n     \
+          \   is_secure=False,\n        user_token=auth_token\n    )\n\n    try:\n\
+          \        # Register the Model and its Version in a single call\n       \
+          \ print(f\"Registering model: {model_name} version: {model_version_name}\
+          \ with URI: {model_artifact_uri}\")\n        registered_model_and_version\
+          \ = registry.register_model(\n            name=model_name,\n           \
+          \ uri=model_artifact_uri,\n            description=model_description,\n\
+          \            model_format_name=\"custom-format\",\n            model_format_version=\"\
+          1.0\",\n            version=model_version_name,\n            owner=\"Kubeflow\
+          \ Pipelines\",\n            author=model_author,\n            metadata={\n\
+          \                \"training_epochs\": 100,\n                \"accuracy\"\
+          : 0.95,\n                \"pipeline_run_id\": pipeline_run_id,\n       \
+          \         \"pipeline_name\": pipeline_name,\n                \"pipeline_namespace\"\
+          : pipeline_namespace,\n                \"kfp_component_name\": \"register-model-to-kubeflow-registry\"\
+          \n            },\n            model_source_id=pipeline_run_id,\n       \
+          \     model_source_name=pipeline_name,\n            model_source_class=\"\
+          pipelinerun\",\n            model_source_kind=\"kfp\",\n            model_source_group=pipeline_namespace,\n\
+          \        )\n        print(f\"Registered Model ID: {registered_model_and_version.id},\
+          \ Name: {registered_model_and_version.name}\")\n\n        print(f\"Successfully\
+          \ registered model and version in Model Registry.\")\n\n        # Write\
+          \ content to the output model path\n        with open(output_model.path,\
+          \ 'w') as f:\n            f.write(f\"This is a fake model artifact for {model_name}\
+          \ version {model_version_name}.\")\n\n        # Set metadata on the KFP\
+          \ output model artifact\n        output_model.metadata[\"registered_model\"\
+          ] = {\n            \"modelName\": registered_model_and_version.name,\n \
+          \           \"versionName\": model_version_name,\n            \"modelID\"\
+          : registered_model_and_version.id,\n            \"versionID\": \"placeholder-version-id\"\
+          ,\n            \"modelRegistryURL\": f\"http://localhost:{MODEL_REGISTRY_PORT}/models/{registered_model_and_version.id}/versions/{model_version_name}\"\
+          ,\n            \"modelRegistryAPIEndpoint\": MODEL_REGISTRY_SERVER_ADDRESS\n\
+          \        }\n        print(f\"KFP output model artifact metadata set: {output_model.metadata}\"\
+          )\n\n        return registered_model_and_version.id\n\n    except Exception\
+          \ as e:\n        print(f\"An error occurred during model registration: {e}\"\
+          )\n        raise\n\n"
+        image: python:3.11-slim-buster
+pipelineInfo:
+  description: A KFP pipeline to demonstrate registering a model in Kubeflow Model
+    Registry.
+  name: model-registration-pipeline
+root:
+  dag:
+    tasks:
+      register-model-to-kubeflow-registry:
+        cachingOptions:
+          enableCache: true
+        componentRef:
+          name: comp-register-model-to-kubeflow-registry
+        inputs:
+          parameters:
+            model_artifact_uri:
+              componentInputParameter: model_artifact_uri
+            model_author:
+              componentInputParameter: model_author
+            model_name:
+              componentInputParameter: model_name
+            model_version_name:
+              componentInputParameter: model_version_name
+            pipeline_name:
+              runtimeValue:
+                constant: '{{pipeline_job_name}}'
+            pipeline_namespace:
+              runtimeValue:
+                constant: kubeflow-user-example-com
+            pipeline_run_id:
+              runtimeValue:
+                constant: '{{pipeline_run_id}}'
+        taskInfo:
+          name: register-model-to-kubeflow-registry
+  inputDefinitions:
+    parameters:
+      model_artifact_uri:
+        defaultValue: s3://my-model-bucket/fake/v1.0.0/model.pkl
+        isOptional: true
+        parameterType: STRING
+      model_author:
+        defaultValue: Kubeflow Community
+        isOptional: true
+        parameterType: STRING
+      model_name:
+        defaultValue: MyFakeModel
+        isOptional: true
+        parameterType: STRING
+      model_version_name:
+        defaultValue: v1.0.0-blog-post
+        isOptional: true
+        parameterType: STRING
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.13.0
+---
+platforms:
+  kubernetes:
+    deploymentSpec:
+      executors:
+        exec-register-model-to-kubeflow-registry:
+          secretAsEnv:
+          - keyToEnv:
+            - envVar: MR_AUTH_TOKEN
+              secretKey: token
+            secretName: model-registry-auth
+            secretNameParameter:
+              runtimeValue:
+                constant: model-registry-auth

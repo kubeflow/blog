@@ -5,54 +5,72 @@ comments: true
 title: "KubeCon India 2025 - KubeFlow"
 hide: false
 categories: [kubecon, outreach]
-author: "Akash Jaiswal (@jaiakash)"
+author: "Akash Jaiswal (@jaiakash), Yash Pal (@yashpal2104)"
 ---
 
 ## Introduction
 
-We (@jaiakash and @yashpal2104) got the chance to attend KubeCon + CloudNativeCon Hyderabad, India 2025, attending talks and networking with people and developers in cloud native community and learning about the latest updates in the cloud-native machine learning ecosystem. We also volunteered to help with the KubeFlow booth, engaging with the community and answering the audience questions. With the help of @johnugeorge the 
+![KubeCon India 2025](/images/2025-08-23-kubecon-2025-india-kubeflow/KubeConIndiaKeynote.png)
+
+KubeCon + CloudNativeCon India 2025 in Hyderabad was an absolute blast! As 2nd time attendees (@jaiakash and @yashpal2104), we couldn't help but be blown away by the incredible energy at one of world's biggest cloud native gatherings. We were super excited seeing KubeFlow get a special shoutout during the opening keynote for its role in cloud native AI/ML and MLOps - definitely made us proud to be part of the community! (Above image shows the keynote moment)
+
+We also got super lucky with the chance to volunteer at the KubeFlow booth this year. Between demo-ing cool features and chatting with the audience, we had a great time. The highlight was meeting @johnugeorge in person, who delivered two amazing talks on KubeFlow's latest capabilities. It was really exciting to finally meet community members face-to-face whom we've only seen in community calls and Slack!
+
+This blog shares all the exciting bits from our packed 2 days at KubeCon - from awesome booth conversations to technical deep-dives. We hope this motivates more community members to not just contribute but also attend and help KubeFlow at events like KubeCon. Trust me, you won't want to miss the next one! 😊
 
 ## Featured Talks
 
-- [Cloud Native GenAI using KServe and OPEA — Johnu George, Gavrish Prabhu (Nutanix)](https://kccncind2025.sched.com/event/23EtS/cloud-native-genai-using-kserve-and-opea-johnu-george-gavrish-prabhu-nutanix?iframe=no&w=100%25&sidebar=yes&bg=no)
+### Cloud Native GenAI using KServe and OPEA
+**Speakers:** Johnu George, Gavrish Prabhu (Nutanix)
 
-// explanation
+<iframe src="https://kccncind2025.sched.com/event/23EtS/cloud-native-genai-using-kserve-and-opea-johnu-george-gavrish-prabhu-nutanix" width="100%" height="500px" frameborder="0"></iframe>
 
-// Image for event
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/0o8Ng0E1rrA?list=PLj6h78yzYM2MEQTMX_LIOK1hrePHxLD6U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-- [Bridging Big Data and Machine Learning Ecosystems: A Cloud Native Approach using KubeFlow — Johnu George, Shiv Jha (Nutanix)](https://kccncind2025.sched.com/event/23Eur/bridging-big-data-and-machine-learning-ecosystems-a-cloud-native-approach-using-kubeflow-johnu-george-shiv-jha-nutanix?iframe=yes&w=100%25&sidebar=yes&bg=no)
+### Bridging Big Data and Machine Learning Ecosystems
+**Speakers:** Johnu George, Shiv Jha (Nutanix)
 
-//Image for event
+<iframe src="https://kccncind2025.sched.com/event/23Eur/bridging-big-data-and-machine-learning-ecosystems-a-cloud-native-approach-using-kubeflow-johnu-george-shiv-jha-nutanix" width="100%" height="500px" frameborder="0"></iframe>
 
-// explanation
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/3NWFCKUhB3A?list=PLj6h78yzYM2MEQTMX_LIOK1hrePHxLD6U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## KubeFlow Booth Highlights
 
-- **Info & Updates:**  
-  - Demonstrations of new KubeFlow features and integrations.
-  - Discussions on real-world use cases and deployment strategies.
-  - Insights into the growing adoption of KubeFlow in India.
-  - People wanting to learn more about how to contribute to Kubeflow and incorporate it into their workflows and use it as a tool.
-  - Several companies expressed interest in adopting projects like Kubeflow.
+![KubeFlow Booth](/images/2025-08-23-kubecon-2025-india-kubeflow/KubeFlowBooth.png)
 
+Here's a picture of our KubeFlow booth volunteer team. It was really great to meet and interact with audiences who had dozens of questions about KubeFlow, contributors who wanted to help, and developers who were already using it and shared their experiences.
 
-- **Audience Questions:**  
+Here are some key highlights from our booth conversations:
+
+- **Community Updates & Engagement:**
+  - Discussions on real-world use cases and deployment strategies. Few of users shared their expericne of using KubeFlow in their comapneis.
+  - People wanting to learn more about how to contribute to Kubeflow and use it as a tool. (Ans: Join community calls, and checkout GitHub for open issues)
+  - Several companies expressed interest in adopting projects like Kubeflow. Few of seniors engineers were alreay using for some of their workloads, now they want to go full fledged prod.
+
+- **Popular Questions from Visitors:**
   - How does KubeFlow simplify ML workflows on Kubernetes?
-  - What are the best practices for scaling ML workloads?
-  - How does KubeFlow integrate with other cloud-native tools?
-  - What are the security considerations for running ML pipelines?
-  - How mature is Kubeflow today, and how well does it align with the workflows of different ML roles—for example, data scientists or teams looking to run and scale LLMs on Kubernetes?
-  - What does the roadmap for Kubeflow look like, and how can the community continue to engage and shape its development?
-  - Why has Kubeflow chosen to integrate with ArgoCD rather than Tekton CD—a question that even came up from a maintainer of the Tekton project?
+  - How does KubeFlow integrate with other cloud-native tools? Why isn't Kubeflow multi-cluster agnostic?
+  - What are the security considerations for running ML pipelines? How KubeFlow is different from X tool?
   - How can Kubeflow help optimize costs when working with LLMs, especially in terms of minimizing GPU usage to stay within quota limits while still delivering performance?
-  - What is the timeline of graduation for Kubeflow?
-  - Why isn't Kubeflow multi-cluster agnostic?
+  - How mature is Kubeflow today, and how well does it align with the workflows of different MLOps? What is the timeline of graduation for Kubeflow? What does the roadmap for Kubeflow look like, and how can the community continue to engage and shape its development?
+  - Why has Kubeflow chosen to integrate with ArgoCD rather than Tekton CD—a question that even came up from a maintainer of the Tekton project?
 
+## Our experiecne
 
-## Learning for us
-We had the chance to explore projects like [KitOps](https://kitops.org/), which offered an exciting early glimpse into the future of the AI/ML ecosystem. KitOps is an open-source tool designed for AI/ML DevOps, focused on standardizing how machine learning projects are packaged, versioned, and securely shared. Built on the Open Container Initiative (OCI) standard, it integrates seamlessly with existing DevOps and software development workflows.
+What an incredible journey these past two days have been! Beyond the technical talks and booth duties, what really stood out was the genuine excitement around KubeFlow in the community. Seeing users' faces light up when sharing their success stories, or watching newcomers get that "aha!" moment during demos - these are the moments that make community events special.
 
-## Conclusion
+The technical discussions were mind-blowing too. From hearing how startups are using KubeFlow to train their LLMs, to learning how enterprises are scaling it across thousands of models - each conversation taught us something new. We even got into some heated (but friendly!) debates about MLOps architectures and the future of AI on Kubernetes.
 
-KubeCon India 2025 showcased the vibrant cloud-native ML community and highlighted KubeFlow's role in enabling scalable, production-grade machine learning on Kubernetes.  
+But the best part? The people. Meeting community members we've only known through Slack emojis and GitHub comments to sharing chai/biryani with fellow contributors These personal connections are what make the open source community truly special. Can't wait for the next one! 🚀
+
+## Want to help?
+
+The Kubeflow community hold open meetings and are always looking for more volunteers and users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below. We look forward to working with you!
+
+* Visit our [Kubeflow website](https://www.kubeflow.org/docs/about/community/) or Kubeflow GitHub Page.
+* Join the [Kubeflow Slack channel](https://www.kubeflow.org/docs/about/community/).
+* Join the [kubeflow-discuss](https://groups.google.com/g/kubeflow-discuss) mailing list.
+* Attend our weekly [community meeting](https://www.kubeflow.org/docs/about/community/#kubeflow-community-call).
+* Want to volunteer for outreach.events, checkout `#kubeflow-outreach` on CNCF Slack.
+
 Feel free to share your thoughts or questions in the comments!

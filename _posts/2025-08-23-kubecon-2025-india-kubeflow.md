@@ -48,8 +48,8 @@ Here are some key highlights from our booth conversations:
 
 - **Popular Questions from Visitors:**
   - How does Kubeflow simplify ML workflows on Kubernetes?
-  - How does Kubeflow integrate with other cloud-native tools? Why isn't Kubeflow multi-cluster agnostic?
-  - What are the security considerations for running ML pipelines? How is Kubeflow different from X tool?
+  - How does Kubeflow integrate with other cloud-native tools? Can you clarify why kubeflow is not multicluster agnostic?
+  - What are the security considerations for running ML pipelines? How is Kubeflow different from other tools?
   - How can Kubeflow help optimize costs when working with LLMs, especially in terms of minimizing GPU usage to stay within quota limits while still delivering performance?
   - How mature is Kubeflow today, and how well does it align with the workflows of different MLOps? What is the timeline of graduation for Kubeflow? What does the roadmap for Kubeflow look like, and how can the community continue to engage and shape its development?
   - Why has Kubeflow chosen to integrate with ArgoCD rather than Tekton CD—a question that even came up from a maintainer of the Tekton project.

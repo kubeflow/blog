@@ -54,7 +54,7 @@ Here are some key highlights from our booth conversations:
   - Why has Kubeflow chosen to integrate with ArgoCD rather than Tekton CD — the question that came up from a maintainer of the Tekton project.
 - **Popular Questions from Visitors:**
   - How does Kubeflow simplify ML workflows on Kubernetes?
-  - How does Kubeflow integrate with other cloud-native tools? Can you clarify why kubeflow is not multicluster agnostic?
+  - How does Kubeflow integrate with other cloud-native tools? Can you clarify why Kubeflow is not multicluster agnostic?
   Answer: Kubeflow was originally designed to run within a single Kubernetes cluster, focusing on simplifying ML workflows and providing a unified experience. While some components can be deployed in multiple clusters, Kubeflow itself does not provide built-in, out-of-the-box support for managing resources, pipelines, or workloads across multiple clusters in a transparent or federated way. This is mainly due to the complexity of synchronizing state, security, networking, and resource management across clusters. However, the community is aware of this limitation, and there are ongoing discussions and some third-party tools or custom solutions that attempt to bridge this gap, but true multicluster support is not a core feature as of now.
   - What are the security considerations for running ML pipelines? How is Kubeflow different from other tools?
   - How can Kubeflow help optimize costs when working with LLMs, especially in terms of minimizing GPU usage to stay within quota limits while still delivering performance?

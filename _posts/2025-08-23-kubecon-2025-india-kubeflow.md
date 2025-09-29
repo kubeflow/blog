@@ -35,7 +35,7 @@ This blog shares all the exciting bits from our packed 2 days at KubeCon - from 
 
 ## Kubeflow Booth Highlights
 
-![Kubeflow Booth](/images/2025-08-23-kubecon-2025-india-kubeflow/KubeflowBooth.png)
+![Kubeflow Booth](/images/2025-08-23-kubecon-2025-india-kubeflow/KubeflowBoothPic.png)
 
 Here's a picture of our Kubeflow booth volunteer team. It was really great to meet and interact with audiences who had dozens of questions about Kubeflow, contributors who wanted to help, and developers who were already using it and shared their experiences.
 

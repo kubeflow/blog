@@ -10,8 +10,8 @@ author: "Kubeflow Outreach Team"
 
 ## Introduction
 
-Google Summer of Code (GSoC) 2025 has been an exciting journey for the Kubeflow community! 🎉  
-This year, contributors from around the world collaborated with mentors to improve different parts of the Kubeflow ecosystem — from infrastructure and CI/CD, to notebooks, ML workflows, and beyond.
+Google Summer of Code (GSoC) 2025 has been an exciting journey for the Kubeflow community! We are very grateful for Google and the open source community for their commitment, dedication and efforts.🎉  
+This year, 9 contributors from around the world collaborated with mentors to improve different parts of the Kubeflow ecosystem — from infrastructure and CI/CD, to notebooks, ML workflows, and beyond.
 
 In this blog, we’re highlighting all the projects that were part of **GSoC 2025**, their goals, the impact they’ve created, and the amazing contributors behind them.  
 
@@ -21,7 +21,7 @@ In this blog, we’re highlighting all the projects that were part of **GSoC 202
 
 ## 📚 Project Highlights
 
-Below are the key projects from this year’s GSoC. Each section includes a short summary, contributor details, and links to project resources.
+Below are the projects from this year’s GSoC. Each section includes a short summary, contributor details, and links to project resources.
 
 ---
 
@@ -56,26 +56,37 @@ Brief description of the project.
 - Item 3  
 
 **Resources:**  
+
 - 📄 [Project Repo](#)  
 - ✍️ [Blog](#)  
 
 ---
 
-### 3. Project Title 3  
-**Contributor:** Name (GitHub: [@username](https://github.com/username))  
-**Mentors:** Mentor Name(s)  
+### Project 7: GPU Testing for LLM Blueprints
+
+**Contributor:** Akash Jaiswal ([@jaiakash](https://github.com/jaiakash))  
+**Mentors:** Andrey Velichkevich ([@andreyvelich](https://github.com/andreyvelich)), Valentina Rodriguez Sosa([@varodrig](https://github.com/varodrig))
+
+![Diagram](/images/2025-09-06-kubeflow-and-gsoc2025/project7.png)
 
 **Overview:**  
-Brief summary of the project.
+We had a few examples in the repository that we wanted to include in our end-to-end (E2E) tests, but all of them were CPU-based. Projects like Torchune and Qwen 2.5, for instance, require GPU resources to run — yet our existing CI setup couldn’t validate them at all because it was entirely CPU-focused.
+
+This created a major gap: whenever someone contributed a new LLM example or modified the trainer logic, we had no automated way to verify if those changes would work in a GPU environment — the same environment where these workloads are actually deployed in production.
+
+The goal of this project was to add CI with GPU support directly into our CI/CD workflow.
 
 **Key Outcomes:**  
-- Item 1  
-- Item 2  
-- Item 3  
+
+- Integrating GPU runners into GitHub Actions so that any pull request could automatically trigger GPU-backed E2E tests.
+
+- Making the setup scalable and cost-efficient — instead of maintaining expensive GPU machines 24/7, we needed an on-demand system that provisions GPU resources only when a test is triggered.
 
 **Resources:**  
-- 📄 [Project Repo](#)  
-- ✍️ [Blog](#)  
+
+- 📄 [Project Page](https://summerofcode.withgoogle.com/programs/2025/projects/fwZkvPr0)
+- 🧩 [Kubeflow Enhancement Proposal (KEP)](https://github.com/kubeflow/trainer/pull/2689)  
+- ✍️ [Personal Blog: Scaling GPU Testing for LLM Blueprints](https://my-experience-with-kubeflow-for-gsoc.hashnode.dev/gsoc-2025-with-kubeflow-scaling-gpu-testing-for-llm-blueprints)
 
 ---
 
@@ -97,4 +108,3 @@ The Kubeflow community is open to contributors of all backgrounds and skill leve
 - 📩 Subscribe to the [kubeflow-discuss](https://groups.google.com/g/kubeflow-discuss) mailing list
 
 Let’s continue building the future of MLOps together 🚀
-

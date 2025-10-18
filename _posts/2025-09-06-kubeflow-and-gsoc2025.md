@@ -90,6 +90,25 @@ The goal of this project was to add CI with GPU support directly into our CI/CD 
 
 ---
 
+### Project 10: Support Volcano Scheduler in Kubeflow Trainer
+**Contributor:** Xinmin Du (GitHub: [@Doris-xm](https://github.com/Doris-xm))  
+**Mentors:** Shao Wang ([@Electronic-Waste](https://github.com/Electronic-Waste)), Yuchen Cheng([@rudeigerc](https://github.com/rudeigerc))
+
+**Overview:**  
+The project aims to integrate the **Volcano scheduler** into Kubeflow Trainer as a **runtime plugin**.
+This will allow users to take advantage of advanced AI-specific scheduling features, such as Gang Scheduling and priority scheduling, supported by Volcano.
+
+**Key Outcomes:**
+- Integrate the **Volcano** scheduler into Trainer as a runtime plugin to support Gang Scheduling and resource management for distributed training jobs.
+- Enabled AI-specific features such as priority scheduling, queue-based management, and network topology–aware scheduling.
+
+**Resources:**
+
+- 📄 [Project Page](https://summerofcode.withgoogle.com/programs/2025/projects/ZWbY1Rfj)
+- 🧩 [Kubeflow Enhancement Proposal (KEP)](https://github.com/kubeflow/trainer/pull/2672)
+
+---
+
 ## 🎉 Wrapping Up
 
 We’re proud of what our GSoC 2025 contributors achieved and the impact they’ve made on the Kubeflow ecosystem. Their work not only strengthens existing components but also lays the foundation for future innovation in MLOps and AI infrastructure.

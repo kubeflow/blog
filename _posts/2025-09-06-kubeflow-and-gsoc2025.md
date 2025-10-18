@@ -62,6 +62,26 @@ Brief description of the project.
 
 ---
 
+### Project 4: Deploying Kubeflow with Helm Charts
+
+**Contributor:** Kunal Dugar ([@kunal-511](https://github.com/kunal-511))  
+**Mentors:** Julius von Kohout ([@juliusvonkohout](https://github.com/juliusvonkohout)), Valentina Rodriguez Sosa ([@varodrig](https://github.com/varodrig)), Chase Cadet ([@Chasecadet](https://github.com/Chasecadet))
+
+**Overview:**  
+This project focused on creating component-based Helm charts for Kubeflow, enabling flexible and incremental deployment of ML infrastructure. Instead of requiring a full platform installation, users can now deploy specific components like Katib, Pipelines, Model Registry, and others independently with customized configurations.
+
+**Key Outcomes:**  
+- Created production-ready Helm charts for Katib, Model Registry, KServe Web App, Notebook Controller, and Kubeflow Pipelines—enabling one-command deployment of individual components
+- Built automated testing infrastructure with diff tools to validate Helm charts against Kustomize manifests, ensuring accuracy and catching regressions quickly
+- Enabled incremental Kubeflow adoption, reducing deployment complexity from days to hours for organizations building production ML platforms
+
+**Resources:**  
+- 📄 [Project Page](https://summerofcode.withgoogle.com/programs/2025/projects/)  
+- 🧩 [Kubeflow Enhancement Proposal (KEP)-831-Kubeflow-Helm-Support: Support Helm as an Alternative for Kustomize](https://github.com/kubeflow/community/pull/832)  
+- ✍️ [Blog: My GSoC Journey: Deploying Kubeflow with Helm Charts](https://medium.com/@kunalD02/my-gsoc-journey-deploying-kubeflow-with-helm-charts-e7f9dea7b56e)
+
+---
+
 ### Project 7: GPU Testing for LLM Blueprints
 
 **Contributor:** Akash Jaiswal ([@jaiakash](https://github.com/jaiakash))  

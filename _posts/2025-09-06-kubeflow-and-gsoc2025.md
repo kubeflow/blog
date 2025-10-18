@@ -25,21 +25,24 @@ Below are the projects from this year’s GSoC. Each section includes a short su
 
 ---
 
-### 1. Project Title 1  
-**Contributor:** Name (GitHub: [@username](https://github.com/username))  
-**Mentors:** Mentor Name(s)  
+### Project 1: Kubeflow Platform Enhancements
+**Contributor:** Harshvir Potpose ([@akagami-harsh](https://github.com/akagami-harsh))
+**Mentors:** Julius von Kohout ([@juliusvonkohout](https://github.com/juliusvonkohout)), Mathew Wicks ([thesuperzapper](https://github.com/thesuperzapper))
 
 **Overview:**  
-A brief 3–4 line summary of the project, what it aimed to solve, and why it matters.
+MinIO transitioned to the AGPLv3 license in 2021, creating significant compliance challenges for Kubeflow Pipelines. The AGPL's copyleft provisions require that any software linking to AGPL-licensed components must also adopt the AGPL license, effectively preventing KFP from upgrading to newer MinIO versions without changing its own licensing model.
+
+This project addressed this critical blocker by implementing SeaweedFS as a production-ready replacement for MinIO. SeaweedFS offers a more permissive Apache 2.0 license while providing superior performance characteristics and enterprise-grade reliability.
 
 **Key Outcomes:**  
-- 🧠 Improvement or new feature delivered  
-- ⚙️ Technical details or components impacted  
-- 📈 Benefits for users or developers  
+- Successfully migrated to SeaweedFS as a secure replacement for MinIO and integrated it into Kubeflow Pipelines
+- Eliminated MinIO's licensing constraints by adopting SeaweedFS's more permissive license model
+- Implemented comprehensive CI tests for SeaweedFS deployment and namespace isolation functionality
+- Strengthened the manifests repository's CI pipeline and contributed to the dashboard migration efforts
 
 **Resources:**  
-- 📄 [Project Proposal / Repo](#)  
-- ✍️ [Contributor Blog / Write-up](#)  
+- 📄 [Project Page](https://summerofcode.withgoogle.com/programs/2025/projects/PWDq4Zvt)  
+- ✍️ [Personal Blog: Kubeflow Pipelines Embraces SeaweedFS](https://medium.com/@hpotpose26/kubeflow-pipelines-embraces-seaweedfs-9a7e022d5571)  
 
 ---
 

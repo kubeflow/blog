@@ -27,7 +27,7 @@ Below are the projects from this year’s GSoC. Each section includes a short su
 
 ### Project 1: Kubeflow Platform Enhancements
 **Contributor:** Harshvir Potpose ([@akagami-harsh](https://github.com/akagami-harsh))
-**Mentors:** Julius von Kohout ([@juliusvonkohout](https://github.com/juliusvonkohout)), Mathew Wicks ([thesuperzapper](https://github.com/thesuperzapper))
+**Mentors:** Julius von Kohout ([@juliusvonkohout](https://github.com/juliusvonkohout))
 
 **Overview:**  
 MinIO transitioned to the AGPLv3 license in 2021, creating significant compliance challenges for Kubeflow Pipelines. The AGPL's copyleft provisions require that any software linking to AGPL-licensed components must also adopt the AGPL license, effectively preventing KFP from upgrading to newer MinIO versions without changing its own licensing model.
@@ -39,6 +39,7 @@ This project addressed this critical blocker by implementing SeaweedFS as a prod
 - Eliminated MinIO's licensing constraints by adopting SeaweedFS's more permissive license model
 - Implemented comprehensive CI tests for SeaweedFS deployment and namespace isolation functionality
 - Strengthened the manifests repository's CI pipeline and contributed to the dashboard migration efforts
+- Enforcing PodSecurityStandars baseline/restricted
 
 **Resources:**  
 - 📄 [Project Page](https://summerofcode.withgoogle.com/programs/2025/projects/PWDq4Zvt)  
@@ -74,6 +75,7 @@ Brief description of the project.
 This project focused on creating component-based Helm charts for Kubeflow, enabling flexible and incremental deployment of ML infrastructure. Instead of requiring a full platform installation, users can now deploy specific components like Katib, Pipelines, Model Registry, and others independently with customized configurations.
 
 **Key Outcomes:**  
+- Kubeflow AI reference paltform end to end testing
 - Created production-ready Helm charts for Katib, Model Registry, KServe Web App, Notebook Controller, and Kubeflow Pipelines—enabling one-command deployment of individual components
 - Built automated testing infrastructure with diff tools to validate Helm charts against Kustomize manifests, ensuring accuracy and catching regressions quickly
 - Enabled incremental Kubeflow adoption, reducing deployment complexity from days to hours for organizations building production ML platforms

@@ -66,6 +66,24 @@ Brief description of the project.
 
 ---
 
+### Project 3: Istio CNI and Ambient Mesh
+**Contributor:** Ayush Gupta (GitHub: [@madmecodes](https://github.com/madmecodes))  
+**Mentors:** Julius von Kohout ([@juliusvonkohout](https://github.com/juliusvonkohout)), Kimonas Sotirchos ([@kimwnasptd](https://github.com/kimwnasptd))  
+
+**Overview:**  
+This GSoC 2025 project modernized Kubeflow's service mesh infrastructure by implementing Istio CNI as the default configuration and pioneering Istio Ambient Mesh support. The 175-hour medium-difficulty project involved 25+ pull requests across multiple Kubeflow repositories, transitioning from traditional sidecar-based architecture to ambient mesh with ztunnel and waypoint proxies, pioneering the migration to Gateway API (HTTPRoute), implementing path-based routing for KServe model serving endpoints, and utilizing Kustomize overlay method for easy installation and configuration management.
+
+**Key Outcomes:**  
+- Implemented Istio CNI by default with Kustomize overlay method enabling easy switching between traditional Istio and CNI configurations
+- Created path-based routing for KServe multi-model serving and Gateway API (HTTPRoute) migration
+- Pioneered Ambient Mesh support with ztunnel/waypoint proxies and coordinating cross-repository compatibility
+
+**Resources:**  
+- 📄 [Project Page](https://summerofcode.withgoogle.com/programs/2025/projects/WAHCCi8V)  
+- ✍️ [Blog Post](https://medium.com/@ayushguptadev1/gsoc25-kubeflow-securing-and-optimizing-ml-infrastructure-with-istio-31f535c77fd6)  
+
+---
+
 ### Project 4: Deploying Kubeflow with Helm Charts
 
 **Contributor:** Kunal Dugar ([@kunal-511](https://github.com/kunal-511))  

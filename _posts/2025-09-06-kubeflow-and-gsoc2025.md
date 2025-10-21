@@ -47,23 +47,40 @@ This project addressed this critical blocker by implementing SeaweedFS as a prod
 
 ---
 
-### 2. Project Title 2  
-**Contributor:** Name (GitHub: [@username](https://github.com/username))  
-**Mentors:** Mentor Name(s)  
+### Project 2: KServe Models Web App Modernization  
+**Contributor:** (GitHub: [@LogicalGuy77](https://github.com/LogicalGuy77))  
+**Mentors:** Griffin Sullivan ([@Griffin-Sullivan](https://github.com/Griffin-Sullivan)), Julius von Kohout ([@juliusvonkohout](https://github.com/juliusvonkohout))  
 
 **Overview:**  
-Brief description of the project.
+This project revived and modernized the KServe Models Web Application (Angular + Flask), the UI used to manage machine learning inference services in Kubeflow via KServe. What began as a small Node.js update evolved into a comprehensive upgrade of the frontend stack, CI/CD, testing, and feature set—bringing the app up to modern standards and making it easier for both users and contributors to work with.
 
 **Key Outcomes:**  
-- Item 1  
-- Item 2  
-- Item 3  
+- Modernized core stack: upgraded Node.js (v16 → v23) and Angular (v12 → v14), resolving security issues and improving performance  
+- Migrated container images from Docker Hub to GitHub Container Registry (GHCR) to avoid rate limits and improve reliability  
+- Overhauled CI/CD with GitHub Actions: updated actions, added intelligent caching for pip, Docker layers, and node_modules for significantly faster builds  
+- Introduced Jest unit tests for core utilities (e.g., parsing Kubernetes object statuses and KServe predictor configs)  
+- Added Cypress end-to-end tests for critical user journeys (deploy, edit, delete) including failure handling and input validation  
+- Wrote comprehensive documentation to help contributors run and extend the test suites  
+- Shipped “Edit InferenceService YAML” directly in the UI via an integrated Monaco editor—no kubectl required  
+- Fixed RawDeployment-mode crash and added ModelMesh support so resources and statuses render correctly  
+- Added support for the latest KServe predictor runtimes, including HuggingFace  
+- Simplified contributor onboarding with a Makefile that automates full frontend setup in a single command  
+- Implemented runtime-configurable settings via a new `/api/config` endpoint (e.g., Grafana DB names, URL prefixes)  
+- Cut the v0.15.0 release of the Models Web App, consolidating months of modernization and feature work  
+
+**By the Numbers:**  
+- PRs merged: 19  
+- Issues closed: 8  
+- Lines of code changed: +22,309 / −11,628  
+- Frontend: Angular, TypeScript, SCSS  
+- Backend: Flask (Python)  
+- CI/CD: GitHub Actions, Docker  
+- Local cluster: Kubernetes (Kind) + Istio + Kubeflow  
 
 **Resources:**  
-
-- 📄 [Project Repo](#)  
-- ✍️ [Blog](#)  
-
+- [Project Repo: kserve/models-web-app](https://github.com/kserve/models-web-app)  
+- [All commits by @LogicalGuy77](https://github.com/kserve/models-web-app/commits?author=LogicalGuy77)
+- [Blog Post](https://medium.com/@harshitweb3/my-gsoc-2025-journey-reviving-kserves-models-web-application-2f18ef16fb51) 
 ---
 
 ### Project 3: Istio CNI and Ambient Mesh

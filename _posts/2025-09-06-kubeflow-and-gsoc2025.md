@@ -105,6 +105,28 @@ This project focused on creating component-based Helm charts for Kubeflow, enabl
 
 ---
 
+### Project 5: JupyterLab Plugin for Kubeflow
+
+**Contributor:** Amrit Kumar ([@Amrit27k](https://github.com/Amrit27k))  
+**Mentors:** Eder Ignatowicz ([@ederign](https://github.com/ederign)), Stefano Fioravanzo ([@StefanoFioravanzo](https://github.com/StefanoFioravanzo))
+
+**Overview:**
+The project fully modernized Kubeflow Kale's architecture, migrating the backend from KFPv1 to KFPv2 with a new Jinja2 templating system for notebook-to-pipeline conversion. The initiative also featured a complete overhaul of the JupyterLab frontend (Typescriptv5.9.2, MUIv7) and comprehensive updates to GitHub workflows, documentation, and dependencies to meet modern community standards.
+
+**Key Outcomes:**
+- Rebuilt the Kale backend to support the modern, future-proof Kubeflow Pipelines v2 (KFPv2) architecture, moving away from the deprecated KFPv1.
+- Implemented a new Jinja2 templating system that intelligently converts annotated Jupyter notebook cells into valid KFPv2 Python DSL scripts.
+- Updated the JupyterLab frontend extension using current standards (Typescript v5.9.2, Jupyterlab v4, and MUI v7), resolving hundreds of legacy compatibility issues.
+- Integrated KFPv2's robust system for better type-safe artifact handling and automated ML Metadata registration, ensuring rich lineage tracking for pipeline steps.
+- Standardized the project structure, updated GitHub workflows, and implemented UI test scripts to align with community standards and ensure maintainability for future contributors.
+
+**Resources:**
+- 📄 [Project Repo](https://github.com/kubeflow-kale/kale)
+- 🧩 [Kubeflow Kale 2.0- Project Roadmap](https://github.com/kubeflow-kale/kale/issues/457)
+- ✍️ [Blog: From Notebooks to Pipelines: My GSoC’25 Journey Modernizing Kubeflow Kale with KFPv2 and Jupyterlabv4](https://medium.com/@amritkmr4272/from-notebooks-to-pipelines-my-gsoc25-journey-modernizing-kubeflow-kale-with-kfpv2-and-e098f194208c)
+
+---
+
 ### Project 7: GPU Testing for LLM Blueprints
 
 **Contributor:** Akash Jaiswal ([@jaiakash](https://github.com/jaiakash))  

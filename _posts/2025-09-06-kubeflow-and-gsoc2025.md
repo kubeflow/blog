@@ -47,7 +47,7 @@ This project addressed this critical blocker by implementing SeaweedFS as a prod
 
 ---
 
-### Project 2: KServe Models Web App Modernization  
+### Project 2: KServe Models Web Application Modernization  
 **Contributor:** (GitHub: [@LogicalGuy77](https://github.com/LogicalGuy77))  
 **Mentors:** Griffin Sullivan ([@Griffin-Sullivan](https://github.com/Griffin-Sullivan)), Julius von Kohout ([@juliusvonkohout](https://github.com/juliusvonkohout))  
 

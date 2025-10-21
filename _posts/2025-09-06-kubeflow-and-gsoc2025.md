@@ -121,7 +121,7 @@ The project fully modernized Kubeflow Kale's architecture, migrating the backend
 - Standardized the project structure, updated GitHub workflows, and implemented UI test scripts to align with community standards and ensure maintainability for future contributors.
 
 **Resources:**
-- 📄 [Project Repo](https://github.com/kubeflow-kale/kale)
+- 📄 [Project Repo - Kubeflow Kale](https://github.com/kubeflow-kale/kale)
 - 🧩 [Kubeflow Kale 2.0- Project Roadmap](https://github.com/kubeflow-kale/kale/issues/457)
 - ✍️ [Blog: From Notebooks to Pipelines: My GSoC’25 Journey Modernizing Kubeflow Kale with KFPv2 and Jupyterlabv4](https://medium.com/@amritkmr4272/from-notebooks-to-pipelines-my-gsoc25-journey-modernizing-kubeflow-kale-with-kfpv2-and-e098f194208c)
 

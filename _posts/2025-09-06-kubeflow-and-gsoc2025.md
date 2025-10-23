@@ -13,7 +13,7 @@ author: "Kubeflow Outreach Team"
 Google Summer of Code (GSoC) 2025 has been an exciting journey for the Kubeflow community! We are very grateful for Google and the open source community for their commitment, dedication and efforts.🎉  
 This year, 9 contributors from around the world collaborated with mentors to improve different parts of the Kubeflow ecosystem — from infrastructure and CI/CD, to notebooks, ML workflows, and beyond.
 
-In this blog, we’re highlighting all the projects that were part of **GSoC 2025**, their goals, the impact they’ve created, and the amazing contributors behind them.  
+In this blog, we are highlighting all the projects that were part of **GSoC 2025**, their goals, the impact they’ve created, and the amazing contributors behind them.  
 
 👉 You can explore the full list on our [GSoC 2025 page](https://www.kubeflow.org/events/gsoc-2025/).
 
@@ -193,15 +193,15 @@ This will allow users to take advantage of advanced AI-specific scheduling featu
 
 ## 🎉 Wrapping Up
 
-We’re proud of what our GSoC 2025 contributors achieved and the impact they’ve made on the Kubeflow ecosystem. Their work not only strengthens existing components but also lays the foundation for future innovation in MLOps and AI infrastructure.
+We are proud of what our GSoC 2025 contributors achieved and the impact they have made on the Kubeflow ecosystem. Their work not only strengthens existing components but also lays the foundation for future innovation in MLOps and AI infrastructure.
 
-A huge **thank you** 🙏 to all contributors, mentors, and community members who made this program a success!
+A huge **thank you** 🙏 to all contributors, mentors, and community members who made this program a success.
 
 ---
 
 ## 👩‍💻 Want to Get Involved?
 
-The Kubeflow community is open to contributors of all backgrounds and skill levels. Whether you’re passionate about ML infrastructure, frontend, DevOps, or documentation — there’s a place for you here.
+The Kubeflow community is open to contributors of all backgrounds and skill levels. Whether you are passionate about ML infrastructure, frontend, DevOps, or documentation — there’s a place for you here.
 
 - 💻 Visit our [website](https://www.kubeflow.org/docs/about/community/) and [GitHub](https://github.com/kubeflow)
 - 💬 Join our [Slack](https://www.kubeflow.org/docs/about/community/)

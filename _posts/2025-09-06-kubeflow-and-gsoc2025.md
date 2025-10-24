@@ -191,6 +191,31 @@ This will allow users to take advantage of advanced AI-specific scheduling featu
 
 ---
 
+### Project 12: Empowering Kubeflow Documentation with LLMs 🤖  
+**Contributor:** Santhosh Toorpu (GitHub: [@SanthoshToorpu](https://github.com/SanthoshToorpu))  
+**Mentors:** Francisco Javier Arceo ([@franciscojavierarceo](https://github.com/franciscojavierarceo)), Chase Cadet ([@Chasecadet](https://github.com/Chasecadet))  
+
+**Overview:**  
+This project introduced an intelligent documentation assistant that uses **Retrieval-Augmented Generation (RAG)** and **KServe-hosted LLMs** to enhance the Kubeflow documentation experience. The goal was to help users find relevant, accurate answers drawn from Kubeflow docs, GitHub issues, and community discussions — all through a conversational interface on the Kubeflow website.  
+
+The system leverages **Kubeflow Pipelines** to automate documentation ingestion and indexing, **Milvus** for semantic vector search, and **FastAPI with WebSockets** for real-time interactions. Built on Kubernetes, the architecture follows Kubeflow’s MLOps principles end-to-end — from automated retraining and indexing to monitored LLM inference served via KServe.  
+
+**Key Outcomes:**  
+- Designed and deployed an **LLM-powered Documentation Assistant** using Kubeflow-native tools (KFP, KServe, Feast, Milvus).  
+- Implemented **automated documentation indexing pipelines** triggered by GitHub Actions to keep vector embeddings up-to-date.  
+- Developed an **interactive chat interface** integrated into the Kubeflow website for natural-language documentation search.  
+- Introduced a **RAG agentic workflow** with tool-calling to decide when to retrieve external documentation or use model knowledge.  
+- Implemented **RBAC-based access control** for pipelines and KServe endpoints to align with Kubeflow’s multi-user isolation standards.  
+- Developed a **feedback loop system** (“👍 / 👎”) to improve the model’s performance and documentation quality.  
+- Delivered a functional prototype hosted on Kubernetes, showcasing real-time semantic search across Kubeflow repositories.  
+
+**Resources:**  
+- 📄 [Project Page](https://summerofcode.withgoogle.com/programs/2025/projects/a9JPxfEh)  
+- 🧠 [Demo Repo](https://github.com/kubeflow/docs-agent)  
+- ✍️ [Blog Post: Empowering Kubeflow Documentation with LLMs](https://medium.com/@toorpusanthosh/empowering-kubeflow-documentation-with-llms-my-gsoc-journey-58eb946ba2af) <!-- Add blog link here when published -->
+
+---
+
 ## 🎉 Wrapping Up
 
 We are proud of what our GSoC 2025 contributors achieved and the impact they have made on the Kubeflow ecosystem. Their work not only strengthens existing components but also lays the foundation for future innovation in MLOps and AI infrastructure.

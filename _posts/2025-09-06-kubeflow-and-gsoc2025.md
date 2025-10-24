@@ -81,6 +81,7 @@ This project revived and modernized the KServe Models Web Application (Angular +
 - [Project Repo: kserve/models-web-app](https://github.com/kserve/models-web-app)  
 - [All commits by @LogicalGuy77](https://github.com/kserve/models-web-app/commits?author=LogicalGuy77)
 - [Blog Post](https://medium.com/@harshitweb3/my-gsoc-2025-journey-reviving-kserves-models-web-application-2f18ef16fb51) 
+
 ---
 
 ### Project 3: Istio CNI and Ambient Mesh

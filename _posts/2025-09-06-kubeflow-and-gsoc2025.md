@@ -39,7 +39,7 @@ This project addressed this critical blocker by implementing SeaweedFS as a prod
 - Eliminated MinIO's licensing constraints by adopting SeaweedFS's more permissive license model
 - Implemented comprehensive CI tests for SeaweedFS deployment and namespace isolation functionality
 - Strengthened the manifests repository's CI pipeline and contributed to the dashboard migration efforts
-- Enforcing PodSecurityStandars baseline/restricted
+- Enforcing PodSecurityStandards baseline/restricted
 
 **Resources:**  
 - 📄 [Project Page](https://summerofcode.withgoogle.com/programs/2025/projects/PWDq4Zvt)  
@@ -111,7 +111,7 @@ This GSoC 2025 project modernized Kubeflow's service mesh infrastructure by impl
 This project focused on creating component-based Helm charts for Kubeflow, enabling flexible and incremental deployment of ML infrastructure. Instead of requiring a full platform installation, users can now deploy specific components like Katib, Pipelines, Model Registry, and others independently with customized configurations.
 
 **Key Outcomes:**  
-- Kubeflow AI reference paltform end to end testing
+- Kubeflow AI reference platform end to end testing
 - Created production-ready Helm charts for Katib, Model Registry, KServe Web App, Notebook Controller, and Kubeflow Pipelines—enabling one-command deployment of individual components
 - Built automated testing infrastructure with diff tools to validate Helm charts against Kustomize manifests, ensuring accuracy and catching regressions quickly
 - Enabled incremental Kubeflow adoption, reducing deployment complexity from days to hours for organizations building production ML platforms
@@ -153,7 +153,7 @@ The project fully modernized Kubeflow Kale's architecture, migrating the backend
 ![Diagram](/images/2025-09-06-kubeflow-and-gsoc2025/project7.png)
 
 **Overview:**  
-We had a few examples in the repository that we wanted to include in our end-to-end (E2E) tests, but all of them were CPU-based. Projects like Torchune and Qwen 2.5, for instance, require GPU resources to run — yet our existing CI setup couldn’t validate them at all because it was entirely CPU-focused.
+We had a few examples in the repository that we wanted to include in our end-to-end (E2E) tests, but all of them were CPU-based. Projects like Torchtune and Qwen 2.5, for instance, require GPU resources to run — yet our existing CI setup couldn’t validate them at all because it was entirely CPU-focused.
 
 This created a major gap: whenever someone contributed a new LLM example or modified the trainer logic, we had no automated way to verify if those changes would work in a GPU environment — the same environment where these workloads are actually deployed in production.
 

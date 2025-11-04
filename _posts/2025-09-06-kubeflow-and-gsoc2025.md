@@ -146,6 +146,37 @@ The project fully modernized Kubeflow Kale's architecture, migrating the backend
 
 ---
 
+### Project 6: Spark Operator with Kubeflow Notebooks
+
+**Contributor:** Fellipe Resende ([@fresende](https://github.com/fresende))  
+**Mentors:** Shekhar Rajak ([@Shekharrajak](https://github.com/Shekharrajak)),
+Luciano Resende ([@lresende](https://github.com/lresende)),
+Chaoran Yu ([@yuchaoran2011](https://github.com/yuchaoran2011)),
+Andrey Velichkevich ([@andreyvelich](https://github.com/andreyvelich))
+
+![Diagram](/images/2025-09-06-kubeflow-and-gsoc2025/project6.png)
+
+**Overview:**
+This project enables seamless PySpark execution within Kubeflow Notebooks by integrating the Spark Operator and Jupyter Enterprise Gateway. It allows data scientists to run distributed machine learning and big data workloads directly from their notebooks on Kubernetes, simplifying workflows and eliminating Spark infrastructure overhead, improving both usability and scalability within the Kubeflow ecosystem.
+
+**Key Outcomes:**
+
+- Extended Kubeflow Notebooks to enable seamless integration with Spark via Spark Operator leveraging Jupyter Enterprise Gateway to manage the spark application lifecycle. 
+
+- Enable data scientists and ML engineer to run distributed big-data workloads directly in Spark, from inside Kubeflow Notebooks, without manual cluster setup.
+
+- Provided documentation and guidance for setting up, configuring, and customizing Kubeflow Notebook environments integrated with the Spark Operator, enabling users to run scalable distributed Spark workloads directly from Jupyter-based workflows.
+
+**Resources:**
+
+- 📘 [Main Documentation Page](https://www.kubeflow.org/docs/components/spark-operator/user-guide/notebooks-spark-operator/)
+- 🎥 [Setup Demo Video](https://youtu.be/g7tctdeitvc)
+- 🐞 [Debugging Demo Video](https://www.youtube.com/watch?v=p6K6PdlkmeU)
+- 📄 [Project Page](https://summerofcode.withgoogle.com/programs/2025/projects/zRPtxGBI)
+- 💻 [Implementation Pull Request](https://github.com/kubeflow/website/pull/4141)
+
+---
+
 ### Project 7: GPU Testing for LLM Blueprints
 
 **Contributor:** Akash Jaiswal ([@jaiakash](https://github.com/jaiakash))  

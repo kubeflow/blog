@@ -10,7 +10,7 @@ author: "Kubeflow Outreach Team"
 
 ## Introduction
 
-Google Summer of Code (GSoC) 2025 has been an exciting journey for the Kubeflow community! We are very grateful for Google and the open source community for their commitment, dedication and efforts.🎉  
+Google Summer of Code (GSoC) 2025 has been an exciting journey for the Kubeflow community! We are very grateful for Google and the open source community members dedication and effort.🎉  
 This year, 9 contributors from around the world collaborated with mentors to improve different parts of the Kubeflow ecosystem — from infrastructure and CI/CD, to notebooks, ML workflows, and beyond.
 
 In this blog, we are highlighting all the projects that were part of **GSoC 2025**, their goals, the impact they’ve created, and the amazing contributors behind them.  
@@ -30,11 +30,12 @@ Below are the projects from this year’s GSoC. Each section includes a short su
 **Mentors:** Julius von Kohout ([@juliusvonkohout](https://github.com/juliusvonkohout))
 
 **Overview:**  
-MinIO transitioned to the AGPLv3 license in 2021, creating significant compliance challenges for Kubeflow Pipelines. The AGPL's copyleft provisions require that any software linking to AGPL-licensed components must also adopt the AGPL license, effectively preventing KFP from upgrading to newer MinIO versions without changing its own licensing model.
+We need an up to date S3 storage with hard multi-tenancy and run our containers with PodSecurityStandards restricted. MinIO transitioned to the AGPLv3 license in 2021, creating significant compliance challenges for the project.
 
-This project addressed this critical blocker by implementing SeaweedFS as a production-ready replacement for MinIO. SeaweedFS offers a more permissive Apache 2.0 license while providing superior performance characteristics and enterprise-grade reliability.
+This project addressed this critical blocker by implementing SeaweedFS as a production-ready replacement for MinIO. SeaweedFS offers a more permissive Apache 2.0 license while providing superior performance characteristics and enterprise-grade security and reliability.
 
 **Key Outcomes:**  
+- Provided S3 storage with hard multi-tenancy
 - Successfully migrated to SeaweedFS as a secure replacement for MinIO and integrated it into Kubeflow Pipelines
 - Eliminated MinIO's licensing constraints by adopting SeaweedFS's more permissive license model
 - Implemented comprehensive CI tests for SeaweedFS deployment and namespace isolation functionality

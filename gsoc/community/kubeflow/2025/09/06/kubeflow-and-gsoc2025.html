@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>GSoC 2025: Meet Our Projects and Contributors 🚀 | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="GSoC 2025: Meet Our Projects and Contributors 🚀" />
+<meta name="author" content="Kubeflow Outreach Team" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction" />
+<meta property="og:description" content="Introduction" />
+<link rel="canonical" href="https://blog.kubeflow.org/gsoc/community/kubeflow/2025/09/06/kubeflow-and-gsoc2025.html" />
+<meta property="og:url" content="https://blog.kubeflow.org/gsoc/community/kubeflow/2025/09/06/kubeflow-and-gsoc2025.html" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-09-06T00:00:00-05:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/gsoc/community/kubeflow/2025/09/06/kubeflow-and-gsoc2025.html","@type":"BlogPosting","headline":"GSoC 2025: Meet Our Projects and Contributors 🚀","dateModified":"2025-09-06T00:00:00-05:00","datePublished":"2025-09-06T00:00:00-05:00","author":{"@type":"Person","name":"Kubeflow Outreach Team"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/gsoc/community/kubeflow/2025/09/06/kubeflow-and-gsoc2025.html"},"description":"Introduction","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">GSoC 2025: Meet Our Projects and Contributors 🚀</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2025-09-06T00:00:00-05:00" itemprop="datePublished">
+        Sep 6, 2025
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Kubeflow Outreach Team</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#gsoc">gsoc</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#community">community</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#kubeflow">kubeflow</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#introduction">Introduction</a></li>
+<li class="toc-entry toc-h2"><a href="#-project-highlights">📚 Project Highlights</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#project-1-kubeflow-platform-enhancements">Project 1: Kubeflow Platform Enhancements</a></li>
+<li class="toc-entry toc-h3"><a href="#project-2-kserve-models-web-application-modernization">Project 2: KServe Models Web Application Modernization</a></li>
+<li class="toc-entry toc-h3"><a href="#project-3-istio-cni-and-ambient-mesh">Project 3: Istio CNI and Ambient Mesh</a></li>
+<li class="toc-entry toc-h3"><a href="#project-4-deploying-kubeflow-with-helm-charts">Project 4: Deploying Kubeflow with Helm Charts</a></li>
+<li class="toc-entry toc-h3"><a href="#project-5-jupyterlab-plugin-for-kubeflow">Project 5: JupyterLab Plugin for Kubeflow</a></li>
+<li class="toc-entry toc-h3"><a href="#project-6-spark-operator-with-kubeflow-notebooks">Project 6: Spark Operator with Kubeflow Notebooks</a></li>
+<li class="toc-entry toc-h3"><a href="#project-7-gpu-testing-for-llm-blueprints">Project 7: GPU Testing for LLM Blueprints</a></li>
+<li class="toc-entry toc-h3"><a href="#project-10-support-volcano-scheduler-in-kubeflow-trainer">Project 10: Support Volcano Scheduler in Kubeflow Trainer</a></li>
+<li class="toc-entry toc-h3"><a href="#project-12-empowering-kubeflow-documentation-with-llms-">Project 12: Empowering Kubeflow Documentation with LLMs 🤖</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#-wrapping-up">🎉 Wrapping Up</a></li>
+<li class="toc-entry toc-h2"><a href="#-want-to-get-involved">👩‍💻 Want to Get Involved?</a></li>
+</ul><h2 id="introduction">
+<a class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
+
+<p>Google Summer of Code (GSoC) 2025 has been an exciting journey for the Kubeflow community! We are very grateful for Google and the open source community members dedication and effort.🎉<br>
+This year, 9 contributors from around the world collaborated with mentors to improve different parts of the Kubeflow ecosystem — from infrastructure and CI/CD, to notebooks, ML workflows, and beyond.</p>
+
+<p>In this blog, we are highlighting all the projects that were part of <strong>GSoC 2025</strong>, their goals, the impact they’ve created, and the amazing contributors behind them.</p>
+
+<p>👉 You can explore the full list on our <a href="https://www.kubeflow.org/events/gsoc-2025/">GSoC 2025 page</a>.</p>
+
+<hr>
+
+<h2 id="-project-highlights">
+<a class="anchor" href="#-project-highlights" aria-hidden="true"><span class="octicon octicon-link"></span></a>📚 Project Highlights</h2>
+
+<p>Below are the projects from this year’s GSoC. Each section includes a short summary, contributor details, and links to project resources.</p>
+
+<hr>
+
+<h3 id="project-1-kubeflow-platform-enhancements">
+<a class="anchor" href="#project-1-kubeflow-platform-enhancements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project 1: Kubeflow Platform Enhancements</h3>
+<p><strong>Contributor:</strong> Harshvir Potpose (<a href="https://github.com/akagami-harsh">@akagami-harsh</a>)
+<strong>Mentors:</strong> Julius von Kohout (<a href="https://github.com/juliusvonkohout">@juliusvonkohout</a>)</p>
+
+<p><strong>Overview:</strong><br>
+We need an up to date S3 storage with hard multi-tenancy and run our containers with PodSecurityStandards restricted. MinIO transitioned to the AGPLv3 license in 2021, creating significant compliance challenges for the project.</p>
+
+<p>This project addressed this critical blocker by implementing SeaweedFS as a production-ready replacement for MinIO. SeaweedFS offers a more permissive Apache 2.0 license while providing superior performance characteristics and enterprise-grade security and reliability.</p>
+
+<p><strong>Key Outcomes:</strong></p>
+<ul>
+  <li>Provided S3 storage with hard multi-tenancy</li>
+  <li>Successfully migrated to SeaweedFS as a secure replacement for MinIO and integrated it into Kubeflow Pipelines</li>
+  <li>Eliminated MinIO’s licensing constraints by adopting SeaweedFS’s more permissive license model</li>
+  <li>Implemented comprehensive CI tests for SeaweedFS deployment and namespace isolation functionality</li>
+  <li>Strengthened the manifests repository’s CI pipeline and contributed to the dashboard migration efforts</li>
+  <li>Enforcing PodSecurityStandards baseline/restricted</li>
+</ul>
+
+<p><strong>Resources:</strong></p>
+<ul>
+  <li>📄 <a href="https://summerofcode.withgoogle.com/programs/2025/projects/PWDq4Zvt">Project Page</a>
+</li>
+  <li>✍️ <a href="https://medium.com/@hpotpose26/kubeflow-pipelines-embraces-seaweedfs-9a7e022d5571">Personal Blog: Kubeflow Pipelines Embraces SeaweedFS</a>
+</li>
+</ul>
+
+<hr>
+
+<h3 id="project-2-kserve-models-web-application-modernization">
+<a class="anchor" href="#project-2-kserve-models-web-application-modernization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project 2: KServe Models Web Application Modernization</h3>
+<p><strong>Contributor:</strong> (GitHub: <a href="https://github.com/LogicalGuy77">@LogicalGuy77</a>)<br>
+<strong>Mentors:</strong> Griffin Sullivan (<a href="https://github.com/Griffin-Sullivan">@Griffin-Sullivan</a>), Julius von Kohout (<a href="https://github.com/juliusvonkohout">@juliusvonkohout</a>)</p>
+
+<p><strong>Overview:</strong><br>
+This project revived and modernized the KServe Models Web Application (Angular + Flask), the UI used to manage machine learning inference services in Kubeflow via KServe. What began as a small Node.js update evolved into a comprehensive upgrade of the frontend stack, CI/CD, testing, and feature set—bringing the app up to modern standards and making it easier for both users and contributors to work with.</p>
+
+<p><strong>Key Outcomes:</strong></p>
+<ul>
+  <li>Modernized core stack: upgraded Node.js (v16 → v23) and Angular (v12 → v14), resolving security issues and improving performance</li>
+  <li>Migrated container images from Docker Hub to GitHub Container Registry (GHCR) to avoid rate limits and improve reliability</li>
+  <li>Overhauled CI/CD with GitHub Actions: updated actions, added intelligent caching for pip, Docker layers, and node_modules for significantly faster builds</li>
+  <li>Introduced Jest unit tests for core utilities (e.g., parsing Kubernetes object statuses and KServe predictor configs)</li>
+  <li>Added Cypress end-to-end tests for critical user journeys (deploy, edit, delete) including failure handling and input validation</li>
+  <li>Wrote comprehensive documentation to help contributors run and extend the test suites</li>
+  <li>Shipped “Edit InferenceService YAML” directly in the UI via an integrated Monaco editor—no kubectl required</li>
+  <li>Fixed RawDeployment-mode crash and added ModelMesh support so resources and statuses render correctly</li>
+  <li>Added support for the latest KServe predictor runtimes, including HuggingFace</li>
+  <li>Simplified contributor onboarding with a Makefile that automates full frontend setup in a single command</li>
+  <li>Implemented runtime-configurable settings via a new <code class="language-plaintext highlighter-rouge">/api/config</code> endpoint (e.g., Grafana DB names, URL prefixes)</li>
+  <li>Cut the v0.15.0 release of the Models Web App, consolidating months of modernization and feature work</li>
+</ul>
+
+<p><strong>By the Numbers:</strong></p>
+<ul>
+  <li>PRs merged: 19</li>
+  <li>Issues closed: 8</li>
+  <li>Lines of code changed: +22,309 / −11,628</li>
+  <li>Frontend: Angular, TypeScript, SCSS</li>
+  <li>Backend: Flask (Python)</li>
+  <li>CI/CD: GitHub Actions, Docker</li>
+  <li>Local cluster: Kubernetes (Kind) + Istio + Kubeflow</li>
+</ul>
+
+<p><strong>Resources:</strong></p>
+<ul>
+  <li><a href="https://github.com/kserve/models-web-app">Project Repo: kserve/models-web-app</a></li>
+  <li><a href="https://github.com/kserve/models-web-app/commits?author=LogicalGuy77">All commits by @LogicalGuy77</a></li>
+  <li><a href="https://medium.com/@harshitweb3/my-gsoc-2025-journey-reviving-kserves-models-web-application-2f18ef16fb51">Blog Post</a></li>
+</ul>
+
+<hr>
+
+<h3 id="project-3-istio-cni-and-ambient-mesh">
+<a class="anchor" href="#project-3-istio-cni-and-ambient-mesh" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project 3: Istio CNI and Ambient Mesh</h3>
+<p><strong>Contributor:</strong> Ayush Gupta (GitHub: <a href="https://github.com/madmecodes">@madmecodes</a>)<br>
+<strong>Mentors:</strong> Julius von Kohout (<a href="https://github.com/juliusvonkohout">@juliusvonkohout</a>), Kimonas Sotirchos (<a href="https://github.com/kimwnasptd">@kimwnasptd</a>)</p>
+
+<p><strong>Overview:</strong><br>
+This GSoC 2025 project modernized Kubeflow’s service mesh infrastructure by implementing Istio CNI as the default configuration and pioneering Istio Ambient Mesh support. The 175-hour medium-difficulty project involved 25+ pull requests across multiple Kubeflow repositories, transitioning from traditional sidecar-based architecture to ambient mesh with ztunnel and waypoint proxies, pioneering the migration to Gateway API (HTTPRoute), implementing path-based routing for KServe model serving endpoints, and utilizing Kustomize overlay method for easy installation and configuration management.</p>
+
+<p><strong>Key Outcomes:</strong></p>
+<ul>
+  <li>Implemented Istio CNI by default with Kustomize overlay method enabling easy switching between traditional Istio and CNI configurations</li>
+  <li>Created path-based routing for KServe multi-model serving and Gateway API (HTTPRoute) migration</li>
+  <li>Pioneered Ambient Mesh support with ztunnel/waypoint proxies and coordinating cross-repository compatibility</li>
+</ul>
+
+<p><strong>Resources:</strong></p>
+<ul>
+  <li>📄 <a href="https://summerofcode.withgoogle.com/programs/2025/projects/WAHCCi8V">Project Page</a>
+</li>
+  <li>✍️ <a href="https://medium.com/@ayushguptadev1/gsoc25-kubeflow-securing-and-optimizing-ml-infrastructure-with-istio-31f535c77fd6">Blog Post</a>
+</li>
+</ul>
+
+<hr>
+
+<h3 id="project-4-deploying-kubeflow-with-helm-charts">
+<a class="anchor" href="#project-4-deploying-kubeflow-with-helm-charts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project 4: Deploying Kubeflow with Helm Charts</h3>
+
+<p><strong>Contributor:</strong> Kunal Dugar (<a href="https://github.com/kunal-511">@kunal-511</a>)<br>
+<strong>Mentors:</strong> Julius von Kohout (<a href="https://github.com/juliusvonkohout">@juliusvonkohout</a>), Valentina Rodriguez Sosa (<a href="https://github.com/varodrig">@varodrig</a>), Chase Cadet (<a href="https://github.com/Chasecadet">@Chasecadet</a>)</p>
+
+<p><strong>Overview:</strong><br>
+This project focused on creating component-based Helm charts for Kubeflow, enabling flexible and incremental deployment of ML infrastructure. Instead of requiring a full platform installation, users can now deploy specific components like Katib, Pipelines, Model Registry, and others independently with customized configurations.</p>
+
+<p><strong>Key Outcomes:</strong></p>
+<ul>
+  <li>Kubeflow AI reference platform end to end testing</li>
+  <li>Created production-ready Helm charts for Katib, Model Registry, KServe Web App, Notebook Controller, and Kubeflow Pipelines—enabling one-command deployment of individual components</li>
+  <li>Built automated testing infrastructure with diff tools to validate Helm charts against Kustomize manifests, ensuring accuracy and catching regressions quickly</li>
+  <li>Enabled incremental Kubeflow adoption, reducing deployment complexity from days to hours for organizations building production ML platforms</li>
+</ul>
+
+<p><strong>Resources:</strong></p>
+<ul>
+  <li>📄 <a href="https://summerofcode.withgoogle.com/programs/2025/projects/">Project Page</a>
+</li>
+  <li>🧩 <a href="https://github.com/kubeflow/community/pull/832">Kubeflow Enhancement Proposal (KEP)-831-Kubeflow-Helm-Support: Support Helm as an Alternative for Kustomize</a>
+</li>
+  <li>✍️ <a href="https://medium.com/@kunalD02/my-gsoc-journey-deploying-kubeflow-with-helm-charts-e7f9dea7b56e">Blog: My GSoC Journey: Deploying Kubeflow with Helm Charts</a>
+</li>
+</ul>
+
+<hr>
+
+<h3 id="project-5-jupyterlab-plugin-for-kubeflow">
+<a class="anchor" href="#project-5-jupyterlab-plugin-for-kubeflow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project 5: JupyterLab Plugin for Kubeflow</h3>
+
+<p><strong>Contributor:</strong> Amrit Kumar (<a href="https://github.com/Amrit27k">@Amrit27k</a>)<br>
+<strong>Mentors:</strong> Eder Ignatowicz (<a href="https://github.com/ederign">@ederign</a>), Stefano Fioravanzo (<a href="https://github.com/StefanoFioravanzo">@StefanoFioravanzo</a>)</p>
+
+<p><strong>Overview:</strong>
+The project fully modernized Kubeflow Kale’s architecture, migrating the backend from KFPv1 to KFPv2 with a new Jinja2 templating system for notebook-to-pipeline conversion. The initiative also featured a complete overhaul of the JupyterLab frontend (Typescriptv5.9.2, MUIv7) and comprehensive updates to GitHub workflows, documentation, and dependencies to meet modern community standards.</p>
+
+<p><strong>Key Outcomes:</strong></p>
+<ul>
+  <li>Rebuilt the Kale backend to support the modern, future-proof Kubeflow Pipelines v2 (KFPv2) architecture, moving away from the deprecated KFPv1.</li>
+  <li>Implemented a new Jinja2 templating system that intelligently converts annotated Jupyter notebook cells into valid KFPv2 Python DSL scripts.</li>
+  <li>Updated the JupyterLab frontend extension using current standards (Typescript v5.9.2, Jupyterlab v4, and MUI v7), resolving hundreds of legacy compatibility issues.</li>
+  <li>Integrated KFPv2’s robust system for better type-safe artifact handling and automated ML Metadata registration, ensuring rich lineage tracking for pipeline steps.</li>
+  <li>Standardized the project structure, updated GitHub workflows, and implemented UI test scripts to align with community standards and ensure maintainability for future contributors.</li>
+</ul>
+
+<p><strong>Resources:</strong></p>
+<ul>
+  <li>📄 <a href="https://github.com/kubeflow-kale/kale">Project Repo - Kubeflow Kale</a>
+</li>
+  <li>🧩 <a href="https://github.com/kubeflow-kale/kale/issues/457">Kubeflow Kale 2.0- Project Roadmap</a>
+</li>
+  <li>✍️ <a href="https://medium.com/@amritkmr4272/from-notebooks-to-pipelines-my-gsoc25-journey-modernizing-kubeflow-kale-with-kfpv2-and-e098f194208c">Blog: From Notebooks to Pipelines: My GSoC’25 Journey Modernizing Kubeflow Kale with KFPv2 and Jupyterlabv4</a>
+</li>
+</ul>
+
+<hr>
+
+<h3 id="project-6-spark-operator-with-kubeflow-notebooks">
+<a class="anchor" href="#project-6-spark-operator-with-kubeflow-notebooks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project 6: Spark Operator with Kubeflow Notebooks</h3>
+
+<p><strong>Contributor:</strong> Fellipe Resende (<a href="https://github.com/fresende">@fresende</a>)<br>
+<strong>Mentors:</strong> Shekhar Rajak (<a href="https://github.com/Shekharrajak">@Shekharrajak</a>),
+Luciano Resende (<a href="https://github.com/lresende">@lresende</a>),
+Chaoran Yu (<a href="https://github.com/yuchaoran2011">@yuchaoran2011</a>),
+Andrey Velichkevich (<a href="https://github.com/andreyvelich">@andreyvelich</a>)</p>
+
+<p><img src="/images/2025-09-06-kubeflow-and-gsoc2025/project6.png" alt="Diagram"></p>
+
+<p><strong>Overview:</strong>
+This project enables seamless PySpark execution within Kubeflow Notebooks by integrating the Spark Operator and Jupyter Enterprise Gateway. It allows data scientists to run distributed machine learning and big data workloads directly from their notebooks on Kubernetes, simplifying workflows and eliminating Spark infrastructure overhead, improving both usability and scalability within the Kubeflow ecosystem.</p>
+
+<p><strong>Key Outcomes:</strong></p>
+
+<ul>
+  <li>
+    <p>Extended Kubeflow Notebooks to enable seamless integration with Spark via Spark Operator leveraging Jupyter Enterprise Gateway to manage the spark application lifecycle.</p>
+  </li>
+  <li>
+    <p>Enable data scientists and ML engineer to run distributed big-data workloads directly in Spark, from inside Kubeflow Notebooks, without manual cluster setup.</p>
+  </li>
+  <li>
+    <p>Provided documentation and guidance for setting up, configuring, and customizing Kubeflow Notebook environments integrated with the Spark Operator, enabling users to run scalable distributed Spark workloads directly from Jupyter-based workflows.</p>
+  </li>
+</ul>
+
+<p><strong>Resources:</strong></p>
+
+<ul>
+  <li>📘 <a href="https://www.kubeflow.org/docs/components/spark-operator/user-guide/notebooks-spark-operator/">Main Documentation Page</a>
+</li>
+  <li>🎥 <a href="https://youtu.be/g7tctdeitvc">Setup Demo Video</a>
+</li>
+  <li>🐞 <a href="https://www.youtube.com/watch?v=p6K6PdlkmeU">Debugging Demo Video</a>
+</li>
+  <li>📄 <a href="https://summerofcode.withgoogle.com/programs/2025/projects/zRPtxGBI">Project Page</a>
+</li>
+  <li>💻 <a href="https://github.com/kubeflow/website/pull/4141">Implementation Pull Request</a>
+</li>
+</ul>
+
+<hr>
+
+<h3 id="project-7-gpu-testing-for-llm-blueprints">
+<a class="anchor" href="#project-7-gpu-testing-for-llm-blueprints" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project 7: GPU Testing for LLM Blueprints</h3>
+
+<p><strong>Contributor:</strong> Akash Jaiswal (<a href="https://github.com/jaiakash">@jaiakash</a>)<br>
+<strong>Mentors:</strong> Andrey Velichkevich (<a href="https://github.com/andreyvelich">@andreyvelich</a>), Valentina Rodriguez Sosa(<a href="https://github.com/varodrig">@varodrig</a>)</p>
+
+<p><img src="/images/2025-09-06-kubeflow-and-gsoc2025/project7.png" alt="Diagram"></p>
+
+<p><strong>Overview:</strong><br>
+We had a few examples in the repository that we wanted to include in our end-to-end (E2E) tests, but all of them were CPU-based. Projects like Torchtune and Qwen 2.5, for instance, require GPU resources to run — yet our existing CI setup couldn’t validate them at all because it was entirely CPU-focused.</p>
+
+<p>This created a major gap: whenever someone contributed a new LLM example or modified the trainer logic, we had no automated way to verify if those changes would work in a GPU environment — the same environment where these workloads are actually deployed in production.</p>
+
+<p>The goal of this project was to add CI with GPU support directly into our CI/CD workflow.</p>
+
+<p><strong>Key Outcomes:</strong></p>
+
+<ul>
+  <li>
+    <p>Integrating GPU runners into GitHub Actions so that any pull request could automatically trigger GPU-backed E2E tests.</p>
+  </li>
+  <li>
+    <p>Making the setup scalable and cost-efficient — instead of maintaining expensive GPU machines 24/7, we needed an on-demand system that provisions GPU resources only when a test is triggered.</p>
+  </li>
+</ul>
+
+<p><strong>Resources:</strong></p>
+
+<ul>
+  <li>📄 <a href="https://summerofcode.withgoogle.com/programs/2025/projects/fwZkvPr0">Project Page</a>
+</li>
+  <li>🧩 <a href="https://github.com/kubeflow/trainer/pull/2689">Kubeflow Enhancement Proposal (KEP)</a>
+</li>
+  <li>✍️ <a href="https://my-experience-with-kubeflow-for-gsoc.hashnode.dev/gsoc-2025-with-kubeflow-scaling-gpu-testing-for-llm-blueprints">Personal Blog: Scaling GPU Testing for LLM Blueprints</a>
+</li>
+</ul>
+
+<hr>
+
+<h3 id="project-10-support-volcano-scheduler-in-kubeflow-trainer">
+<a class="anchor" href="#project-10-support-volcano-scheduler-in-kubeflow-trainer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project 10: Support Volcano Scheduler in Kubeflow Trainer</h3>
+<p><strong>Contributor:</strong> Xinmin Du (GitHub: <a href="https://github.com/Doris-xm">@Doris-xm</a>)<br>
+<strong>Mentors:</strong> Shao Wang (<a href="https://github.com/Electronic-Waste">@Electronic-Waste</a>), Yuchen Cheng(<a href="https://github.com/rudeigerc">@rudeigerc</a>)</p>
+
+<p><strong>Overview:</strong><br>
+The project aims to integrate the <strong>Volcano scheduler</strong> into Kubeflow Trainer as a <strong>runtime plugin</strong>.
+This will allow users to take advantage of advanced AI-specific scheduling features, such as Gang Scheduling and priority scheduling, supported by Volcano.</p>
+
+<p><strong>Key Outcomes:</strong></p>
+<ul>
+  <li>Integrate the <strong>Volcano</strong> scheduler into Trainer as a runtime plugin to support Gang Scheduling and resource management for distributed training jobs.</li>
+  <li>Enabled AI-specific features such as priority scheduling, queue-based management, and network topology–aware scheduling.</li>
+</ul>
+
+<p><strong>Resources:</strong></p>
+
+<ul>
+  <li>📄 <a href="https://summerofcode.withgoogle.com/programs/2025/projects/ZWbY1Rfj">Project Page</a>
+</li>
+  <li>🧩 <a href="https://github.com/kubeflow/trainer/pull/2672">Kubeflow Enhancement Proposal (KEP)</a>
+</li>
+</ul>
+
+<hr>
+
+<h3 id="project-12-empowering-kubeflow-documentation-with-llms-">
+<a class="anchor" href="#project-12-empowering-kubeflow-documentation-with-llms-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project 12: Empowering Kubeflow Documentation with LLMs 🤖</h3>
+<p><strong>Contributor:</strong> Santhosh Toorpu (GitHub: <a href="https://github.com/SanthoshToorpu">@SanthoshToorpu</a>)<br>
+<strong>Mentors:</strong> Francisco Javier Arceo (<a href="https://github.com/franciscojavierarceo">@franciscojavierarceo</a>), Chase Cadet (<a href="https://github.com/Chasecadet">@Chasecadet</a>)</p>
+
+<p><strong>Overview:</strong><br>
+This project introduced an intelligent documentation assistant that uses <strong>Retrieval-Augmented Generation (RAG)</strong> and <strong>KServe-hosted LLMs</strong> to enhance the Kubeflow documentation experience. The goal was to help users find relevant, accurate answers drawn from Kubeflow docs, GitHub issues, and community discussions — all through a conversational interface on the Kubeflow website.</p>
+
+<p>The system leverages <strong>Kubeflow Pipelines</strong> to automate documentation ingestion and indexing, <strong>Milvus</strong> for semantic vector search, and <strong>FastAPI with WebSockets</strong> for real-time interactions. Built on Kubernetes, the architecture follows Kubeflow’s MLOps principles end-to-end — from automated retraining and indexing to monitored LLM inference served via KServe.</p>
+
+<p><strong>Key Outcomes:</strong></p>
+<ul>
+  <li>Designed and deployed an <strong>LLM-powered Documentation Assistant</strong> using Kubeflow-native tools (KFP, KServe, Feast, Milvus).</li>
+  <li>Implemented <strong>automated documentation indexing pipelines</strong> triggered by GitHub Actions to keep vector embeddings up-to-date.</li>
+  <li>Developed an <strong>interactive chat interface</strong> integrated into the Kubeflow website for natural-language documentation search.</li>
+  <li>Introduced a <strong>RAG agentic workflow</strong> with tool-calling to decide when to retrieve external documentation or use model knowledge.</li>
+  <li>Implemented <strong>RBAC-based access control</strong> for pipelines and KServe endpoints to align with Kubeflow’s multi-user isolation standards.</li>
+  <li>Developed a <strong>feedback loop system</strong> (“👍 / 👎”) to improve the model’s performance and documentation quality.</li>
+  <li>Delivered a functional prototype hosted on Kubernetes, showcasing real-time semantic search across Kubeflow repositories.</li>
+</ul>
+
+<p><strong>Resources:</strong></p>
+<ul>
+  <li>📄 <a href="https://summerofcode.withgoogle.com/programs/2025/projects/a9JPxfEh">Project Page</a>
+</li>
+  <li>🧠 <a href="https://github.com/kubeflow/docs-agent">Demo Repo</a>
+</li>
+  <li>✍️ <a href="https://medium.com/@toorpusanthosh/empowering-kubeflow-documentation-with-llms-my-gsoc-journey-58eb946ba2af">Blog Post: Empowering Kubeflow Documentation with LLMs</a> <!-- Add blog link here when published -->
+</li>
+</ul>
+
+<hr>
+
+<h2 id="-wrapping-up">
+<a class="anchor" href="#-wrapping-up" aria-hidden="true"><span class="octicon octicon-link"></span></a>🎉 Wrapping Up</h2>
+
+<p>We are proud of what our GSoC 2025 contributors achieved and the impact they have made on the Kubeflow ecosystem. Their work not only strengthens existing components but also lays the foundation for future innovation in MLOps and AI infrastructure.</p>
+
+<p>A huge <strong>thank you</strong> 🙏 to all contributors, mentors, and community members who made this program a success.</p>
+
+<hr>
+
+<h2 id="-want-to-get-involved">
+<a class="anchor" href="#-want-to-get-involved" aria-hidden="true"><span class="octicon octicon-link"></span></a>👩‍💻 Want to Get Involved?</h2>
+
+<p>The Kubeflow community is open to contributors of all backgrounds and skill levels. Whether you are passionate about ML infrastructure, frontend, DevOps, or documentation — there’s a place for you here.</p>
+
+<ul>
+  <li>💻 Visit our <a href="https://www.kubeflow.org/docs/about/community/">website</a> and <a href="https://github.com/kubeflow">GitHub</a>
+</li>
+  <li>💬 Join our <a href="https://www.kubeflow.org/docs/about/community/">Slack</a>
+</li>
+  <li>🗓️ Attend the <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-community-call">community calls</a>
+</li>
+  <li>📩 Subscribe to the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list</li>
+</ul>
+
+<p>Let’s continue building the future of MLOps together 🚀</p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/gsoc/community/kubeflow/2025/09/06/kubeflow-and-gsoc2025.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

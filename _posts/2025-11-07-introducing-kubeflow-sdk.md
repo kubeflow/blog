@@ -366,7 +366,7 @@ Here's what's on the horizon:
 - [**Workspace Snapshots**](https://github.com/kubeflow/sdk/issues/48): Capture your entire development environment and reproduce it in distributed training jobs
 - [**Multi-Cluster Support**](https://github.com/kubeflow/sdk/issues/23): Manage training jobs across multiple Kubernetes clusters from a single SDK interface
 - [**Distributed Data Cache**](https://github.com/kubeflow/trainer/issues/2655): In-memory caching for large datasets via initializer SDK configuration
-- [**Additional Built-in Trainers**](https://github.com/kubeflow/trainer/issues/2752): Support for more fine-tuning frameworks beyond TorchTune — unsloth, Axolotl, and others
+- [**Additional Built-in Trainers**](https://github.com/kubeflow/trainer/issues/2752): Support for more fine-tuning frameworks beyond TorchTune — [Unsloth](https://github.com/unslothai/unsloth), [torchforge](https://github.com/meta-pytorch/torchforge), [Axolotl](https://github.com/axolotl-ai-cloud/axolotl), [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory), and others
 
 The community is driving these features forward. If you have ideas, feedback, or want to contribute, we'd love to hear from you!
 

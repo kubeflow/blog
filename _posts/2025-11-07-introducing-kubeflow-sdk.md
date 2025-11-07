@@ -273,7 +273,7 @@ This creates multiple TrainJob instances (trials) with different hyperparameter 
 
 ![Katib UI example](/images/2025-11-07-introducing-kubeflow-sdk/katib-ui.png)
 
-For more details about hyperparameter optimization, check out the [OptimizerClient KEP](https://github.com/kubeflow/sdk/blob/main/docs/proposals/optimizer-client.md).
+For more details about hyperparameter optimization, check out the [OptimizerClient KEP](https://github.com/kubeflow/sdk/tree/main/docs/proposals/46-hyperparameter-optimization).
 
 ## Local Execution Mode
 

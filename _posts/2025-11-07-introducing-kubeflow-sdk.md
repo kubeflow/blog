@@ -138,7 +138,17 @@ TrainerClient().wait_for_job_status(job_id)
 print("\n".join(TrainerClient().get_job_logs(name=job_id)))
 ```
 
-The TrainerClient supports `CustomTrainer` for your own training logic and [`BuiltinTrainer`](https://www.kubeflow.org/docs/components/trainer/user-guides/builtin-trainer/torchtune/) for pre-packaged training patterns like LLM fine-tuning. For example, fine-tuning LLMs with TorchTune:
+The TrainerClient supports `CustomTrainer` for your own training logic and [`BuiltinTrainer`](https://www.kubeflow.org/docs/components/trainer/user-guides/builtin-trainer/torchtune/) for pre-packaged training patterns like LLM fine-tuning.
+
+Getting started with LLM fine-tuning is as simple as a single line. The default model, dataset, and training configurations are pre-baked into the runtime:
+
+```python
+TrainerClient().train(
+    runtime=TrainerClient().get_runtime("torchtune-qwen2.5-1.5b"),
+)
+```
+
+You can also customize every aspect of the fine-tuning process — specify your own dataset, model, LoRA configuration, and training hyperparameters:
 
 ```python
 from kubeflow.trainer import TrainerClient, BuiltinTrainer, TorchTuneConfig
@@ -176,15 +186,7 @@ client.train(
 )
 ```
 
-One click fine tuning can also be accomplished without any configuration being set. The default model, dataset and training configurations are pre-baked into the runtime:
-
-```python
-TrainerClient().train(
-    runtime=TrainerClient().get_runtime("torchtune-qwen2.5-1.5b"),
-)
-```
-
-Initializers download datasets and models once to shared storage, then all training pods access the data from there — reducing startup time and network usage.
+You can mix and match — use the runtime's default model but specify your own dataset, or keep the default dataset but customize the LoRA parameters. The Initializers download datasets and models once to shared storage, then all training pods access the data from there — reducing startup time and network usage.
 
 For more details about Kubeflow Trainer capabilities, including gang-scheduling, fault tolerance, and MPI support, check out the [Kubeflow Trainer v2 blog post](https://blog.kubeflow.org/trainer/intro/).
 

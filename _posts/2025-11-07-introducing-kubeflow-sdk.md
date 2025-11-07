@@ -200,7 +200,7 @@ First, define your training job template:
 
 ```python
 from kubeflow.trainer import TrainerClient, CustomTrainer
-from kubeflow.optimizer import OptimizerClient, TrainJobTemplate, Search, Objective
+from kubeflow.optimizer import OptimizerClient, TrainJobTemplate, Search, Objective, TrialConfig
 
 def train_func(learning_rate: float, batch_size: int):
     """Training function with hyperparameters."""
@@ -256,10 +256,17 @@ optimizer.get_job(job_name)
 optimizer.wait_for_job_status(job_name)
 
 # Get the best hyperparameters and metrics from an OptimizationJob
-optimizer.get_best_results(job_name)
+best_results = optimizer.get_best_results(job_name)
+print(best_results)
+# Output:
+# Result(
+#     parameters={'learning_rate': '0.0234', 'batch_size': '64'},
+#     metrics=[Metric(name='loss', min='0.78', max='0.78', latest='0.78')]
+# )
 
-# See all the TrainJobs
-TrainerClient().list_jobs()
+# See all the trials (TrainJobs) created during optimization
+job = optimizer.get_job(job_name)
+print(job.trials)
 ```
 
 This creates multiple TrainJob instances (trials) with different hyperparameter combinations, executes them in parallel based on available resources, and tracks which parameters produce the best results. Each trial is a full training job managed by Kubeflow Trainer. Using [Katib UI](https://www.kubeflow.org/docs/components/katib/user-guides/katib-ui/), you can visualize your optimization with an interactive graph that shows metric performance against hyperparameter values across all trials.

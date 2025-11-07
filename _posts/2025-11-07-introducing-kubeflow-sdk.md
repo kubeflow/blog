@@ -61,7 +61,7 @@ The following principles are the foundation that guide the design and implementa
 
 ## Role in the Kubeflow Ecosystem
 
-The SDK doesn't replace any Kubeflow projects — it provides a unified way to use them. Kubeflow Trainer, Katib, Pipelines, etc still handle the actual workload execution. The SDK makes them easier to interact with through consistent Python APIs, letting you work entirely in the language you already use for ML development.
+The SDK doesn't replace any Kubeflow projects — it provides a unified way to use them. Kubeflow Trainer, Katib, Spark Operator, Pipelines, etc still handle the actual workload execution. The SDK makes them easier to interact with through consistent Python APIs, letting you work entirely in the language you already use for ML development.
 
 This creates a clear separation:
 - **AI Practitioners** use the SDK to submit jobs and manage workflows through Python, without touching YAML or Kubernetes directly

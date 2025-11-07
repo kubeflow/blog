@@ -2,7 +2,7 @@
 toc: true
 layout: post
 comments: true
-title: "Introducing the Kubeflow SDK: A Python API for Scalable AI Workloads"
+title: "Introducing the Kubeflow SDK: A Pythonic API to Run AI Workloads at Scale"
 hide: false
 categories: [sdk, trainer, optimizer]
 permalink: /sdk/intro/
@@ -13,9 +13,11 @@ author: "Kubeflow SDK Team"
 
 Scaling AI workloads shouldn't require deep expertise in distributed systems and container orchestration. Whether you are prototyping on local hardware or deploying to a production Kubernetes cluster, you need a unified API that abstracts infrastructure complexity while preserving flexibility. That's exactly what the Kubeflow Python SDK delivers.
 
-As a data scientist, you've probably experienced this frustrating journey: you start by prototyping locally, writing your training script on your laptop. When you need more compute power, it's time to rewrite everything for distributed training. You containerize your code and rebuild images for every change. You write Kubernetes YAMLs, struggle with kubectl and switch between different SDKs - one for training, another for hyperparameter tuning, another for pipelines. Each step in this process requires different tools, different APIs, and different mental models. What if there was a better way?
+As a data scientist, you’ve probably experienced this frustrating journey: you start by prototyping locally, training your model on your laptop. When you need more compute power, you have to rewrite everything for distributed training. You containerize your code, rebuild images for every small change, write Kubernetes YAMLs, wrestle with kubectl, and juggle multiple SDKs — one for training, another for hyperparameter tuning, and yet another for pipelines. Each step demands different tools, APIs, and mental models.
 
-The Kubeflow community started the **Kubeflow SDK & ML Experience Working Group** (WG) in order to address these challenges. You can find more information about this WG and the [Kubeflow Community here](https://www.kubeflow.org/docs/about/community/).
+All this complexity slows down productivity, drains focus, and ultimately holds back AI innovation. What if there was a better way?
+
+The Kubeflow community started the **Kubeflow SDK & ML Experience Working Group** (WG) in order to address these challenges. You can find more information about this WG on our [YouTube playlist](https://youtu.be/VkbVVk2OGUI?list=PLmzRWLV1CK_wSO2IMPnzChxESmaoXNfrY).
 
 # Introducing Kubeflow SDK
 
@@ -52,9 +54,9 @@ client.train(train_func=train_model)
 The following principles are the foundation that guide the design and implementation of the SDK:
 
 - **Unified Experience**: Single SDK to interact with multiple Kubeflow projects through consistent Python APIs
-- **Rapid iteration**: Reduced friction between development and production environments
-- **Simplified AI Workloads**: Abstract away Kubernetes complexity, allowing AI practitioners to work in familiar Python environments
-- **Seamless Integration**: Built to work effortlessly with all Kubeflow projects, enabling end-to-end AI model development at any scale
+- **Simplified AI Workloads**: Abstract away Kubernetes complexity and work effortlessly across all Kubeflow projects using familiar Python APIs
+- **Built for Scale**: Seamlessly scale any AI workload — from local laptop to large-scale production cluster with thousands of GPUs using the same APIs.
+- **Rapid Iteration**: Reduced friction between development and production environments
 - **Local Development**: First-class support for local development without a Kubernetes cluster requiring only pip installation
 
 ## Role in the Kubeflow Ecosystem

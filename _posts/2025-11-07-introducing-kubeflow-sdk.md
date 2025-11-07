@@ -379,7 +379,7 @@ The Kubeflow SDK is built by and for the community. We welcome contributions, fe
 - [Kubeflow SDK design document](https://docs.google.com/document/d/1rX7ELAHRb_lvh0Y7BK1HBYAbA0zi9enB0F_358ZC58w/edit?tab=t.0#heading=h.e0573r7wwkgl)
 
 **Connect with the Community**:
-- Join [#kubeflow-ml-experience](https://kubeflow.slack.com/archives/C078ZMRQPB6) on [CNCF Slack](https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels)
+- Join [#kubeflow-ml-experience](https://cloud-native.slack.com/archives/C08KJBVDH5H) on [CNCF Slack](https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels)
 - Attend the [Kubeflow SDK and ML Experience WG](https://docs.google.com/document/d/1MChKfzrKAeFRtYqypFbMXL6ZIc_OgijjkvbqmwRV-64/edit) meetings
 - Check out [good first issues](https://github.com/kubeflow/sdk/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) to get started
 

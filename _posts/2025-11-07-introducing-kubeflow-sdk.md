@@ -15,13 +15,13 @@ Scaling AI workloads shouldn't require deep expertise in distributed systems and
 
 As a data scientist, you've probably experienced this frustrating journey: you start by prototyping locally, writing your training script on your laptop. When you need more compute power, it's time to rewrite everything for distributed training. You containerize your code and rebuild images for every change. You write Kubernetes YAMLs, struggle with kubectl and switch between different SDKs - one for training, another for hyperparameter tuning, another for pipelines. Each step in this process requires different tools, different APIs, and different mental models. What if there was a better way?
 
-The Kubeflow community started the Kubeflow SDK & ML Experience Working Group (WG) in order to address these challenges. You can find more information about this WG and the [Kubeflow Community here](https://www.kubeflow.org/docs/about/community/).
+The Kubeflow community started the **Kubeflow SDK & ML Experience Working Group** (WG) in order to address these challenges. You can find more information about this WG and the [Kubeflow Community here](https://www.kubeflow.org/docs/about/community/).
 
 # Introducing Kubeflow SDK
 
 The SDK sits on top of the Kubeflow ecosystem as a unified interface layer. When you write Python code, the SDK translates it into the appropriate Kubernetes resources — generating CRDs, handling orchestration, and managing distributed communication. You get all the power of Kubeflow without needing to understand Kubernetes.
 
-![kubeflow ecosystem](/images/2025-11-07-introducing-kubeflow-sdk/kubeflow-ecosystem.png)
+![kubeflow ecosystem](/images/2025-11-07-introducing-kubeflow-sdk/kubeflow-sdk.drawio.svg)
 
 Getting started is simple:
 
@@ -65,7 +65,7 @@ This creates a clear separation:
 - **AI Practitioners** use the SDK to submit jobs and manage workflows through Python, without touching YAML or Kubernetes directly
 - **Platform Administrators** continue managing infrastructure — installing components, configuring runtimes, setting resource quotas. Nothing changes on the infrastructure side.
 
-![kubeflow user personas](/images/2025-11-07-introducing-kubeflow-sdk/user-personas.png)
+![kubeflow user personas](/images/2025-11-07-introducing-kubeflow-sdk/user-personas.drawio.svg)
 
 The Kubeflow SDK works with your existing Kubeflow deployment. If you already have Kubeflow Trainer and Katib installed, just `pip install kubeflow` and start using them through the unified interface. As Kubeflow evolves with new components and features, the SDK provides a stable Python layer that adapts alongside the ecosystem.
 
@@ -364,7 +364,7 @@ The community is driving these features forward. If you have ideas, feedback, or
 The Kubeflow SDK is built by and for the community. We welcome contributions, feedback, and participation from everyone!
 
 **Resources**:
-- [GitHub](https://github.com/kubeflow/sdk)
+- [GitHub Repo](https://github.com/kubeflow/sdk)
 - [Design Proposal: Review our Kubeflow SDK KEP](https://github.com/kubeflow/sdk/blob/main/docs/proposals/kubeflow-sdk.md)
 
 **Connect with the Community**:
@@ -372,3 +372,4 @@ The Kubeflow SDK is built by and for the community. We welcome contributions, fe
 - Attend the [Kubeflow SDK and ML Experience WG](https://docs.google.com/document/d/1MChKfzrKAeFRtYqypFbMXL6ZIc_OgijjkvbqmwRV-64/edit) meetings
 - Check out [good first issues](https://github.com/kubeflow/sdk/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) to get started
 
+<!TODO: Add survey link >

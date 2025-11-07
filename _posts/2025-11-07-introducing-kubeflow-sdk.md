@@ -192,7 +192,7 @@ For more details about Kubeflow Trainer capabilities, including gang-scheduling,
 
 ## Optimizer Client
 
-The OptimizerClient manages hyperparameter optimization for large models of any size on Kubernetes. It integrates with TrainerClient — you define your training job template once, specify which parameters to optimize, and the client orchestrates multiple trials to find the best hyperparameter configuration.
+The OptimizerClient manages hyperparameter optimization for large models of any size on Kubernetes. With consistent APIs across TrainerClient and OptimizerClient, you can easily transition from training to optimization — define your training job template once, specify which parameters to optimize, and the client orchestrates multiple trials to find the best hyperparameter configuration. This consistent API design significantly enhances the user experience during AI development.
 
 The client launches trials in parallel according to your resource constraints, tracks metrics across experiments, and identifies optimal parameters.
 

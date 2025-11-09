@@ -1,4 +1,413 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2025-11-05T01:50:11-06:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">GSoC 2025: Meet Our Projects and Contributors 🚀</title><link href="https://blog.kubeflow.org/gsoc/community/kubeflow/2025/09/06/kubeflow-and-gsoc2025.html" rel="alternate" type="text/html" title="GSoC 2025: Meet Our Projects and Contributors 🚀" /><published>2025-09-06T00:00:00-05:00</published><updated>2025-09-06T00:00:00-05:00</updated><id>https://blog.kubeflow.org/gsoc/community/kubeflow/2025/09/06/kubeflow-and-gsoc2025</id><content type="html" xml:base="https://blog.kubeflow.org/gsoc/community/kubeflow/2025/09/06/kubeflow-and-gsoc2025.html">&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2025-11-09T09:05:57-06:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Introducing the Kubeflow SDK: A Pythonic API to Run AI Workloads at Scale</title><link href="https://blog.kubeflow.org/sdk/intro/" rel="alternate" type="text/html" title="Introducing the Kubeflow SDK: A Pythonic API to Run AI Workloads at Scale" /><published>2025-11-07T00:00:00-06:00</published><updated>2025-11-07T00:00:00-06:00</updated><id>https://blog.kubeflow.org/sdk/introducing-kubeflow-sdk</id><content type="html" xml:base="https://blog.kubeflow.org/sdk/intro/">&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;⚡ We want your feedback!&lt;/strong&gt; Help shape the future of Kubeflow SDK by taking our &lt;a href=&quot;https://docs.google.com/forms/d/e/1FAIpQLSet_IAFQzMMDWolzFt5LI9lhzqOOStjIGHxgYqKBnVcRtDfrw/viewform?usp=dialog&quot;&gt;quick survey&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;unified-sdk-concept&quot;&gt;Unified SDK Concept&lt;/h1&gt;
+
+&lt;p&gt;Scaling AI workloads shouldn’t require deep expertise in distributed systems and container orchestration. Whether you are prototyping on local hardware or deploying to a production Kubernetes cluster, you need a unified API that abstracts infrastructure complexity while preserving flexibility. That’s exactly what the Kubeflow Python SDK delivers.&lt;/p&gt;
+
+&lt;p&gt;As an AI Practitioner, you’ve probably experienced this frustrating journey: you start by prototyping locally, training your model on your laptop. When you need more compute power, you have to rewrite everything for distributed training. You containerize your code, rebuild images for every small change, write Kubernetes YAMLs, wrestle with kubectl, and juggle multiple SDKs — one for training, another for hyperparameter tuning, and yet another for pipelines. Each step demands different tools, APIs, and mental models.&lt;/p&gt;
+
+&lt;p&gt;All this complexity slows down productivity, drains focus, and ultimately holds back AI innovation. What if there was a better way?&lt;/p&gt;
+
+&lt;p&gt;The Kubeflow community started the &lt;strong&gt;Kubeflow SDK &amp;amp; ML Experience Working Group&lt;/strong&gt; (WG) in order to address these challenges. You can find more information about this WG on our &lt;a href=&quot;https://youtu.be/VkbVVk2OGUI?list=PLmzRWLV1CK_wSO2IMPnzChxESmaoXNfrY&quot;&gt;YouTube playlist&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;introducing-kubeflow-sdk&quot;&gt;Introducing Kubeflow SDK&lt;/h1&gt;
+
+&lt;p&gt;The SDK sits on top of the Kubeflow ecosystem as a unified interface layer. When you write Python code, the SDK translates it into the appropriate Kubernetes resources — generating CRs, handling orchestration, and managing distributed communication. You get all the power of Kubeflow and distributed AI compute without needing to understand Kubernetes.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2025-11-07-introducing-kubeflow-sdk/kubeflow-sdk.drawio.svg&quot; alt=&quot;kubeflow ecosystem&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Getting started is simple:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pip&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kubeflow&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;kubeflow.trainer&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;train_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;torch&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Linear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;optimizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;optim&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Adam&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;# Training loop
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;epoch&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# Your training logic
+&lt;/span&gt;        &lt;span class=&quot;k&quot;&gt;pass&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;torch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;state_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;model.pt&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Create a client and train
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_func&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The following principles are the foundation that guide the design and implementation of the SDK:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Unified Experience&lt;/strong&gt;: Single SDK to interact with multiple Kubeflow projects through consistent Python APIs&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Simplified AI Workloads&lt;/strong&gt;: Abstract away Kubernetes complexity and work effortlessly across all Kubeflow projects using familiar Python APIs&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Built for Scale&lt;/strong&gt;: Seamlessly scale any AI workload — from local laptop to large-scale production cluster with thousands of GPUs using the same APIs.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Rapid Iteration&lt;/strong&gt;: Reduced friction between development and production environments&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Local Development&lt;/strong&gt;: First-class support for local development without a Kubernetes cluster requiring only pip installation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;role-in-the-kubeflow-ecosystem&quot;&gt;Role in the Kubeflow Ecosystem&lt;/h2&gt;
+
+&lt;p&gt;The SDK doesn’t replace any Kubeflow projects — it provides a unified way to use them. Kubeflow Trainer, Katib, Spark Operator, Pipelines, etc still handle the actual workload execution. The SDK makes them easier to interact with through consistent Python APIs, letting you work entirely in the language you already use for ML development.&lt;/p&gt;
+
+&lt;p&gt;This creates a clear separation:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;AI Practitioners&lt;/strong&gt; use the SDK to submit jobs and manage workflows through Python, without touching YAML or Kubernetes directly&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Platform Administrators&lt;/strong&gt; continue managing infrastructure — installing components, configuring runtimes, setting resource quotas. Nothing changes on the infrastructure side.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2025-11-07-introducing-kubeflow-sdk/user-personas.drawio.svg&quot; alt=&quot;kubeflow user personas&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The Kubeflow SDK works with your existing Kubeflow deployment. If you already have Kubeflow Trainer and Katib installed, just &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pip install kubeflow&lt;/code&gt; and start using them through the unified interface. As Kubeflow evolves with new components and features, the SDK provides a stable Python layer that adapts alongside the ecosystem.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Project&lt;/th&gt;
+      &lt;th&gt;Status&lt;/th&gt;
+      &lt;th&gt;Description&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Kubeflow Trainer&lt;/td&gt;
+      &lt;td&gt;Available ✅&lt;/td&gt;
+      &lt;td&gt;Train and fine-tune AI models with various frameworks&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Kubeflow Optimizer&lt;/td&gt;
+      &lt;td&gt;Available ✅&lt;/td&gt;
+      &lt;td&gt;Hyperparameter optimization&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Kubeflow Pipelines&lt;/td&gt;
+      &lt;td&gt;Planned 🚧&lt;/td&gt;
+      &lt;td&gt;Build, run, and track AI workflows&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Kubeflow Model Registry&lt;/td&gt;
+      &lt;td&gt;Planned 🚧&lt;/td&gt;
+      &lt;td&gt;Manage model artifacts, versions and ML artifacts metadata&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Kubeflow Spark Operator&lt;/td&gt;
+      &lt;td&gt;Planned 🚧&lt;/td&gt;
+      &lt;td&gt;Manage Spark applications for data processing and feature engineering&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&quot;key-features&quot;&gt;Key Features&lt;/h1&gt;
+
+&lt;h2 id=&quot;unified-python-interface&quot;&gt;Unified Python Interface&lt;/h2&gt;
+
+&lt;p&gt;The SDK provides a consistent experience across all Kubeflow components. Whether you’re training models or optimizing hyperparameters, the APIs follow the same patterns:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;kubeflow.trainer&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;kubeflow.optimizer&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OptimizerClient&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Initialize clients
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trainer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;optimizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OptimizerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# List jobs
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;list_jobs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;OptimizerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;list_jobs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;trainer-client&quot;&gt;Trainer Client&lt;/h2&gt;
+
+&lt;p&gt;The TrainerClient provides the easiest way to run distributed training on Kubernetes, built on top of &lt;a href=&quot;https://blog.kubeflow.org/trainer/intro/&quot;&gt;Kubeflow Trainer v2&lt;/a&gt;. Whether you’re training custom models with PyTorch, or fine-tuning LLMs, the client provides a Python API for submitting and monitoring training jobs at scale.&lt;/p&gt;
+
+&lt;p&gt;The client works with pre-configured runtimes that Platform Administrators set up. These runtimes define the container images, resource policies, and infrastructure settings. As an AI Practitioner, you reference these runtimes and focus on your training code:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;kubeflow.trainer&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CustomTrainer&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_torch_dist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Your PyTorch training code runs on each node.&quot;&quot;&quot;&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;os&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;torch&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;torch.distributed&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dist&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;dist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;init_process_group&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gloo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;PyTorch Distributed Environment&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;f&quot;WORLD_SIZE: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_world_size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;f&quot;RANK: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_rank&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;f&quot;LOCAL_RANK: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;environ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'LOCAL_RANK'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Create the TrainJob
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;job_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;runtime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_runtime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;torch-distributed&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;trainer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CustomTrainer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_torch_dist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;num_nodes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;resources_per_node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;&quot;cpu&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Wait for TrainJob to complete
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;wait_for_job_status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;job_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Print TrainJob logs
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_job_logs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;job_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The TrainerClient supports &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CustomTrainer&lt;/code&gt; for your own training logic and &lt;a href=&quot;https://www.kubeflow.org/docs/components/trainer/user-guides/builtin-trainer/torchtune/&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BuiltinTrainer&lt;/code&gt;&lt;/a&gt; for pre-packaged training patterns like LLM fine-tuning.&lt;/p&gt;
+
+&lt;p&gt;Getting started with LLM fine-tuning is as simple as a single line. The default model, dataset, and training configurations are pre-baked into the runtime:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;runtime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_runtime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;torchtune-qwen2.5-1.5b&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can also customize every aspect of the fine-tuning process — specify your own dataset, model, LoRA configuration, and training hyperparameters:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;kubeflow.trainer&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BuiltinTrainer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TorchTuneConfig&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;kubeflow.trainer&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Initializer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HuggingFaceDatasetInitializer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HuggingFaceModelInitializer&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;kubeflow.trainer&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TorchTuneInstructDataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LoraConfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DataFormat&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;runtime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_runtime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;torchtune-llama3.2-1b&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;initializer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Initializer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;dataset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HuggingFaceDatasetInitializer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;storage_uri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hf://tatsu-lab/alpaca/data&quot;&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HuggingFaceModelInitializer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;storage_uri&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hf://meta-llama/Llama-3.2-1B-Instruct&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;access_token&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hf_...&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;trainer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BuiltinTrainer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TorchTuneConfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;dataset_preprocess_config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TorchTuneInstructDataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DataFormat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PARQUET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;peft_config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LoraConfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;apply_lora_to_mlp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;lora_attn_modules&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;q_proj&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;k_proj&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;v_proj&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;output_proj&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;quantize_base&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;resources_per_node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;s&quot;&gt;&quot;gpu&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can mix and match — use the runtime’s default model but specify your own dataset, or keep the default dataset but customize the LoRA parameters. The Initializers download datasets and models once to shared storage, then all training pods access the data from there — reducing startup time and network usage.&lt;/p&gt;
+
+&lt;p&gt;For more details about Kubeflow Trainer capabilities, including gang-scheduling, fault tolerance, and MPI support, check out the &lt;a href=&quot;https://blog.kubeflow.org/trainer/intro/&quot;&gt;Kubeflow Trainer v2 blog post&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;optimizer-client&quot;&gt;Optimizer Client&lt;/h2&gt;
+
+&lt;p&gt;The OptimizerClient manages hyperparameter optimization for large models of any size on Kubernetes. With consistent APIs across TrainerClient and OptimizerClient, you can easily transition from training to optimization — define your training job template once, specify which parameters to optimize, and the client orchestrates multiple trials to find the best hyperparameter configuration. This consistent API design significantly enhances the user experience during AI development.&lt;/p&gt;
+
+&lt;p&gt;The client launches trials in parallel according to your resource constraints, tracks metrics across experiments, and identifies optimal parameters.&lt;/p&gt;
+
+&lt;p&gt;First, define your training job template:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;kubeflow.trainer&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CustomTrainer&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;kubeflow.optimizer&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OptimizerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrainJobTemplate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Objective&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrialConfig&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;train_func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;learning_rate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;batch_size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Training function with hyperparameters.&quot;&quot;&quot;&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# Your training code here
+&lt;/span&gt;    &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;time&lt;/span&gt;
+    &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;random&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sleep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;f&quot;Training &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;, lr: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;learning_rate&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;, batch_size: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;batch_size&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;f&quot;loss=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;round&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;uniform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.77&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.99&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;c1&quot;&gt;# Create a reusable template
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;template&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrainJobTemplate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;trainer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CustomTrainer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_func&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;func_args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;learning_rate&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;0.01&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;batch_size&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;16&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;num_nodes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;resources_per_node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gpu&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;runtime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_runtime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;torch-distributed&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Verify that your TrainJob is working with test hyperparameters.
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then optimize hyperparameters with a single call:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;optimizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OptimizerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;job_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;optimizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;optimize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# The same template can be used for Hyperparameter Optimisation
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;trial_template&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;search_space&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;learning_rate&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;loguniform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.001&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;batch_size&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Search&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;choice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;128&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;trial_config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TrialConfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;num_trials&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;parallel_trials&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;max_failed_trials&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Verify OptimizationJob was created
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;optimizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_job&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;job_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Wait for OptimizationJob to complete
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;optimizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;wait_for_job_status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;job_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Get the best hyperparameters and metrics from an OptimizationJob
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;best_results&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;optimizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_best_results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;job_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;best_results&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Output:
+# Result(
+#     parameters={'learning_rate': '0.0234', 'batch_size': '64'},
+#     metrics=[Metric(name='loss', min='0.78', max='0.78', latest='0.78')]
+# )
+&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# See all the trials (TrainJobs) created during optimization
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;job&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;optimizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_job&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;job_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;job&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;trials&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This creates multiple TrainJob instances (trials) with different hyperparameter combinations, executes them in parallel based on available resources, and tracks which parameters produce the best results. Each trial is a full training job managed by Kubeflow Trainer. Using &lt;a href=&quot;https://www.kubeflow.org/docs/components/katib/user-guides/katib-ui/&quot;&gt;Katib UI&lt;/a&gt;, you can visualize your optimization with an interactive graph that shows metric performance against hyperparameter values across all trials.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2025-11-07-introducing-kubeflow-sdk/katib-ui.png&quot; alt=&quot;Katib UI example&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;For more details about hyperparameter optimization, check out the &lt;a href=&quot;https://github.com/kubeflow/sdk/tree/main/docs/proposals/46-hyperparameter-optimization&quot;&gt;OptimizerClient KEP&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;local-execution-mode&quot;&gt;Local Execution Mode&lt;/h2&gt;
+
+&lt;p&gt;Local Execution Mode provides backend flexibility while maintaining full API compatibility with the Kubernetes backend, substantially reducing friction for AI practitioners when developing and iterating.&lt;/p&gt;
+
+&lt;p&gt;Choose the right execution environment for your stage of development:&lt;/p&gt;
+
+&lt;h3 id=&quot;local-process-backend-fastest-iteration&quot;&gt;Local Process Backend: Fastest Iteration&lt;/h3&gt;
+
+&lt;p&gt;The Local Process Backend is your starting point for ML development - offering the fastest possible iteration cycle with zero infrastructure overhead. This backend executes your training code directly as a Python subprocess on your local machine, bypassing containers, orchestration, and network complexity entirely.&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;kubeflow.trainer.backends.localprocess&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LocalProcessBackendConfig&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LocalProcessBackendConfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Runs directly on your machine - no containers, no cluster
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_func&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;container-backend-production-like-environment&quot;&gt;Container Backend: Production-Like Environment&lt;/h3&gt;
+
+&lt;p&gt;The Container Backend bridges the gap between local development and production deployment by bringing production parity to your laptop. This backend executes your training code inside containers (using Docker or Podman), ensuring that your development environment matches your production environment byte-for-byte - same dependencies, same Python version, same system libraries, same everything.&lt;/p&gt;
+
+&lt;p&gt;Docker Example:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;kubeflow.trainer.backends.container&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ContainerBackendConfig&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ContainerBackendConfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;container_runtime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;docker&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;auto_remove&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;# Clean up containers after completion
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Launch 2-node distributed training locally
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_func&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num_nodes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Podman Example:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;kubeflow.trainer.backends.container&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ContainerBackendConfig&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ContainerBackendConfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;container_runtime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;podman&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;auto_remove&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_func&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num_nodes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;kubernetes-backend-production-scale&quot;&gt;Kubernetes Backend: Production Scale&lt;/h3&gt;
+
+&lt;p&gt;The Kubernetes Backend enables Kubeflow SDK to perform reliably at production scale - enabling you to deploy the exact same training code you developed locally to a production Kubernetes cluster with massive computational resources. This backend transforms your simple &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;client.train()&lt;/code&gt; call into a full-fledged distributed training job managed by Kubeflow’s Trainer, complete with fault tolerance, resource scheduling, and cluster-wide orchestration.&lt;/p&gt;
+
+&lt;p&gt;Kubernetes Example:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;kubeflow.trainer.backends.kubernetes&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KubernetesBackendConfig&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KubernetesBackendConfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;namespace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;ml-training&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TrainerClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Scales to hundreds of nodes - the same code you tested locally
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;train_func&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;num_nodes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;packages_to_install&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;torch&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;transformers&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;whats-next&quot;&gt;What’s Next?&lt;/h1&gt;
+
+&lt;p&gt;We’re just getting started. The Kubeflow SDK currently supports Trainer and Optimizer, but the vision is much bigger — a unified Python interface for the entire &lt;a href=&quot;https://www.kubeflow.org/docs/started/architecture/#kubeflow-projects-in-the-ai-lifecycle&quot;&gt;Cloud Native AI Lifecycle&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here’s what’s on the horizon:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/sdk/issues/125&quot;&gt;&lt;strong&gt;Pipelines Integration&lt;/strong&gt;&lt;/a&gt;: A PipelinesClient to build end-to-end ML workflows. Pipelines will reuse the core Kubeflow SDK primitives for training, optimization, and deployment in a single pipeline. The Kubeflow SDK will also power &lt;a href=&quot;https://github.com/kubeflow/pipelines-components&quot;&gt;KFP core components&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/sdk/issues/59&quot;&gt;&lt;strong&gt;Model Registry Integration&lt;/strong&gt;&lt;/a&gt;: Seamlessly manage model artifacts and versions across the training and serving lifecycle&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/sdk/issues/107&quot;&gt;&lt;strong&gt;Spark Operator Integration&lt;/strong&gt;&lt;/a&gt;: Data processing and feature engineering through a SparkClient interface&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/sdk/issues/50&quot;&gt;&lt;strong&gt;Documentation&lt;/strong&gt;&lt;/a&gt;: Full Kubeflow SDK documentation with guides, examples, and API references&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/sdk/issues/153&quot;&gt;&lt;strong&gt;Local Execution for Optimizer&lt;/strong&gt;&lt;/a&gt;: Run hyperparameter optimization experiments locally before scaling to Kubernetes&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/sdk/issues/48&quot;&gt;&lt;strong&gt;Workspace Snapshots&lt;/strong&gt;&lt;/a&gt;: Capture your entire development environment and reproduce it in distributed training jobs&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/sdk/issues/23&quot;&gt;&lt;strong&gt;Multi-Cluster Support&lt;/strong&gt;&lt;/a&gt;: Manage training jobs across multiple Kubernetes clusters from a single SDK interface&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/trainer/issues/2655&quot;&gt;&lt;strong&gt;Distributed Data Cache&lt;/strong&gt;&lt;/a&gt;: In-memory caching for large datasets via initializer SDK configuration&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/trainer/issues/2752&quot;&gt;&lt;strong&gt;Additional Built-in Trainers&lt;/strong&gt;&lt;/a&gt;: Support for more fine-tuning frameworks beyond TorchTune — &lt;a href=&quot;https://github.com/unslothai/unsloth&quot;&gt;Unsloth&lt;/a&gt;, &lt;a href=&quot;https://github.com/meta-pytorch/torchforge&quot;&gt;torchforge&lt;/a&gt;, &lt;a href=&quot;https://github.com/axolotl-ai-cloud/axolotl&quot;&gt;Axolotl&lt;/a&gt;, &lt;a href=&quot;https://github.com/hiyouga/LLaMA-Factory&quot;&gt;LLaMA-Factory&lt;/a&gt;, and others&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The community is driving these features forward. If you have ideas, feedback, or want to contribute, we’d love to hear from you!&lt;/p&gt;
+
+&lt;h1 id=&quot;get-involved&quot;&gt;Get Involved&lt;/h1&gt;
+
+&lt;p&gt;The Kubeflow SDK is built by and for the community. We welcome contributions, feedback, and participation from everyone!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;🔔 Help Shape the Future of Kubeflow SDK&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;We want to hear from you! Take our &lt;a href=&quot;https://docs.google.com/forms/d/e/1FAIpQLSet_IAFQzMMDWolzFt5LI9lhzqOOStjIGHxgYqKBnVcRtDfrw/viewform?usp=dialog&quot;&gt;Kubeflow Unified SDK Survey&lt;/a&gt; 
+to help us understand your biggest pain points and identify which new features will provide the most value to you and 
+your team. Your feedback directly influences our roadmap and priorities.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Resources&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/kubeflow/sdk&quot;&gt;GitHub Repo&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.google.com/document/d/1rX7ELAHRb_lvh0Y7BK1HBYAbA0zi9enB0F_358ZC58w/edit?tab=t.0#heading=h.e0573r7wwkgl&quot;&gt;Kubeflow SDK design document&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Connect with the Community&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Join &lt;a href=&quot;https://cloud-native.slack.com/archives/C08KJBVDH5H&quot;&gt;#kubeflow-ml-experience&lt;/a&gt; on &lt;a href=&quot;https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels&quot;&gt;CNCF Slack&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Attend the &lt;a href=&quot;https://bit.ly/kf-ml-experience&quot;&gt;Kubeflow SDK and ML Experience WG&lt;/a&gt; meetings&lt;/li&gt;
+  &lt;li&gt;Check out &lt;a href=&quot;https://github.com/kubeflow/sdk/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22&quot;&gt;good first issues&lt;/a&gt; to get started&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Kubeflow SDK Team</name></author><category term="sdk" /><category term="trainer" /><category term="optimizer" /><summary type="html">⚡ We want your feedback! Help shape the future of Kubeflow SDK by taking our quick survey.</summary></entry><entry><title type="html">GSoC 2025: Meet Our Projects and Contributors 🚀</title><link href="https://blog.kubeflow.org/gsoc/community/kubeflow/2025/09/06/kubeflow-and-gsoc2025.html" rel="alternate" type="text/html" title="GSoC 2025: Meet Our Projects and Contributors 🚀" /><published>2025-09-06T00:00:00-05:00</published><updated>2025-09-06T00:00:00-05:00</updated><id>https://blog.kubeflow.org/gsoc/community/kubeflow/2025/09/06/kubeflow-and-gsoc2025</id><content type="html" xml:base="https://blog.kubeflow.org/gsoc/community/kubeflow/2025/09/06/kubeflow-and-gsoc2025.html">&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
 
 &lt;p&gt;Google Summer of Code (GSoC) 2025 has been an exciting journey for the Kubeflow community! We are very grateful for Google and the open source community members dedication and effort.🎉&lt;br /&gt;
 This year, 9 contributors from around the world collaborated with mentors to improve different parts of the Kubeflow ecosystem — from infrastructure and CI/CD, to notebooks, ML workflows, and beyond.&lt;/p&gt;
@@ -2408,65 +2817,4 @@ In the blog, I’ll provide my personal insight into Katib, for those who are in
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;https://www.kubeflow.org&quot;&gt;What is Kubeflow?&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://www.kubeflow.org/events/gsoc-2025/&quot;&gt;Kubeflow GSoC’25 Event&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Shao Wang(Electronic-Waste)</name></author><category term="gsoc" /><summary type="html">This summer, I gained a precious opportunity to participate in the Google Summer of Code(GSoC), in which I would contribute to Katib and fulfill a project named “Push-based Metrics Collection in Katib” within 12 weeks. Firstly, I got to know about GSoC and Kubeflow with the recommendation from the former active maintainer Ce Gao(gaocegege)’s personal blog. And I was deeply impressed by the idea of cloud native AI toolkits, I decided to dive into this area and learn some skills to enhance my career and future. In the blog, I’ll provide my personal insight into Katib, for those who are interested in cloud native, AI, and hyperparameters tuning.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">LLM Hyperparameter Optimization API: My Google Summer of Code Journey with Kubeflow</title><link href="https://blog.kubeflow.org/gsoc-2024-project-4/" rel="alternate" type="text/html" title="LLM Hyperparameter Optimization API: My Google Summer of Code Journey with Kubeflow" /><published>2024-09-19T00:00:00-05:00</published><updated>2024-09-19T00:00:00-05:00</updated><id>https://blog.kubeflow.org/gsoc-2024-summary-llm-hyperparameter-optimization-api</id><content type="html" xml:base="https://blog.kubeflow.org/gsoc-2024-project-4/">&lt;p&gt;This summer, I had the opportunity to participate in the Google Summer of Code (GSoC) program, where I contributed to Kubeflow, an open-source machine learning toolkit. My project focused on developing a high-level API for optimizing hyperparameters in Large Language Models (LLMs) within Katib, Kubeflow’s automated hyperparameter tuning system. I’d like to share insights from this experience with others interested in Kubeflow, GSoC, or optimizing LLMs.&lt;/p&gt;
-
-&lt;h2 id=&quot;motivation&quot;&gt;Motivation&lt;/h2&gt;
-
-&lt;p&gt;The rapid advancements and rising popularity of LLMs, such as GPT and BERT, have created a growing demand for efficient LLMOps in Kubernetes. To address this, we have developed a &lt;a href=&quot;https://www.kubeflow.org/docs/components/training/user-guides/fine-tuning/&quot;&gt;train API&lt;/a&gt; within the Training Python SDK, simplifying the process of fine-tuning LLMs using distributed PyTorchJob workers. However, hyperparameter optimization remains a crucial yet labor-intensive task for enhancing model performance.&lt;/p&gt;
-
-&lt;h2 id=&quot;goal&quot;&gt;Goal&lt;/h2&gt;
-
-&lt;p&gt;Hyperparameter optimization is essential but time-consuming, especially for LLMs with billions of parameters. This API simplifies the process by handling Kubernetes infrastructure, allowing data scientists to focus on model performance rather than system configuration.&lt;/p&gt;
-
-&lt;p&gt;With this API, users can import pretrained models and datasets from Hugging Face and Amazon S3, define parameters including the hyperparameter search space, optimization objective, and resource configuration. The API then automates the creation of Experiment, which contains multiple Trials with different hyperparameter settings using PyTorch distributed training. It then collects and analyzes the metrics from each Trial to identify the optimal hyperparameter configuration.&lt;/p&gt;
-
-&lt;p&gt;For detailed instruction on using the API, please refer to this &lt;a href=&quot;https://github.com/kubeflow/website/blob/b253c9402be94e7c5c044a0b1d2d9d86fd473149/content/en/docs/components/katib/user-guides/llm-hp-optimization.md&quot;&gt;guide&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/2024-09-19-gsoc-2024-llm-hyperparameter-optimization-api/design_tune_api.png&quot; alt=&quot;Design of API&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;my-contributions-to-the-gsoc-project&quot;&gt;My Contributions to the GSoC Project&lt;/h2&gt;
-
-&lt;p&gt;My work on the project can be broadly divided into four stages:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;Stage 1&lt;/strong&gt;: Designing the API, drafting the project proposal, and refining it into a Kubeflow Enhancement Proposal (KEP).&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Stage 2&lt;/strong&gt;: Developing and implementing the high-level API.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Stage 3&lt;/strong&gt;: Implementing unit tests and end-to-end tests for the API.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Stage 4&lt;/strong&gt;: Creating documentation and presenting the work to the Kubeflow community.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;In addition, I addressed several critical bugs in previous Katib and Training Operator releases and contributed new features, such as writing end-to-end tests for the train API.&lt;/p&gt;
-
-&lt;p&gt;For those interested, here is a &lt;a href=&quot;https://github.com/kubeflow/katib/issues/2339&quot;&gt;detailed summary&lt;/a&gt; of all the pull requests I submitted during this process.&lt;/p&gt;
-
-&lt;h2 id=&quot;lessons-learned&quot;&gt;Lessons Learned&lt;/h2&gt;
-
-&lt;p&gt;This is my first experience contributing to an open source project, and I gained extensive technical knowledge throughout this project, including Docker, Kubernetes, and Kubeflow itself. Before developing and implementing the API, I invested significant time onboarding and familiarizing myself with Kubeflow. The &lt;a href=&quot;https://www.kubeflow.org/docs/&quot;&gt;official documentation&lt;/a&gt; and &lt;a href=&quot;https://github.com/kubeflow&quot;&gt;GitHub repository&lt;/a&gt; were invaluable resources during this process.&lt;/p&gt;
-
-&lt;p&gt;Beyond these technical skills, I also learned several key lessons that extend into broader personal and professional growth.&lt;/p&gt;
-
-&lt;h3 id=&quot;think-from-the-users-perspective&quot;&gt;Think from the User’s Perspective&lt;/h3&gt;
-
-&lt;p&gt;One key lesson was the importance of considering the user’s needs. Discussing API design with my mentors taught me to focus on what functionalities users need and how they prefer to use them. Listening to users’ feedback is crucial for effective product design.&lt;/p&gt;
-
-&lt;h3 id=&quot;dont-fear-bugs&quot;&gt;Don’t Fear Bugs&lt;/h3&gt;
-
-&lt;p&gt;I used to feel overwhelmed by bugs and unsure how to tackle them. When a bug caused a container failure during a Katib trial, my mentor guided me through the debugging process, teaching me how to systematically trace and understand the issue. The key is to approach debugging methodically and think through each step of the problem.&lt;/p&gt;
-
-&lt;h3 id=&quot;communication-is-important&quot;&gt;Communication is Important&lt;/h3&gt;
-
-&lt;p&gt;Communication is important in collaboration, especially in open source projects. There are various ways of communicating in open-source projects, such as GitHub issues or PRs, Slack, and community meetings. And I’m grateful to my mentor for discussing my challenges during our weekly meetings and providing invaluable guidance.&lt;/p&gt;
-
-&lt;h3 id=&quot;every-contribution-counts&quot;&gt;Every Contribution Counts&lt;/h3&gt;
-
-&lt;p&gt;Initially, I thought contributing to open source was complex. I learned that every contribution, no matter how small, is valuable and appreciated. For example, contributing to documentation is crucial, especially for newcomers.&lt;/p&gt;
-
-&lt;h2 id=&quot;in-the-end&quot;&gt;In The End&lt;/h2&gt;
-
-&lt;p&gt;I am deeply grateful to everyone who supported me throughout this project. Your suggestions, advice, and encouragement were invaluable in helping me complete my work.&lt;/p&gt;
-
-&lt;p&gt;I especially want to extend my heartfelt thanks to my mentor, Andrey Velichkevich. His deep knowledge of both the project and the industry, combined with his willingness to help, has been incredibly inspiring. I greatly appreciate the time and effort he dedicated to guiding me, from the high-level design of the API to the finer details like code formatting. I have learned so much from his mentorship.&lt;/p&gt;
-
-&lt;p&gt;Looking ahead, I am excited to continue contributing to Kubeflow. I also look forward to helping future contributors by improving documentation and sharing my experiences with newcomers in the community.&lt;/p&gt;
-
-&lt;p&gt;If you’re interested in open-source and want to be part of Kubeflow, GSoC 2025 applications are now open! Check out the details &lt;a href=&quot;https://www.kubeflow.org/events/gsoc-2025/&quot;&gt;here&lt;/a&gt;—we’d love to have you join us!&lt;/p&gt;</content><author><name>Hezhi(Helen) Xie</name></author><category term="gsoc" /><summary type="html">This summer, I had the opportunity to participate in the Google Summer of Code (GSoC) program, where I contributed to Kubeflow, an open-source machine learning toolkit. My project focused on developing a high-level API for optimizing hyperparameters in Large Language Models (LLMs) within Katib, Kubeflow’s automated hyperparameter tuning system. I’d like to share insights from this experience with others interested in Kubeflow, GSoC, or optimizing LLMs.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;/ul&gt;</content><author><name>Shao Wang(Electronic-Waste)</name></author><category term="gsoc" /><summary type="html">This summer, I gained a precious opportunity to participate in the Google Summer of Code(GSoC), in which I would contribute to Katib and fulfill a project named “Push-based Metrics Collection in Katib” within 12 weeks. Firstly, I got to know about GSoC and Kubeflow with the recommendation from the former active maintainer Ce Gao(gaocegege)’s personal blog. And I was deeply impressed by the idea of cloud native AI toolkits, I decided to dive into this area and learn some skills to enhance my career and future. In the blog, I’ll provide my personal insight into Katib, for those who are interested in cloud native, AI, and hyperparameters tuning.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

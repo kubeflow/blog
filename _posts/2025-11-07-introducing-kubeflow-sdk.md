@@ -23,7 +23,7 @@ The Kubeflow community started the **Kubeflow SDK & ML Experience Working Group*
 
 # Introducing Kubeflow SDK
 
-The SDK sits on top of the Kubeflow ecosystem as a unified interface layer. When you write Python code, the SDK translates it into the appropriate Kubernetes resources — generating CRDs, handling orchestration, and managing distributed communication. You get all the power of Kubeflow and distributed AI compute without needing to understand Kubernetes.
+The SDK sits on top of the Kubeflow ecosystem as a unified interface layer. When you write Python code, the SDK translates it into the appropriate Kubernetes resources — generating CRs, handling orchestration, and managing distributed communication. You get all the power of Kubeflow and distributed AI compute without needing to understand Kubernetes.
 
 ![kubeflow ecosystem](/images/2025-11-07-introducing-kubeflow-sdk/kubeflow-sdk.drawio.svg)
 

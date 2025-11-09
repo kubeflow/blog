@@ -9,11 +9,13 @@ permalink: /sdk/intro/
 author: "Kubeflow SDK Team"
 ---
 
+> **⚡ We want your feedback!** Help shape the future of Kubeflow SDK by taking our [quick survey](https://docs.google.com/forms/d/e/1FAIpQLSet_IAFQzMMDWolzFt5LI9lhzqOOStjIGHxgYqKBnVcRtDfrw/viewform?usp=dialog).
+
 # Unified SDK Concept
 
 Scaling AI workloads shouldn't require deep expertise in distributed systems and container orchestration. Whether you are prototyping on local hardware or deploying to a production Kubernetes cluster, you need a unified API that abstracts infrastructure complexity while preserving flexibility. That's exactly what the Kubeflow Python SDK delivers.
 
-As a data scientist, you’ve probably experienced this frustrating journey: you start by prototyping locally, training your model on your laptop. When you need more compute power, you have to rewrite everything for distributed training. You containerize your code, rebuild images for every small change, write Kubernetes YAMLs, wrestle with kubectl, and juggle multiple SDKs — one for training, another for hyperparameter tuning, and yet another for pipelines. Each step demands different tools, APIs, and mental models.
+As an AI Practitioner, you’ve probably experienced this frustrating journey: you start by prototyping locally, training your model on your laptop. When you need more compute power, you have to rewrite everything for distributed training. You containerize your code, rebuild images for every small change, write Kubernetes YAMLs, wrestle with kubectl, and juggle multiple SDKs — one for training, another for hyperparameter tuning, and yet another for pipelines. Each step demands different tools, APIs, and mental models.
 
 All this complexity slows down productivity, drains focus, and ultimately holds back AI innovation. What if there was a better way?
 
@@ -374,6 +376,12 @@ The community is driving these features forward. If you have ideas, feedback, or
 
 The Kubeflow SDK is built by and for the community. We welcome contributions, feedback, and participation from everyone!
 
+**🔔 Help Shape the Future of Kubeflow SDK**
+
+We want to hear from you! Take our [Kubeflow Unified SDK Survey](https://docs.google.com/forms/d/e/1FAIpQLSet_IAFQzMMDWolzFt5LI9lhzqOOStjIGHxgYqKBnVcRtDfrw/viewform?usp=dialog) 
+to help us understand your biggest pain points and identify which new features will provide the most value to you and 
+your team. Your feedback directly influences our roadmap and priorities.
+
 **Resources**:
 - [GitHub Repo](https://github.com/kubeflow/sdk)
 - [Kubeflow SDK design document](https://docs.google.com/document/d/1rX7ELAHRb_lvh0Y7BK1HBYAbA0zi9enB0F_358ZC58w/edit?tab=t.0#heading=h.e0573r7wwkgl)
@@ -382,5 +390,3 @@ The Kubeflow SDK is built by and for the community. We welcome contributions, fe
 - Join [#kubeflow-ml-experience](https://cloud-native.slack.com/archives/C08KJBVDH5H) on [CNCF Slack](https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels)
 - Attend the [Kubeflow SDK and ML Experience WG](https://bit.ly/kf-ml-experience) meetings
 - Check out [good first issues](https://github.com/kubeflow/sdk/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) to get started
-
-<!TODO: Add survey link >

@@ -1,6 +1,15 @@
-# Introducing Metaflow-Kubeflow Integration
+---
+toc: true
+layout: post
+comments: true
+title: "Introducing Metaflow-Kubeflow Integration"
+hide: false
+categories: [community]
+permalink: /metaflow/
+author: "Kubeflow & Metaflow teams"
+---
 
-## A tale of two flows: Metaflow and Kubeflow
+# A tale of two flows: Metaflow and Kubeflow
 
 Metaflow is a Python framework for building and operating ML and AI projects, originally developed and open-sourced by Netflix in 2019\. In many ways, Kubeflow and Metaflow are cousins: closely related in spirit, but designed with distinct goals and priorities.
 
@@ -10,7 +19,7 @@ In contrast, Kubeflow has always been deeply embedded in the Kubernetes ecosyste
 
 Over the years, Metaflow has delighted end users with its intuitive APIs, while Kubeflow has delivered tons of value to infrastructure teams through its robust platform components. This complementary nature of the tools motivated us to build a bridge between the two: [you can now author projects in Metaflow and deploy them as Kubeflow Pipelines](https://docs.metaflow.org/production/scheduling-metaflow-flows/scheduling-with-kubeflow), side by side with your existing Kubeflow workloads.
 
-## Why Metaflow → Kubeflow
+# Why Metaflow → Kubeflow
 
 In [the most recent CNCF Technology Radar survey](https://www.cncf.io/wp-content/uploads/2025/11/cncf_report_techradar_111025a.pdf) from October 2025, Metaflow got the highest positive scores in the “*likelihood to recommend*” and “*usefulness*” categories, reflecting its success in providing a set of stable, productivity-boosting APIs for ML/AI developers. 
 
@@ -56,7 +65,7 @@ The key benefit of the Metaflow–Kubeflow integration is that it allows organiz
 
 Currently, the integration supports deploying Metaflow flows as Kubeflow Pipelines. Once you have Metaflow tasks running on Kubernetes, you can access other components such as Katib and Trainer from Metaflow tasks through their Python clients as usual.
 
-## Metaflow → Kubeflow in practice
+# Metaflow → Kubeflow in practice
 
 As the integration requires no changes in your existing Kubeflow infrastructure, it is straightforward to get started. You can [deploy Metaflow in an existing cloud account](https://docs.metaflow.org/getting-started/infrastructure) (GCP, Azure, or AWS) or you can [install the dev stack on your laptop](https://docs.metaflow.org/getting-started/devstack) with a single command.
 
@@ -91,7 +100,7 @@ The integration doesn’t have 100% feature coverage yet: Some Metaflow features
 
 If you want to learn more about the integration, you can watch [an announcement webinar](https://www.youtube.com/watch?v=YDKRIiQNMU0) on Youtube.
 
-## Feedback welcome\!
+# Feedback welcome\!
 
 Like Kubeflow, Metaflow is an open-source project actively developed by multiple organizations — including Netflix, which maintains a dedicated team working on Metaflow, and [Outerbounds, which provides a managed Metaflow platform](https://outerbounds.com) deployed in customers’ own cloud environments.
 

@@ -6,7 +6,6 @@ title: "Introducing Metaflow-Kubeflow Integration"
 hide: false
 categories: [community]
 permalink: /metaflow/
-author: "Kubeflow & Metaflow teams"
 ---
 
 # A tale of two flows: Metaflow and Kubeflow
@@ -25,7 +24,7 @@ In [the most recent CNCF Technology Radar survey](https://www.cncf.io/wp-content
 
 Metaflow spans the entire development lifecycle—from early experimentation to production deployment and ongoing operations. To give you an idea, the core features below illustrate the breadth of its API surface, grouped by project stage:
 
-**Development**
+## Development
 
 - Straightforward APIs for [creating and composing workflows](https://docs.metaflow.org/metaflow/basics).
 
@@ -37,7 +36,7 @@ Metaflow spans the entire development lifecycle—from early experimentation to 
 
 - Create domain-specific abstractions and project-level policies through [custom decorators](https://docs.metaflow.org/metaflow/composing-flows/introduction).
 
-**Scaling**
+## Scaling
 
 - [Scale flows horizontally and vertically](https://docs.metaflow.org/scaling/remote-tasks/introduction): Both task and data parallelism are supported.
 
@@ -49,7 +48,7 @@ Metaflow spans the entire development lifecycle—from early experimentation to 
 
 - [Checkpoint long-running tasks](https://docs.metaflow.org/scaling/checkpoint/introduction) and manage checkpoints consistently. 
 
-**Deployment**
+## Deployment
 
 - Maintain a clear separation between experimentation, production, and individual developers through [namespaces](https://docs.metaflow.org/scaling/tagging).
 
@@ -100,7 +99,7 @@ The integration doesn’t have 100% feature coverage yet: Some Metaflow features
 
 If you want to learn more about the integration, you can watch [an announcement webinar](https://www.youtube.com/watch?v=YDKRIiQNMU0) on Youtube.
 
-# Feedback welcome\!
+## Feedback welcome\!
 
 Like Kubeflow, Metaflow is an open-source project actively developed by multiple organizations — including Netflix, which maintains a dedicated team working on Metaflow, and [Outerbounds, which provides a managed Metaflow platform](https://outerbounds.com) deployed in customers’ own cloud environments.
 

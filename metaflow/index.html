@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Introducing the Metaflow-Kubeflow Integration | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Introducing the Metaflow-Kubeflow Integration" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A tale of two flows: Metaflow and Kubeflow" />
+<meta property="og:description" content="A tale of two flows: Metaflow and Kubeflow" />
+<link rel="canonical" href="https://blog.kubeflow.org/metaflow/" />
+<meta property="og:url" content="https://blog.kubeflow.org/metaflow/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-02-04T00:00:00-06:00" />
+<script type="application/ld+json">
+{"url":"https://blog.kubeflow.org/metaflow/","@type":"BlogPosting","headline":"Introducing the Metaflow-Kubeflow Integration","dateModified":"2026-02-04T00:00:00-06:00","datePublished":"2026-02-04T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/metaflow/"},"description":"A tale of two flows: Metaflow and Kubeflow","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Introducing the Metaflow-Kubeflow Integration</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2026-02-04T00:00:00-06:00" itemprop="datePublished">
+        Feb 4, 2026
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#community">community</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#a-tale-of-two-flows-metaflow-and-kubeflow">A tale of two flows: Metaflow and Kubeflow</a></li>
+<li class="toc-entry toc-h1"><a href="#why-metaflow--kubeflow">Why Metaflow → Kubeflow</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#development">Development</a></li>
+<li class="toc-entry toc-h2"><a href="#scaling">Scaling</a></li>
+<li class="toc-entry toc-h2"><a href="#deployment">Deployment</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#metaflow--kubeflow-in-practice">Metaflow → Kubeflow in practice</a></li>
+<li class="toc-entry toc-h1"><a href="#feedback-welcome">Feedback welcome!</a></li>
+</ul><h1 id="a-tale-of-two-flows-metaflow-and-kubeflow">
+<a class="anchor" href="#a-tale-of-two-flows-metaflow-and-kubeflow" aria-hidden="true"><span class="octicon octicon-link"></span></a>A tale of two flows: Metaflow and Kubeflow</h1>
+
+<p>Metaflow is a Python framework for building and operating ML and AI projects, originally developed and open-sourced by Netflix in 2019. In many ways, Kubeflow and Metaflow are cousins: closely related in spirit, but designed with distinct goals and priorities.</p>
+
+<p><a href="https://docs.metaflow.org/">Metaflow</a> emerged from Netflix’s need to empower data scientists and ML/AI developers with developer-friendly, Python-native tooling, so that they could easily iterate quickly on ideas, compare modeling approaches, and ship the best solutions to production without heavy engineering or DevOps involvement. On the infrastructure side, Metaflow started with AWS-native services like AWS Batch and Step Functions, later expanding to provide first-class support for the Kubernetes ecosystem and other hyperscaler clouds.</p>
+
+<p>In contrast, Kubeflow began as a set of Kubernetes operators for distributed TensorFlow and Jupyter Notebook management. Over time, it has evolved into a comprehensive Cloud Native AI ecosystem, offering a broad set of tools out of the box. These include Trainer, Katib, Spark Operator for orchestrating distributed AI workloads, Workspaces for interactive development environments, Hub for AI catalog and artifacts management, KServe for model serving, and Pipelines to deploy end-to-end ML workflows and stitching Kubeflow components together.</p>
+
+<p>Over the years, Metaflow has delighted end users with its intuitive APIs, while Kubeflow has delivered tons of value to infrastructure teams through its robust platform components. This complementary nature of the tools motivated us to build a bridge between the two: <a href="https://docs.metaflow.org/production/scheduling-metaflow-flows/scheduling-with-kubeflow">you can now author projects in Metaflow and deploy them as Kubeflow Pipelines</a>, side by side with your existing Kubeflow workloads.</p>
+
+<h1 id="why-metaflow--kubeflow">
+<a class="anchor" href="#why-metaflow--kubeflow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why Metaflow → Kubeflow</h1>
+
+<p>In <a href="https://www.cncf.io/wp-content/uploads/2025/11/cncf_report_techradar_111025a.pdf">the most recent CNCF Technology Radar survey</a> from October 2025, Metaflow got the highest positive scores in the “<em>likelihood to recommend</em>” and “<em>usefulness</em>” categories, reflecting its success in providing a set of stable, productivity-boosting APIs for ML/AI developers.</p>
+
+<p>Metaflow spans the entire development lifecycle—from early experimentation to production deployment and ongoing operations. To give you an idea, the core features below illustrate the breadth of its API surface, grouped by project stage:</p>
+
+<h2 id="development">
+<a class="anchor" href="#development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development</h2>
+
+<ul>
+  <li>
+    <p>Straightforward APIs for <a href="https://docs.metaflow.org/metaflow/basics">creating and composing workflows</a>.</p>
+  </li>
+  <li>
+    <p>Automated state transfer and management through <a href="https://docs.metaflow.org/metaflow/basics#artifacts">artifacts</a>, allowing you to <a href="https://docs.metaflow.org/metaflow/authoring-flows/introduction">build flows incrementally</a> and resume them freely (see <a href="https://netflixtechblog.com/supercharging-the-ml-and-ai-development-experience-at-netflix-b2d5b95c63eb">a recent article by Netflix</a> about the topic)</p>
+  </li>
+  <li>
+    <p>Interactive, <a href="https://docs.metaflow.org/metaflow/basics">real-time visual outputs</a> from tasks through cards - a perfect substrate for <a href="https://outerbounds.com/blog/visualize-everything-with-ai">custom observability solutions, created quickly with AI copilots</a>.</p>
+  </li>
+  <li>
+    <p>Choose the right balance between code and configuration through <a href="https://docs.metaflow.org/metaflow/configuring-flows/introduction">built-in configuration management</a>.</p>
+  </li>
+  <li>
+    <p>Create domain-specific abstractions and project-level policies through <a href="https://docs.metaflow.org/metaflow/composing-flows/introduction">custom decorators</a>.</p>
+  </li>
+</ul>
+
+<h2 id="scaling">
+<a class="anchor" href="#scaling" aria-hidden="true"><span class="octicon octicon-link"></span></a>Scaling</h2>
+
+<ul>
+  <li>
+    <p><a href="https://docs.metaflow.org/scaling/remote-tasks/introduction">Scale flows horizontally and vertically</a>: Both task and data parallelism are supported.</p>
+  </li>
+  <li>
+    <p><a href="https://docs.metaflow.org/scaling/failures">Handle failures gracefully</a>.</p>
+  </li>
+  <li>
+    <p><a href="https://docs.metaflow.org/scaling/dependencies">Package dependencies automatically</a> with support for Conda, PyPI, and uv.</p>
+  </li>
+  <li>
+    <p>Leverage <a href="https://docs.metaflow.org/scaling/remote-tasks/distributed-computing">distributed computing paradigms</a> such as Ray, MPI, and Torch Distributed.</p>
+  </li>
+  <li>
+    <p><a href="https://docs.metaflow.org/scaling/checkpoint/introduction">Checkpoint long-running tasks</a> and manage checkpoints consistently.</p>
+  </li>
+</ul>
+
+<h2 id="deployment">
+<a class="anchor" href="#deployment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Deployment</h2>
+
+<ul>
+  <li>
+    <p>Maintain a clear separation between experimentation, production, and individual developers through <a href="https://docs.metaflow.org/scaling/tagging">namespaces</a>.</p>
+  </li>
+  <li>
+    <p>Adopt CI/CD and GitOps best practices through <a href="https://docs.metaflow.org/production/coordinating-larger-metaflow-projects">branching</a>.</p>
+  </li>
+  <li>
+    <p><a href="https://docs.metaflow.org/production/event-triggering">Compose large, reactive systems</a> through isolated sub-flows with event triggering.</p>
+  </li>
+</ul>
+
+<p>These features provide a unified, user-facing API for the capabilities required by real-world ML and AI systems. Behind the scenes, Metaflow is built on integrations with production-quality infrastructure, effectively acting as a user-interface layer over platforms like Kubernetes - and now, Kubeflow. The diagram below illustrates the division of responsibilities:
+<img style="max-width: 100%; height: auto; display: block;" alt="kubeflow-metaflow-arch" src="https://github.com/user-attachments/assets/88f4af4e-7e27-4287-b275-88e4b1b87449"></p>
+
+<p>The key benefit of the Metaflow–Kubeflow integration is that it allows organizations to <strong>keep their existing Kubernetes and Kubeflow infrastructure intact, while upgrading the developer experience with higher-level abstractions and additional functionality, provided by Metaflow.</strong></p>
+
+<p>Currently, the integration supports deploying Metaflow flows as Kubeflow Pipelines. Once you have Metaflow tasks running on Kubernetes, you can access other components such as Katib and Trainer from Metaflow tasks through their Python clients as usual.</p>
+
+<h1 id="metaflow--kubeflow-in-practice">
+<a class="anchor" href="#metaflow--kubeflow-in-practice" aria-hidden="true"><span class="octicon octicon-link"></span></a>Metaflow → Kubeflow in practice</h1>
+
+<p>As the integration requires no changes in your existing Kubeflow infrastructure, it is straightforward to get started. You can <a href="https://docs.metaflow.org/getting-started/infrastructure">deploy Metaflow in an existing cloud account</a> (GCP, Azure, or AWS) or you can <a href="https://docs.metaflow.org/getting-started/devstack">install the dev stack on your laptop</a> with a single command.</p>
+
+<p>Once you have Metaflow and Kubeflow running independently, you can install the extension providing the integration (you can <a href="https://docs.metaflow.org/production/scheduling-metaflow-flows/scheduling-with-kubeflow">follow instructions in the documentation</a>):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install metaflow-kubeflow
+</code></pre></div></div>
+
+<p>The only configuration needed is to point Metaflow at your Kubeflow Pipelines service, either by adding the following line in the Metaflow config or by setting it as an environment variable:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>METAFLOW_KUBEFLOW_PIPELINES_URL = "http://my-kubeflow"
+</code></pre></div></div>
+
+<p>After this, you can author a Metaflow flow as usual and test it locally:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python flow.py run
+</code></pre></div></div>
+
+<p>which runs the flow quickly as local processes. If everything looks good, you can deploy the flow as a Kubeflow pipeline:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python flow.py kubeflow-pipelines create
+</code></pre></div></div>
+
+<p>This will package all the source code and dependencies of the flow automatically, compile the Metaflow flow into a Kubeflow Pipelines YAML and deploy it to Kubeflow, which you can see alongside your existing pipelines in the Kubeflow UI. The following screencast shows the process in action:</p>
+
+<p><a href="https://www.youtube.com/watch?v=ALg0A9SzRG8"><img src="https://i.ytimg.com/vi/ALg0A9SzRG8/maxresdefault.jpg" alt=""></a></p>
+
+<p>The integration doesn’t have 100% feature coverage yet: Some Metaflow features such as <a href="https://docs.metaflow.org/metaflow/basics#conditionals">conditional</a> and <a href="https://docs.metaflow.org/metaflow/basics#recursion">recursive</a> steps are not yet supported. In future versions, we may also provide additional convenience APIs for other Kubeflow components, such as KServe - or you can easily implement them by yourself as <a href="https://docs.metaflow.org/metaflow/composing-flows/custom-decorators">custom decorators</a> with the <a href="https://sdk.kubeflow.org/en/latest/">Kubeflow SDK</a>!</p>
+
+<p>If you want to learn more about the integration, you can watch <a href="https://www.youtube.com/watch?v=YDKRIiQNMU0">an announcement webinar</a> on Youtube.</p>
+
+<h1 id="feedback-welcome">
+<a class="anchor" href="#feedback-welcome" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feedback welcome!</h1>
+
+<p>Like Kubeflow, Metaflow is an open-source project actively developed by multiple organizations — including Netflix, which maintains a dedicated team working on Metaflow, and <a href="https://outerbounds.com">Outerbounds, which provides a managed Metaflow platform</a> deployed in customers’ own cloud environments.</p>
+
+<p>The Metaflow community convenes at <a href="http://slack.outerbounds.co">the Metaflow Slack</a>. We welcome you to join, ask questions, and give feedback about the Kubeflow integration, and share your wishlist items for the roadmap. We are looking forward to a fruitful collaboration between the two communities!</p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/metaflow/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,4 +1,117 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2025-11-09T09:05:57-06:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Introducing the Kubeflow SDK: A Pythonic API to Run AI Workloads at Scale</title><link href="https://blog.kubeflow.org/sdk/intro/" rel="alternate" type="text/html" title="Introducing the Kubeflow SDK: A Pythonic API to Run AI Workloads at Scale" /><published>2025-11-07T00:00:00-06:00</published><updated>2025-11-07T00:00:00-06:00</updated><id>https://blog.kubeflow.org/sdk/introducing-kubeflow-sdk</id><content type="html" xml:base="https://blog.kubeflow.org/sdk/intro/">&lt;blockquote&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2026-02-04T14:59:17-06:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><entry><title type="html">Introducing the Metaflow-Kubeflow Integration</title><link href="https://blog.kubeflow.org/metaflow/" rel="alternate" type="text/html" title="Introducing the Metaflow-Kubeflow Integration" /><published>2026-02-04T00:00:00-06:00</published><updated>2026-02-04T00:00:00-06:00</updated><id>https://blog.kubeflow.org/introducing-metaflow-kubeflow-integration</id><content type="html" xml:base="https://blog.kubeflow.org/metaflow/">&lt;h1 id=&quot;a-tale-of-two-flows-metaflow-and-kubeflow&quot;&gt;A tale of two flows: Metaflow and Kubeflow&lt;/h1&gt;
+
+&lt;p&gt;Metaflow is a Python framework for building and operating ML and AI projects, originally developed and open-sourced by Netflix in 2019. In many ways, Kubeflow and Metaflow are cousins: closely related in spirit, but designed with distinct goals and priorities.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://docs.metaflow.org/&quot;&gt;Metaflow&lt;/a&gt; emerged from Netflix’s need to empower data scientists and ML/AI developers with developer-friendly, Python-native tooling, so that they could easily iterate quickly on ideas, compare modeling approaches, and ship the best solutions to production without heavy engineering or DevOps involvement. On the infrastructure side, Metaflow started with AWS-native services like AWS Batch and Step Functions, later expanding to provide first-class support for the Kubernetes ecosystem and other hyperscaler clouds.&lt;/p&gt;
+
+&lt;p&gt;In contrast, Kubeflow began as a set of Kubernetes operators for distributed TensorFlow and Jupyter Notebook management. Over time, it has evolved into a comprehensive Cloud Native AI ecosystem, offering a broad set of tools out of the box. These include Trainer, Katib, Spark Operator for orchestrating distributed AI workloads, Workspaces for interactive development environments, Hub for AI catalog and artifacts management, KServe for model serving, and Pipelines to deploy end-to-end ML workflows and stitching Kubeflow components together.&lt;/p&gt;
+
+&lt;p&gt;Over the years, Metaflow has delighted end users with its intuitive APIs, while Kubeflow has delivered tons of value to infrastructure teams through its robust platform components. This complementary nature of the tools motivated us to build a bridge between the two: &lt;a href=&quot;https://docs.metaflow.org/production/scheduling-metaflow-flows/scheduling-with-kubeflow&quot;&gt;you can now author projects in Metaflow and deploy them as Kubeflow Pipelines&lt;/a&gt;, side by side with your existing Kubeflow workloads.&lt;/p&gt;
+
+&lt;h1 id=&quot;why-metaflow--kubeflow&quot;&gt;Why Metaflow → Kubeflow&lt;/h1&gt;
+
+&lt;p&gt;In &lt;a href=&quot;https://www.cncf.io/wp-content/uploads/2025/11/cncf_report_techradar_111025a.pdf&quot;&gt;the most recent CNCF Technology Radar survey&lt;/a&gt; from October 2025, Metaflow got the highest positive scores in the “&lt;em&gt;likelihood to recommend&lt;/em&gt;” and “&lt;em&gt;usefulness&lt;/em&gt;” categories, reflecting its success in providing a set of stable, productivity-boosting APIs for ML/AI developers.&lt;/p&gt;
+
+&lt;p&gt;Metaflow spans the entire development lifecycle—from early experimentation to production deployment and ongoing operations. To give you an idea, the core features below illustrate the breadth of its API surface, grouped by project stage:&lt;/p&gt;
+
+&lt;h2 id=&quot;development&quot;&gt;Development&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Straightforward APIs for &lt;a href=&quot;https://docs.metaflow.org/metaflow/basics&quot;&gt;creating and composing workflows&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Automated state transfer and management through &lt;a href=&quot;https://docs.metaflow.org/metaflow/basics#artifacts&quot;&gt;artifacts&lt;/a&gt;, allowing you to &lt;a href=&quot;https://docs.metaflow.org/metaflow/authoring-flows/introduction&quot;&gt;build flows incrementally&lt;/a&gt; and resume them freely (see &lt;a href=&quot;https://netflixtechblog.com/supercharging-the-ml-and-ai-development-experience-at-netflix-b2d5b95c63eb&quot;&gt;a recent article by Netflix&lt;/a&gt; about the topic)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Interactive, &lt;a href=&quot;https://docs.metaflow.org/metaflow/basics&quot;&gt;real-time visual outputs&lt;/a&gt; from tasks through cards - a perfect substrate for &lt;a href=&quot;https://outerbounds.com/blog/visualize-everything-with-ai&quot;&gt;custom observability solutions, created quickly with AI copilots&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Choose the right balance between code and configuration through &lt;a href=&quot;https://docs.metaflow.org/metaflow/configuring-flows/introduction&quot;&gt;built-in configuration management&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Create domain-specific abstractions and project-level policies through &lt;a href=&quot;https://docs.metaflow.org/metaflow/composing-flows/introduction&quot;&gt;custom decorators&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;scaling&quot;&gt;Scaling&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://docs.metaflow.org/scaling/remote-tasks/introduction&quot;&gt;Scale flows horizontally and vertically&lt;/a&gt;: Both task and data parallelism are supported.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://docs.metaflow.org/scaling/failures&quot;&gt;Handle failures gracefully&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://docs.metaflow.org/scaling/dependencies&quot;&gt;Package dependencies automatically&lt;/a&gt; with support for Conda, PyPI, and uv.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Leverage &lt;a href=&quot;https://docs.metaflow.org/scaling/remote-tasks/distributed-computing&quot;&gt;distributed computing paradigms&lt;/a&gt; such as Ray, MPI, and Torch Distributed.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://docs.metaflow.org/scaling/checkpoint/introduction&quot;&gt;Checkpoint long-running tasks&lt;/a&gt; and manage checkpoints consistently.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;deployment&quot;&gt;Deployment&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Maintain a clear separation between experimentation, production, and individual developers through &lt;a href=&quot;https://docs.metaflow.org/scaling/tagging&quot;&gt;namespaces&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Adopt CI/CD and GitOps best practices through &lt;a href=&quot;https://docs.metaflow.org/production/coordinating-larger-metaflow-projects&quot;&gt;branching&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://docs.metaflow.org/production/event-triggering&quot;&gt;Compose large, reactive systems&lt;/a&gt; through isolated sub-flows with event triggering.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;These features provide a unified, user-facing API for the capabilities required by real-world ML and AI systems. Behind the scenes, Metaflow is built on integrations with production-quality infrastructure, effectively acting as a user-interface layer over platforms like Kubernetes - and now, Kubeflow. The diagram below illustrates the division of responsibilities:
+&lt;img style=&quot;max-width: 100%; height: auto; display: block;&quot; alt=&quot;kubeflow-metaflow-arch&quot; src=&quot;https://github.com/user-attachments/assets/88f4af4e-7e27-4287-b275-88e4b1b87449&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The key benefit of the Metaflow–Kubeflow integration is that it allows organizations to &lt;strong&gt;keep their existing Kubernetes and Kubeflow infrastructure intact, while upgrading the developer experience with higher-level abstractions and additional functionality, provided by Metaflow.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Currently, the integration supports deploying Metaflow flows as Kubeflow Pipelines. Once you have Metaflow tasks running on Kubernetes, you can access other components such as Katib and Trainer from Metaflow tasks through their Python clients as usual.&lt;/p&gt;
+
+&lt;h1 id=&quot;metaflow--kubeflow-in-practice&quot;&gt;Metaflow → Kubeflow in practice&lt;/h1&gt;
+
+&lt;p&gt;As the integration requires no changes in your existing Kubeflow infrastructure, it is straightforward to get started. You can &lt;a href=&quot;https://docs.metaflow.org/getting-started/infrastructure&quot;&gt;deploy Metaflow in an existing cloud account&lt;/a&gt; (GCP, Azure, or AWS) or you can &lt;a href=&quot;https://docs.metaflow.org/getting-started/devstack&quot;&gt;install the dev stack on your laptop&lt;/a&gt; with a single command.&lt;/p&gt;
+
+&lt;p&gt;Once you have Metaflow and Kubeflow running independently, you can install the extension providing the integration (you can &lt;a href=&quot;https://docs.metaflow.org/production/scheduling-metaflow-flows/scheduling-with-kubeflow&quot;&gt;follow instructions in the documentation&lt;/a&gt;):&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip install metaflow-kubeflow
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The only configuration needed is to point Metaflow at your Kubeflow Pipelines service, either by adding the following line in the Metaflow config or by setting it as an environment variable:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;METAFLOW_KUBEFLOW_PIPELINES_URL = &quot;http://my-kubeflow&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After this, you can author a Metaflow flow as usual and test it locally:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python flow.py run
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;which runs the flow quickly as local processes. If everything looks good, you can deploy the flow as a Kubeflow pipeline:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python flow.py kubeflow-pipelines create
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This will package all the source code and dependencies of the flow automatically, compile the Metaflow flow into a Kubeflow Pipelines YAML and deploy it to Kubeflow, which you can see alongside your existing pipelines in the Kubeflow UI. The following screencast shows the process in action:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=ALg0A9SzRG8&quot;&gt;&lt;img src=&quot;https://i.ytimg.com/vi/ALg0A9SzRG8/maxresdefault.jpg&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The integration doesn’t have 100% feature coverage yet: Some Metaflow features such as &lt;a href=&quot;https://docs.metaflow.org/metaflow/basics#conditionals&quot;&gt;conditional&lt;/a&gt; and &lt;a href=&quot;https://docs.metaflow.org/metaflow/basics#recursion&quot;&gt;recursive&lt;/a&gt; steps are not yet supported. In future versions, we may also provide additional convenience APIs for other Kubeflow components, such as KServe - or you can easily implement them by yourself as &lt;a href=&quot;https://docs.metaflow.org/metaflow/composing-flows/custom-decorators&quot;&gt;custom decorators&lt;/a&gt; with the &lt;a href=&quot;https://sdk.kubeflow.org/en/latest/&quot;&gt;Kubeflow SDK&lt;/a&gt;!&lt;/p&gt;
+
+&lt;p&gt;If you want to learn more about the integration, you can watch &lt;a href=&quot;https://www.youtube.com/watch?v=YDKRIiQNMU0&quot;&gt;an announcement webinar&lt;/a&gt; on Youtube.&lt;/p&gt;
+
+&lt;h1 id=&quot;feedback-welcome&quot;&gt;Feedback welcome!&lt;/h1&gt;
+
+&lt;p&gt;Like Kubeflow, Metaflow is an open-source project actively developed by multiple organizations — including Netflix, which maintains a dedicated team working on Metaflow, and &lt;a href=&quot;https://outerbounds.com&quot;&gt;Outerbounds, which provides a managed Metaflow platform&lt;/a&gt; deployed in customers’ own cloud environments.&lt;/p&gt;
+
+&lt;p&gt;The Metaflow community convenes at &lt;a href=&quot;http://slack.outerbounds.co&quot;&gt;the Metaflow Slack&lt;/a&gt;. We welcome you to join, ask questions, and give feedback about the Kubeflow integration, and share your wishlist items for the roadmap. We are looking forward to a fruitful collaboration between the two communities!&lt;/p&gt;</content><author><name></name></author><category term="community" /><summary type="html">A tale of two flows: Metaflow and Kubeflow</summary></entry><entry><title type="html">Introducing the Kubeflow SDK: A Pythonic API to Run AI Workloads at Scale</title><link href="https://blog.kubeflow.org/sdk/intro/" rel="alternate" type="text/html" title="Introducing the Kubeflow SDK: A Pythonic API to Run AI Workloads at Scale" /><published>2025-11-07T00:00:00-06:00</published><updated>2025-11-07T00:00:00-06:00</updated><id>https://blog.kubeflow.org/sdk/introducing-kubeflow-sdk</id><content type="html" xml:base="https://blog.kubeflow.org/sdk/intro/">&lt;blockquote&gt;
   &lt;p&gt;&lt;strong&gt;⚡ We want your feedback!&lt;/strong&gt; Help shape the future of Kubeflow SDK by taking our &lt;a href=&quot;https://docs.google.com/forms/d/e/1FAIpQLSet_IAFQzMMDWolzFt5LI9lhzqOOStjIGHxgYqKBnVcRtDfrw/viewform?usp=dialog&quot;&gt;quick survey&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -2734,87 +2847,4 @@ Reports from &lt;a href=&quot;https://www.ibm.com/think/topics/synthetic-data&qu
 We also expect more capable synthesizers and, hopefully, privacy preserving techniques to keep up with the innovation in this area.
 Our original main motivator was speed up in innovation and experimentation, and overall - speed to market. Often a key pain for our teams.&lt;/p&gt;
 
-&lt;p&gt;Looking ahead, we are exploring the development of a synthesizer catalog — ideally integrated into our overall data catalog — to enable users to rapidly experiment with ideas and get started more efficiently.&lt;/p&gt;</content><author><name>&lt;a href='https://www.linkedin.com/in/aaked'&gt;Åke Edlund&lt;/a&gt;, &lt;a href='https://www.linkedin.com/in/tarekabouzeid91'&gt;Tarek Abouzeid&lt;/a&gt;</name></author><category term="kfp" /><summary type="html">Synthetic Data Generation - Why and How?</summary></entry><entry><title type="html">Kubeflow and Me: A Story Started with Push-based Metrics Collection</title><link href="https://blog.kubeflow.org/gsoc-2024-project-6/" rel="alternate" type="text/html" title="Kubeflow and Me: A Story Started with Push-based Metrics Collection" /><published>2024-09-28T00:00:00-05:00</published><updated>2024-09-28T00:00:00-05:00</updated><id>https://blog.kubeflow.org/gsoc-2024-summary-push-basd-metrics-collection</id><content type="html" xml:base="https://blog.kubeflow.org/gsoc-2024-project-6/">&lt;p&gt;This summer, I gained a precious opportunity to participate in the Google Summer of Code(GSoC), in which I would contribute to Katib and fulfill a project named &lt;a href=&quot;https://www.kubeflow.org/events/gsoc-2024/#project-6-push-based-metrics-collection-for-katib&quot;&gt;“Push-based Metrics Collection in Katib”&lt;/a&gt; within 12 weeks. 
-Firstly, I got to know about GSoC and Kubeflow with the recommendation from the former active maintainer Ce Gao(gaocegege)’s personal blog. And I was deeply impressed by the idea of cloud native AI toolkits, I decided to dive into this area and learn some skills to enhance my career and future.
-In the blog, I’ll provide my personal insight into Katib, for those who are interested in cloud native, AI, and hyperparameters tuning.&lt;/p&gt;
-
-&lt;h2 id=&quot;problem&quot;&gt;Problem&lt;/h2&gt;
-
-&lt;p&gt;The project aims to provide a Python SDK API interface for users to push metrics to Katib DB directly.&lt;/p&gt;
-
-&lt;p&gt;The current implementation of Metrics Collector is pull-based, raising design problems such as determining the frequency at which we scrape the metrics, performance issues like the overhead caused by too many sidecar containers, and restrictions on developing environments that must support sidecar containers and admission webhooks. And also, for data scientists, they need to pay attention to the format of metrics printed in the training scripts, which is error prone and may be hard to recognize.&lt;/p&gt;
-
-&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
-
-&lt;p&gt;We decided to implement a new API for Katib Python SDK to offer users a push-based way to store metrics directly into the Kaitb DB and resolve those issues raised by pull-based metrics collection.&lt;/p&gt;
-
-&lt;p&gt;In the new design, users just need to set &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;metrics_collector_config={&quot;kind&quot;: &quot;Push&quot;}&lt;/code&gt; in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tune()&lt;/code&gt; function and call the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;report_metrics()&lt;/code&gt; API in their objective function to push metrics to Katib DB directly. There are no sidecar containers and restricted metric log formats any more. After that, Trial Controller will continuously collect metrics from Katib DB and update the status of Trial, which is the same as pull-based metrics collection.&lt;/p&gt;
-
-&lt;p&gt;If you are interested in it, please refer to this &lt;a href=&quot;https://www.kubeflow.org/docs/components/katib/user-guides/metrics-collector/#push-based-metrics-collector&quot;&gt;doc&lt;/a&gt; and &lt;a href=&quot;https://github.com/kubeflow/katib/blob/master/examples/v1beta1/sdk/mnist-with-push-metrics-collection.ipynb&quot;&gt;example&lt;/a&gt; for more details.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/2024-09-28-gsoc-2024-summary-push-based-metrics-collection/push-based-metrics-collection.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;my-contributions-during-the-gsoc&quot;&gt;My Contributions during the GSoC&lt;/h2&gt;
-
-&lt;p&gt;I raised numerous PRs for the Katib and Training-Operator project. Some of them are related to my GSoC project, and others may contribute to the completeness of UTs (Unit Tests), simplicity of dependency management, and the compatibility of the UI component.&lt;/p&gt;
-
-&lt;p&gt;For reference, the coding period can be rougly divided into 3 stages:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Convert the proposal to a KEP and discuss the architecture, API design, etc. (~4 weeks) with the mentors&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Develop a push-based metrics collection interface according to the KEP. (~8 weeks)&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Write some examples and documentation &amp;amp; Present my work to the Kubeflow Community.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Also, I raised some issues not only to describe the problems and bugs I met during the coding period, but also to suggest the future enhancement direction for Katib and the Training-Operator.&lt;/p&gt;
-
-&lt;p&gt;There is a &lt;a href=&quot;https://github.com/kubeflow/katib/issues/2340&quot;&gt;Github Issue&lt;/a&gt; tracks the progress of developing push-based metrics collection for katib during the GSoC coding phase. If you are interested in my work or Katib, please can check this issue for more details.&lt;/p&gt;
-
-&lt;h2 id=&quot;lessons-learned&quot;&gt;Lessons Learned&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Think Twice, Code Once&lt;/strong&gt;: Andrey taught me that we should think of the API specification and all the related details before coding. This can significantly reduce the workload of the coding period and avoid big refactor of the project. Meanwhile, my understanding of Katib got clear gradually during the over-and-over rounds of re-think and re-design of the architecture.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Dive into the Source Code&lt;/strong&gt;: Engineering projects nowadays are extremely complex and need much effort to understand them. The best way to get familiar with the project is to dive into the source code and run several examples.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;strong&gt;Communication&lt;/strong&gt;: Communication is the most important thing when collaborating with others. Expressing your idea precisely and making others understand you easily are significant skills not only in the open source community but also in various scenarios such as at a company and in group work.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;in-the-end&quot;&gt;In the End&lt;/h2&gt;
-
-&lt;p&gt;Special Thanks:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;To my mentors &lt;a href=&quot;https://github.com/andreyvelich&quot;&gt;@andreyvelich&lt;/a&gt; &lt;a href=&quot;https://github.com/johnugeorge&quot;&gt;@johnugeorge&lt;/a&gt; &lt;a href=&quot;https://github.com/tenzen-y&quot;&gt;@tenzen-y&lt;/a&gt;, especially to Andrey. Your great knowledge about the code base and the industry impressed me a lot. Thanks for your timely response to my PRs and for always attending the weekly meetings to solve my pending problems, from which I benefited a lot. What’s more, I can well remember that, in that night, you explained the usage of Kubeflow in the industry to me with greate patience, and encouraged me not to doubt about myself, just do it and explore more, contribute more. You ignite the flame of my desire to contribute to cloud native AI.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;To &lt;a href=&quot;https://github.com/gaocegege&quot;&gt;@gaocegege&lt;/a&gt;. You recommend me to the Kubeflow Community. Thanks for your patient answers for my endless silly questions.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;To Google. Thanks for offering such a precious opportunity for me to begin my journey in the open source world!&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;I hold a firm belief that every small step counts, and everybody in the community is unique and of great significance. There is no doubt that our joint efforts will surely contribute to the flourishing of our Kubeflow Community, make it the world-best community managing AI lifecycle on Kubernetes, and attract much more attention from the industry. Then, more and more new comers will pour in and work along with us.&lt;/p&gt;
-
-&lt;p&gt;Again, I’ll continue to contribute to Kubeflow.&lt;/p&gt;
-
-&lt;h2 id=&quot;links&quot;&gt;Links&lt;/h2&gt;
-
-&lt;p&gt;For more details about Kubeflow and the upcoming GSoC’25 event, please check:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.kubeflow.org&quot;&gt;What is Kubeflow?&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.kubeflow.org/events/gsoc-2025/&quot;&gt;Kubeflow GSoC’25 Event&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Shao Wang(Electronic-Waste)</name></author><category term="gsoc" /><summary type="html">This summer, I gained a precious opportunity to participate in the Google Summer of Code(GSoC), in which I would contribute to Katib and fulfill a project named “Push-based Metrics Collection in Katib” within 12 weeks. Firstly, I got to know about GSoC and Kubeflow with the recommendation from the former active maintainer Ce Gao(gaocegege)’s personal blog. And I was deeply impressed by the idea of cloud native AI toolkits, I decided to dive into this area and learn some skills to enhance my career and future. In the blog, I’ll provide my personal insight into Katib, for those who are interested in cloud native, AI, and hyperparameters tuning.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;p&gt;Looking ahead, we are exploring the development of a synthesizer catalog — ideally integrated into our overall data catalog — to enable users to rapidly experiment with ideas and get started more efficiently.&lt;/p&gt;</content><author><name>&lt;a href='https://www.linkedin.com/in/aaked'&gt;Åke Edlund&lt;/a&gt;, &lt;a href='https://www.linkedin.com/in/tarekabouzeid91'&gt;Tarek Abouzeid&lt;/a&gt;</name></author><category term="kfp" /><summary type="html">Synthetic Data Generation - Why and How?</summary></entry></feed>

@@ -2,7 +2,7 @@
 toc: true
 layout: post
 comments: true
-title: "Introducing The Metaflow-Kubeflow Integration"
+title: "Introducing the Metaflow-Kubeflow Integration"
 hide: false
 categories: [community]
 permalink: /metaflow/

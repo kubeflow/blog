@@ -2,7 +2,7 @@
 toc: true
 layout: post
 comments: true
-title: "Introducing Metaflow-Kubeflow Integration"
+title: "Introducing The Metaflow-Kubeflow Integration"
 hide: false
 categories: [community]
 permalink: /metaflow/
@@ -57,7 +57,7 @@ Metaflow spans the entire development lifecycle—from early experimentation to 
 - [Compose large, reactive systems](https://docs.metaflow.org/production/event-triggering) through isolated sub-flows with event triggering.
 
 These features provide a unified, user-facing API for the capabilities required by real-world ML and AI systems. Behind the scenes, Metaflow is built on integrations with production-quality infrastructure, effectively acting as a user-interface layer over platforms like Kubernetes \- and now, Kubeflow. The diagram below illustrates the division of responsibilities:
-<img width="3000" height="1687" alt="kubeflow-metaflow-arch" src="https://github.com/user-attachments/assets/88f4af4e-7e27-4287-b275-88e4b1b87449" />
+<img style="max-width: 100%; height: auto; display: block;" alt="kubeflow-metaflow-arch" src="https://github.com/user-attachments/assets/88f4af4e-7e27-4287-b275-88e4b1b87449" />
 
 
 The key benefit of the Metaflow–Kubeflow integration is that it allows organizations to **keep their existing Kubernetes and Kubeflow infrastructure intact, while upgrading the developer experience with higher-level abstractions and additional functionality, provided by Metaflow.**
@@ -93,13 +93,15 @@ python flow.py kubeflow-pipelines create
 ```
 
 This will package all the source code and dependencies of the flow automatically, compile the Metaflow flow into a Kubeflow Pipelines YAML and deploy it to Kubeflow, which you can see alongside your existing pipelines in the Kubeflow UI. The following screencast shows the process in action:  
+
 [![](https://i.ytimg.com/vi/ALg0A9SzRG8/maxresdefault.jpg)](https://www.youtube.com/watch?v=ALg0A9SzRG8)
+
 
 The integration doesn’t have 100% feature coverage yet: Some Metaflow features such as [conditional](https://docs.metaflow.org/metaflow/basics#conditionals) and [recursive](https://docs.metaflow.org/metaflow/basics#recursion) steps are not yet supported. In future versions, we may also provide additional convenience APIs for other Kubeflow components, such as KServe \- or you can easily implement them by yourself as [custom decorators](https://docs.metaflow.org/metaflow/composing-flows/custom-decorators) with the [Kubeflow SDK](https://sdk.kubeflow.org/en/latest/)\!
 
 If you want to learn more about the integration, you can watch [an announcement webinar](https://www.youtube.com/watch?v=YDKRIiQNMU0) on Youtube.
 
-## Feedback welcome\!
+# Feedback welcome\!
 
 Like Kubeflow, Metaflow is an open-source project actively developed by multiple organizations — including Netflix, which maintains a dedicated team working on Metaflow, and [Outerbounds, which provides a managed Metaflow platform](https://outerbounds.com) deployed in customers’ own cloud environments.
 

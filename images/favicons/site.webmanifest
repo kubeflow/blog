@@ -8,12 +8,12 @@
             "type": "image/png"
         },
         {
-            "src": "/images/favicons/android-chrome-256x256.png",
-            "sizes": "256x256",
+            "src": "/images/favicons/android-chrome-512x512.png",
+            "sizes": "512x512",
             "type": "image/png"
         }
     ],
-    "theme_color": "#ffffff",
+    "theme_color": "#4279f4",
     "background_color": "#ffffff",
     "display": "standalone"
 }

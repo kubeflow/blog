@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Democratizing AI Model Training on Kubernetes: Introducing Kubeflow Trainer V2 | Kubeflow</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Democratizing AI Model Training on Kubernetes: Introducing Kubeflow Trainer V2" />
@@ -16,8 +16,10 @@
 <meta property="og:site_name" content="Kubeflow" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2025-07-21T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Democratizing AI Model Training on Kubernetes: Introducing Kubeflow Trainer V2" />
 <script type="application/ld+json">
-{"url":"https://blog.kubeflow.org/trainer/intro/","@type":"BlogPosting","headline":"Democratizing AI Model Training on Kubernetes: Introducing Kubeflow Trainer V2","dateModified":"2025-07-21T00:00:00-05:00","datePublished":"2025-07-21T00:00:00-05:00","author":{"@type":"Person","name":"Kubeflow Trainer Team"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/trainer/intro/"},"description":"Running machine learning workloads on Kubernetes can be challenging. Distributed training and LLMs fine-tuning, in particular, involves managing multiple nodes, GPUs, large datasets, and fault tolerance, which often requires deep Kubernetes knowledge. The Kubeflow Trainer v2 (KF Trainer) was created to hide this complexity, by abstracting Kubernetes from AI Practitioners and providing the easiest, most scalable way to run distributed PyTorch jobs.","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Kubeflow Trainer Team"},"dateModified":"2025-07-21T00:00:00-05:00","datePublished":"2025-07-21T00:00:00-05:00","description":"Running machine learning workloads on Kubernetes can be challenging. Distributed training and LLMs fine-tuning, in particular, involves managing multiple nodes, GPUs, large datasets, and fault tolerance, which often requires deep Kubernetes knowledge. The Kubeflow Trainer v2 (KF Trainer) was created to hide this complexity, by abstracting Kubernetes from AI Practitioners and providing the easiest, most scalable way to run distributed PyTorch jobs.","headline":"Democratizing AI Model Training on Kubernetes: Introducing Kubeflow Trainer V2","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/trainer/intro/"},"url":"https://blog.kubeflow.org/trainer/intro/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -110,7 +112,7 @@ window.onload = wrap_img;
     </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <ul class="section-nav">
+    <ul id="toc" class="section-nav">
 <li class="toc-entry toc-h1"><a href="#background-and-evolution">Background and Evolution</a></li>
 <li class="toc-entry toc-h1"><a href="#user-personas">User Personas</a></li>
 <li class="toc-entry toc-h1"><a href="#python-sdk">Python SDK</a></li>
@@ -516,6 +518,10 @@ Your feedback, contributions, and questions are always welcome!</p>
             </svg><span>Subscribe</span>
           </a>
         </p>
+        <ul class="contact-list">
+          <li class="p-name"></li>
+          <li><a class="u-email" href="mailto:"></a></li>
+        </ul>
       </div>
       <div class="footer-col">
         <p>The Machine Learning Toolkit for Kubernetes.</p>

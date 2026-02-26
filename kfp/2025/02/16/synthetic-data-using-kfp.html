@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Synthetic Data Generation with Kubeflow Pipelines | Kubeflow</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Synthetic Data Generation with Kubeflow Pipelines" />
@@ -16,8 +16,10 @@
 <meta property="og:site_name" content="Kubeflow" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2025-02-16T00:00:00-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Synthetic Data Generation with Kubeflow Pipelines" />
 <script type="application/ld+json">
-{"url":"https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp.html","@type":"BlogPosting","headline":"Synthetic Data Generation with Kubeflow Pipelines","dateModified":"2025-02-16T00:00:00-06:00","datePublished":"2025-02-16T00:00:00-06:00","author":{"@type":"Person","name":"<a href='https://www.linkedin.com/in/aaked'>Åke Edlund</a>, <a href='https://www.linkedin.com/in/tarekabouzeid91'>Tarek Abouzeid</a>"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp.html"},"description":"Synthetic Data Generation - Why and How?","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"<a href='https://www.linkedin.com/in/aaked'>Åke Edlund</a>, <a href='https://www.linkedin.com/in/tarekabouzeid91'>Tarek Abouzeid</a>"},"dateModified":"2025-02-16T00:00:00-06:00","datePublished":"2025-02-16T00:00:00-06:00","description":"Synthetic Data Generation - Why and How?","headline":"Synthetic Data Generation with Kubeflow Pipelines","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp.html"},"url":"https://blog.kubeflow.org/kfp/2025/02/16/synthetic-data-using-kfp.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -110,7 +112,7 @@ window.onload = wrap_img;
     </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <ul class="section-nav">
+    <ul id="toc" class="section-nav">
 <li class="toc-entry toc-h3"><a href="#synthetic-data-generation---why-and-how">Synthetic Data Generation - Why and How?</a></li>
 <li class="toc-entry toc-h3"><a href="#key-benefits-of-using-synthetic-data">Key Benefits of Using Synthetic Data</a></li>
 <li class="toc-entry toc-h3"><a href="#frameworks-for-creating-synthetic-data">Frameworks for Creating Synthetic Data</a></li>
@@ -417,6 +419,10 @@ Our original main motivator was speed up in innovation and experimentation, and 
             </svg><span>Subscribe</span>
           </a>
         </p>
+        <ul class="contact-list">
+          <li class="p-name"></li>
+          <li><a class="u-email" href="mailto:"></a></li>
+        </ul>
       </div>
       <div class="footer-col">
         <p>The Machine Learning Toolkit for Kubernetes.</p>

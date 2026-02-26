@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Kubeflow 1.0 - Cloud Native ML for Everyone | Kubeflow</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Kubeflow 1.0 - Cloud Native ML for Everyone" />
@@ -16,8 +16,10 @@
 <meta property="og:site_name" content="Kubeflow" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-03-02T00:00:00-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Kubeflow 1.0 - Cloud Native ML for Everyone" />
 <script type="application/ld+json">
-{"url":"https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html","@type":"BlogPosting","headline":"Kubeflow 1.0 - Cloud Native ML for Everyone","dateModified":"2020-03-02T00:00:00-06:00","datePublished":"2020-03-02T00:00:00-06:00","author":{"@type":"Person","name":"Thea Lamkin (Google), Jeremy Lewi (Google), Josh Bottum (Arrikto), Elvira Dzhuraeva (Cisco), David Aronchick (Microsoft), Amy Unruh (Google), Animesh Singh (IBM), and Ellis Bigelow (Google)."},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html"},"description":"Kubeflow 1.0: Cloud Native ML for Everyone","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Thea Lamkin (Google), Jeremy Lewi (Google), Josh Bottum (Arrikto), Elvira Dzhuraeva (Cisco), David Aronchick (Microsoft), Amy Unruh (Google), Animesh Singh (IBM), and Ellis Bigelow (Google)."},"dateModified":"2020-03-02T00:00:00-06:00","datePublished":"2020-03-02T00:00:00-06:00","description":"Kubeflow 1.0: Cloud Native ML for Everyone","headline":"Kubeflow 1.0 - Cloud Native ML for Everyone","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html"},"url":"https://blog.kubeflow.org/releases/2020/03/02/kubeflow-1-0-cloud-native-ml-for-everyone.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -110,7 +112,7 @@ window.onload = wrap_img;
     </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <ul class="section-nav">
+    <ul id="toc" class="section-nav">
 <li class="toc-entry toc-h1"><a href="#kubeflow-10-cloud-native-ml-for-everyone">Kubeflow 1.0: Cloud Native ML for Everyone</a>
 <ul>
 <li class="toc-entry toc-h2"><a href="#develop-build-train-and-deploy-with-kubeflow">Develop, Build, Train, and Deploy with Kubeflow</a>
@@ -224,7 +226,7 @@ kfctl apply -f [kfctl_ibm.v1.0.0.yaml](https://github.com/kubeflow/manifests/blo
             <span class="na">name</span><span class="pi">:</span> <span class="s">tensorflow</span>
     <span class="na">Worker</span><span class="pi">:</span>
       <span class="na">replicas</span><span class="pi">:</span> <span class="s">10</span>      
-        <span class="s">spec</span><span class="pi">:</span>
+        <span class="s">spec</span><span class="err">:</span>
           <span class="na">containers</span><span class="pi">:</span>
             <span class="na">image</span><span class="pi">:</span> <span class="s">gcr.io/alice-dev/fairing-job/mnist</span>
             <span class="na">name</span><span class="pi">:</span> <span class="s">tensorflow</span>
@@ -397,6 +399,10 @@ kfctl apply -f [kfctl_ibm.v1.0.0.yaml](https://github.com/kubeflow/manifests/blo
             </svg><span>Subscribe</span>
           </a>
         </p>
+        <ul class="contact-list">
+          <li class="p-name"></li>
+          <li><a class="u-email" href="mailto:"></a></li>
+        </ul>
       </div>
       <div class="footer-col">
         <p>The Machine Learning Toolkit for Kubernetes.</p>

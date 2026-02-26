@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh | Kubeflow</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh" />
@@ -17,8 +17,11 @@
 <meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-05-03T00:00:00-05:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://blog.kubeflow.org/images/logo.png" />
+<meta property="twitter:title" content="Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh" />
 <script type="application/ld+json">
-{"url":"https://blog.kubeflow.org/running-kubeflow-at-intuit/","@type":"BlogPosting","headline":"Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh","dateModified":"2021-05-03T00:00:00-05:00","datePublished":"2021-05-03T00:00:00-05:00","image":"https://blog.kubeflow.org/images/logo.png","author":{"@type":"Person","name":"<a href='https://www.linkedin.com/in/deepk2u/'>Deepak Kumar</a>"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/running-kubeflow-at-intuit/"},"description":"Installing Kubeflow 1.3 in an existing Kubernetes cluster with Istio service mesh and Argo","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"<a href='https://www.linkedin.com/in/deepk2u/'>Deepak Kumar</a>"},"dateModified":"2021-05-03T00:00:00-05:00","datePublished":"2021-05-03T00:00:00-05:00","description":"Installing Kubeflow 1.3 in an existing Kubernetes cluster with Istio service mesh and Argo","headline":"Blog: Running Kubeflow at Intuit: Enmeshed in the service mesh","image":"https://blog.kubeflow.org/images/logo.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/running-kubeflow-at-intuit/"},"url":"https://blog.kubeflow.org/running-kubeflow-at-intuit/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -132,7 +135,7 @@ window.onload = wrap_img;
     </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <ul class="section-nav">
+    <ul id="toc" class="section-nav">
 <li class="toc-entry toc-h2"><a href="#lay-of-the-land-at-intuit">Lay of the land at Intuit</a></li>
 <li class="toc-entry toc-h2"><a href="#kubeflow-and-istio">Kubeflow and Istio</a>
 <ul>
@@ -261,7 +264,7 @@ This blog will address how those challenges were overcome while retaining the be
        <span class="na">name</span><span class="pi">:</span> <span class="s">deployment-labels</span>
      <span class="na">labels</span><span class="pi">:</span>
        <span class="s">&lt;Intuit custom labels&gt;</span>
-       <span class="s">istio-injected</span><span class="pi">:</span> <span class="s2">"</span><span class="s">true"</span>
+       <span class="s">istio-injected</span><span class="err">:</span> <span class="s2">"</span><span class="s">true"</span>
      <span class="na">fieldSpecs</span><span class="pi">:</span>
      <span class="pi">-</span> <span class="na">path</span><span class="pi">:</span> <span class="s">spec/template/metadata/labels</span>
        <span class="na">kind</span><span class="pi">:</span> <span class="s">Deployment</span>
@@ -281,7 +284,7 @@ This blog will address how those challenges were overcome while retaining the be
    <span class="na">name</span><span class="pi">:</span> <span class="s">deployment-annotations</span>
  <span class="na">annotations</span><span class="pi">:</span>
    <span class="s">&lt;Intuit custom annotations&gt;</span>
-   <span class="s">sidecar.istio.io/inject</span><span class="pi">:</span> <span class="s2">"</span><span class="s">true"</span>
+   <span class="s">sidecar.istio.io/inject</span><span class="err">:</span> <span class="s2">"</span><span class="s">true"</span>
  <span class="na">fieldSpecs</span><span class="pi">:</span>
  <span class="pi">-</span> <span class="na">path</span><span class="pi">:</span> <span class="s">spec/template/metadata/annotations</span>
    <span class="na">kind</span><span class="pi">:</span> <span class="s">Deployment</span>
@@ -397,13 +400,13 @@ This blog will address how those challenges were overcome while retaining the be
   <li>Updating the service manifest by adding a few annotations:
     <div class="language-yaml highlighter-rouge">
 <div class="highlight"><pre class="highlight"><code><span class="c1"># Note that the backend talks over HTTP.</span>
-<span class="s">service.beta.kubernetes.io/aws-load-balancer-backend-protocol</span><span class="pi">:</span> <span class="s">http</span>
+<span class="na">service.beta.kubernetes.io/aws-load-balancer-backend-protocol</span><span class="pi">:</span> <span class="s">http</span>
 <span class="c1"># TODO: Fill in with the ARN of your certificate.</span>
-<span class="s">service.beta.kubernetes.io/aws-load-balancer-ssl-cert</span><span class="pi">:</span> <span class="s">&lt;cert arn from step 2&gt;</span>
-<span class="s">service.beta.kubernetes.io/aws-load-balancer-security-groups</span><span class="pi">:</span> <span class="s">&lt;to restrict access within org&gt;</span>
+<span class="na">service.beta.kubernetes.io/aws-load-balancer-ssl-cert</span><span class="pi">:</span> <span class="s">&lt;cert arn from step 2&gt;</span>
+<span class="na">service.beta.kubernetes.io/aws-load-balancer-security-groups</span><span class="pi">:</span> <span class="s">&lt;to restrict access within org&gt;</span>
 <span class="c1"># Only run SSL on the port named "https" below.</span>
-<span class="s">service.beta.kubernetes.io/aws-load-balancer-ssl-ports</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https"</span>
-<span class="s">external-dns.alpha.kubernetes.io/hostname</span><span class="pi">:</span> <span class="s">kubeflow.example.com</span>
+<span class="na">service.beta.kubernetes.io/aws-load-balancer-ssl-ports</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https"</span>
+<span class="na">external-dns.alpha.kubernetes.io/hostname</span><span class="pi">:</span> <span class="s">kubeflow.example.com</span>
 </code></pre></div>    </div>
   </li>
 </ol>
@@ -575,6 +578,10 @@ This blog will address how those challenges were overcome while retaining the be
             </svg><span>Subscribe</span>
           </a>
         </p>
+        <ul class="contact-list">
+          <li class="p-name"></li>
+          <li><a class="u-email" href="mailto:"></a></li>
+        </ul>
       </div>
       <div class="footer-col">
         <p>The Machine Learning Toolkit for Kubernetes.</p>

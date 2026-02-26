@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Kubeflow 1.5.1 Release Announcement | Kubeflow</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Kubeflow 1.5.1 Release Announcement" />
@@ -17,8 +17,11 @@
 <meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-07-18T00:00:00-05:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://blog.kubeflow.org/images/logo.png" />
+<meta property="twitter:title" content="Kubeflow 1.5.1 Release Announcement" />
 <script type="application/ld+json">
-{"url":"https://blog.kubeflow.org/kubeflow-1.5.1-release/","@type":"BlogPosting","headline":"Kubeflow 1.5.1 Release Announcement","dateModified":"2022-07-18T00:00:00-05:00","datePublished":"2022-07-18T00:00:00-05:00","image":"https://blog.kubeflow.org/images/logo.png","author":{"@type":"Person","name":"Kubeflow 1.5 Release Team"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow-1.5.1-release/"},"description":"The Kubeflow Community is excited to announce the release of Kubeflow 1.5.1. The Kubeflow 1.5.1 release provides a valuable enhancement to the caching feature of Kubeflow Pipeline (KFP) for any Kubernetes distribution with strict security policies for user application certificates. Caching is one of the crucial features of KFP which enables skipping a step that has already been executed which saves time and money. This release unblocks the caching feature to be used on distributions like AWS, the Mercedes Benz cluster, etc.","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Kubeflow 1.5 Release Team"},"dateModified":"2022-07-18T00:00:00-05:00","datePublished":"2022-07-18T00:00:00-05:00","description":"The Kubeflow Community is excited to announce the release of Kubeflow 1.5.1. The Kubeflow 1.5.1 release provides a valuable enhancement to the caching feature of Kubeflow Pipeline (KFP) for any Kubernetes distribution with strict security policies for user application certificates. Caching is one of the crucial features of KFP which enables skipping a step that has already been executed which saves time and money. This release unblocks the caching feature to be used on distributions like AWS, the Mercedes Benz cluster, etc.","headline":"Kubeflow 1.5.1 Release Announcement","image":"https://blog.kubeflow.org/images/logo.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow-1.5.1-release/"},"url":"https://blog.kubeflow.org/kubeflow-1.5.1-release/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -111,7 +114,7 @@ window.onload = wrap_img;
     </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <ul class="section-nav">
+    <ul id="toc" class="section-nav">
 </ul><p>The Kubeflow Community is excited to announce the release of <a href="https://github.com/kubeflow/manifests/releases/tag/v1.5.1">Kubeflow 1.5.1</a>. The Kubeflow 1.5.1 release provides a valuable enhancement to the caching feature of Kubeflow Pipeline (KFP) for any Kubernetes distribution with strict security policies for user application certificates. Caching is one of the crucial features of KFP which enables skipping a step that has already been executed which saves time and money. This release unblocks the caching feature to be used on distributions like AWS, the Mercedes Benz cluster, etc.</p>
 
 <p>Kubeflow 1.5.1 includes the enhancements for the Kubeflow Pipelines cache server and the cert generation mechanism <a href="https://github.com/kubeflow/manifests/issues/2165">#2165</a>. These enhancements improve the operations of Kubernetes clusters with strict security policies, especially in clusters where non-Kubelet applications cannot create API server type certificates. Kubeflow Pipelines introduced dependency on cert-manager for this enhancement.</p>
@@ -145,6 +148,10 @@ window.onload = wrap_img;
             </svg><span>Subscribe</span>
           </a>
         </p>
+        <ul class="contact-list">
+          <li class="p-name"></li>
+          <li><a class="u-email" href="mailto:"></a></li>
+        </ul>
       </div>
       <div class="footer-col">
         <p>The Machine Learning Toolkit for Kubernetes.</p>

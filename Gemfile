@@ -1,4 +1,9 @@
 source "https://rubygems.org"
+
+# NOTE: if updating ruby, remember to update `.ruby-version`.
+#       however, its probably not possible to update ruby without migrating away from fastpages.
+ruby "~> 2.7.1"
+
 # Hello! This is where you manage which Jekyll version is used to run.
 # When you want to use a different version, change it below, save the
 # file and run `bundle install`. Run Jekyll with `bundle exec`, like so:
@@ -9,7 +14,7 @@ source "https://rubygems.org"
 # Happy Jekylling!
 gem "jekyll", "~> 4.1.0"
 # This is the default theme for new Jekyll sites. You may change this to anything you like.
-gem "minima"
+gem "minima", github: "jekyll/minima", ref: "0e58c18c1f943731e76bdbd681a7748c0b36340c"
 # To upgrade, run `bundle update github-pages`.
 # gem "github-pages", group: :jekyll_plugins
 # If you have any plugins, put them here!

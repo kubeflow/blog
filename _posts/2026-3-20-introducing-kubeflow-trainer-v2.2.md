@@ -147,6 +147,10 @@ Previously, TrainJob resources persisted in the cluster indefinitely after compl
 There’s a couple ways to specify the timeout limit of a job, the first one is by modifying the TrainJob manifest directly: 
 
 ```
+apiVersion: trainer.kubeflow.org/v1alpha1
+kind: TrainJob
+metadata:
+	name: quick-experiment
 spec:
   activeDeadlineSeconds: 28800 #Max runtime 8 hours
 runtimeRef:
@@ -165,6 +169,10 @@ Each patch is scoped to a named manager and can target specific jobs or pods wit
 In the new TrainJob manifest, every manager owns its own entry, pod and job overrides are separate fields under that manager. Note that your manager field will be **immutable** after creation. 
 
 ```
+apiVersion: trainer.kubeflow.org/v2alpha1
+kind: TrainJob
+metadata:
+  name: pytorch-distributed
 spec:
   runtimeRef:
     name: pytorch-distributed-gpu

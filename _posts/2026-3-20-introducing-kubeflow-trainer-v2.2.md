@@ -2,14 +2,14 @@
 toc: true
 layout: post
 comments: true
-title: "Announcing Kubeflow Trainer v2.2 \- JAX & XGBoost Runtimes, Flux HPC Support, and TrainJob progress and metrics observability"
+title: "Announcing Kubeflow Trainer v2.2 JAX & XGBoost Runtimes, Flux for HPC Support, and TrainJob progress and metrics observability"
 hide: false
 categories: [release, trainer]
 permalink: /kubeflow-trainer-v2.2-release/
 author: "Kubeflow Trainer Team"
 ---
 
-Just a little over one week ahead of Kubecon 2026, the Kubeflow team is excited to ship Trainer v2.2. The v2.2 release reinforces our commitment to expanding the Kubeflow Trainer ecosystem – meeting developers where they are by adding native support for JAX, XGBoost, and Flux, while also delivering deeper observability into training jobs.
+Just a little over one week ahead of KubeCon + CloudNativeCon EU 2026, the Kubeflow team is excited to ship Trainer v2.2. The v2.2 release reinforces our commitment to expanding the Kubeflow Trainer ecosystem – meeting developers where they are by adding native support for JAX, XGBoost, and Flux, while also delivering deeper observability into training jobs.
 
 Key highlights of the v2.2 release include:
 
@@ -25,7 +25,7 @@ You can now install the Kubeflow Trainer control plane and its training runtimes
 helm install kubeflow-trainer oci://ghcr.io/kubeflow/charts/kubeflow-trainer \
     --namespace kubeflow-system \
     --create-namespace \
-    --version v2.2.0-rc.0 \
+    --version 2.2.0 \
     --set runtimes.defaultEnabled=true
 ```
 
@@ -269,13 +269,13 @@ The Kubeflow Trainer is built by and for the community. We welcome contributions
 
 ### Connect with the Community:
 
-* Join [\#kubeflow-ml-experience](https://cloud-native.slack.com/archives/C08KJBVDH5H) on [CNCF Slack](https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels)  
-* Attend our biweekly [Kubeflow Trainer and katib meetings](https://docs.google.com/document/d/1MChKfzrKAeFRtYqypFbMXL6ZIc_OgijjkvbqmwRV-64/edit?tab=t.0)
+* Join [#kubeflow-trainer](https://cloud-native.slack.com/archives/C0742LDFZ4K) on [CNCF Slack](https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels)  
+* Attend our biweekly [Kubeflow Trainer and Katib meetings](https://docs.google.com/document/d/1MChKfzrKAeFRtYqypFbMXL6ZIc_OgijjkvbqmwRV-64/edit?tab=t.0)
 
 
 ### Learn More:
 
-* View the full [Changelog](https://github.com/kubeflow/trainer/blob/master/CHANGELOG.md).
+* View the [GitHub Release](https://github.com/kubeflow/trainer/releases/tag/v2.2.0)
 * Explore the [Kubeflow Trainer docs](https://www.kubeflow.org/docs/components/trainer/)
 
 **Headed to [KubeCon + CloudNativeCon 2026 EU](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/)?** Stop by the Kubeflow booth to see these features in action 😸🧊\!\!

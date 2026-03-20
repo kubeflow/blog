@@ -1,8 +1,13 @@
-# **Announcing Kubeflow Trainer v2.2 \- JAX & XGBoost Runtimes, Flux HPC Support, and TrainJob progress and metrics observability**
-
-**Author:** Kubeflow Trainer Team
-
-**Date:** March 2026   **Tags:** Release, Kubeflow Trainer, Scheduling, Metrics, HPC
+---
+toc: true
+layout: post
+comments: true
+title: "Announcing Kubeflow Trainer v2.2 \- JAX & XGBoost Runtimes, Flux HPC Support, and TrainJob progress and metrics observability"
+hide: false
+categories: [release, trainer]
+permalink: /kubeflow-trainer-v2.2-release/
+author: "Kubeflow Trainer Team"
+---
 
 Just a little over one week ahead of Kubecon 2026, the Kubeflow team is excited to ship Trainer v2.2. The v2.2 release reinforces our commitment to expanding the Kubeflow Trainer ecosystem – meeting developers where they are by adding native support for JAX, XGBoost, and Flux, while also delivering deeper observability into training jobs.
 
@@ -24,17 +29,16 @@ helm install kubeflow-trainer oci://ghcr.io/kubeflow/charts/kubeflow-trainer \
     --set runtimes.defaultEnabled=true
 ```
 
-## **Bringing JAX to Kubernetes with Trainer**
+## Bringing JAX to Kubernetes with Trainer
 
-Kubeflow Trainer supports running JAX workloads on Kubernetes through the \`jax-distributed\` runtime. It is designed for distributed and parallel JAX computation using jax.distributed and SPMD primitives like pmap, pjit, and shard\_map. The runtime maps one Kubernetes Pod to one JAX process and injects the required distributed environment variables so training or fine-tuning can run consistently across multiple nodes and devices.  
-It supports:
+Kubeflow Trainer supports running JAX workloads on Kubernetes through the `jax-distributed` runtime. It is designed for distributed and parallel JAX computation using jax.distributed and SPMD primitives like pmap, pjit, and shard\_map. The runtime maps one Kubernetes Pod to one JAX process and injects the required distributed environment variables so training or fine-tuning can run consistently across multiple nodes and devices.  
 
 * Multi-process CPU training  
 * Multi-GPU training using CUDA enabled JAX  
 * Data-parallel and model-parallel JAX workloads  
 * Massive scale [TPU distributed training](https://github.com/kubeflow/website/pull/4343) with ComputeClases 
 
-**How to get started:**
+### Get Started
 
 Start by following the Getting Started guide for Kubeflow Trainer basics. Then use the jax-distributed runtime and initialize JAX distributed explicitly in your training script before any JAX computation.
 
@@ -45,7 +49,7 @@ Make sure you have kubeflow installed on your machine:
 $pip install kubeflow 
 ```
 
-## **Technical example:**
+### Technical example:
 
 ```py
 
@@ -84,7 +88,7 @@ The jax-distributed runtime injects JAX\_NUM\_PROCESSES, JAX\_PROCESS\_ID, and J
 
 For more details, refer to the [Kubeflow Trainer JAX guide](https://www.kubeflow.org/docs/components/trainer/user-guides/jax/) for jax.distributed and SPMD primitives.
 
-## **Bringing XGBoost to Kubernetes with Trainer**
+## Bringing XGBoost to Kubernetes with Trainer
 
 Running distributed XGBoost workloads on Kubernetes has traditionally required manual setup of communication layers, environment variables, and cluster coordination. With this release, Kubeflow Trainer introduces built-in support for XGBoost, enabling seamless distributed training with minimal configuration.
 
@@ -94,11 +98,11 @@ This integration supports both CPU and GPU workloads out of the box. For CPU tra
 
 For more information, please see this [Notebook example](https://github.com/kubeflow/trainer/blob/master/examples/xgboost/distributed-training/xgboost-distributed.ipynb) and [documentation guide](https://www.kubeflow.org/docs/components/trainer/user-guides/xgboost/).
 
-## **Track TrainJob Progress and Expose Metrics**
+## Track TrainJob Progress and Expose Metrics
 
 In this release, Kubeflow Trainer introduces a powerful new capability to automatically update TrainJob status with real-time training progress and metrics generated directly from your ML code. This enables key insights: such as percentage completion, estimated time remaining (ETA), and training metrics–to be surfaced through the TrainJob API, eliminating the need to manually inspect training logs.
 
-## **How it works**
+### How it works
 
 When this feature is enabled (feature flag TrainJobStatus is required), Kubeflow Trainer starts an HTTP server that exposes endpoints for reporting training progress and metrics. Client applications can send updates to these endpoints, and the TrainJob controller will automatically reflect this information in the job status. Users can then easily access these insights through the Kubeflow SDK without needing to inspect logs.
 
@@ -113,13 +117,13 @@ trainer = Trainer(model=model, args=TrainingArguments(...), train_dataset=ds)
 trainer.train()  # Progress automatically reported when running in Kubeflow
 ```
 
-**Future Plans**
+### Future Plans
 
 We have an exciting roadmap for this feature, including support for periodic, transparent checkpointing based on ETA, as well as integration with OptimizationJob for hyperparameter tuning jobs.
 
 To learn more about this feature please see [this proposal.](https://github.com/kubeflow/trainer/tree/master/docs/proposals/2779-trainjob-progress)
 
-## **Bringing Flux Framework for HPC and MPI Bootstrapping**
+## Bringing Flux Framework for HPC and MPI Bootstrapping
 
 Setting up distributed ML training jobs using MPI can be very time consuming: from stitching together launcher-worker topologies to configuring SSH-based bootstrapping, there’s a lot of moving parts that require code on top of your training code. In v2.2, Kubeflow Trainer brings the Flux Framework – a workload manager that combines hierarchical job management with graph-based scheduling – to handle your HPC-style scheduling needs without the overhead that typically comes with it. 
 
@@ -127,7 +131,7 @@ Flux uses a ZeroMQ to bootstrap MPI, an improvement over traditional SSH, and al
 
 For teams whose workloads sit at the intersection of ML and HPC, Flux serves as a portability layer that enables running simulation alongside AI/ML workloads. Scheduling to Flux bypasses any potential etcd bottlenecks, and the limitations of the Kubernetes scheduler that require tricks to batch schedule to an underlying single-pod queue. Flux enables fine-grained control over where pods land, and is ideal when you are running simulation pipelines that feed into model Training. This integration also enables the use of Process Management Interface Exascale (PMIx) to manage and coordinate large-scale MPI workloads on Kubernetes using TrainJobs, something that was previously not possible.
 
-**How to get started:**
+### Get Started
 
 Before using Flux, read the Getting Started guide to understand the basics of Kubeflow Trainer. Then apply the Flux runtime and a TrainJob manifest. For example:
 
@@ -142,11 +146,11 @@ The Flux runtime depends on the flux: policy trigger in flux-runtime.yaml, and y
 
 You can learn more about this in our [Flux Guide](https://www.kubeflow.org/docs/components/trainer/user-guides/flux/).
 
-## **Resource Timeout for TrainJobs**
+## Resource Timeout for TrainJobs
 
 Previously, TrainJob resources persisted in the cluster indefinitely after completion unless manually removed, which led to Etcd bloat, resource contention and no automatic garbage collection. A job could also get stuck or run indefinitely, wasting CPU/GPU capacity and reducing cluster efficiency. In v2.2, Kubeflow Trainer adds support for spec.active DeadlineSeconds on TrainJob. This field lets users set a hard timeout (in seconds) for a TrainJob’s active execution timeline. When the deadline is exceeded, Trainer marks the TrainJob as Failed (reason: DeadlineExceeded), terminates the running workload, and deletes the underlying JobSet.
 
-## **Technical example:**
+### Technical example:
 
 There’s a couple ways to specify the timeout limit of a job, the first one is by modifying the TrainJob manifest directly: 
 
@@ -164,13 +168,13 @@ trainer:
 	numNodes: 2
 ```
 
-## **Customize Runtime Configs: [RuntimePatchesAPI](https://github.com/kubeflow/trainer/pull/3199)** {#customize-runtime-configs:-runtimepatchesapi}
+## Explicit Ownership for TrainJobs with RuntimePatchesAPI
 
 In many distributed learning environments, multiple controllers can interact with the same TrainJob manifest, making ownership boundaries really important to preserve. The new RuntimePatchesAPI replaces PodTemplateOverrides with a manager-keyed structure that makes it explicit on who applied what and when. 
 
 Each patch is scoped to a named manager and can target specific jobs or pods within the runtime, with both job-level and pod-level overrides supported. The targetJobs field gives you precise control over where a patch lands, if targetJobs is omitted, the patch is applied to the entire JobSet; if targetJobs is set, the patch is applied only to that specific Job within the runtime. This means Kueue can inject node selectors and tolerations into the trainer pod without conflicting with another controller managing job-level metadata, and the full history of what was applied is preserved directly in the spec.
 
-## **Technical example:**
+### Technical example:
 
 Now in the TrainJob manifest, every manager owns its own entry, pod and job overrides are separate fields under that manager and targetJobs determines whether the patch hits a specific job or the entire JobSet:
 
@@ -204,25 +208,25 @@ runtimePatches:
 >PodTemplateOverrides has been removed in v2.2. If you’re currently using it in your TrainJob manifests, you’ll need to migrate to the RuntimePatches API. 
 
 
-## **Infrastructure & Breaking Changes**
+## Infrastructure & Breaking Changes
 
 This release introduces a set of architectural improvements and breaking changes that lay the foundations for a more scalable and modularized Trainer. Please review the following when upgrading to Trainer v2.2:
 
-### **Required: Migrating to RuntimePatchesAPI**
+### Required: Migrating to RuntimePatchesAPI
 
 As mentioned above, PodTemplateOverrides has been replaced with RuntimePatchesAPI to support manager-scoped customization and prevent conflicts when multiple controllers are patching the same TrainJob.
 
 If you are using PodTemplateOverrides in your TrainJob manifests or SDK code, you will need to migrate to the manager-keyed RuntimePatches structure. See the [RuntimePatches](#customize-runtime-configs:-runtimepatchesapi) section above for the full API shape and examples. 
 
-### **Required: Remove numProcPerNode from Torch API** 
+### Required: Remove numProcPerNode from Torch API
 
 The numProcPerNode field has been removed from the Torch API. Process-per-node configuration is now handled directly through the runtime, so any TrainJob manifests or SDK calls that set numProcPerNode explicitly will need to be updated before upgrading to v2.2.
 
-### **Required: Remove ElasticPolicy API**
+### Required: Remove ElasticPolicy API
 
 We no longer support the ElasticPolicy API from the MLPolicy as part of Trainer v2.2. If your TrainJobs rely on elastic training configuration through this API, you will need to migrate to the updated approach before upgrading. 
 
-### **TrainJob API fields are now immutable** 
+### Some TrainJob API fields are now immutable
 
 Several TrainJob spec fields are now properly enforced as immutable after job creation. This rejects modifications to fields such as .spec.trainer.image on a running TrainJob upfront instead of having it silently fail at the JobSet controller level. If your workflows rely on updating these fields on a running TrainJob, those updates will now be rejected by the admission webhood. Please review your TrainJob update logic to ensure compatibility with our immutability policies in v2.2. 
 
@@ -230,7 +234,7 @@ Several TrainJob spec fields are now properly enforced as immutable after job cr
 
 For the complete list of all pull requests, visit the GitHub release page: TBD add release page
 
-## **Roadmap Moving Forward** 
+## Roadmap Moving Forward
 
 We are excited to continue pushing Kubeflow as a state of the art platform for distributed ML training by making TrainJob manifests more observable and more performant across a wide range of hardware. 
 
@@ -240,26 +244,31 @@ large-scale training, this means significantly faster node-to-node communication
 standard network-based primitives and brings forth a new era of configurations that simply 
 weren't practical before on Kubernetes.
 
-On the capacity planning side, we look forward to bringing Predictive GPU Capacity Planning to forecast whether a cluster can actually fulfill a TrainJob before it gets stuck in a queue. This gives teams the training visibility to plan experiments easier, manage costs and avoid wasting time on scheduling things that were never going to happen in the first place. 
+We also look forward to introducing Automatic configuration of GPU requests for TrainJobs that will
+take the guesswork out of choosing the right resources. With intelligent methods guiding the
+process, Trainer will choose appropriate resources automatically based on the TrainJob configuration.
+This gives teams the power to plan experiments with confidence and trust that jobs use just the right
+amount of compute.
 
 A full list of our 2026 roadmap can be found [here](https://github.com/kubeflow/trainer/pull/3242). 
 
-## **Get Involved\!**
+## Join the Community
 
-The Kubeflow Trainer is built by and for the community. We welcome contributions, feedback, and participation from everyone\! We want to thank the community for their contributions to this release. We invite you to:  
+The Kubeflow Trainer is built by and for the community. We welcome contributions, feedback, and participation from everyone! We want to thank the community for their contributions to this release. We invite you to:
 	  
-**Contribute:**
+### Contribute:
 
 * Read the [Contributing Guide](https://github.com/kubeflow/trainer/blob/master/CONTRIBUTING.md).  
 * Browse the [good first issues](https://github.com/kubeflow/trainer/issues?q=is%3Aissue%20state%3Aopen%20good%20first%20issues)  
 * Explore the [GitHub Repository](https://github.com/kubeflow/trainer)
 
-**Connect with the Community:**
+### Connect with the Community:
 
 * Join [\#kubeflow-ml-experience](https://cloud-native.slack.com/archives/C08KJBVDH5H) on [CNCF Slack](https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels)  
 * Attend our biweekly [Kubeflow Trainer and katib meetings](https://docs.google.com/document/d/1MChKfzrKAeFRtYqypFbMXL6ZIc_OgijjkvbqmwRV-64/edit?tab=t.0)
+* Explore the [Kubeflow Trainer docs](https://www.kubeflow.org/docs/components/trainer/)
 
-**Learn More**
+### Learn More:
 
 * View the full [Changelog](https://github.com/kubeflow/trainer/blob/master/CHANGELOG.md).
 

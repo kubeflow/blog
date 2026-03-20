@@ -38,14 +38,14 @@ Kubeflow Trainer supports running JAX workloads on Kubernetes through the `jax-d
 * Data-parallel and model-parallel JAX workloads  
 * Massive scale [TPU distributed training](https://github.com/kubeflow/website/pull/4343) with ComputeClases 
 
-Start by following the Getting Started guide for Kubeflow Trainer basics. Then use the jax-distributed runtime and initialize JAX distributed explicitly in your training script before any JAX computation.
-
-Make sure you have Kubeflow SDK installed on your machine:
+Start by following the Getting Started guide for Kubeflow Trainer basics and making sure you have Kubeflow SDK installed on your machine:
 
 ```shell
 pip install kubeflow 
+```
 
-### Technical example:
+Use the jax-distributed runtime and initialize JAX distributed explicitly in your training script before any JAX computation.
+
 
 ```py
 
@@ -147,17 +147,13 @@ Previously, TrainJob resources persisted in the cluster indefinitely after compl
 There’s a couple ways to specify the timeout limit of a job, the first one is by modifying the TrainJob manifest directly: 
 
 ```
-apiVersion: trainer.kubeflow.org/v1alpha1
-kind: TrainJob
-metadata:
-	name: quick-experiment
 spec:
-	activeDeadlineSeconds: 28800 #Max runtime 8 hours
+  activeDeadlineSeconds: 28800 #Max runtime 8 hours
 runtimeRef:
-	name: torch-distributed-gpu
+  name: torch-distributed-gpu
 trainer:
-	image: my-training:latest
-	numNodes: 2
+  image: my-training:latest
+  numNodes: 2
 ```
 
 ## RuntimePatches API to override TrainJob defaults
@@ -169,11 +165,6 @@ Each patch is scoped to a named manager and can target specific jobs or pods wit
 In the new TrainJob manifest, every manager owns its own entry, pod and job overrides are separate fields under that manager. Note that your manager field will be **immutable** after creation. 
 
 ```
-apiVersion: trainer.kubeflow.org/v2alpha1
-kind: TrainJob
-metadata:
-  name: pytorch-distributed
-
 spec:
   runtimeRef:
     name: pytorch-distributed-gpu
@@ -198,11 +189,9 @@ Note that the RuntimePatches API cannot be used to set environment variables for
 
 For a more complete description of the API's structure, restrictions and use cases, check out the [RuntimePatches Operator Guide](https://www.kubeflow.org/docs/components/trainer/operator-guides/runtime-patches/#runtimepatches-overview). 
 
+⚠️ **This API introduces Breaking Changes!!**
 
-
-
->[!warning]  This API introduces Breaking Changes!!
->PodTemplateOverrides has been removed in v2.2. If you’re currently using it in your TrainJob manifests, you’ll need to migrate to the RuntimePatches API. 
+PodTemplateOverrides has been removed in v2.2. If you’re currently using it in your TrainJob manifests, you’ll need to migrate to the RuntimePatches API. 
 
 
 ## Breaking Changes

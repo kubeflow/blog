@@ -150,7 +150,7 @@ There’s a couple ways to specify the timeout limit of a job, the first one is 
 apiVersion: trainer.kubeflow.org/v1alpha1
 kind: TrainJob
 metadata:
-	name: quick-experiment
+  name: quick-experiment
 spec:
   activeDeadlineSeconds: 28800 #Max runtime 8 hours
 runtimeRef:

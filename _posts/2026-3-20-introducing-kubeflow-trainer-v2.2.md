@@ -82,7 +82,7 @@ client.wait_for_job_status(job_id)
 print("\n".join(client.get_job_logs(name=job_id)))
 ```
 
-The jax-distributed runtime injects JAX\_NUM\_PROCESSES, JAX\_PROCESS\_ID, and JAX\_COORDINATOR\_ADDRESS into the environment, and all processes must call jax.distributed.initialize() exactly once before any JAX computation. 
+The `jax-distributed` runtime injects `JAX_NUM_PROCESSES, JAX_PROCESS_ID, and JAX_COORDINATOR_ADDRESS` into the environment, and all processes must call `jax.distributed.initialize()` exactly once before any JAX computation. 
 
 For more details, refer to the [Kubeflow Trainer JAX guide](https://www.kubeflow.org/docs/components/trainer/user-guides/jax/) for jax.distributed and SPMD primitives.
 
@@ -102,7 +102,7 @@ In this release, Kubeflow Trainer introduces a powerful new capability to automa
 
 ### How it works
 
-When this feature is enabled (feature flag TrainJobStatus is required), Kubeflow Trainer starts an HTTP server that exposes endpoints for reporting training progress and metrics. Client applications can send updates to these endpoints, and the TrainJob controller will automatically reflect this information in the job status. Users can then easily access these insights through the Kubeflow SDK without needing to inspect logs.
+When this feature is enabled (feature flag `TrainJobStatus` is required), Kubeflow Trainer starts an HTTP server that exposes endpoints for reporting training progress and metrics. Client applications can send updates to these endpoints, and the TrainJob controller will automatically reflect this information in the job status. Users can then easily access these insights through the Kubeflow SDK without needing to inspect logs.
 
 To simplify adoption, we are collaborating with popular ML frameworks to integrate Kubeflow Trainer callbacks that automate this process. With these integrations, users don’t need to change anything to make it work\!
 
@@ -131,22 +131,22 @@ For teams whose workloads sit at the intersection of ML and HPC, Flux serves as 
 
 ### Get Started
 
-Before using Flux, read the Getting Started guide to understand the basics of Kubeflow Trainer. Then apply the Flux runtime and a TrainJob manifest. For example:
+Apply the Flux runtime and a TrainJob manifest. For example:
 
 ```shell
 kubectl apply --server-side -f https://raw.githubusercontent.com/kubeflow/trainer/refs/heads/master/examples/flux/flux-runtime.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubeflow/trainer/refs/heads/master/examples/flux/lammps-train-job.yaml
 ```
 
-After that, monitor the pods with kubectl get pods \--watch, and inspect the lead broker logs with kubectl logs \<pod-name\> \-c node \-f  , This  also shows how to run the Flux cluster in interactive mode with flux-interactive.yaml, then use kubectl exec and flux proxy to manually run LAMMPS inside the cluster.
+After that, monitor the pods with `kubectl get pods --watch`, and inspect the lead broker logs with `kubectl logs <pod-name> -c node -f`  , This  also shows how to run the Flux cluster in interactive mode with `flux-interactive.yaml`, then use `kubectl exec` and `flux proxy` to manually run LAMMPS inside the cluster.
 
-The Flux runtime depends on the flux: policy trigger in flux-runtime.yaml, and you can customize the setup through environment variables such as FLUX\_VIEW\_IMAGE and FLUX\_NETWORK\_DEVICE. Binaries are installed under /mnt/flux, software is copied to /opt/software, and configurations are stored in /etc/flux-config. Related documentation includes the Kubeflow Trainer Getting Started guide, the Flux example manifests, and the Flux Framework /HPSF project resources. A simple implementation has been done for this first go, and users are encouraged to submit feedback to request exposure of additional features. A demo video will be showcased at the Kubecon booth for those that can attend.
+The Flux runtime depends on the flux: policy trigger in flux-runtime.yaml, and you can customize the setup through environment variables such as `FLUX_VIEW_IMAGE and FLUX_NETWORK_DEVICE`. Binaries are installed under `/mnt/flux`, software is copied to `/opt/software`, and configurations are stored in `/etc/flux-config`. Related documentation includes the Kubeflow Trainer Getting Started guide, the Flux example manifests, and the Flux Framework HPSF project resources. A simple implementation has been done for this first go, and users are encouraged to submit feedback to request exposure of additional features. A demo video will be showcased at the KubeCon + CloudNativeCon 2026 EU booth for those that can attend.
 
 You can learn more about this in our [Flux Guide](https://www.kubeflow.org/docs/components/trainer/user-guides/flux/).
 
 ## Resource Timeout for TrainJobs
 
-Previously, TrainJob resources persisted in the cluster indefinitely after completion unless manually removed, which led to Etcd bloat, resource contention and no automatic garbage collection. A job could also get stuck or run indefinitely, wasting CPU/GPU capacity and reducing cluster efficiency. In v2.2, Kubeflow Trainer adds support for spec.active DeadlineSeconds on TrainJob. This field lets users set a hard timeout (in seconds) for a TrainJob’s active execution timeline. When the deadline is exceeded, Trainer marks the TrainJob as Failed (reason: DeadlineExceeded), terminates the running workload, and deletes the underlying JobSet.
+Previously, TrainJob resources persisted in the cluster indefinitely after completion unless manually removed, which led to Etcd bloat, resource contention and no automatic garbage collection. A job could also get stuck or run indefinitely, wasting CPU/GPU capacity and reducing cluster efficiency. In v2.2, Kubeflow Trainer adds support for ActiveDeadlineSeconds API in TrainJob. This field lets users set a hard timeout (in seconds) for a TrainJob’s active execution timeline. When the deadline is exceeded, Trainer marks the TrainJob as Failed (reason: `DeadlineExceeded`), terminates the running workload, and deletes the underlying JobSet.
 
 ### Technical example:
 
@@ -168,9 +168,9 @@ trainer:
 
 ## Explicit Ownership for TrainJobs with RuntimePatchesAPI
 
-In many distributed learning environments, multiple controllers can interact with the same TrainJob manifest, making ownership boundaries really important to preserve. The new RuntimePatchesAPI replaces PodTemplateOverrides with a manager-keyed structure that makes it explicit on who applied what and when. 
+In many distributed learning environments, multiple controllers can interact with the same TrainJob manifest, making ownership boundaries really important to preserve. The new RuntimePatches API replaces PodTemplateOverrides with a manager-keyed structure that makes it explicit on who applied what and when. 
 
-Each patch is scoped to a named manager and can target specific jobs or pods within the runtime, with both job-level and pod-level overrides supported. The targetJobs field gives you precise control over where a patch lands, if targetJobs is omitted, the patch is applied to the entire JobSet; if targetJobs is set, the patch is applied only to that specific Job within the runtime. This means Kueue can inject node selectors and tolerations into the trainer pod without conflicting with another controller managing job-level metadata, and the full history of what was applied is preserved directly in the spec.
+Each patch is scoped to a named manager and can target specific jobs or pods within the runtime, with both job-level and pod-level overrides supported. This means Kueue can inject node selectors and tolerations into the trainer pod without conflicting with another controller managing job-level metadata, and the full history of what was applied is preserved directly in the spec.
 
 ### Technical example:
 
@@ -218,7 +218,7 @@ If you are using PodTemplateOverrides in your TrainJob manifests or SDK code, yo
 
 ### Required: Remove numProcPerNode from Torch API
 
-The numProcPerNode field has been removed from the Torch API. Process-per-node configuration is now handled directly through the runtime, so any TrainJob manifests or SDK calls that set numProcPerNode explicitly will need to be updated before upgrading to v2.2.
+The numProcPerNode field has been removed from the Torch MLPolicy. Process-per-node configuration is now handled directly through the container resources, so any TrainJob manifests or SDK calls that set numProcPerNode explicitly will need to be updated before upgrading to v2.2.
 
 ### Required: Remove ElasticPolicy API
 

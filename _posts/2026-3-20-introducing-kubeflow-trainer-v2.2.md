@@ -42,12 +42,10 @@ Kubeflow Trainer supports running JAX workloads on Kubernetes through the `jax-d
 
 Start by following the Getting Started guide for Kubeflow Trainer basics. Then use the jax-distributed runtime and initialize JAX distributed explicitly in your training script before any JAX computation.
 
-Make sure you have kubeflow installed on your machine:
+Make sure you have Kubeflow SDK installed on your machine:
 
 ```shell
-
-$pip install kubeflow 
-```
+pip install kubeflow 
 
 ### Technical example:
 

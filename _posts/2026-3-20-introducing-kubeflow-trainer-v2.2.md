@@ -2,7 +2,7 @@
 toc: true
 layout: post
 comments: true
-title: "Announcing Kubeflow Trainer v2.2 JAX & XGBoost Runtimes, Flux for HPC Support, and TrainJob progress and metrics observability"
+title: "Kubeflow Trainer v2.2: JAX & XGBoost Runtimes, Flux for HPC Support, and TrainJob progress and metrics observability"
 hide: false
 categories: [release, trainer]
 permalink: /kubeflow-trainer-v2.2-release/
@@ -37,8 +37,6 @@ Kubeflow Trainer supports running JAX workloads on Kubernetes through the `jax-d
 * Multi-GPU training using CUDA enabled JAX  
 * Data-parallel and model-parallel JAX workloads  
 * Massive scale [TPU distributed training](https://github.com/kubeflow/website/pull/4343) with ComputeClases 
-
-### Get Started
 
 Start by following the Getting Started guide for Kubeflow Trainer basics. Then use the jax-distributed runtime and initialize JAX distributed explicitly in your training script before any JAX computation.
 
@@ -129,8 +127,6 @@ Flux uses a ZeroMQ to bootstrap MPI, an improvement over traditional SSH, and al
 
 For teams whose workloads sit at the intersection of ML and HPC, Flux serves as a portability layer that enables running simulation alongside AI/ML workloads. Scheduling to Flux bypasses any potential etcd bottlenecks, and the limitations of the Kubernetes scheduler that require tricks to batch schedule to an underlying single-pod queue. Flux enables fine-grained control over where pods land, and is ideal when you are running simulation pipelines that feed into model Training. This integration also enables the use of Process Management Interface Exascale (PMIx) to manage and coordinate large-scale MPI workloads on Kubernetes using TrainJobs, something that was previously not possible.
 
-### Get Started
-
 Apply the Flux runtime and a TrainJob manifest. For example:
 
 ```shell
@@ -147,8 +143,6 @@ You can learn more about this in our [Flux Guide](https://www.kubeflow.org/docs/
 ## Resource Timeout for TrainJobs
 
 Previously, TrainJob resources persisted in the cluster indefinitely after completion unless manually removed, which led to Etcd bloat, resource contention and no automatic garbage collection. A job could also get stuck or run indefinitely, wasting CPU/GPU capacity and reducing cluster efficiency. In v2.2, Kubeflow Trainer adds support for ActiveDeadlineSeconds API in TrainJob. This field lets users set a hard timeout (in seconds) for a TrainJob’s active execution timeline. When the deadline is exceeded, Trainer marks the TrainJob as Failed (reason: `DeadlineExceeded`), terminates the running workload, and deletes the underlying JobSet.
-
-### Get Started
 
 There’s a couple ways to specify the timeout limit of a job, the first one is by modifying the TrainJob manifest directly: 
 
@@ -171,8 +165,6 @@ trainer:
 In many distributed learning environments, multiple controllers can interact with the same TrainJob manifest, making ownership boundaries really important to preserve. The new RuntimePatches API replaces PodTemplateOverrides with a manager-keyed structure that makes it explicit on who applied what and when. 
 
 Each patch is scoped to a named manager and can target specific jobs or pods within the runtime, with both job-level and pod-level overrides supported. This means Kueue can inject node selectors and tolerations into the trainer pod without conflicting with another controller managing job-level metadata, and the full history of what was applied is preserved directly in the spec.
-
-### Get Started
 
 In the new TrainJob manifest, every manager owns its own entry, pod and job overrides are separate fields under that manager. Note that your manager field will be **immutable** after creation. 
 

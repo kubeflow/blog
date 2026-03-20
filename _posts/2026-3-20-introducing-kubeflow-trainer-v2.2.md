@@ -148,7 +148,7 @@ You can learn more about this in our [Flux Guide](https://www.kubeflow.org/docs/
 
 Previously, TrainJob resources persisted in the cluster indefinitely after completion unless manually removed, which led to Etcd bloat, resource contention and no automatic garbage collection. A job could also get stuck or run indefinitely, wasting CPU/GPU capacity and reducing cluster efficiency. In v2.2, Kubeflow Trainer adds support for ActiveDeadlineSeconds API in TrainJob. This field lets users set a hard timeout (in seconds) for a TrainJob’s active execution timeline. When the deadline is exceeded, Trainer marks the TrainJob as Failed (reason: `DeadlineExceeded`), terminates the running workload, and deletes the underlying JobSet.
 
-### Technical example:
+### Get Started
 
 There’s a couple ways to specify the timeout limit of a job, the first one is by modifying the TrainJob manifest directly: 
 
@@ -166,13 +166,13 @@ trainer:
 	numNodes: 2
 ```
 
-## Explicit Ownership for TrainJobs with RuntimePatches API
+## RuntimePatches API to override TrainJob defaults
 
 In many distributed learning environments, multiple controllers can interact with the same TrainJob manifest, making ownership boundaries really important to preserve. The new RuntimePatches API replaces PodTemplateOverrides with a manager-keyed structure that makes it explicit on who applied what and when. 
 
 Each patch is scoped to a named manager and can target specific jobs or pods within the runtime, with both job-level and pod-level overrides supported. This means Kueue can inject node selectors and tolerations into the trainer pod without conflicting with another controller managing job-level metadata, and the full history of what was applied is preserved directly in the spec.
 
-### Technical example:
+### Get Started
 
 In the new TrainJob manifest, every manager owns its own entry, pod and job overrides are separate fields under that manager. Note that your manager field will be **immutable** after creation. 
 
@@ -204,7 +204,7 @@ spec:
 
 Note that the RuntimePatches API cannot be used to set environment variables for the node, dataset-initializer, or model-initializer containers, nor to override command, args, image, or resources on the trainer container. 
 
-For a more complete description of the API's structure, restrictions and use cases, check out the [RuntimePatches operator guide](https://www.kubeflow.org/docs/components/trainer/operator-guides/runtime-patches/#runtimepatches-overview). 
+For a more complete description of the API's structure, restrictions and use cases, check out the [RuntimePatches Operator Guide](https://www.kubeflow.org/docs/components/trainer/operator-guides/runtime-patches/#runtimepatches-overview). 
 
 
 
@@ -213,23 +213,23 @@ For a more complete description of the API's structure, restrictions and use cas
 >PodTemplateOverrides has been removed in v2.2. If you’re currently using it in your TrainJob manifests, you’ll need to migrate to the RuntimePatches API. 
 
 
-## Infrastructure & Breaking Changes
+## Breaking Changes
 
 This release introduces a set of architectural improvements and breaking changes that lay the foundations for a more scalable and modularized Trainer. Please review the following when upgrading to Trainer v2.2:
 
-### Required: Migrating to RuntimePatches API
+### Replace PodTemplateOverrides with RuntimePatches API
 
 As mentioned above, PodTemplateOverrides has been replaced with RuntimePatches API to support manager-scoped customization and prevent conflicts when multiple controllers are patching the same TrainJob.
 
-If you are using PodTemplateOverrides in your TrainJob manifests or SDK code, you will need to migrate to the manager-keyed RuntimePatches structure. See the [RuntimePatches](#customize-runtime-configs:-runtimepatchesapi) section above for the full API shape and examples. 
+If you are using PodTemplateOverrides in your TrainJob manifests or SDK code, you will need to migrate to the manager-keyed RuntimePatches structure. See the  [RuntimePatches Operator Guide](https://www.kubeflow.org/docs/components/trainer/operator-guides/runtime-patches/#runtimepatches-overview), and [Options Reference](https://sdk.kubeflow.org/en/latest/train/options.html) for more information. 
 
-### Required: Remove numProcPerNode from Torch API
+### Remove numProcPerNode from the Torch MLPolicy API
 
 The numProcPerNode field has been removed from the Torch MLPolicy. Process-per-node configuration is now handled directly through the container resources, so any TrainJob manifests or SDK calls that set numProcPerNode explicitly will need to be updated before upgrading to v2.2.
 
-### Required: Remove ElasticPolicy API
+### Remove ElasticPolicy API
 
-We no longer support the ElasticPolicy API from the MLPolicy as part of Trainer v2.2. If your TrainJobs rely on elastic training configuration through this API, you will need to migrate to the updated approach before upgrading. 
+The ElasticPolicy API has been removed from MLPolicy in Trainer v2.2. Elastic training is not yet available in this release, we are actively working on a [redesigned implementation](https://github.com/kubeflow/trainer/issues/2903) for future release. If your TrainJobs rely on elastic training configuration, please hold off on upgrading until that work lands.
 
 ### Some TrainJob API fields are now immutable
 
@@ -278,5 +278,5 @@ The Kubeflow Trainer is built by and for the community. We welcome contributions
 * View the full [Changelog](https://github.com/kubeflow/trainer/blob/master/CHANGELOG.md).
 * Explore the [Kubeflow Trainer docs](https://www.kubeflow.org/docs/components/trainer/)
 
-**Headed to [KubeCon](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/)?** Stop by the Kubeflow booth to see these features in action 😸🧊\!\!
+**Headed to [KubeCon + CloudNativeCon 2026 EU](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/)?** Stop by the Kubeflow booth to see these features in action 😸🧊\!\!
 

@@ -166,7 +166,7 @@ trainer:
 	numNodes: 2
 ```
 
-## Explicit Ownership for TrainJobs with RuntimePatchesAPI
+## Explicit Ownership for TrainJobs with RuntimePatches API
 
 In many distributed learning environments, multiple controllers can interact with the same TrainJob manifest, making ownership boundaries really important to preserve. The new RuntimePatches API replaces PodTemplateOverrides with a manager-keyed structure that makes it explicit on who applied what and when. 
 
@@ -174,34 +174,41 @@ Each patch is scoped to a named manager and can target specific jobs or pods wit
 
 ### Technical example:
 
-Now in the TrainJob manifest, every manager owns its own entry, pod and job overrides are separate fields under that manager and targetJobs determines whether the patch hits a specific job or the entire JobSet:
+In the new TrainJob manifest, every manager owns its own entry, pod and job overrides are separate fields under that manager. Note that your manager field will be **immutable** after creation. 
 
 ```
-runtimePatches: 
-    # Patch applied to a specific Job within the runtime 
-    manager: kueue.x-k8s.io/manager 
-    pod: 
-        time: "2026-02-17T10:00:00Z" 
-        targetJobs: 
-            name: trainer # targets only the trainer Job
-        spec: 
-            nodeSelector: 
-                accelerator: nvidia-gpu
+apiVersion: trainer.kubeflow.org/v2alpha1
+kind: TrainJob
+metadata:
+  name: pytorch-distributed
+
+spec:
+  runtimeRef:
+    name: pytorch-distributed-gpu
+  trainer:
+    image: docker.io/custom-training
+  runtimePatches:
+    - manager: trainer.kubeflow.org/kubeflow-sdk # who owns this entry (immutable)
+      trainingRuntimeSpec:
+        template:
+          spec:
+            replicatedJobs:
+              - name: node
+                template:
+                  spec:
+                    template:
+                      spec:
+                        nodeSelector:
+                          accelerator: nvidia-tesla-v100
 ```
 
-For cases where a patch needs to apply more broadly across the entire JobSet, the targetJobs field can be omitted entirely:
+Note that the RuntimePatches API cannot be used to set environment variables for the node, dataset-initializer, or model-initializer containers, nor to override command, args, image, or resources on the trainer container. 
 
-```
-runtimePatches: 
-    # Patch applied to the entire JobSet 
-    manager: abc.example.com/abc
-    job:
-        time: "2026-02-17T10:00:00Z"
-        metadata:
-            labels:
-                custom-label: value
+For a more complete description of the API's structure, restrictions and use cases, check out the [RuntimePatches operator guide](https://www.kubeflow.org/docs/components/trainer/operator-guides/runtime-patches/#runtimepatches-overview). 
 
-```
+
+
+
 >[!warning]  This API introduces Breaking Changes!!
 >PodTemplateOverrides has been removed in v2.2. If you’re currently using it in your TrainJob manifests, you’ll need to migrate to the RuntimePatches API. 
 
@@ -210,9 +217,9 @@ runtimePatches:
 
 This release introduces a set of architectural improvements and breaking changes that lay the foundations for a more scalable and modularized Trainer. Please review the following when upgrading to Trainer v2.2:
 
-### Required: Migrating to RuntimePatchesAPI
+### Required: Migrating to RuntimePatches API
 
-As mentioned above, PodTemplateOverrides has been replaced with RuntimePatchesAPI to support manager-scoped customization and prevent conflicts when multiple controllers are patching the same TrainJob.
+As mentioned above, PodTemplateOverrides has been replaced with RuntimePatches API to support manager-scoped customization and prevent conflicts when multiple controllers are patching the same TrainJob.
 
 If you are using PodTemplateOverrides in your TrainJob manifests or SDK code, you will need to migrate to the manager-keyed RuntimePatches structure. See the [RuntimePatches](#customize-runtime-configs:-runtimepatchesapi) section above for the full API shape and examples. 
 
@@ -264,11 +271,12 @@ The Kubeflow Trainer is built by and for the community. We welcome contributions
 
 * Join [\#kubeflow-ml-experience](https://cloud-native.slack.com/archives/C08KJBVDH5H) on [CNCF Slack](https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels)  
 * Attend our biweekly [Kubeflow Trainer and katib meetings](https://docs.google.com/document/d/1MChKfzrKAeFRtYqypFbMXL6ZIc_OgijjkvbqmwRV-64/edit?tab=t.0)
-* Explore the [Kubeflow Trainer docs](https://www.kubeflow.org/docs/components/trainer/)
+
 
 ### Learn More:
 
 * View the full [Changelog](https://github.com/kubeflow/trainer/blob/master/CHANGELOG.md).
+* Explore the [Kubeflow Trainer docs](https://www.kubeflow.org/docs/components/trainer/)
 
 **Headed to [KubeCon](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/)?** Stop by the Kubeflow booth to see these features in action 😸🧊\!\!
 

@@ -123,7 +123,7 @@ To learn more about this feature please see [this proposal.](https://github.com/
 
 Setting up distributed ML training jobs using MPI can be very time consuming: from stitching together launcher-worker topologies to configuring SSH-based bootstrapping, there’s a lot of moving parts that require code on top of your training code. In v2.2, Kubeflow Trainer brings the Flux Framework – a workload manager that combines hierarchical job management with graph-based scheduling – to handle your HPC-style scheduling needs without the overhead that typically comes with it. 
 
-Flux uses a ZeroMQ to bootstrap MPI, an improvement over traditional SSH, and also brings PMIx and support for more MPI variants. When a training job is submitted, an init container automatically handles Flux’s installation, meaning that you do not need to install Flux to your application container. The plugin also handles cluster discovery, broker configuration, and CURVE certificate generation to provide cryptographic security for the overlay network. 
+Flux uses ZeroMQ to bootstrap MPI, an improvement over traditional SSH, and also brings PMIx and support for more MPI variants. When a training job is submitted, an init container automatically handles Flux’s installation, meaning that you do not need to install Flux to your application container. The plugin also handles cluster discovery, broker configuration, and CURVE certificate generation to provide cryptographic security for the overlay network. 
 
 For teams whose workloads sit at the intersection of ML and HPC, Flux serves as a portability layer that enables running simulation alongside AI/ML workloads. Scheduling to Flux bypasses any potential etcd bottlenecks, and the limitations of the Kubernetes scheduler that require tricks to batch schedule to an underlying single-pod queue. Flux enables fine-grained control over where pods land, and is ideal when you are running simulation pipelines that feed into model Training. This integration also enables the use of Process Management Interface Exascale (PMIx) to manage and coordinate large-scale MPI workloads on Kubernetes using TrainJobs, something that was previously not possible.
 
@@ -134,9 +134,9 @@ kubectl apply --server-side -f https://raw.githubusercontent.com/kubeflow/traine
 kubectl apply -f https://raw.githubusercontent.com/kubeflow/trainer/refs/heads/master/examples/flux/lammps-train-job.yaml
 ```
 
-After that, monitor the pods with `kubectl get pods --watch`, and inspect the lead broker logs with `kubectl logs <pod-name> -c node -f`  , This  also shows how to run the Flux cluster in interactive mode with `flux-interactive.yaml`, then use `kubectl exec` and `flux proxy` to manually run LAMMPS inside the cluster.
+After that, monitor the pods with `kubectl get pods --watch`, and inspect the lead broker logs with `kubectl logs <pod-name> -c node -f` . This also shows how to run the Flux cluster in interactive mode with `flux-interactive.yaml`, and then use `kubectl exec` and `flux proxy` to connect to the lead broker Flux instance and manually run LAMMPS inside the cluster.
 
-The Flux runtime depends on the flux: policy trigger in flux-runtime.yaml, and you can customize the setup through environment variables such as `FLUX_VIEW_IMAGE and FLUX_NETWORK_DEVICE`. Binaries are installed under `/mnt/flux`, software is copied to `/opt/software`, and configurations are stored in `/etc/flux-config`. Related documentation includes the Kubeflow Trainer Getting Started guide, the Flux example manifests, and the Flux Framework HPSF project resources. A simple implementation has been done for this first go, and users are encouraged to submit feedback to request exposure of additional features. A demo video will be showcased at the KubeCon + CloudNativeCon 2026 EU booth for those that can attend.
+The Flux runtime depends on the `mlPolicy: flux` trigger in flux-runtime.yaml, and you can customize the setup through environment variables such as `FLUX_VIEW_IMAGE and FLUX_NETWORK_DEVICE`. Binaries are installed under `/mnt/flux`, software is copied to `/opt/software`, and configurations are stored in `/etc/flux-config`. Related documentation includes the Kubeflow Trainer Getting Started guide, the Flux example manifests, and the Flux Framework HPSF project resources. A simple implementation has been done for this first go, and users are encouraged to submit feedback to request exposure of additional features. A demo video will be showcased at the KubeCon + CloudNativeCon 2026 EU booth for those that can attend.
 
 You can learn more about this in our [Flux Guide](https://www.kubeflow.org/docs/components/trainer/user-guides/flux/).
 
@@ -236,7 +236,7 @@ One area we're particularly excited about is bringing Multi-Node NVLink (MNNVL) 
 enabling them to treat GPUs across multiple machines as a single unified memory domain. For 
 large-scale training, this means significantly faster node-to-node communication compared to 
 standard network-based primitives and brings forth a new era of configurations that simply 
-weren't practical before on Kubernetes.
+weren't practical before on Kubernetes. We are working closely with Kubernetes community to introduce first class support for Dynamic Resource Allocation (DRA) in TrainJobs.
 
 We also look forward to introducing Automatic configuration of GPU requests for TrainJobs that will
 take the guesswork out of choosing the right resources. With intelligent methods guiding the

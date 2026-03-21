@@ -44,7 +44,7 @@ Start by following the Getting Started guide for Kubeflow Trainer basics and mak
 pip install kubeflow 
 ```
 
-Use the jax-distributed runtime and initialize JAX distributed explicitly in your training script before any JAX computation.
+Use the jax-distributed runtime and initialize JAX distributed explicitly in your training script before any JAX computation:
 
 
 ```py
@@ -104,7 +104,7 @@ When this feature is enabled (feature flag `TrainJobStatus` is required), Kubefl
 
 To simplify adoption, we are collaborating with popular ML frameworks to integrate Kubeflow Trainer callbacks that automate this process. With these integrations, users don’t need to change anything to make it work\!
 
-For example, this functionality is already available in [Hugging Face Transformers](https://github.com/huggingface/transformers/issues/44486), where metrics are automatically reported when using the Trainer.
+For example, this functionality is already available in [Hugging Face Transformers](https://github.com/huggingface/transformers/issues/44486), where metrics are automatically reported when using the Trainer:
 
 ```py
 from transformers import Trainer, TrainingArguments
@@ -160,13 +160,15 @@ trainer:
   numNodes: 2
 ```
 
+More information about how to configure lifecycle policies for TrainJobs can be found in our [TrainJob Lifecycle Guide](https://www.kubeflow.org/docs/components/trainer/user-guides/trainjob-lifecycle/)
+
 ## RuntimePatches API to override TrainJob defaults
 
 In many distributed learning environments, multiple controllers can interact with the same TrainJob manifest, making ownership boundaries really important to preserve. The new RuntimePatches API replaces PodTemplateOverrides with a manager-keyed structure that makes it explicit on who applied what and when. 
 
 Each patch is scoped to a named manager and can target specific jobs or pods within the runtime, with both job-level and pod-level overrides supported. This means Kueue can inject node selectors and tolerations into the trainer pod without conflicting with another controller managing job-level metadata, and the full history of what was applied is preserved directly in the spec.
 
-In the new TrainJob manifest, every manager owns its own entry, pod and job overrides are separate fields under that manager. Note that your manager field will be **immutable** after creation. 
+In the new TrainJob manifest, every manager owns its own entry, pod and job overrides are separate fields under that manager. Note that your manager field will be **immutable** after creation:
 
 ```
 apiVersion: trainer.kubeflow.org/v2alpha1
@@ -236,13 +238,15 @@ One area we're particularly excited about is bringing Multi-Node NVLink (MNNVL) 
 enabling them to treat GPUs across multiple machines as a single unified memory domain. For 
 large-scale training, this means significantly faster node-to-node communication compared to 
 standard network-based primitives and brings forth a new era of configurations that simply 
-weren't practical before on Kubernetes. We are working closely with Kubernetes community to introduce first class support for Dynamic Resource Allocation (DRA) in TrainJobs.
+weren't practical before on Kubernetes.
 
-We also look forward to introducing Automatic configuration of GPU requests for TrainJobs that will
+We look forward to introducing Automatic configuration of GPU requests for TrainJobs that will
 take the guesswork out of choosing the right resources. With intelligent methods guiding the
 process, Trainer will choose appropriate resources automatically based on the TrainJob configuration.
 This gives teams the power to plan experiments with confidence and trust that jobs use just the right
 amount of compute.
+
+Workload-Aware Scheduling (WAS) is also actively being integrated with the native Kubernetes Workload API for TrainJob to bring robust gang-scheduling support for distributed training without third party plugins. The integration will be available after Kubernetes v1.36, and we plan to extend it further to support Topology-Aware Scheduling and Dynamic Resource Allocation (DRA) as those APIs mature.
 
 A full list of our 2026 roadmap can be found [here](https://github.com/kubeflow/trainer/pull/3242). 
 

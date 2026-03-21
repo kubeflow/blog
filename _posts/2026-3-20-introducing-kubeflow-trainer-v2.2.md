@@ -197,7 +197,7 @@ spec:
 
 Note that the RuntimePatches API cannot be used to set environment variables for the node, dataset-initializer, or model-initializer containers, nor to override command, args, image, or resources on the trainer container. 
 
-For a more complete description of the API's structure, restrictions and use cases, check out the [RuntimePatches Operator Guide](https://www.kubeflow.org/docs/components/trainer/operator-guides/runtime-patches/#runtimepatches-overview). 
+For a complete description of the API's structure, restrictions and use cases, check out the [RuntimePatches Operator Guide](https://www.kubeflow.org/docs/components/trainer/operator-guides/runtime-patches/#runtimepatches-overview). 
 
 ⚠️ **This API introduces Breaking Changes!!**
 
@@ -238,7 +238,7 @@ One area we're particularly excited about is bringing Multi-Node NVLink (MNNVL) 
 enabling them to treat GPUs across multiple machines as a single unified memory domain. For 
 large-scale training, this means significantly faster node-to-node communication compared to 
 standard network-based primitives and brings forth a new era of configurations that simply 
-weren't practical before on Kubernetes.
+weren't practical before on Kubernetes. We are working closely with Kubernetes community to introduce first class support for Dynamic Resource Allocation (DRA) in TrainJobs.
 
 We look forward to introducing Automatic configuration of GPU requests for TrainJobs that will
 take the guesswork out of choosing the right resources. With intelligent methods guiding the

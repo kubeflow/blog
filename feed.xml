@@ -1,4 +1,266 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2026-03-23T06:33:17-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><author><name>{&quot;name&quot;=&gt;&quot;&quot;, &quot;email&quot;=&gt;&quot;&quot;}</name><email></email></author><entry><title type="html">Kubeflow SDK v0.4.0: Model Registry, SparkConnect, and Enhanced Developer Experience</title><link href="https://blog.kubeflow.org/kubeflow-sdk-0.4.0-release/" rel="alternate" type="text/html" title="Kubeflow SDK v0.4.0: Model Registry, SparkConnect, and Enhanced Developer Experience" /><published>2026-03-19T00:00:00-05:00</published><updated>2026-03-19T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-sdk-0.4.0-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-sdk-0.4.0-release/"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2026-03-24T06:41:34-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><author><name>{&quot;name&quot;=&gt;&quot;&quot;, &quot;email&quot;=&gt;&quot;&quot;}</name><email></email></author><entry><title type="html">Kubeflow Trainer v2.2: JAX &amp;amp; XGBoost Runtimes, Flux for HPC Support, and TrainJob progress and metrics observability</title><link href="https://blog.kubeflow.org/kubeflow-trainer-v2.2-release/" rel="alternate" type="text/html" title="Kubeflow Trainer v2.2: JAX &amp;amp; XGBoost Runtimes, Flux for HPC Support, and TrainJob progress and metrics observability" /><published>2026-03-20T00:00:00-05:00</published><updated>2026-03-20T00:00:00-05:00</updated><id>https://blog.kubeflow.org/introducing-kubeflow-trainer-v2.2</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-trainer-v2.2-release/"><![CDATA[<p>Just a little over one week ahead of KubeCon + CloudNativeCon EU 2026, the Kubeflow team is excited to ship Trainer v2.2. The v2.2 release reinforces our commitment to expanding the Kubeflow Trainer ecosystem – meeting developers where they are by adding native support for JAX, XGBoost, and Flux, while also delivering deeper observability into training jobs.</p>
+
+<p>Key highlights of the v2.2 release include:</p>
+
+<ul>
+  <li><strong>First-class support for Training Runtimes</strong> for <a href="https://www.kubeflow.org/docs/components/trainer/user-guides/jax/">JAX</a> and <a href="https://www.kubeflow.org/docs/components/trainer/user-guides/xgboost/">XGBoost</a>, enabling native distributed training on Kubernetes. This marks a major milestone for the Trainer project, achieving full compatibility with Training Operator v1 CRDs: PyTorchJob, MPIJob, JAXJob, and XGBoostJob – now unified under a single TrainJob abstraction.</li>
+  <li><a href="https://github.com/kubeflow/trainer/tree/master/docs/proposals/2779-trainjob-progress"><strong>Enhanced training observability</strong></a>, allowing progress and metrics to be propagated directly from training scripts to the TrainJob status. <a href="https://github.com/huggingface/transformers/pull/44487">Hugging Face Transformers</a> already integrate with the <em>KubeflowTrainerCallback</em> to automate this capability.</li>
+  <li><a href="https://www.kubeflow.org/docs/components/trainer/user-guides/flux/"><strong>Flux runtime support</strong></a>, bringing HPC workloads to Kubernetes and improving MPI bootstrapping within TrainJob.</li>
+  <li><a href="https://github.com/kubeflow/trainer/tree/master/docs/proposals/2899-resource-timeouts"><strong>TrainJob activeDeadlineSeconds API</strong></a>, enabling explicit timeout policies for training jobs.</li>
+  <li><a href="https://www.kubeflow.org/docs/components/trainer/operator-guides/runtime-patches/"><strong>RuntimePatches API</strong></a>, introducing a more flexible and scalable way to customize runtime configurations from the TrainJobs.</li>
+</ul>
+
+<p>You can now install the Kubeflow Trainer control plane and its training runtimes with a single command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm <span class="nb">install </span>kubeflow-trainer oci://ghcr.io/kubeflow/charts/kubeflow-trainer <span class="se">\</span>
+    <span class="nt">--namespace</span> kubeflow-system <span class="se">\</span>
+    <span class="nt">--create-namespace</span> <span class="se">\</span>
+    <span class="nt">--version</span> 2.2.0 <span class="se">\</span>
+    <span class="nt">--set</span> runtimes.defaultEnabled<span class="o">=</span><span class="nb">true</span>
+</code></pre></div></div>
+
+<h2 id="bringing-jax-to-kubernetes-with-trainer">Bringing JAX to Kubernetes with Trainer</h2>
+
+<p>Kubeflow Trainer supports running JAX workloads on Kubernetes through the <code class="language-plaintext highlighter-rouge">jax-distributed</code> runtime. It is designed for distributed and parallel JAX computation using jax.distributed and SPMD primitives like pmap, pjit, and shard_map. The runtime maps one Kubernetes Pod to one JAX process and injects the required distributed environment variables so training or fine-tuning can run consistently across multiple nodes and devices.</p>
+
+<ul>
+  <li>Multi-process CPU training</li>
+  <li>Multi-GPU training using CUDA enabled JAX</li>
+  <li>Data-parallel and model-parallel JAX workloads</li>
+  <li>Massive scale <a href="https://github.com/kubeflow/website/pull/4343">TPU distributed training</a> with ComputeClases</li>
+</ul>
+
+<p>Start by following the Getting Started guide for Kubeflow Trainer basics and making sure you have Kubeflow SDK installed on your machine:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>kubeflow 
+</code></pre></div></div>
+
+<p>Use the jax-distributed runtime and initialize JAX distributed explicitly in your training script before any JAX computation:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">from</span> <span class="nn">kubeflow.trainer</span> <span class="kn">import</span> <span class="n">TrainerClient</span><span class="p">,</span> <span class="n">CustomTrainer</span>
+
+<span class="k">def</span> <span class="nf">get_jax_dist</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="kn">import</span> <span class="nn">jax</span>
+    <span class="kn">import</span> <span class="nn">jax.distributed</span> <span class="k">as</span> <span class="n">dist</span>
+
+    <span class="n">dist</span><span class="p">.</span><span class="n">initialize</span><span class="p">(</span>
+        <span class="n">coordinator_address</span><span class="o">=</span><span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">"JAX_COORDINATOR_ADDRESS"</span><span class="p">],</span>
+        <span class="n">num_processes</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">"JAX_NUM_PROCESSES"</span><span class="p">]),</span>
+        <span class="n">process_id</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">"JAX_PROCESS_ID"</span><span class="p">]),</span>
+    <span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">"JAX Distributed Environment"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Local devices: </span><span class="si">{</span><span class="n">jax</span><span class="p">.</span><span class="n">local_devices</span><span class="p">()</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Global device count: </span><span class="si">{</span><span class="n">jax</span><span class="p">.</span><span class="n">device_count</span><span class="p">()</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+    <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="n">jnp</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="p">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">4</span><span class="p">,))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">jax</span><span class="p">.</span><span class="n">pmap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span> <span class="o">*</span> <span class="n">jax</span><span class="p">.</span><span class="n">process_index</span><span class="p">())(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"PMAP result:"</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">TrainerClient</span><span class="p">()</span>
+<span class="n">job_id</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">train</span><span class="p">(</span>
+    <span class="n">runtime</span><span class="o">=</span><span class="s">"jax-distributed"</span><span class="p">,</span>
+    <span class="n">trainer</span><span class="o">=</span><span class="n">CustomTrainer</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">get_jax_dist</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">client</span><span class="p">.</span><span class="n">wait_for_job_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="n">get_job_logs</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">job_id</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">jax-distributed</code> runtime injects <code class="language-plaintext highlighter-rouge">JAX_NUM_PROCESSES, JAX_PROCESS_ID, and JAX_COORDINATOR_ADDRESS</code> into the environment, and all processes must call <code class="language-plaintext highlighter-rouge">jax.distributed.initialize()</code> exactly once before any JAX computation.</p>
+
+<p>For more details, refer to the <a href="https://www.kubeflow.org/docs/components/trainer/user-guides/jax/">Kubeflow Trainer JAX guide</a> for jax.distributed and SPMD primitives.</p>
+
+<h2 id="bringing-xgboost-to-kubernetes-with-trainer">Bringing XGBoost to Kubernetes with Trainer</h2>
+
+<p>Running distributed XGBoost workloads on Kubernetes has traditionally required manual setup of communication layers, environment variables, and cluster coordination. With this release, Kubeflow Trainer introduces built-in support for XGBoost, enabling seamless distributed training with minimal configuration.</p>
+
+<p>The new xgboost-distributed runtime abstracts away the complexity of setting up XGBoost’s collective communication (Rabit). Trainer automatically provisions worker pods using JobSet and injects the required DMLC environment variables, allowing workers to coordinate and synchronize during training. The rank 0 pod is automatically configured to act as the tracker, simplifying cluster setup even further.</p>
+
+<p>This integration supports both CPU and GPU workloads out of the box. For CPU training, each node runs a single worker leveraging OpenMP for intra-node parallelism. For GPU workloads, each GPU is mapped to an individual worker, enabling efficient scaling across nodes.</p>
+
+<p>For more information, please see this <a href="https://github.com/kubeflow/trainer/blob/master/examples/xgboost/distributed-training/xgboost-distributed.ipynb">Notebook example</a> and <a href="https://www.kubeflow.org/docs/components/trainer/user-guides/xgboost/">documentation guide</a>.</p>
+
+<h2 id="track-trainjob-progress-and-expose-metrics">Track TrainJob Progress and Expose Metrics</h2>
+
+<p>In this release, Kubeflow Trainer introduces a powerful new capability to automatically update TrainJob status with real-time training progress and metrics generated directly from your ML code. This enables key insights: such as percentage completion, estimated time remaining (ETA), and training metrics–to be surfaced through the TrainJob API, eliminating the need to manually inspect training logs.</p>
+
+<h3 id="how-it-works">How it works</h3>
+
+<p>When this feature is enabled (feature flag <code class="language-plaintext highlighter-rouge">TrainJobStatus</code> is required), Kubeflow Trainer starts an HTTP server that exposes endpoints for reporting training progress and metrics. Client applications can send updates to these endpoints, and the TrainJob controller will automatically reflect this information in the job status. Users can then easily access these insights through the Kubeflow SDK without needing to inspect logs.</p>
+
+<p>To simplify adoption, we are collaborating with popular ML frameworks to integrate Kubeflow Trainer callbacks that automate this process. With these integrations, users don’t need to change anything to make it work!</p>
+
+<p>For example, this functionality is already available in <a href="https://github.com/huggingface/transformers/issues/44486">Hugging Face Transformers</a>, where metrics are automatically reported when using the Trainer:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">TrainingArguments</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">TrainingArguments</span><span class="p">(...),</span> <span class="n">train_dataset</span><span class="o">=</span><span class="n">ds</span><span class="p">)</span>
+<span class="n">trainer</span><span class="p">.</span><span class="n">train</span><span class="p">()</span>  <span class="c1"># Progress automatically reported when running in Kubeflow
+</span></code></pre></div></div>
+
+<h3 id="future-plans">Future Plans</h3>
+
+<p>We have an exciting roadmap for this feature, including support for periodic, transparent checkpointing based on ETA, as well as integration with OptimizationJob for hyperparameter tuning jobs.</p>
+
+<p>To learn more about this feature please see <a href="https://github.com/kubeflow/trainer/tree/master/docs/proposals/2779-trainjob-progress">this proposal.</a></p>
+
+<h2 id="bringing-flux-framework-for-hpc-and-mpi-bootstrapping">Bringing Flux Framework for HPC and MPI Bootstrapping</h2>
+
+<p>Setting up distributed ML training jobs using MPI can be very time consuming: from stitching together launcher-worker topologies to configuring SSH-based bootstrapping, there’s a lot of moving parts that require code on top of your training code. In v2.2, Kubeflow Trainer brings the Flux Framework – a workload manager that combines hierarchical job management with graph-based scheduling – to handle your HPC-style scheduling needs without the overhead that typically comes with it.</p>
+
+<p>Flux uses ZeroMQ to bootstrap MPI, an improvement over traditional SSH, and also brings PMIx and support for more MPI variants. When a training job is submitted, an init container automatically handles Flux’s installation, meaning that you do not need to install Flux to your application container. The plugin also handles cluster discovery, broker configuration, and CURVE certificate generation to provide cryptographic security for the overlay network.</p>
+
+<p>For teams whose workloads sit at the intersection of ML and HPC, Flux serves as a portability layer that enables running simulation alongside AI/ML workloads. Scheduling to Flux bypasses any potential etcd bottlenecks, and the limitations of the Kubernetes scheduler that require tricks to batch schedule to an underlying single-pod queue. Flux enables fine-grained control over where pods land, and is ideal when you are running simulation pipelines that feed into model Training. This integration also enables the use of Process Management Interface Exascale (PMIx) to manage and coordinate large-scale MPI workloads on Kubernetes using TrainJobs, something that was previously not possible.</p>
+
+<p>Apply the Flux runtime and a TrainJob manifest. For example:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl apply <span class="nt">--server-side</span> <span class="nt">-f</span> https://raw.githubusercontent.com/kubeflow/trainer/refs/heads/master/examples/flux/flux-runtime.yaml
+kubectl apply <span class="nt">-f</span> https://raw.githubusercontent.com/kubeflow/trainer/refs/heads/master/examples/flux/lammps-train-job.yaml
+</code></pre></div></div>
+
+<p>After that, monitor the pods with <code class="language-plaintext highlighter-rouge">kubectl get pods --watch</code>, and inspect the lead broker logs with <code class="language-plaintext highlighter-rouge">kubectl logs &lt;pod-name&gt; -c node -f</code> . This also shows how to run the Flux cluster in interactive mode with <code class="language-plaintext highlighter-rouge">flux-interactive.yaml</code>, and then use <code class="language-plaintext highlighter-rouge">kubectl exec</code> and <code class="language-plaintext highlighter-rouge">flux proxy</code> to connect to the lead broker Flux instance and manually run LAMMPS inside the cluster.</p>
+
+<p>The Flux runtime depends on the <code class="language-plaintext highlighter-rouge">mlPolicy: flux</code> trigger in flux-runtime.yaml, and you can customize the setup through environment variables such as <code class="language-plaintext highlighter-rouge">FLUX_VIEW_IMAGE and FLUX_NETWORK_DEVICE</code>. Binaries are installed under <code class="language-plaintext highlighter-rouge">/mnt/flux</code>, software is copied to <code class="language-plaintext highlighter-rouge">/opt/software</code>, and configurations are stored in <code class="language-plaintext highlighter-rouge">/etc/flux-config</code>. Related documentation includes the Kubeflow Trainer Getting Started guide, the Flux example manifests, and the Flux Framework HPSF project resources. A simple implementation has been done for this first go, and users are encouraged to submit feedback to request exposure of additional features. A demo video will be showcased at the KubeCon + CloudNativeCon 2026 EU booth for those that can attend.</p>
+
+<p>You can learn more about this in our <a href="https://www.kubeflow.org/docs/components/trainer/user-guides/flux/">Flux Guide</a>.</p>
+
+<h2 id="resource-timeout-for-trainjobs">Resource Timeout for TrainJobs</h2>
+
+<p>Previously, TrainJob resources persisted in the cluster indefinitely after completion unless manually removed, which led to Etcd bloat, resource contention and no automatic garbage collection. A job could also get stuck or run indefinitely, wasting CPU/GPU capacity and reducing cluster efficiency. In v2.2, Kubeflow Trainer adds support for ActiveDeadlineSeconds API in TrainJob. This field lets users set a hard timeout (in seconds) for a TrainJob’s active execution timeline. When the deadline is exceeded, Trainer marks the TrainJob as Failed (reason: <code class="language-plaintext highlighter-rouge">DeadlineExceeded</code>), terminates the running workload, and deletes the underlying JobSet.</p>
+
+<p>There’s a couple ways to specify the timeout limit of a job, the first one is by modifying the TrainJob manifest directly:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: trainer.kubeflow.org/v1alpha1
+kind: TrainJob
+metadata:
+  name: quick-experiment
+spec:
+  activeDeadlineSeconds: 28800 #Max runtime 8 hours
+runtimeRef:
+  name: torch-distributed-gpu
+trainer:
+  image: my-training:latest
+  numNodes: 2
+</code></pre></div></div>
+
+<p>More information about how to configure lifecycle policies for TrainJobs can be found in our <a href="https://www.kubeflow.org/docs/components/trainer/user-guides/trainjob-lifecycle/">TrainJob Lifecycle Guide</a></p>
+
+<h2 id="runtimepatches-api-to-override-trainjob-defaults">RuntimePatches API to override TrainJob defaults</h2>
+
+<p>In many distributed learning environments, multiple controllers can interact with the same TrainJob manifest, making ownership boundaries really important to preserve. The new RuntimePatches API replaces PodTemplateOverrides with a manager-keyed structure that makes it explicit on who applied what and when.</p>
+
+<p>Each patch is scoped to a named manager and can target specific jobs or pods within the runtime, with both job-level and pod-level overrides supported. This means Kueue can inject node selectors and tolerations into the trainer pod without conflicting with another controller managing job-level metadata, and the full history of what was applied is preserved directly in the spec.</p>
+
+<p>In the new TrainJob manifest, every manager owns its own entry, pod and job overrides are separate fields under that manager. Note that your manager field will be <strong>immutable</strong> after creation:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apiVersion: trainer.kubeflow.org/v2alpha1
+kind: TrainJob
+metadata:
+  name: pytorch-distributed
+spec:
+  runtimeRef:
+    name: pytorch-distributed-gpu
+  trainer:
+    image: docker.io/custom-training
+  runtimePatches:
+    - manager: trainer.kubeflow.org/kubeflow-sdk # who owns this entry (immutable)
+      trainingRuntimeSpec:
+        template:
+          spec:
+            replicatedJobs:
+              - name: node
+                template:
+                  spec:
+                    template:
+                      spec:
+                        nodeSelector:
+                          accelerator: nvidia-tesla-v100
+</code></pre></div></div>
+
+<p>Note that the RuntimePatches API cannot be used to set environment variables for the node, dataset-initializer, or model-initializer containers, nor to override command, args, image, or resources on the trainer container.</p>
+
+<p>For a complete description of the API’s structure, restrictions and use cases, check out the <a href="https://www.kubeflow.org/docs/components/trainer/operator-guides/runtime-patches/#runtimepatches-overview">RuntimePatches Operator Guide</a>.</p>
+
+<p>⚠️ <strong>This API introduces Breaking Changes!!</strong></p>
+
+<p>PodTemplateOverrides has been removed in v2.2. If you’re currently using it in your TrainJob manifests, you’ll need to migrate to the RuntimePatches API.</p>
+
+<h2 id="breaking-changes">Breaking Changes</h2>
+
+<p>This release introduces a set of architectural improvements and breaking changes that lay the foundations for a more scalable and modularized Trainer. Please review the following when upgrading to Trainer v2.2:</p>
+
+<h3 id="replace-podtemplateoverrides-with-runtimepatches-api">Replace PodTemplateOverrides with RuntimePatches API</h3>
+
+<p>As mentioned above, PodTemplateOverrides has been replaced with RuntimePatches API to support manager-scoped customization and prevent conflicts when multiple controllers are patching the same TrainJob.</p>
+
+<p>If you are using PodTemplateOverrides in your TrainJob manifests or SDK code, you will need to migrate to the manager-keyed RuntimePatches structure. See the  <a href="https://www.kubeflow.org/docs/components/trainer/operator-guides/runtime-patches/#runtimepatches-overview">RuntimePatches Operator Guide</a>, and <a href="https://sdk.kubeflow.org/en/latest/train/options.html">Options Reference</a> for more information.</p>
+
+<h3 id="remove-numprocpernode-from-the-torch-mlpolicy-api">Remove numProcPerNode from the Torch MLPolicy API</h3>
+
+<p>The numProcPerNode field has been removed from the Torch MLPolicy. Process-per-node configuration is now handled directly through the container resources, so any TrainJob manifests or SDK calls that set numProcPerNode explicitly will need to be updated before upgrading to v2.2.</p>
+
+<h3 id="remove-elasticpolicy-api">Remove ElasticPolicy API</h3>
+
+<p>The ElasticPolicy API has been removed from MLPolicy in Trainer v2.2. Elastic training is not yet available in this release, we are actively working on a <a href="https://github.com/kubeflow/trainer/issues/2903">redesigned implementation</a> for future release. If your TrainJobs rely on elastic training configuration, please hold off on upgrading until that work lands.</p>
+
+<h3 id="some-trainjob-api-fields-are-now-immutable">Some TrainJob API fields are now immutable</h3>
+
+<p>Several TrainJob spec fields are now properly enforced as immutable after job creation. This rejects modifications to fields such as .spec.trainer.image on a running TrainJob upfront instead of having it silently fail at the JobSet controller level. If your workflows rely on updating these fields on a running TrainJob, those updates will now be rejected by the admission webhood. Please review your TrainJob update logic to ensure compatibility with our immutability policies in v2.2.</p>
+
+<h2 id="release-notes">Release Notes</h2>
+
+<p>For the complete list of all pull requests, visit the GitHub release page: TBD add release page</p>
+
+<h2 id="roadmap-moving-forward">Roadmap Moving Forward</h2>
+
+<p>We are excited to continue pushing Kubeflow as a state of the art platform for distributed ML training by making TrainJob manifests more observable and more performant across a wide range of hardware.</p>
+
+<p>One area we’re particularly excited about is bringing Multi-Node NVLink (MNNVL) support for TrainJobs, 
+enabling them to treat GPUs across multiple machines as a single unified memory domain. For 
+large-scale training, this means significantly faster node-to-node communication compared to 
+standard network-based primitives and brings forth a new era of configurations that simply 
+weren’t practical before on Kubernetes. We are working closely with Kubernetes community to introduce first class support for Dynamic Resource Allocation (DRA) in TrainJobs.</p>
+
+<p>We look forward to introducing Automatic configuration of GPU requests for TrainJobs that will
+take the guesswork out of choosing the right resources. With intelligent methods guiding the
+process, Trainer will choose appropriate resources automatically based on the TrainJob configuration.
+This gives teams the power to plan experiments with confidence and trust that jobs use just the right
+amount of compute.</p>
+
+<p>Workload-Aware Scheduling (WAS) is also actively being integrated with the native Kubernetes Workload API for TrainJob to bring robust gang-scheduling support for distributed training without third party plugins. The integration will be available after Kubernetes v1.36, and we plan to extend it further to support Topology-Aware Scheduling and Dynamic Resource Allocation (DRA) as those APIs mature.</p>
+
+<p>A full list of our 2026 roadmap can be found <a href="https://github.com/kubeflow/trainer/pull/3242">here</a>.</p>
+
+<h2 id="join-the-community">Join the Community</h2>
+
+<p>The Kubeflow Trainer is built by and for the community. We welcome contributions, feedback, and participation from everyone! We want to thank the community for their contributions to this release. We invite you to:</p>
+
+<h3 id="contribute">Contribute:</h3>
+
+<ul>
+  <li>Read the <a href="https://github.com/kubeflow/trainer/blob/master/CONTRIBUTING.md">Contributing Guide</a>.</li>
+  <li>Browse the <a href="https://github.com/kubeflow/trainer/issues?q=is%3Aissue%20state%3Aopen%20good%20first%20issues">good first issues</a></li>
+  <li>Explore the <a href="https://github.com/kubeflow/trainer">GitHub Repository</a></li>
+</ul>
+
+<h3 id="connect-with-the-community">Connect with the Community:</h3>
+
+<ul>
+  <li>Join <a href="https://cloud-native.slack.com/archives/C0742LDFZ4K">#kubeflow-trainer</a> on <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels">CNCF Slack</a></li>
+  <li>Attend our biweekly <a href="https://docs.google.com/document/d/1MChKfzrKAeFRtYqypFbMXL6ZIc_OgijjkvbqmwRV-64/edit?tab=t.0">Kubeflow Trainer and Katib meetings</a></li>
+</ul>
+
+<h3 id="learn-more">Learn More:</h3>
+
+<ul>
+  <li>View the <a href="https://github.com/kubeflow/trainer/releases/tag/v2.2.0">GitHub Release</a></li>
+  <li>Explore the <a href="https://www.kubeflow.org/docs/components/trainer/">Kubeflow Trainer docs</a></li>
+</ul>
+
+<p><strong>Headed to <a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/">KubeCon + CloudNativeCon 2026 EU</a>?</strong> Stop by the Kubeflow booth to see these features in action 😸🧊!!</p>]]></content><author><name>Kubeflow Trainer Team</name></author><category term="release" /><category term="trainer" /><summary type="html"><![CDATA[Just a little over one week ahead of KubeCon + CloudNativeCon EU 2026, the Kubeflow team is excited to ship Trainer v2.2. The v2.2 release reinforces our commitment to expanding the Kubeflow Trainer ecosystem – meeting developers where they are by adding native support for JAX, XGBoost, and Flux, while also delivering deeper observability into training jobs.]]></summary></entry><entry><title type="html">Kubeflow SDK v0.4.0: Model Registry, SparkConnect, and Enhanced Developer Experience</title><link href="https://blog.kubeflow.org/kubeflow-sdk-0.4.0-release/" rel="alternate" type="text/html" title="Kubeflow SDK v0.4.0: Model Registry, SparkConnect, and Enhanced Developer Experience" /><published>2026-03-19T00:00:00-05:00</published><updated>2026-03-19T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-sdk-0.4.0-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-sdk-0.4.0-release/"><![CDATA[<blockquote>
   <p><strong>Explore the full documentation at <a href="https://sdk.kubeflow.org">sdk.kubeflow.org</a></strong></p>
 </blockquote>
 
@@ -2866,65 +3128,4 @@ out the resources below. We look forward to working with you!</p>
   <li>Join the <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow Slack channel</a>.</li>
   <li>Join the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list.</li>
   <li>Attend our weekly <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-community-call">community meeting</a>.</li>
-</ul>]]></content><author><name>Kubeflow 1.10 Release Team, Dimitris Poulopoulos</name></author><category term="release" /><summary type="html"><![CDATA[Kubeflow 1.10.0 delivers essential updates that enhance the flexibility, efficiency, and scalability of machine learning workflows. The new features span across several components, improving both user experience and system performance.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">🚀 Announcing the Kubeflow Spark Operator Benchmarking Results</title><link href="https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks.html" rel="alternate" type="text/html" title="🚀 Announcing the Kubeflow Spark Operator Benchmarking Results" /><published>2025-03-15T00:00:00-05:00</published><updated>2025-03-15T00:00:00-05:00</updated><id>https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks</id><content type="html" xml:base="https://blog.kubeflow.org/operators/benchmarking/performance/2025/03/15/kubeflow-spark-operator-benchmarks.html"><![CDATA[<p>Kubernetes has become the go-to platform for running large-scale <a href="https://spark.apache.org/">Apache Spark</a> workloads. But as workloads scale, <strong>how do you ensure your Spark jobs run efficiently without hitting bottlenecks?</strong> Managing thousands of concurrent Spark jobs can introduce <strong>severe performance challenges</strong>—from <strong>CPU saturation</strong> in the Spark Operator to <strong>Kubernetes API slowdowns</strong> and <strong>job scheduling inefficiencies</strong>.</p>
-
-<p>To address these challenges, we are excited to introduce the <strong>Kubeflow Spark Operator Benchmarking Results and Toolkit</strong>—a comprehensive framework to analyze performance, pinpoint bottlenecks, and optimize your Spark on Kubernetes deployments.</p>
-
-<h2 id="-whats-included">🔍 What’s Included?</h2>
-<p>This benchmarking effort provides <strong>three key outcomes</strong> to help you take full control of your Spark on Kubernetes deployment:</p>
-
-<p>✅ <strong><a href="https://www.kubeflow.org/docs/components/spark-operator/performance/benchmarking/">Benchmarking Results</a></strong> – A detailed evaluation of performance insights and tuning recommendations for large-scale Spark workloads.<br />
-🛠 <strong><a href="https://github.com/awslabs/data-on-eks/tree/main/analytics/terraform/spark-k8s-operator/examples/benchmark/spark-operator-benchmark-kit">Benchmarking Test Toolkit</a></strong> – A fully reproducible test suite to help users evaluate their own Spark Operator performance and validate improvements.<br />
-📊 <strong><a href="https://grafana.com/grafana/dashboards/23032-spark-operator-scale-test-dashboard/">Open-Sourced Grafana Dashboard</a></strong> – A <strong>battle-tested</strong> visualization tool designed specifically to track large-scale Spark Operator deployments, providing real-time monitoring of job processing efficiency, API latencies, and system health.</p>
-
-<h2 id="-the-challenges-why-benchmarking-matters">❌ The Challenges: Why Benchmarking Matters</h2>
-<p>Running <strong>thousands of Spark jobs</strong> on Kubernetes at scale uncovers several <strong>performance roadblocks</strong> that can <strong>cripple efficiency</strong> if left unresolved:</p>
-
-<ul>
-  <li><strong>🚦 Spark Operator Becomes CPU-Bound</strong>: When handling thousands of Spark jobs, the controller pod maxes out CPU resources, limiting job submission rates.</li>
-  <li><strong>🐢 High API Server Latency</strong>: As workloads scale, Kubernetes API responsiveness degrades—job status updates slow down, affecting observability and scheduling efficiency.</li>
-  <li><strong>🕒 Webhook Overhead Slows Job Starts</strong>: Using webhooks adds <strong>~60 seconds</strong> of extra latency per job, reducing throughput in high-concurrency environments.</li>
-  <li><strong>💥 Namespace Overload Causes Failures</strong>: Running <strong>6,000+ SparkApplications in a single namespace</strong> resulted in <strong>pod failures</strong> due to excessive environment variables and service object overload.</li>
-</ul>
-
-<p>💡 <strong>So, how do you fix these issues and optimize your Spark Operator deployment?</strong><br />
-That’s where our <strong>benchmarking results and toolkit</strong> come in.</p>
-
-<h2 id="-tuning-best-practices-for-spark-operator">🛠 Tuning Best Practices for Spark Operator</h2>
-<p>Based on our benchmarking findings, we provide <strong>clear, actionable recommendations</strong> for improving Spark Operator performance at scale.</p>
-
-<p>If you’re running <strong>thousands of concurrent Spark jobs</strong>, here’s what you need to do:</p>
-
-<h3 id="deploy-multiple-spark-operator-instances"><strong>Deploy Multiple Spark Operator Instances</strong></h3>
-<p>💡 <strong>Why?</strong> A single Spark Operator instance struggles to keep up with high job submission rates.<br />
-✅ <strong>Solution</strong>: When a single Spark Operator instance struggles with high job submission rates, leading to CPU saturation and slower job launches, <strong>deploying multiple instances can help</strong>. Distribute the workload by assigning different namespaces to each instance. For example, one instance can manage `<strong>20 namespaces</strong> while another handles a separate set of <strong>20 namespaces</strong>. This prevents bottlenecks and ensures efficient Spark job execution.</p>
-
-<h3 id="disable-webhooks-for-faster-job-starts"><strong>Disable Webhooks for Faster Job Starts</strong></h3>
-<p>💡 <strong>Why?</strong> Webhooks introduce <code class="language-plaintext highlighter-rouge">~60 seconds</code> of delay per job due to validation and mutation overhead, reducing throughput in large workloads.
-✅ <strong>Solution</strong>: Instead of using <strong>webhooks</strong> for volume mounts, node selectors, or taints, define <strong>Spark Pod Templates</strong> directly within the Spark job definition—no additional files are needed. Disable webhooks by setting <code class="language-plaintext highlighter-rouge">webhook.enable=false</code> in the Helm chart.</p>
-
-<h3 id="increase-controller-workers"><strong>Increase Controller Workers</strong></h3>
-<p>💡 <strong>Why?</strong> By default, the operator runs with <strong>10 controller workers</strong>, but our benchmarks showed increasing this to <strong>20 or 30 workers</strong> improved job throughput.<br />
-✅ <strong>Solution</strong>: Set <code class="language-plaintext highlighter-rouge">controller.workers=20</code> if your Operator pod runs on a <code class="language-plaintext highlighter-rouge">36-core</code> CPU or higher to enable faster parallel job execution. For larger workloads (e.g., 72+ cores), increase to 40+ workers for better parallel job execution.</p>
-
-<h3 id="enable-a-batch-scheduler-volcano--yunikorn"><strong>Enable a Batch Scheduler (Volcano / YuniKorn)</strong></h3>
-<p>💡 <strong>Why?</strong> Kubernetes’ default scheduler isn’t optimized for batch workloads, leading to <strong>inefficient job placements</strong>.<br />
-✅ <strong>Solution</strong>: Enable <strong>Volcano</strong> or <strong>YuniKorn</strong> (<code class="language-plaintext highlighter-rouge">batchScheduler.enable=true</code>) to optimize job scheduling. These schedulers provide <strong>gang scheduling, queue management, and multi-tenant resource sharing</strong>. Benchmarks show that <strong>Apache YuniKorn</strong> schedules jobs faster than the default Kubernetes scheduler.</p>
-
-<h3 id="optimize-api-server-scaling"><strong>Optimize API Server Scaling</strong></h3>
-<p>💡 <strong>Why?</strong> API server latency spikes to <strong>600ms+ under heavy load</strong>, affecting Spark job responsiveness.<br />
-✅ <strong>Solution</strong>: Scale API server replicas, allocate more CPU and memory, and optimize event handling. Ensure your <strong>Kubernetes API server and etcd</strong> auto-scale to handle bursty workloads efficiently. Monitor <code class="language-plaintext highlighter-rouge">kube-apiserver</code> metrics and scale <code class="language-plaintext highlighter-rouge">etcd</code> accordingly. If running thousands of Spark pods, consider <strong>manually increasing control plane node sizes</strong>.</p>
-
-<h3 id="distribute-spark-jobs-across-multiple-namespaces"><strong>Distribute Spark Jobs Across Multiple Namespaces</strong></h3>
-<p>💡 <strong>Why?</strong> Running too many jobs in a single namespace causes <strong>environment variable overflows</strong>, leading to pod failures.<br />
-✅ <strong>Solution</strong>: When too many pods are placed in a single namespace, operations like listing or modifying resources can generate large <strong>API server</strong> responses, increasing latency. For example, retrieving all pods may result in a substantial size in response, consuming significant server resources. Additionally, <strong>etcd</strong>, Kubernetes’ key-value store, can become a bottleneck when handling frequent updates from a high number of pods in one namespace. Heavy read and write operations can strain etcd, causing increased latencies and potential timeouts. To improve performance and stability, it is recommended to <strong>distribute workloads across multiple namespaces</strong>.</p>
-
-<h3 id="monitor--tune-using-the-open-source-grafana-dashboard"><strong>Monitor &amp; Tune Using the Open-Source Grafana Dashboard</strong></h3>
-<p>💡 <strong>Why?</strong> Observability is key to identifying performance bottlenecks.<br />
-✅ <strong>Solution</strong>: Use our <strong><a href="https://grafana.com/grafana/dashboards/23032-spark-operator-scale-test-dashboard/">Spark Operator Scale Test Dashboard</a></strong> to track job submission rates, API latencies, and CPU utilization in real time.</p>
-
-<h2 id="-learn-more--get-started">📖 Learn More &amp; Get Started</h2>
-<p>The <strong>Kubeflow Spark Operator Benchmarking Results and Toolkit</strong> provide an in-depth <strong>performance playbook</strong> for running Spark at scale on Kubernetes. Whether you’re troubleshooting an existing deployment or planning for future growth, this toolkit arms you with <strong>data-driven insights</strong> and <strong>best practices</strong> for success.</p>
-
-<p>🚀 <strong>Ready to optimize your Spark workloads?</strong> Dive into the full results and toolkit below:<br />
-📖 <strong><a href="https://www.kubeflow.org/docs/components/spark-operator/performance/benchmarking/">Kubeflow Spark Operator Benchmarks</a></strong></p>]]></content><author><name>&lt;a href='https://www.linkedin.com/in/varaprofile/'&gt;Vara Bonthu&lt;/a&gt;, &lt;a href='https://www.linkedin.com/in/manabumccloskey/'&gt;Manabu McCloskey&lt;/a&gt;, &lt;a href='https://www.linkedin.com/in/ratnopamc/'&gt;Ratnopam Chakrabarti &lt;/a&gt;, &lt;a href='https://www.linkedin.com/in/alanhalcyon/'&gt;Alan Halcyon&lt;/a&gt;</name></author><category term="operators" /><category term="benchmarking" /><category term="performance" /><summary type="html"><![CDATA[Kubernetes has become the go-to platform for running large-scale Apache Spark workloads. But as workloads scale, how do you ensure your Spark jobs run efficiently without hitting bottlenecks? Managing thousands of concurrent Spark jobs can introduce severe performance challenges—from CPU saturation in the Spark Operator to Kubernetes API slowdowns and job scheduling inefficiencies.]]></summary></entry></feed>
+</ul>]]></content><author><name>Kubeflow 1.10 Release Team, Dimitris Poulopoulos</name></author><category term="release" /><summary type="html"><![CDATA[Kubeflow 1.10.0 delivers essential updates that enhance the flexibility, efficiency, and scalability of machine learning workflows. The new features span across several components, improving both user experience and system performance.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

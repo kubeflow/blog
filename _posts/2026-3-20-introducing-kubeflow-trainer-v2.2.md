@@ -228,7 +228,7 @@ Several TrainJob spec fields are now properly enforced as immutable after job cr
 
 ## Release Notes
 
-For the complete list of all pull requests, visit the GitHub release page: TBD add release page
+For the complete list of all pull requests, visit the GitHub release page: https://github.com/kubeflow/trainer/releases/tag/v2.2.0
 
 ## Roadmap Moving Forward
 

@@ -40,7 +40,7 @@ Every user-facing feature works the same way it did before. The API contracts ar
 The KFP frontend had been running on React 16 (released in 2017) with Material-UI v3, Create React App, and Jest/Enzyme for testing. This created compounding issues:
 
 - **Security exposure.** React 16 and 17 no longer receive security patches, and dozens of transitive dependencies were locked to outdated versions because of React peer constraints.
-- **Stalled ecosystem.** Modern libraries — including improved data-fetching, visualization, and accessibility tools — dropped support for React 16/17. Staying behind meant the UI couldn't benefit from upstream improvements.
+- **Stalled ecosystem.** Modern libraries — including improved data-fetching, visualization, and accessibility tools — dropped support for React 16/17. Staying behind meant the UI could not benefit from upstream improvements.
 - **Contributor friction.** The legacy CRA + Jest + Enzyme toolchain was slow to build, brittle to test, and increasingly difficult for new contributors to set up. Modernizing the stack lowers the barrier to contribution.
 
 ## How we got here

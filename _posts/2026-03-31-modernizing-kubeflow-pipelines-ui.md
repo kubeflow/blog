@@ -9,7 +9,7 @@ permalink: /modernizing-kubeflow-pipelines-ui/
 author: Manaswini Das
 ---
 
-The Kubeflow Pipelines web interface has been upgraded from React 16 to React 19 — a modernization effort that touches every layer of the frontend stack. Whether you use the UI to manage pipelines day-to-day or contribute to the codebase, here's what this means for you.
+The Kubeflow Pipelines web interface has been upgraded from React 16 to React 19 — a modernization effort that touches every layer of the frontend stack. Whether you use the UI to manage pipelines day-to-day or contribute to the codebase, here is what this means for you.
 
 ## What's changing for users
 

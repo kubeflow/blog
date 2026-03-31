@@ -13,7 +13,7 @@ The Kubeflow Pipelines web interface has been upgraded from React 16 to React 19
 
 ## What's changing for users
 
-You don't need to do anything differently. Your bookmarks, workflows, and browser all work exactly as before. But under the hood, the UI is now built on a modern foundation that delivers tangible improvements:
+You do not need to do anything differently. Your bookmarks, workflows, and browser all work exactly as before. But under the hood, the UI is now built on a modern foundation that delivers tangible improvements:
 
 ### A faster, more responsive interface
 

@@ -49,7 +49,7 @@ Rather than attempting a single risky version jump, we followed a deps-first, bu
 
 ### React 16 → 17: Rebuilding the foundation
 
-Before React could move forward, the entire build and test toolchain had to be replaced. Create React App was swapped for Vite, Jest + Enzyme gave way to Vitest + Testing Library, and Material-UI was upgraded from v3 to v4 to unblock the React 17 peer range. The deprecated react-vis charting library was replaced with Recharts. With those blockers cleared, the React 17 bump itself was a small, low-risk change.
+Before React could move forward, the entire build and test toolchain had to be replaced. create-react-app was swapped for Vite, Jest + Enzyme gave way to Vitest + Testing Library, and Material-UI was upgraded from v3 to v4 to unblock the React 17 peer range. The deprecated react-vis charting library was replaced with Recharts. With those blockers cleared, the React 17 bump itself was a small, low-risk change.
 
 ### React 17 → 18: The biggest leap
 

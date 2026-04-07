@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Modernizing Kubeflow Pipelines UI | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Modernizing Kubeflow Pipelines UI" />
+<meta name="author" content="Manaswini Das" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The Kubeflow Pipelines web interface has been upgraded from React 16 to React 19 — a modernization effort that touches every layer of the frontend stack. Whether you use the UI to manage pipelines day-to-day or contribute to the codebase, here is what this means for you." />
+<meta property="og:description" content="The Kubeflow Pipelines web interface has been upgraded from React 16 to React 19 — a modernization effort that touches every layer of the frontend stack. Whether you use the UI to manage pipelines day-to-day or contribute to the codebase, here is what this means for you." />
+<link rel="canonical" href="https://blog.kubeflow.org/modernizing-kubeflow-pipelines-ui/" />
+<meta property="og:url" content="https://blog.kubeflow.org/modernizing-kubeflow-pipelines-ui/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-03-31T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Modernizing Kubeflow Pipelines UI" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Manaswini Das"},"dateModified":"2026-03-31T00:00:00-05:00","datePublished":"2026-03-31T00:00:00-05:00","description":"The Kubeflow Pipelines web interface has been upgraded from React 16 to React 19 — a modernization effort that touches every layer of the frontend stack. Whether you use the UI to manage pipelines day-to-day or contribute to the codebase, here is what this means for you.","headline":"Modernizing Kubeflow Pipelines UI","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/modernizing-kubeflow-pipelines-ui/"},"url":"https://blog.kubeflow.org/modernizing-kubeflow-pipelines-ui/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Modernizing Kubeflow Pipelines UI</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2026-03-31T00:00:00-05:00" itemprop="datePublished">
+        Mar 31, 2026
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Manaswini Das</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#pipelines">pipelines</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#whats-changing-for-users">What’s changing for users</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#a-faster-more-responsive-interface">A faster, more responsive interface</a></li>
+<li class="toc-entry toc-h3"><a href="#smoother-pipeline-graph-navigation">Smoother pipeline graph navigation</a></li>
+<li class="toc-entry toc-h3"><a href="#improved-charts-and-metrics-display">Improved charts and metrics display</a></li>
+<li class="toc-entry toc-h3"><a href="#better-accessibility">Better accessibility</a></li>
+<li class="toc-entry toc-h3"><a href="#no-breaking-changes">No breaking changes</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#why-we-made-this-change">Why we made this change</a></li>
+<li class="toc-entry toc-h2"><a href="#how-we-got-here">How we got here</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#react-16--17-rebuilding-the-foundation">React 16 → 17: Rebuilding the foundation</a></li>
+<li class="toc-entry toc-h3"><a href="#react-17--18-the-biggest-leap">React 17 → 18: The biggest leap</a></li>
+<li class="toc-entry toc-h3"><a href="#react-18--19-the-final-stretch">React 18 → 19: The final stretch</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#the-full-stack-transformation">The full stack transformation</a></li>
+<li class="toc-entry toc-h2"><a href="#by-the-numbers">By the numbers</a></li>
+<li class="toc-entry toc-h2"><a href="#want-to-contribute">Want to contribute?</a></li>
+</ul><p>The Kubeflow Pipelines web interface has been upgraded from React 16 to React 19 — a modernization effort that touches every layer of the frontend stack. Whether you use the UI to manage pipelines day-to-day or contribute to the codebase, here is what this means for you.</p>
+
+<h2 id="whats-changing-for-users">
+<a class="anchor" href="#whats-changing-for-users" aria-hidden="true"><span class="octicon octicon-link"></span></a>What’s changing for users</h2>
+
+<p>You do not need to do anything differently. Your bookmarks, workflows, and browser all work exactly as before. But under the hood, the UI is now built on a modern foundation that delivers tangible improvements:</p>
+
+<h3 id="a-faster-more-responsive-interface">
+<a class="anchor" href="#a-faster-more-responsive-interface" aria-hidden="true"><span class="octicon octicon-link"></span></a>A faster, more responsive interface</h3>
+
+<p>React 18 introduced automatic batching, which reduces unnecessary re-renders across the UI. In practice, this means pages like Run Details, Experiment Details, and the pipeline creation flow respond faster to your interactions. Forms validate without flicker, and multi-step workflows feel snappier. The production bundle size stayed exactly the same — 0% increase — so page load times are unchanged.</p>
+
+<h3 id="smoother-pipeline-graph-navigation">
+<a class="anchor" href="#smoother-pipeline-graph-navigation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Smoother pipeline graph navigation</h3>
+
+<p>The pipeline DAG visualization (the graph you see when inspecting a pipeline’s structure) has been migrated from the deprecated react-flow-renderer to @xyflow/react. This brings improved pan, zoom, and drag performance, especially on larger or more complex pipeline graphs. If you’ve ever experienced sluggishness when navigating a deeply nested pipeline, this upgrade directly addresses that.</p>
+
+<h3 id="improved-charts-and-metrics-display">
+<a class="anchor" href="#improved-charts-and-metrics-display" aria-hidden="true"><span class="octicon octicon-link"></span></a>Improved charts and metrics display</h3>
+
+<p>Run metrics and comparison charts now use Recharts instead of the deprecated react-vis library. The new charting library renders more efficiently, handles edge cases better, and provides cleaner visual output when comparing run results side by side.</p>
+
+<h3 id="better-accessibility">
+<a class="anchor" href="#better-accessibility" aria-hidden="true"><span class="octicon octicon-link"></span></a>Better accessibility</h3>
+
+<p>The component library migration from Material-UI v3 to MUI v5 brings improved keyboard navigation, better ARIA attribute coverage, and more consistent focus management across dialogs, tables, and form elements. These improvements make the UI more usable with screen readers and keyboard-only workflows.</p>
+
+<h3 id="no-breaking-changes">
+<a class="anchor" href="#no-breaking-changes" aria-hidden="true"><span class="octicon octicon-link"></span></a>No breaking changes</h3>
+
+<p>Every user-facing feature works the same way it did before. The API contracts are unchanged. If you use the KFP Python SDK or REST API to interact with the platform, nothing changes on your end. This upgrade was purely a frontend modernization — zero impact on backend behavior, pipeline execution, or artifact storage.</p>
+
+<h2 id="why-we-made-this-change">
+<a class="anchor" href="#why-we-made-this-change" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why we made this change</h2>
+
+<p>The KFP frontend had been running on React 16 (released in 2017) with Material-UI v3, create-react-app, and Jest/Enzyme for testing. This created compounding issues:</p>
+
+<ul>
+  <li>
+<strong>Security exposure.</strong> React 16 and 17 no longer receive security patches, and dozens of transitive dependencies were locked to outdated versions because of React peer constraints.</li>
+  <li>
+<strong>Stalled ecosystem.</strong> Modern libraries — including improved data-fetching, visualization, and accessibility tools — dropped support for React 16/17. Staying behind meant the UI could not benefit from upstream improvements.</li>
+  <li>
+<strong>Contributor friction.</strong> The legacy CRA + Jest + Enzyme toolchain was slow to build, brittle to test, and increasingly difficult for new contributors to set up. Modernizing the stack lowers the barrier to contribution.</li>
+</ul>
+
+<h2 id="how-we-got-here">
+<a class="anchor" href="#how-we-got-here" aria-hidden="true"><span class="octicon octicon-link"></span></a>How we got here</h2>
+
+<p>Rather than attempting a single risky version jump, we followed a deps-first, bump-last strategy: upgrade every dependency to be forward-compatible before touching React itself. A custom React peer compatibility gate in CI prevented regressions at every step. The work was executed across <strong>20+</strong> pull requests in strict dependency order.</p>
+
+<h3 id="react-16--17-rebuilding-the-foundation">
+<a class="anchor" href="#react-16--17-rebuilding-the-foundation" aria-hidden="true"><span class="octicon octicon-link"></span></a>React 16 → 17: Rebuilding the foundation</h3>
+
+<p>Before React could move forward, the entire build and test toolchain had to be replaced. create-react-app was swapped for Vite, Jest + Enzyme gave way to Vitest + Testing Library, and Material-UI was upgraded from v3 to v4 to unblock the React 17 peer range. The deprecated react-vis charting library was replaced with Recharts. With those blockers cleared, the React 17 bump itself was a small, low-risk change.</p>
+
+<h3 id="react-17--18-the-biggest-leap">
+<a class="anchor" href="#react-17--18-the-biggest-leap" aria-hidden="true"><span class="octicon octicon-link"></span></a>React 17 → 18: The biggest leap</h3>
+
+<p>This phase required the most dependency work. Storybook jumped from v6 straight to v10 on the Vite builder. Material-UI v4 was migrated to MUI v5 with Emotion. react-query moved to @tanstack/react-query v4. react-flow-renderer was replaced with @xyflow/react. After all ecosystem deps cleared the peer gate, the React 18 core bump landed — followed by careful stabilization of automatic batching behavior in class components that were reading stale state.</p>
+
+<h3 id="react-18--19-the-final-stretch">
+<a class="anchor" href="#react-18--19-the-final-stretch" aria-hidden="true"><span class="octicon octicon-link"></span></a>React 18 → 19: The final stretch</h3>
+
+<p>A deprecation audit at React 18.3 found zero React-specific warnings. A final dependency sweep cleared the last peer blockers (react-ace, transitive react-redux). The React 19 bump resolved the final allowlist entry and handled a small set of API changes like the removal of forwardRef in test mocks.</p>
+
+<h2 id="the-full-stack-transformation">
+<a class="anchor" href="#the-full-stack-transformation" aria-hidden="true"><span class="octicon octicon-link"></span></a>The full stack transformation</h2>
+
+<p>Over the course of this effort, virtually every layer of the frontend stack was modernized:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Layer</th>
+      <th>Before</th>
+      <th>After</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>React</td>
+      <td>16</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <td>Build system</td>
+      <td>Create React App + Craco</td>
+      <td>Vite</td>
+    </tr>
+    <tr>
+      <td>Test framework</td>
+      <td>Jest + Enzyme</td>
+      <td>Vitest + Testing Library</td>
+    </tr>
+    <tr>
+      <td>UI component library</td>
+      <td>Material-UI v3</td>
+      <td>MUI v5 + Emotion</td>
+    </tr>
+    <tr>
+      <td>Data fetching</td>
+      <td>react-query v3</td>
+      <td>@tanstack/react-query v4</td>
+    </tr>
+    <tr>
+      <td>Pipeline graph</td>
+      <td>react-flow-renderer v9</td>
+      <td>@xyflow/react</td>
+    </tr>
+    <tr>
+      <td>Charts</td>
+      <td>react-vis</td>
+      <td>Recharts</td>
+    </tr>
+    <tr>
+      <td>Storybook</td>
+      <td>6 (Webpack)</td>
+      <td>10 (Vite)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="by-the-numbers">
+<a class="anchor" href="#by-the-numbers" aria-hidden="true"><span class="octicon octicon-link"></span></a>By the numbers</h2>
+
+<ul>
+  <li>20+ PRs merged across the entire React 16-to-19 effort</li>
+  <li>
+<strong>15 tracked milestones</strong> executed in strict dependency order</li>
+  <li>
+<strong>0% bundle size increase</strong> — page load times unchanged</li>
+  <li>
+<strong>0 React deprecation warnings</strong> at the 18.3 checkpoint audit</li>
+  <li>
+<strong>0 breaking changes</strong> to user-facing features or APIs</li>
+</ul>
+
+<h2 id="want-to-contribute">
+<a class="anchor" href="#want-to-contribute" aria-hidden="true"><span class="octicon octicon-link"></span></a>Want to contribute?</h2>
+
+<p>The full execution plan with every PR, issue, and dependency graph is tracked in the <a href="https://github.com/kubeflow/pipelines/blob/master/frontend/docs/react-18-19-upgrade-checklist.md">react-18-19-upgrade-checklist.md</a>. Look for miscellaneous bugs, report bugs, help with reviews and help improve our documentation.</p>
+
+<p>Huge thanks to <a href="https://github.com/jeffspahr">@jeffspahr</a>, <a href="https://github.com/kanishka-commits">@kanishka-commits</a>, <a href="https://github.com/PR3MM">@PR3MM</a>, <a href="https://github.com/jsonmp-k8">@jsonmp-k8</a>, <a href="https://github.com/dpanshug">@dpanshug</a>, and <a href="https://github.com/rishi-jat">@rishi-jat</a> for contributing to this effort and reviewing all the contributions leading up to this milestone!</p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/modernizing-kubeflow-pipelines-ui/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name"></li>
+          <li><a class="u-email" href="mailto:"></a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

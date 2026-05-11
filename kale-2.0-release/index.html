@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Kale 2.0: A new chapter for an old idea | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Kale 2.0: A new chapter for an old idea" />
+<meta name="author" content="Stefano Fioravanzo" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This is a post I’d long wished for, then lost hope for, then forgot about. Somehow, things started moving again. And here we are. Kale is officially part of the Kubeflow ecosystem, it’s alive and growing, and now has a new release that will lay the foundation for a whole new chapter." />
+<meta property="og:description" content="This is a post I’d long wished for, then lost hope for, then forgot about. Somehow, things started moving again. And here we are. Kale is officially part of the Kubeflow ecosystem, it’s alive and growing, and now has a new release that will lay the foundation for a whole new chapter." />
+<link rel="canonical" href="https://blog.kubeflow.org/kale-2.0-release/" />
+<meta property="og:url" content="https://blog.kubeflow.org/kale-2.0-release/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-05-06T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Kale 2.0: A new chapter for an old idea" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Stefano Fioravanzo"},"dateModified":"2026-05-06T00:00:00-05:00","datePublished":"2026-05-06T00:00:00-05:00","description":"This is a post I’d long wished for, then lost hope for, then forgot about. Somehow, things started moving again. And here we are. Kale is officially part of the Kubeflow ecosystem, it’s alive and growing, and now has a new release that will lay the foundation for a whole new chapter.","headline":"Kale 2.0: A new chapter for an old idea","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kale-2.0-release/"},"url":"https://blog.kubeflow.org/kale-2.0-release/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kale 2.0: A new chapter for an old idea</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2026-05-06T00:00:00-05:00" itemprop="datePublished">
+        May 6, 2026
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Stefano Fioravanzo</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#kale">kale</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#release">release</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#a-graduate-project-finally-home">A graduate project, finally home</a></li>
+<li class="toc-entry toc-h2"><a href="#whats-in-20">What’s in 2.0</a></li>
+<li class="toc-entry toc-h2"><a href="#why-kale-still">Why Kale, still?</a></li>
+<li class="toc-entry toc-h2"><a href="#thank-you">Thank you</a></li>
+<li class="toc-entry toc-h2"><a href="#want-to-contribute">Want to Contribute?</a></li>
+</ul><p>This is a post I’d long wished for, then lost hope for, then forgot about. Somehow, things started moving again. And here we are. Kale is officially part of the Kubeflow ecosystem, it’s alive and growing, and now has a new release that will lay the foundation for a whole new chapter.</p>
+
+<p>Kale began as my graduate thesis in Data Science. It turned into a real product at Arrikto, a Greek startup that got swept away by the strong currents of the startup world. Kale wa then picked up by the community, and at some point started showing up in talks and tutorials I had nothing to do with. Then — like a lot of open source — it went quiet. For a few years I kept an eye on the inbox, answered the occasional question, and watched the repo slowly drift away from the world it was built for.</p>
+
+<p>With Kale 2.0 landing upstream, that quiet period is officially over.</p>
+
+<h2 id="a-graduate-project-finally-home">
+<a class="anchor" href="#a-graduate-project-finally-home" aria-hidden="true"><span class="octicon octicon-link"></span></a>A graduate project, finally home</h2>
+
+<p>It took me a while to process that Kale now lives at <code class="language-plaintext highlighter-rouge">kubeflow/kale</code>. The repo, the working group, the Google Summer of Code 2025 collaboration that did the heavy lifting on the Kubeflow Pipelines (KFP) v2 backend migration — none of it is “mine” anymore in the way it used to be. And that is exactly what I hoped would happen.</p>
+
+<p>Seeing momentum return to a project that had been dormant for years means a lot to me. It tells me the original idea — giving data scientists a way to ship pipelines from inside their notebook — wasn’t a side product of a specific company or moment in time. It was a real problem, and it still is.</p>
+
+<p>I’m fully aware that the project will take a path I don’t get to fully chart anymore. New maintainers, new priorities, new opinions. That’s how it should be, and I’m genuinely happy about it.</p>
+
+<h2 id="whats-in-20">
+<a class="anchor" href="#whats-in-20" aria-hidden="true"><span class="octicon octicon-link"></span></a>What’s in 2.0</h2>
+
+<p>The headline is full KFP v2 compatibility — the entire backend has been rewritten to compile against the v2 pipeline spec and to support the artifact-based data passing mechanism. Alongside that, the JupyterLab extension has been modernized and now runs on JupyterLab 4, and a handful of legacy pieces have been removed. 2.0 also brings loads of usability improvements, lots of modernizing refactors, a new sidebar “homepage”, revamped examples, and a dedicated <a href="https://kale.kubeflow.org">documentation website</a>! The full notes are on the <a href="https://github.com/kubeflow/kale/releases">releases page</a>.</p>
+
+<h2 id="why-kale-still">
+<a class="anchor" href="#why-kale-still" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why Kale, still?</h2>
+
+<p>This is the part I actually want to talk about.</p>
+
+<p>The world Kale was born into looked very different. In 2019, “abstract away the KFP SDK so data scientists don’t have to write boilerplate” was a clear, useful goal on its own. In 2026, an AI assistant will happily write that boilerplate for you in seconds. So the obvious question is: what is Kale even for now?</p>
+
+<p>My answer is that Kale was never really about hiding KFP. It was about meeting users where they already work. That goal becomes <em>more</em> important in an AI-native world, not less.</p>
+
+<p>I see Kale today as the foundation for a low-code approach to Kubeflow, with two directions that matter to me.</p>
+
+<p>The first is synergy with the <a href="https://sdk.kubeflow.org">Kubeflow SDK</a>. The SDK is unifying how users interact with Kubeflow across CLI, API, and Python — Kale’s job is to bring that same surface <em>inside the notebook</em>, so a data scientist’s experience stays coherent whether they’re in a terminal, a script, or a JupyterLab tab.</p>
+
+<p>The second is synergy with the JupyterLab community. The notebook itself is becoming a richer surface — real-time collaboration, <a href="https://jupyter-ai.readthedocs.io/">Jupyter AI</a> for in-context AI assistance, and a steady push toward notebooks as a serious development environment. Kale plugs straight into that direction. A pipeline you can describe, refine with an AI assistant, and run on Kubeflow without leaving the notebook is a much more interesting product than “a UI for KFP.”</p>
+
+<p>On top of that, we have more ideas than we can follow through on. We’ll experiment with low-code, in-notebook interfaces for orchestrating multiple notebooks as part of the upcoming Google Summer of Code 2026 project.</p>
+
+<h2 id="thank-you">
+<a class="anchor" href="#thank-you" aria-hidden="true"><span class="octicon octicon-link"></span></a>Thank you</h2>
+
+<p>To everyone in the ML Experience Working Group, to <a href="https://github.com/ederign">Eder Ignatowicz</a> for co-leading the Kale focus with me, to <a href="https://github.com/Amrit27k">Amrit Kumar</a> for his GSoC contributions, to <a href="https://github.com/andreyvelich">Andrey Velichkevich</a> for the relentless operational support, and to the maintainers and reviewers who showed up for an old project that needed waking up — <a href="https://github.com/hmtosi">Hannah Tosi</a>, <a href="https://github.com/ada333">Adam David Maly</a>, <a href="https://github.com/jesuino">William Antônio Siqueira</a>, <a href="https://github.com/Ya-shh">Yashh</a>, <a href="https://github.com/ai-naymul">Naymul Islam</a> and others! You all took something that had been quiet for years and gave it a second life inside the community it was always meant to live in.</p>
+
+<h2 id="want-to-contribute">
+<a class="anchor" href="#want-to-contribute" aria-hidden="true"><span class="octicon octicon-link"></span></a>Want to Contribute?</h2>
+
+<ul>
+  <li>GitHub: <a href="https://github.com/kubeflow/kale">kubeflow/kale</a>
+</li>
+  <li>Slack: <a href="https://kubeflow.slack.com/">#kubeflow-ml-experience</a> on the Kubeflow workspace</li>
+  <li>Working group: ML Experience WG meetings — see the <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow community calendar</a>
+</li>
+  <li>Browse the <a href="https://www.kubeflow.org/docs/components/kale/overview/">Kale page</a> in the Kubeflow website</li>
+  <li>Issues &amp; feature requests: <a href="https://github.com/kubeflow/kale/issues">github.com/kubeflow/kale/issues</a>
+</li>
+</ul>
+
+<p>— Stefano</p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/kale-2.0-release/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name"></li>
+          <li><a class="u-email" href="mailto:"></a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

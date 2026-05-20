@@ -92,6 +92,12 @@ Respondents also emphasized the need for improved data flow management between p
 
 To support more advanced ML workflows, we are expanding SDK integrations across the Kubeflow ecosystem, including tighter support for pipelines, distributed training workloads, and integrations with additional components such as [ML Flow](https://github.com/kubeflow/sdk/issues/63), [Spark Client](https://github.com/kubeflow/sdk/issues/107), [model registries](https://github.com/kubeflow/sdk/pull/186).
 
+## Kubeflow SDK Talks
+
+- [Streamlining ML Workflows With the Unified Kubeflow SDK](https://www.youtube.com/watch?v=e_rFwH7CZ_E)
+- [Still Burning GPUs On Debugging? Scale AI In One Line](https://www.youtube.com/watch?v=Ix5kmLvlA5Y)
+- [Kubeflow SDK Demo - LLM Fine-Tuning with BuiltinTrainer](https://www.youtube.com/watch?v=pRWTLiW3dKQ)
+
 ## Join the Community
 
 We would like to thank everyone who participated in the survey and shared their feedback. If you're building ML platforms with Kubeflow or experimenting with the SDK, we'd love to hear your feedback.
@@ -101,5 +107,6 @@ The Kubeflow ML Experience Working Group holds open meetings and is always looki
 You can connect with the community through:
 - **Slack:** [#kubeflow-ml-experience](https://kubeflow.slack.com/archives/C07B0M6M40W)
 - **Community Calendar:** [Kubeflow Community Calendar](https://www.kubeflow.org/docs/about/community/#kubeflow-community-calendars)
+- **ML Experience WG Meeting Notes:** [Notes](https://docs.google.com/document/d/1jH2WAX2ePxOfI4JuiVK9nPlesDMiyg67xzLwhpR7wTQ/edit?tab=t.0)
 
 Check out the [Kubeflow community page](https://www.kubeflow.org/docs/about/community/) to learn more.

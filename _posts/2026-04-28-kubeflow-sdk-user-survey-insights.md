@@ -69,7 +69,7 @@ Some responses also highlighted the growing complexity of modern ML systems as o
 
 ## What We’re Working on Next
 
-You can follow progress and planned work in the **SDK 0.4 roadmap**: [https://github.com/kubeflow/sdk/pull/326](https://github.com/kubeflow/sdk/pull/326). We encourage the community to review the roadmap, share feedback, and contribute ideas as these features continue to evolve.
+You can follow progress and planned work in the **SDK 0.4 roadmap**: [SDK 2026 Roadmap](https://github.com/kubeflow/sdk/blob/main/ROADMAP.md#2026). We encourage the community to review the roadmap, share feedback, and contribute ideas as these features continue to evolve.
 
 ![Automation Needs — Ranking of common pain points and infrastructure challenges](/images/2026-04-28-kubeflow-sdk-user-survey-insights/automation-needs.png)
 
@@ -85,18 +85,18 @@ To address this, we are working on local execution capabilities that allow devel
 ### Better Observability and Debugging
 To improve this experience, we have planned an [issue](https://github.com/kubeflow/sdk/issues/164) for integrating **OpenTelemetry (OTel)** into the SDK to provide better observability, including job progress tracking, metrics collection, and improved debugging workflows.
 
-We are also exploring the use of an [**MCP server**](https://github.com/kubeflow/sdk/issues/238) to enable AI-assisted capabilities that can help developers better understand job execution and troubleshoot failures.
+We are also exploring the use of an [**MCP server**](https://github.com/kubeflow/mcp-server) to enable AI-assisted capabilities that can help developers better understand job execution and troubleshoot failures.
 
 ### Expanding Support for Modern ML Workloads
 Respondents also emphasized the need for improved data flow management between pipeline components. **Artifact and metadata handling** ranked as the second-highest priority **(3.81 / 5)** in the survey.
 
-To support more advanced ML workflows, we are expanding SDK integrations across the Kubeflow ecosystem, including tighter support for pipelines, distributed training workloads, and integrations with additional components such as Spark and model registries.
+To support more advanced ML workflows, we are expanding SDK integrations across the Kubeflow ecosystem, including tighter support for pipelines, distributed training workloads, and integrations with additional components such as [ML Flow](https://github.com/kubeflow/sdk/issues/63), [Spark Client](https://github.com/kubeflow/sdk/issues/107), [model registries](https://github.com/kubeflow/sdk/pull/186).
 
 ## Join the Community
 
 We would like to thank everyone who participated in the survey and shared their feedback. If you're building ML platforms with Kubeflow or experimenting with the SDK, we'd love to hear your feedback.
 
-The Kubeflow SDK Working Group holds open meetings and is always looking for more volunteers and users to unlock the potential of machine learning.
+The Kubeflow ML Experience Working Group holds open meetings and is always looking for more volunteers and users to unlock the potential of machine learning.
 
 You can connect with the community through:
 - **Slack:** [#kubeflow-ml-experience](https://kubeflow.slack.com/archives/C07B0M6M40W)

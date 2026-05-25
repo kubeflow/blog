@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Kubeflow SDK User Survey 2026 - Feedback, Insights and Roadmap | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Kubeflow SDK User Survey 2026 - Feedback, Insights and Roadmap" />
+<meta name="author" content="Kubeflow SDK Team" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="To better understand the needs of our community, the Kubeflow SDK working group recently conducted a user survey focused on the SDK and developer workflows. The goal was to gather feedback from practitioners across the ecosystem about their current tooling, common challenges, and the features they would most like to see improved." />
+<meta property="og:description" content="To better understand the needs of our community, the Kubeflow SDK working group recently conducted a user survey focused on the SDK and developer workflows. The goal was to gather feedback from practitioners across the ecosystem about their current tooling, common challenges, and the features they would most like to see improved." />
+<link rel="canonical" href="https://blog.kubeflow.org/kubeflow-sdk-user-survey-insights/" />
+<meta property="og:url" content="https://blog.kubeflow.org/kubeflow-sdk-user-survey-insights/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-28T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Kubeflow SDK User Survey 2026 - Feedback, Insights and Roadmap" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Kubeflow SDK Team"},"dateModified":"2026-04-28T00:00:00-05:00","datePublished":"2026-04-28T00:00:00-05:00","description":"To better understand the needs of our community, the Kubeflow SDK working group recently conducted a user survey focused on the SDK and developer workflows. The goal was to gather feedback from practitioners across the ecosystem about their current tooling, common challenges, and the features they would most like to see improved.","headline":"Kubeflow SDK User Survey 2026 - Feedback, Insights and Roadmap","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow-sdk-user-survey-insights/"},"url":"https://blog.kubeflow.org/kubeflow-sdk-user-survey-insights/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kubeflow SDK User Survey 2026 - Feedback, Insights and Roadmap</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2026-04-28T00:00:00-05:00" itemprop="datePublished">
+        Apr 28, 2026
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Kubeflow SDK Team</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#sdk">sdk</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#community">community</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#overview">Overview</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#snapshot">Snapshot</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#how-developers-use-kubeflow">How Developers Use Kubeflow</a></li>
+<li class="toc-entry toc-h2"><a href="#key-developer-feedback">Key Developer Feedback</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#1-training-infrastructure-and-resource-management">1. Training Infrastructure and Resource Management</a></li>
+<li class="toc-entry toc-h3"><a href="#2-debugging-ml-workloads-is-still-painful">2. Debugging ML Workloads Is Still Painful</a></li>
+<li class="toc-entry toc-h3"><a href="#3-the-build--push--run-cycle-slows-iteration">3. The “Build → Push → Run” Cycle Slows Iteration</a></li>
+<li class="toc-entry toc-h3"><a href="#4-ml-workloads-are-becoming-more-complex">4. ML Workloads Are Becoming More Complex</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#what-were-working-on-next">What We’re Working on Next</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#local-testing-and-faster-iteration">Local Testing and Faster Iteration</a></li>
+<li class="toc-entry toc-h3"><a href="#better-observability-and-debugging">Better Observability and Debugging</a></li>
+<li class="toc-entry toc-h3"><a href="#expanding-support-for-modern-ml-workloads">Expanding Support for Modern ML Workloads</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#kubeflow-sdk-talks">Kubeflow SDK Talks</a></li>
+<li class="toc-entry toc-h2"><a href="#join-the-community">Join the Community</a></li>
+</ul><p>To better understand the needs of our community, the Kubeflow SDK working group recently conducted a <a href="https://github.com/kubeflow/sdk/issues/170">user survey</a> focused on the SDK and developer workflows. The goal was to gather feedback from practitioners across the ecosystem about their current tooling, common challenges, and the features they would most like to see improved.</p>
+
+<p>The insights from this survey help guide the ongoing development of the Kubeflow SDK and inform priorities for future improvements in developer tooling, observability, and workflow management.</p>
+
+<h2 id="overview">
+<a class="anchor" href="#overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview</h2>
+
+<p>The user survey was conducted to understand how developers use Kubeflow in their day-to-day ML workflows and what improvements would most benefit the developer experience.</p>
+
+<h4 id="snapshot">
+<a class="anchor" href="#snapshot" aria-hidden="true"><span class="octicon octicon-link"></span></a>Snapshot</h4>
+<ul>
+  <li>
+<strong>Responses:</strong> 30+ practitioners from the Kubeflow ecosystem</li>
+  <li>
+<strong>Audience:</strong> ML engineers, platform engineers, and AI practitioners</li>
+  <li>
+<strong>Key Focus Areas:</strong>
+    <ul>
+      <li>Which Kubeflow components are most widely used</li>
+      <li>Tools and frameworks used for model development</li>
+      <li>Pain points when building and running ML workloads</li>
+      <li>Feature priorities for improving the SDK experience</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/images/2026-04-28-kubeflow-sdk-user-survey-insights/survey-responders.png" alt="Survey Responders — Chart showing the breakdown of practitioner roles and responses"></p>
+
+<p><em>Discussion thread: <a href="https://github.com/kubeflow/sdk/discussions/155">https://github.com/kubeflow/sdk/discussions/155</a></em></p>
+
+<h2 id="how-developers-use-kubeflow">
+<a class="anchor" href="#how-developers-use-kubeflow" aria-hidden="true"><span class="octicon octicon-link"></span></a>How Developers Use Kubeflow</h2>
+
+<p>Survey responses show that Kubeflow is primarily used as the orchestration layer for machine learning workflows, while developers rely on familiar Python tooling for model development.</p>
+
+<ul>
+  <li>
+<strong>Top Components:</strong> <strong>Kubeflow Pipelines (KFP)</strong> remains the core service used by most respondents, followed by <strong>Kubeflow Notebooks</strong> for experimentation and the <strong>Kubeflow Trainer (Training Operator)</strong> for scalable training workloads.</li>
+  <li>
+<strong>Tech Stack:</strong> <strong>PyTorch</strong> is the dominant framework for model development, while <strong>VS Code</strong> and <strong>Jupyter Notebook</strong> remain the primary development environments used by practitioners.</li>
+</ul>
+
+<h2 id="key-developer-feedback">
+<a class="anchor" href="#key-developer-feedback" aria-hidden="true"><span class="octicon octicon-link"></span></a>Key Developer Feedback</h2>
+
+<p><img src="/images/2026-04-28-kubeflow-sdk-user-survey-insights/areas-to-automate.png" alt="Areas to Automate — Visualization of developer tasks and automation priorities"></p>
+
+<p>The survey responses highlighted a few recurring challenges developers face when building and running ML workloads with Kubeflow. Several patterns emerged around infrastructure complexity, debugging, and slow development cycles.</p>
+
+<h3 id="1-training-infrastructure-and-resource-management">
+<a class="anchor" href="#1-training-infrastructure-and-resource-management" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Training Infrastructure and Resource Management</h3>
+<p>Many respondents highlighted the operational complexity of managing distributed training workloads. Configuring GPUs, scheduling resources, and handling Kubernetes infrastructure often requires significant manual setup.</p>
+
+<blockquote>
+  <p>“Managing distributed training jobs and GPU resources still requires a lot of manual setup.”
+<em>— Platform Engineer</em></p>
+</blockquote>
+
+<h3 id="2-debugging-ml-workloads-is-still-painful">
+<a class="anchor" href="#2-debugging-ml-workloads-is-still-painful" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Debugging ML Workloads Is Still Painful</h3>
+<p>Debugging distributed jobs running on Kubernetes remains a major challenge. Respondents frequently mentioned scattered logs and cryptic errors such as “OOMKilled” or networking issues during distributed training.</p>
+
+<blockquote>
+  <p>“When something fails, figuring out what actually went wrong takes too long.”
+<em>— ML Engineer</em></p>
+</blockquote>
+
+<h3 id="3-the-build--push--run-cycle-slows-iteration">
+<a class="anchor" href="#3-the-build--push--run-cycle-slows-iteration" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. The “Build → Push → Run” Cycle Slows Iteration</h3>
+<p>Several respondents pointed to the slow build → push → run workflow required to test even small changes to pipelines or training jobs.</p>
+
+<blockquote>
+  <p>“Every small change requires rebuild, push, and rerun — it slows down experimentation.”
+<em>— AI Practitioner</em></p>
+</blockquote>
+
+<h3 id="4-ml-workloads-are-becoming-more-complex">
+<a class="anchor" href="#4-ml-workloads-are-becoming-more-complex" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. ML Workloads Are Becoming More Complex</h3>
+<p>Some responses also highlighted the growing complexity of modern ML systems as organizations move toward larger models and more sophisticated pipelines.</p>
+
+<blockquote>
+  <p>“Typical examples are no longer simple models — we need better support for complex training pipelines.”
+<em>— ML Engineer</em></p>
+</blockquote>
+
+<h2 id="what-were-working-on-next">
+<a class="anchor" href="#what-were-working-on-next" aria-hidden="true"><span class="octicon octicon-link"></span></a>What We’re Working on Next</h2>
+
+<p>You can follow progress and planned work in the <strong>SDK 0.4 roadmap</strong>: <a href="https://github.com/kubeflow/sdk/blob/main/ROADMAP.md#2026">SDK 2026 Roadmap</a>. We encourage the community to review the roadmap, share feedback, and contribute ideas as these features continue to evolve.</p>
+
+<p><img src="/images/2026-04-28-kubeflow-sdk-user-survey-insights/automation-needs.png" alt="Automation Needs — Ranking of common pain points and infrastructure challenges"></p>
+
+<p><img src="/images/2026-04-28-kubeflow-sdk-user-survey-insights/single-feature-request.png" alt="Single Feature Request — The most requested features for the upcoming SDK releases"></p>
+
+<p>Below are a few top feedback from the survey that we are already working on.</p>
+
+<h3 id="local-testing-and-faster-iteration">
+<a class="anchor" href="#local-testing-and-faster-iteration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Local Testing and Faster Iteration</h3>
+<p>The highest-rated feature in the survey was <strong>Local Testing and Debugging (4.13 / 5)</strong>. Many developers highlighted the slow build → push → run workflow when testing ML jobs on a cluster.</p>
+
+<p>To address this, we are working on local execution capabilities that allow developers to run and debug workloads before submitting them to Kubernetes. This includes local execution support for SDK clients such as <code class="language-plaintext highlighter-rouge">TrainerClient</code> and <code class="language-plaintext highlighter-rouge">OptimizerClient</code>, enabling faster experimentation and shorter development cycles. Check out details here: <a href="https://github.com/kubeflow/sdk/issues/48">issue</a></p>
+
+<h3 id="better-observability-and-debugging">
+<a class="anchor" href="#better-observability-and-debugging" aria-hidden="true"><span class="octicon octicon-link"></span></a>Better Observability and Debugging</h3>
+<p>To improve this experience, we have planned an <a href="https://github.com/kubeflow/sdk/issues/164">issue</a> for integrating <strong>OpenTelemetry (OTel)</strong> into the SDK to provide better observability, including job progress tracking, metrics collection, and improved debugging workflows.</p>
+
+<p>We are also exploring the use of an <a href="https://github.com/kubeflow/mcp-server"><strong>MCP server</strong></a> to enable AI-assisted capabilities that can help developers better understand job execution and troubleshoot failures.</p>
+
+<h3 id="expanding-support-for-modern-ml-workloads">
+<a class="anchor" href="#expanding-support-for-modern-ml-workloads" aria-hidden="true"><span class="octicon octicon-link"></span></a>Expanding Support for Modern ML Workloads</h3>
+<p>Respondents also emphasized the need for improved data flow management between pipeline components. <strong>Artifact and metadata handling</strong> ranked as the second-highest priority <strong>(3.81 / 5)</strong> in the survey.</p>
+
+<p>To support more advanced ML workflows, we are expanding SDK integrations across the Kubeflow ecosystem, including tighter support for pipelines, distributed training workloads, and integrations with additional components such as <a href="https://github.com/kubeflow/sdk/issues/63">ML Flow</a>, <a href="https://github.com/kubeflow/sdk/issues/107">Spark Client</a>, <a href="https://github.com/kubeflow/sdk/pull/186">model registries</a>.</p>
+
+<h2 id="kubeflow-sdk-talks">
+<a class="anchor" href="#kubeflow-sdk-talks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kubeflow SDK Talks</h2>
+
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=e_rFwH7CZ_E">Streamlining ML Workflows With the Unified Kubeflow SDK</a></li>
+  <li><a href="https://www.youtube.com/watch?v=Ix5kmLvlA5Y">Still Burning GPUs On Debugging? Scale AI In One Line</a></li>
+  <li><a href="https://www.youtube.com/watch?v=pRWTLiW3dKQ">Kubeflow SDK Demo - LLM Fine-Tuning with BuiltinTrainer</a></li>
+</ul>
+
+<h2 id="join-the-community">
+<a class="anchor" href="#join-the-community" aria-hidden="true"><span class="octicon octicon-link"></span></a>Join the Community</h2>
+
+<p>We would like to thank everyone who participated in the survey and shared their feedback. If you’re building ML platforms with Kubeflow or experimenting with the SDK, we’d love to hear your feedback.</p>
+
+<p>The Kubeflow ML Experience Working Group holds open meetings and is always looking for more volunteers and users to unlock the potential of machine learning.</p>
+
+<p>You can connect with the community through:</p>
+<ul>
+  <li>
+<strong>Slack:</strong> <a href="https://kubeflow.slack.com/archives/C07B0M6M40W">#kubeflow-ml-experience</a>
+</li>
+  <li>
+<strong>Community Calendar:</strong> <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-community-calendars">Kubeflow Community Calendar</a>
+</li>
+  <li>
+<strong>ML Experience WG Meeting Notes:</strong> <a href="https://docs.google.com/document/d/1jH2WAX2ePxOfI4JuiVK9nPlesDMiyg67xzLwhpR7wTQ/edit?tab=t.0">Notes</a>
+</li>
+</ul>
+
+<p>Check out the <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow community page</a> to learn more.</p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/kubeflow-sdk-user-survey-insights/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name"></li>
+          <li><a class="u-email" href="mailto:"></a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

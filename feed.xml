@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2026-06-11T11:31:49-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><author><name>{&quot;name&quot;=&gt;&quot;&quot;, &quot;email&quot;=&gt;&quot;&quot;}</name><email></email></author><entry><title type="html">Kale 2.0: A new chapter for an old idea</title><link href="https://blog.kubeflow.org/kale-2.0-release/" rel="alternate" type="text/html" title="Kale 2.0: A new chapter for an old idea" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kale-2.0-release</id><content type="html" xml:base="https://blog.kubeflow.org/kale-2.0-release/"><![CDATA[<p>This is a post I’d long wished for, then lost hope for, then forgot about. Somehow, things started moving again. And here we are. Kale is officially part of the Kubeflow ecosystem, it’s alive and growing, and now has a new release that will lay the foundation for a whole new chapter.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2026-07-17T06:58:46-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><author><name>{&quot;name&quot;=&gt;&quot;&quot;, &quot;email&quot;=&gt;&quot;&quot;}</name><email></email></author><entry><title type="html">Kale 2.0: A new chapter for an old idea</title><link href="https://blog.kubeflow.org/kale-2.0-release/" rel="alternate" type="text/html" title="Kale 2.0: A new chapter for an old idea" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kale-2.0-release</id><content type="html" xml:base="https://blog.kubeflow.org/kale-2.0-release/"><![CDATA[<p>This is a post I’d long wished for, then lost hope for, then forgot about. Somehow, things started moving again. And here we are. Kale is officially part of the Kubeflow ecosystem, it’s alive and growing, and now has a new release that will lay the foundation for a whole new chapter.</p>
 
 <p>Kale began as my graduate thesis in Data Science. It turned into a real product at Arrikto, a Greek startup that got swept away by the strong currents of the startup world. Kale wa then picked up by the community, and at some point started showing up in talks and tutorials I had nothing to do with. Then — like a lot of open source — it went quiet. For a few years I kept an eye on the inbox, answered the occasional question, and watched the repo slowly drift away from the world it was built for.</p>
 
@@ -165,7 +165,355 @@
   <li><strong>ML Experience WG Meeting Notes:</strong> <a href="https://docs.google.com/document/d/1jH2WAX2ePxOfI4JuiVK9nPlesDMiyg67xzLwhpR7wTQ/edit?tab=t.0">Notes</a></li>
 </ul>
 
-<p>Check out the <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow community page</a> to learn more.</p>]]></content><author><name>Kubeflow SDK Team</name></author><category term="sdk" /><category term="community" /><summary type="html"><![CDATA[To better understand the needs of our community, the Kubeflow SDK working group recently conducted a user survey focused on the SDK and developer workflows. The goal was to gather feedback from practitioners across the ecosystem about their current tooling, common challenges, and the features they would most like to see improved.]]></summary></entry><entry><title type="html">Modernizing Kubeflow Pipelines UI</title><link href="https://blog.kubeflow.org/modernizing-kubeflow-pipelines-ui/" rel="alternate" type="text/html" title="Modernizing Kubeflow Pipelines UI" /><published>2026-03-31T00:00:00-05:00</published><updated>2026-03-31T00:00:00-05:00</updated><id>https://blog.kubeflow.org/modernizing-kubeflow-pipelines-ui</id><content type="html" xml:base="https://blog.kubeflow.org/modernizing-kubeflow-pipelines-ui/"><![CDATA[<p>The Kubeflow Pipelines web interface has been upgraded from React 16 to React 19 — a modernization effort that touches every layer of the frontend stack. Whether you use the UI to manage pipelines day-to-day or contribute to the codebase, here is what this means for you.</p>
+<p>Check out the <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow community page</a> to learn more.</p>]]></content><author><name>Kubeflow SDK Team</name></author><category term="sdk" /><category term="community" /><summary type="html"><![CDATA[To better understand the needs of our community, the Kubeflow SDK working group recently conducted a user survey focused on the SDK and developer workflows. The goal was to gather feedback from practitioners across the ecosystem about their current tooling, common challenges, and the features they would most like to see improved.]]></summary></entry><entry><title type="html">Kubeflow Community Distribution 26.03.1 Release Announcement</title><link href="https://blog.kubeflow.org/kubeflow-26.03-release/" rel="alternate" type="text/html" title="Kubeflow Community Distribution 26.03.1 Release Announcement" /><published>2026-04-11T00:00:00-05:00</published><updated>2026-04-11T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-26.03-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-26.03-release/"><![CDATA[<p>The release versioning is now calendar-based (Year.Month.Patch). Around two base releases are <a href="https://github.com/kubeflow/manifests/blob/master/releases/kubeflow-ai-reference-platform-release-handbook.md">planned</a> per year with optional patch releases. The <a href="https://www.kubeflow.org/docs/started/support/#support-from-the-kubeflow-community">best-effort only community support</a> is roughly 6 months and there is <a href="https://www.kubeflow.org/docs/started/support/#support-from-commercial-providers-in-the-kubeflow-ecosystem">commercial support</a> available from multiple vendors. Please update regularly as explained in our <a href="https://github.com/kubeflow/community-distribution?tab=readme-ov-file#upgrading-and-extending">upgrading and extending section</a> to benefit also from security and performance improvements.
+Release details: <a href="https://github.com/kubeflow/community-distribution/releases/tag/26.03">26.03</a> and <a href="https://github.com/kubeflow/community-distribution/releases/tag/26.03.1">26.03.1</a>.</p>
+
+<h2 id="highlight-features-2603">Highlight features 26.03</h2>
+
+<ul>
+  <li>Kubernetes 1.35+</li>
+  <li>Kubeflow Pipelines 2.16.0, Spark operator 2.5.0 Model registry v0.3.7, Kserve Web Application v0.16.0</li>
+  <li>Compatibility of Kubeflow Pipelines v1 and v2 with PSS restricted</li>
+  <li>Extended KServe tests with authentication and authorization from inside and outside the cluster as well as non-knative / raw deployments</li>
+  <li>Simplified installation and automatic installation of the right Kustomize and Kubectl versions</li>
+  <li>Installation steps tested and based on our CI, easier in-place updates (optimized PDBs)</li>
+  <li>Cleanup of all synchronization steps for faster releases / updates of dependencies</li>
+  <li>Knative 1.20, cert-manager 1.19.4, oauth2-proxy v7.14.3, Dex 2.45.0</li>
+  <li>Fix network policies for cert-manager, knative-serving, istio-system, dex, oauth2-proxy</li>
+</ul>
+
+<h2 id="highlight-features-26031">Highlight features 26.03.1</h2>
+
+<ul>
+  <li>Kind 0.32+ and Kubernetes 1.36 CI tests</li>
+  <li>Kubeflow Pipelines 2.16.1, Spark operator 2.5.0 Model Registry v0.3.9, KServe Web Application v0.18.0</li>
+  <li>Trainer 2.2.0</li>
+  <li>Kserve 0.18.0</li>
+  <li>Kubeflow/notebooks v1 update and workspaces (v2) beta</li>
+  <li>Kubeflow/dashboard v2</li>
+  <li>Enable model registry, catalog, and UI in default Kubeflow installation</li>
+  <li>Complete renaming of Model Registry to Kubeflow Hub, capturing the project’s broader scope</li>
+  <li>Kubeflow Hub: Prepare for v1 release by ensuring stable API</li>
+  <li>Knative 1.22.0, cert-manager 1.20.2, oauth2-proxy v7.15.2, Dex 2.45.1</li>
+  <li>Istio 1.30.1 with hostUsers: false support</li>
+  <li>CI, PSS restricted and network policies for the optional knative-eventing</li>
+  <li>Restructure Upgrading section with version-specific upgrade notes</li>
+</ul>
+
+<h2 id="kubeflow-community-distribution">Kubeflow Community Distribution:</h2>
+
+<ul>
+  <li><a href="https://github.com/kubeflow/community-distribution/blob/master/README.md">Documentation updates</a> that make it easier to install, extend and upgrade Kubeflow</li>
+</ul>
+
+<h3 id="kubeflow-community-distribution-2603">Kubeflow Community Distribution 26.03</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Notebooks</th>
+      <th style="text-align: center">Dashboard</th>
+      <th style="text-align: center">Pipelines</th>
+      <th style="text-align: center">Katib</th>
+      <th style="text-align: center">Trainer</th>
+      <th style="text-align: center">KServe</th>
+      <th style="text-align: center">Model Registry</th>
+      <th style="text-align: center">Spark</th>
+      <th style="text-align: center">SDK</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/kubeflow/releases/tag/v1.10.0">1.10.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/kubeflow/releases/tag/v1.10.0">1.10.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/pipelines/releases/tag/2.16.0">2.16.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/katib/releases/tag/v0.19.0">0.19.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/trainer/releases/tag/v2.1.0">2.1.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kserve/kserve/releases/tag/v0.16.0">0.16.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/model-registry/releases/tag/v0.3.7">0.3.7</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/spark-operator/releases/tag/v2.5.0">2.5.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/sdk/releases/tag/0.3.0">0.3.0</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Kubernetes</th>
+      <th style="text-align: center">Argo</th>
+      <th style="text-align: center">Kustomize</th>
+      <th style="text-align: center">Cert Manager</th>
+      <th style="text-align: center">Knative</th>
+      <th style="text-align: center">Istio</th>
+      <th style="text-align: center">Dex</th>
+      <th style="text-align: center">OAuth2-proxy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><a href="https://github.com/kubernetes/kubernetes/releases/tag/v1.35.3">1.35+</a></td>
+      <td style="text-align: center"><a href="https://github.com/argoproj/argo-workflows/releases/tag/v3.7.3">3.7.3</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubernetes-sigs/kustomize/releases/tag/kustomize%2Fv5.8.1">5.8.1</a></td>
+      <td style="text-align: center"><a href="https://github.com/cert-manager/cert-manager/releases/tag/v1.19.4">1.19.4</a></td>
+      <td style="text-align: center"><a href="https://knative.dev/blog/releases/announcing-knative-v1-21-release/">1.21.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/istio/istio/releases/tag/1.29.0">1.29.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/dexidp/dex/releases/tag/v2.45.0">2.45.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/oauth2-proxy/oauth2-proxy/releases/tag/v7.14.3">7.14.3</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="kubeflow-community-distribution-26031">Kubeflow Community Distribution 26.03.1</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Notebooks</th>
+      <th style="text-align: center">Dashboard</th>
+      <th style="text-align: center">Pipelines</th>
+      <th style="text-align: center">Katib</th>
+      <th style="text-align: center">Trainer</th>
+      <th style="text-align: center">KServe</th>
+      <th style="text-align: center">Hub</th>
+      <th style="text-align: center">Spark</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/notebooks/releases/tag/v1.11.0">1.11 / 2.0-alpha.3</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/dashboard/releases#release-v2.0.0">2.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/pipelines/releases/tag/2.16.1">2.16.1</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/katib/releases/tag/v0.19.0">0.19.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/trainer/releases/tag/v2.2.0">2.2.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kserve/kserve/releases/tag/v0.18.0">0.18.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/hub/releases/tag/v0.3.9">0.3.9</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/spark-operator/releases/tag/v2.5.0">2.5.0</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Kubernetes</th>
+      <th style="text-align: center">Argo</th>
+      <th style="text-align: center">Kustomize</th>
+      <th style="text-align: center">Cert Manager</th>
+      <th style="text-align: center">Knative</th>
+      <th style="text-align: center">Istio</th>
+      <th style="text-align: center">Dex</th>
+      <th style="text-align: center">OAuth2-proxy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><a href="https://github.com/kubernetes/kubernetes/releases/tag/v1.35.3">1.35+</a></td>
+      <td style="text-align: center"><a href="https://github.com/argoproj/argo-workflows/releases/tag/v3.7.3">3.7.3</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubernetes-sigs/kustomize/releases/tag/kustomize%2Fv5.8.1">5.8.1</a></td>
+      <td style="text-align: center"><a href="https://github.com/cert-manager/cert-manager/releases/tag/v1.20.2">1.20.2</a></td>
+      <td style="text-align: center"><a href="https://knative.dev/blog/releases/announcing-knative-v1-22-release/">1.22.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/istio/istio/releases/tag/1.30.1">1.30.1</a></td>
+      <td style="text-align: center"><a href="https://github.com/dexidp/dex/releases/tag/v2.45.1">2.45.1</a></td>
+      <td style="text-align: center"><a href="https://github.com/oauth2-proxy/oauth2-proxy/releases/tag/v7.15.2">7.15.2</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="pipelines"><a href="https://github.com/kubeflow/pipelines">Pipelines</a></h2>
+
+<ul>
+  <li>Complete MinIO deprecation has been implemented.</li>
+  <li>SeaweedFS storage support has been added in 2.15.0.</li>
+  <li>AWS SDK v2 now replaces the MinIO client code.</li>
+  <li>Native OIDC support has been added.</li>
+  <li>Control flows supporting conditional evaluation and parallel execution have been added to Local Runner.</li>
+  <li>These features can run on your local machine.</li>
+  <li>Increased capacity limits include:
+    <ul>
+      <li>The pipeline input size limit has been doubled to 20KB.</li>
+      <li>The gRPC message size limit for MLMD has been increased to 100MB.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="model-registry--hub"><a href="https://github.com/kubeflow/hub">Model Registry → Hub</a></h2>
+
+<ul>
+  <li>Model Registry has been renamed to Hub
+    <ul>
+      <li>Product has evolved beyond a registry with the inclusion of Model Catalog and MCP Catalog</li>
+    </ul>
+  </li>
+  <li>MCP Catalog is now integrated into the Hub
+    <ul>
+      <li>Search, browse, &amp; deploy MCP servers</li>
+      <li>Tool listing and management of MCP servers now available with details view, sidebar navigation, and search/filtering</li>
+    </ul>
+  </li>
+  <li>Model Catalog enhancements:
+    <ul>
+      <li>Performance benchmarking &amp; hardware comparisons (Pareto filtering, latency sorting, and more)</li>
+      <li>Pull models directly from Hugging Face into the catalog</li>
+      <li>Advanced search and filtering capabilities</li>
+    </ul>
+  </li>
+  <li>OCI is now the standard for model storage</li>
+</ul>
+
+<h2 id="training-operator-trainer"><a href="https://github.com/kubeflow/trainer">Training Operator (Trainer)</a></h2>
+
+<ul>
+  <li><strong>New Features:</strong>
+    <ul>
+      <li>XGBoost &amp; JAX Runtimes</li>
+      <li>Flux Runtime for MPI and HPC Workloads</li>
+      <li>TrainJob Lifecycle</li>
+    </ul>
+  </li>
+  <li><strong>Breaking Changes:</strong>
+    <ul>
+      <li>Replace PodTemplateOverrides with RuntimePatches API</li>
+      <li>Remove numProcPerNode from Torch API</li>
+      <li>Remove ElasticPolicy API</li>
+      <li>Fix immutability of the TrainJob APIs</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="katib"><a href="https://github.com/kubeflow/katib">Katib</a></h2>
+
+<ul>
+  <li><strong>Kubernetes-native AutoML:</strong> Seamlessly run automated machine learning workflows on Kubernetes using Katib.</li>
+  <li><strong>Trainer integration:</strong> Integrates with the Kubeflow Trainer API, making it easy to launch and manage training jobs.</li>
+  <li><strong>Hyperparameter tuning with TrainJob:</strong> Run hyperparameter tuning experiments using the <code class="language-plaintext highlighter-rouge">TrainJob</code> API for a streamlined training and optimization workflow.</li>
+  <li><strong>Kubeflow SDK support:</strong> Use the Kubeflow SDK client to programmatically create, manage, and monitor Katib experiments.</li>
+</ul>
+
+<h2 id="spark-operator"><a href="https://github.com/kubeflow/spark-operator">Spark Operator</a></h2>
+
+<ul>
+  <li><strong>Feature gates:</strong> Enable safe rollout and testing of new capabilities without impacting production workloads.</li>
+  <li><strong>Namespace label-based watching:</strong> Simplifies multi-tenant deployments by automatically discovering Spark namespaces.</li>
+  <li><strong>PartialRestart:</strong> Reduces job disruption by restarting only affected components instead of the entire application.</li>
+  <li><strong>Spark Connect validation:</strong> Catches configuration issues earlier, reducing failed submissions.</li>
+  <li><strong>Structured logging:</strong> Makes troubleshooting and observability easier for platform operators.</li>
+  <li><strong>Spark 4.0.1 support:</strong> Enables adoption of the latest Spark features and ecosystem improvements.</li>
+</ul>
+
+<h3 id="spark-operator-community">Spark Operator Community</h3>
+
+<p>We have a new name for our bi-weekly calls: “Spark on Kubernetes”!</p>
+
+<ul>
+  <li>Meeting times: Bi-weekly on Friday @ 9:00 AM PST</li>
+  <li><a href="https://zoom-lfx.platform.linuxfoundation.org/meeting/91692004209?password=e48ce50b-b41d-459a-9f32-7313fa388380">Linux Foundation zoom link</a></li>
+  <li>Join #kubeflow-spark-on-kubernetes Slack channel</li>
+</ul>
+
+<h2 id="kserve"><a href="https://github.com/kserve/kserve">KServe</a></h2>
+
+<ul>
+  <li>Standardized GenAI inference
+    <ul>
+      <li>Introduced the LLMInferenceService CRD to make LLM serving a first-class, opinionated platform primitive instead of raw vendor-specific configurations</li>
+    </ul>
+  </li>
+  <li>Multinode LLM workloads &amp; Production grade LLM autoscaling
+    <ul>
+      <li>0.18 laid groundwork for distributed inference across multiple nodes without forcing Ray, using KServe own scheduler/LWS integration</li>
+      <li>Added Workload Verification Authority (WVA) + KEDA/HPA integration so LLM endpoints scale based on real inference demand, not just CPU/memory</li>
+    </ul>
+  </li>
+  <li>OpenAI-compatible APIs expanded
+    <ul>
+      <li>Added /v1/responses route for OpenAI Responses API; standardized REST/gRPC dual-protocol routing for Standard mode</li>
+    </ul>
+  </li>
+  <li>Model cache matured
+    <ul>
+      <li>Namespace-scoped ModelCache support plus configurable download job scheduling, reducing cold-start latency for shared models</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="dashboard-and-notebooks"><a href="https://github.com/kubeflow/dashboard">Dashboard</a> and <a href="https://github.com/kubeflow/notebooks">Notebooks</a></h2>
+
+<ul>
+  <li><strong>Manifest restructuring:</strong> The Dashboard manifests have undergone breaking changes. If you’re upgrading, be sure to review the migration guide included in the <a href="https://github.com/kubeflow/dashboard/releases/tag/v2.0.0">release notes</a> and the <a href="https://github.com/kubeflow/community-distribution/#2603---next-release">community distribution documentation</a>.</li>
+  <li><strong>New release milestone:</strong> This is the first release published from the new <code class="language-plaintext highlighter-rouge">kubeflow/dashboard</code> and <code class="language-plaintext highlighter-rouge">kubeflow/notebooks</code> repositories.</li>
+  <li><strong>Maintenance updates:</strong> All Notebook and Workspace images have been refreshed with important security updates and fixes.</li>
+  <li><strong>End-of-Life (EOL) notice:</strong> The Notebooks v1 components will reach End of Life (EOL) at the end of the year. They are now in maintenance mode and will receive only bug fixes and critical updates.</li>
+  <li><strong>Learn more:</strong> For a complete list of changes, enhancements, and migration guidance, refer to the Notebooks v1 and Dashboard release notes.</li>
+</ul>
+
+<h3 id="notebooks-200-alpha">Notebooks 2.0.0-alpha</h3>
+
+<ul>
+  <li><strong>Testing manifests available:</strong> Manifests for <strong>2.0.0-alpha.3</strong> are available for testing in <strong>Kubeflow 26.03.1</strong>. These are intended for evaluation only and are <strong>not yet ready for production use</strong>.</li>
+  <li><strong>Project progress:</strong> Development is in full swing, and the project is on a strong path toward General Availability (GA).</li>
+  <li><strong>Contributing made easy:</strong> A complete development environment can now be set up with a single command, making it easier than ever to contribute.</li>
+  <li><strong>Key improvements over Notebooks v1:</strong>
+    <ul>
+      <li>Edit existing Workspaces.</li>
+      <li>A more intuitive, data scientist–focused user experience.</li>
+      <li>SSH access to Workspaces <em>(upcoming, currently available as a proof of concept)</em>.</li>
+      <li>Enhanced activity probe (“culling”) capabilities.</li>
+      <li>Image redirects for cluster administrators.</li>
+    </ul>
+  </li>
+  <li><strong>Get involved:</strong> Join the <strong>#kubeflow-notebooks</strong> Slack channel or attend one of the community meetings to learn more and contribute.</li>
+</ul>
+
+<h2 id="whats-new">What’s New</h2>
+
+<h3 id="kubeflow-mcp">Kubeflow MCP</h3>
+
+<p><img src="../images/2026-04-11-kubeflow-26.03-release/Kubeflow-MCP.png" alt="Kubeflow MCP Architecture" /></p>
+
+<ul>
+  <li>Join #kubeflow-ml-experience Slack channel</li>
+  <li><a href="https://github.com/kubeflow/community/pull/937">Git Repo</a></li>
+</ul>
+
+<h3 id="kale-kubeflow-automated-pipelines-engine">Kale: Kubeflow Automated Pipelines Engine</h3>
+
+<ul>
+  <li><strong>Notebook-to-Pipeline Conversion:</strong> Seamlessly transforms annotated Jupyter notebooks into Kubeflow Pipelines without changing existing code.</li>
+  <li><strong>JupyterLab Integration:</strong> Runs entirely inside the JupyterLab UI, enabling users to define, run, and monitor Kubeflow Pipelines from their IDE.</li>
+  <li><strong>Visual Pipeline Authoring:</strong> Provides an intuitive UI for defining pipeline steps, dependencies, and parameters directly within notebooks.</li>
+  <li>Kale 2.0 Roadmap: https://github.com/kubeflow/kale/issues/457</li>
+</ul>
+
+<h2 id="how-to-get-started-with-2603">How to get started with 26.03</h2>
+
+<p>Visit the community distribution <a href="https://github.com/kubeflow/community-distribution/releases">release page</a> or head over to the Getting Started and Support pages.</p>
+
+<h2 id="join-the-community">Join the Community</h2>
+
+<p>We would like to thank everyone who contributed to Kubeflow 26.03, and especially Tarek Abouzeid for his work as the v26.03 Release Manager. We also extend our thanks to the entire release team and the working group leads, who continuously and generously dedicate their time and expertise to Kubeflow.</p>
+
+<p>Release team members : Tarek Abouzeid, Dominik Kawka, Dhanisha Phadate, Milind Dethe, Alok Dangre, Anya Kramar, Andy Stoneberg, Alyssa Goins, Matteo Mortari, Adysen Rothman, Milos Grubjesic, Vraj Bhatt</p>
+
+<p>Working Group leads : Andrey Velichkevich, Julius von Kohout, Chase Christensen, Mathew Wicks, Francisco Arceo</p>
+
+<p>Kubeflow Steering Committee : Andrey Velichkevich, Chase Christensen, Francisco Arceo, Julius von Kohout, Mathew Wicks</p>
+
+<p>You can find more details about Kubeflow distributions
+<a href="https://www.kubeflow.org/docs/started/installing-kubeflow/#packaged-distributions">here</a>.</p>
+
+<h2 id="want-to-help">Want to help?</h2>
+
+<p>The Kubeflow community Working Groups hold open meetings and are always looking for more volunteers and users to unlock
+the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check
+out the resources below. We look forward to working with you!</p>
+
+<ul>
+  <li>Visit our <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow website</a> or Kubeflow GitHub Page.</li>
+  <li>Join the <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow Slack channel</a>.</li>
+  <li>Join the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list.</li>
+  <li>Attend our weekly <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-community-call">community meeting</a>.</li>
+</ul>]]></content><author><name>Kubeflow 26.03 Release Team</name></author><category term="release" /><summary type="html"><![CDATA[The release versioning is now calendar-based (Year.Month.Patch). Around two base releases are planned per year with optional patch releases. The best-effort only community support is roughly 6 months and there is commercial support available from multiple vendors. Please update regularly as explained in our upgrading and extending section to benefit also from security and performance improvements. Release details: 26.03 and 26.03.1.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Modernizing Kubeflow Pipelines UI</title><link href="https://blog.kubeflow.org/modernizing-kubeflow-pipelines-ui/" rel="alternate" type="text/html" title="Modernizing Kubeflow Pipelines UI" /><published>2026-03-31T00:00:00-05:00</published><updated>2026-03-31T00:00:00-05:00</updated><id>https://blog.kubeflow.org/modernizing-kubeflow-pipelines-ui</id><content type="html" xml:base="https://blog.kubeflow.org/modernizing-kubeflow-pipelines-ui/"><![CDATA[<p>The Kubeflow Pipelines web interface has been upgraded from React 16 to React 19 — a modernization effort that touches every layer of the frontend stack. Whether you use the UI to manage pipelines day-to-day or contribute to the codebase, here is what this means for you.</p>
 
 <h2 id="whats-changing-for-users">What’s changing for users</h2>
 
@@ -1971,80 +2319,4 @@ This project introduced an intelligent documentation assistant that uses <strong
   <li>📩 Subscribe to the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list</li>
 </ul>
 
-<p>Let’s continue building the future of MLOps together 🚀</p>]]></content><author><name>Kubeflow Outreach Team</name></author><category term="gsoc" /><category term="community" /><category term="kubeflow" /><summary type="html"><![CDATA[Introduction]]></summary></entry><entry><title type="html">KubeCon India 2025 with Kubeflow: Our Community Experience</title><link href="https://blog.kubeflow.org/kubecon/community/2025/08/23/kubecon-2025-india-kubeflow.html" rel="alternate" type="text/html" title="KubeCon India 2025 with Kubeflow: Our Community Experience" /><published>2025-08-23T00:00:00-05:00</published><updated>2025-08-23T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubecon/community/2025/08/23/kubecon-2025-india-kubeflow</id><content type="html" xml:base="https://blog.kubeflow.org/kubecon/community/2025/08/23/kubecon-2025-india-kubeflow.html"><![CDATA[<h2 id="introduction">Introduction</h2>
-
-<p><img src="/images/2025-08-23-kubecon-2025-india-kubeflow/KubeConIndiaKeynote.png" alt="KubeCon India 2025" /></p>
-
-<p>KubeCon + CloudNativeCon India 2025 in Hyderabad was an absolute blast! As a second-time attendee (<a href="https://github.com/jaiakash">Akash Jaiswal</a>) and a first-time attendee (<a href="https://github.com/yashpal2104">Yash Pal</a>), we couldn’t help but be blown away by the incredible energy at one of world’s biggest cloud native gatherings. We were super excited seeing Kubeflow get a special shoutout during the opening keynote for its role in cloud native AI/ML and MLOps - definitely made us proud to be part of the community! (Above image shows the keynote moment)</p>
-
-<p>We also got super lucky with the chance to volunteer at the Kubeflow booth this year. We also met <a href="https://github.com/johnugeorge">Johnu George</a> in person, who delivered two amazing talks on Kubeflow’s latest capabilities. It was really exciting to finally meet community members face-to-face whom we’ve only seen in community calls and Slack!</p>
-
-<p>This blog shares all the exciting bits from our packed 2 days at KubeCon - from awesome booth conversations to technical deep-dives. We hope this motivates more community members to not just contribute but also attend and help Kubeflow at events like KubeCon. Trust me, you won’t want to miss the next one! 😊</p>
-
-<h2 id="featured-talks">Featured Talks</h2>
-
-<ul>
-  <li><strong>Cloud Native GenAI using KServe and OPEA</strong>
-<strong>Speakers:</strong> <a href="https://github.com/johnugeorge">Johnu George</a>, Gavrish Prabhu (Nutanix)
-<strong>Sched Link:</strong> <a href="https://kccncind2025.sched.com/event/23EtS/cloud-native-genai-using-kserve-and-opea-johnu-george-gavrish-prabhu-nutanix">View on Sched</a></li>
-</ul>
-
-<iframe width="100%" height="400" src="https://www.youtube.com/embed/0o8Ng0E1rrA?list=PLj6h78yzYM2MEQTMX_LIOK1hrePHxLD6U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
-
-<ul>
-  <li><strong>Bridging Big Data and Machine Learning Ecosystems</strong>
-<strong>Speakers:</strong> <a href="https://github.com/johnugeorge">Johnu George</a>, Shiv Jha (Nutanix)
-<strong>Sched Link:</strong> <a href="https://kccncind2025.sched.com/event/23Eur/bridging-big-data-and-machine-learning-ecosystems-a-cloud-native-approach-using-kubeflow-johnu-george-shiv-jha-nutanix">View on Sched</a></li>
-</ul>
-
-<iframe width="100%" height="400" src="https://www.youtube.com/embed/3NWFCKUhB3A?list=PLj6h78yzYM2MEQTMX_LIOK1hrePHxLD6U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
-
-<h2 id="kubeflow-booth-highlights">Kubeflow Booth Highlights</h2>
-
-<p><img src="/images/2025-08-23-kubecon-2025-india-kubeflow/KubeflowBoothPic.png" alt="Kubeflow Booth" /></p>
-
-<p>Here’s a picture of our Kubeflow booth volunteer team. It was really great to meet and interact with audiences who had dozens of questions about Kubeflow, contributors who wanted to help, and developers who were already using it and shared their experiences.</p>
-
-<p>Here are some key highlights from our booth conversations:</p>
-
-<ul>
-  <li><strong>Community Engagement:</strong>
-    <ul>
-      <li>Discussions on real-world use cases and deployment strategies. Few users shared their experience of using Kubeflow in their companies and how its benefiting them.</li>
-      <li>Many of the audience wants to learn more about how to explore and contribute to Kubeflow. (Answers: Join community calls, and check out GitHub for open issues)</li>
-      <li>Several companies expressed interest in adopting projects like Kubeflow. Few senior engineers were already using it for some of their workloads, now they want to use it for production workload.</li>
-    </ul>
-  </li>
-  <li><strong>Popular Questions from Audience:</strong>
-    <ul>
-      <li>How does Kubeflow simplify ML workflows using Kubernetes? Can you clarify why Kubeflow is not multicluster agnostic?
-Answer: You can just send your jobs to 5 different and independent Kubeflow clusters if you want to. So We do not think that this is needed at all. We offer APIs for external access (KFP, everything you can also do in the UI) so we do not need the Kubeflow deployment to span multiple clusters directly. If you want to span multiple regions then either use the API of multiple independent Kubeflow clusters in different regions and just submit your jobs or use a Kubernetes layer that transparently handles clusters spanning multiple regions. But nevertheless adding this complexity burden on Kubeflow does not offer much benefit.</li>
-      <li>How does Kubeflow integrate with other cloud-native tools? How is Kubeflow different from other tools in the industry?</li>
-      <li>What are the security considerations for running ML pipelines? How can Kubeflow help optimize costs when working with LLMs, especially in terms of minimizing GPU usage to stay within quota limits while still delivering performance?</li>
-      <li>How mature is Kubeflow today, and how well does it align with the workflows of different MLOps? What is the timeline of graduation for Kubeflow? What does the roadmap for Kubeflow look like?</li>
-      <li>Why has Kubeflow chosen to integrate with ArgoCD rather than Tekton CD — the question that came up from a maintainer of the Tekton project.</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="our-experience">Our experience</h2>
-
-<p>What an incredible journey these past two days have been! Beyond the technical talks and booth duties, what really stood out was the genuine excitement around Kubeflow in the community. Seeing users’ faces light up when sharing their success stories, or watching newcomers get that “aha!” moment during demos - these are the moments that make community events special.</p>
-
-<p>The technical discussions were mind-blowing too. From hearing how startups are using Kubeflow to train their LLMs, to learning how enterprises are scaling it across thousands of models - each conversation taught us something new. We even got into some heated (but friendly!) debates about MLOps architectures and the future of AI on Kubernetes.</p>
-
-<p>But the best part? The people. Meeting community members we’ve only known through Slack emojis and GitHub comments to sharing chai/biryani with fellow contributors. These personal connections are what make the open source community truly special. Can’t wait for the next one! 🚀</p>
-
-<h2 id="want-to-help">Want to help?</h2>
-
-<p>The Kubeflow community holds open meetings and is always looking for more volunteers and users to unlock the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check out the resources below. We look forward to working with you!</p>
-
-<ul>
-  <li>Visit our <a href="https://www.kubeflow.org/docs/about/community/">website</a> or <a href="https://github.com/kubeflow">GitHub</a> page.</li>
-  <li>Join the <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow Slack channels</a>.</li>
-  <li>Join the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list.</li>
-  <li>Want to volunteer for such events, Join the <a href="https://cloud-native.slack.com/archives/C078ZMRQPB6">kubeflow-outreach</a> channel on CNCF Slack.</li>
-  <li>Attend our weekly <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-community-call">community meeting</a>.</li>
-</ul>
-
-<p>Feel free to share your thoughts or questions in the comments!</p>]]></content><author><name>Akash Jaiswal, Yash Pal</name></author><category term="kubecon" /><category term="community" /><summary type="html"><![CDATA[Introduction]]></summary></entry></feed>
+<p>Let’s continue building the future of MLOps together 🚀</p>]]></content><author><name>Kubeflow Outreach Team</name></author><category term="gsoc" /><category term="community" /><category term="kubeflow" /><summary type="html"><![CDATA[Introduction]]></summary></entry></feed>

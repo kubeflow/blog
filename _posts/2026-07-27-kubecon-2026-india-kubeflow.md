@@ -80,7 +80,7 @@ A big thank you to everyone who volunteered their time and energy to make the bo
 
 The Kubeflow community holds open meetings and is always looking for more volunteers, developers, and users to help shape the future of machine learning on Kubernetes. If you are interested in getting involved, check out the resources below. We would love to build with you!
 
-- Visit the [Kubeflow website](https://www.kubeflow.org/docs/about/community/) or [GitHub repositories](https://github.com/kubeflow).
+- Visit the [Kubeflow website](https://www.kubeflow.org/) or [GitHub repositories](https://github.com/kubeflow).
 - Join the [Kubeflow Slack channels](https://www.kubeflow.org/docs/about/community/).
 - Subscribe to the [kubeflow-discuss](https://groups.google.com/g/kubeflow-discuss) mailing list.
 - To volunteer for future events, join the [#kubeflow-outreach](https://cloud-native.slack.com/?redir=%2Farchives%2FC078ZMRQPB6%3Fname%3DC078ZMRQPB6) channel on the CNCF Slack.

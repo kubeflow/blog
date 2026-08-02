@@ -15,14 +15,19 @@ This post walks through how the new `submit_job()` API and its accompanying life
 
 ## Why this matters in practice
 
-Before this work, running a Spark batch job on Kubernetes meant hand-writing a `SparkApplication` manifest — getting `spec.mainApplicationFile`, driver and executor resource blocks, and volume mounts right by hand, then applying and debugging it with `kubectl`. That's a reasonable ask for someone who already knows Kubernetes deeply. It's a real barrier for the people who actually write the Spark logic day to day.
-
-Two groups feel this gap most directly:
-
-- **Data engineers** running scheduled ETL pipelines want to submit a job, wait for it, check its status, and pull logs when something breaks — all from the same Python tooling they use for everything else, without switching context to `kubectl` or hand-editing YAML.
-- **ML engineers and data scientists** doing feature engineering or training-data prep often don't want to manage a standalone script at all — they want to hand a Python function straight to the cluster and get results back.
-
-`submit_job()` is built for exactly this split — `FileJob` for the first case, `FuncJob` for the second — with the same predictable lifecycle underneath either way. The practical payoff is that integrating a Spark step into a larger Kubeflow pipeline, a CI job, or a scheduled workflow becomes a normal Python function call instead of a small infrastructure project. That's the difference between Spark-on-Kubernetes being accessible only to platform teams and it being usable directly by the people whose actual job is the data, not the cluster.
+Running Spark on Kubernetes usually assumes a platform or infra team is around to stand up and maintain the cluster — the Spark Operator, the `SparkApplication` CRDs, the driver/executor resource tuning. That's a fair assumption at a large org with a dedicated platform team. It's a much bigger ask for a smaller team, or for the data engineer or ML engineer who just needs a job to run and doesn't have that infra support behind them.
+ 
+`submit_job()` is built for exactly that gap — `FileJob` for teams running existing ETL scripts, `FuncJob` for those who'd rather hand over a Python function directly — with the same predictable lifecycle underneath either way. The practical payoff: running a Spark step no longer requires someone dedicated to managing the cluster it runs on.
+ 
+## Quick start
+ 
+If you'd rather run something than read about it first, the [`examples/spark`](https://github.com/kubeflow/sdk/tree/main/examples/spark) directory in the `kubeflow/sdk` repo has runnable scripts covering everything in this post:
+ 
+- `batch_job_lifecycle.py` — submits `spark_job.py` as a `FileJob`, then walks through waiting, checking status, pulling logs, and cleanup
+- `batch_func_job_lifecycle.py` — the same lifecycle, with a `FuncJob` instead
+- `batch_failed_job.py` — what a failure looks like end to end
+- `spark_job.py` — the minimal PySpark script the lifecycle examples actually submit and run
+Clone the repo and run any of them directly against a cluster with the Spark Operator installed. The rest of this post walks through what those scripts are actually doing under the hood.
 
 ## Two ways to submit a job
 

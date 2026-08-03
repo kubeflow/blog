@@ -38,7 +38,7 @@ Clone the repo and run any of them directly against a cluster with the Spark Ope
 A `FileJob` points at an existing script:
 
 ```python
-from kubeflow.spark.types import FileJob
+from kubeflow.spark import FileJob
 
 job = FileJob(
     file_source="s3a://my-bucket/jobs/etl.py",
@@ -46,12 +46,12 @@ job = FileJob(
 )
 ```
 
-`file_source` only auto-resolves for **remote** URIs — `s3a://`, `gs://`, `hdfs://`, `https://`. For a `local://` path, the SDK does not package or upload anything on your behalf; the file needs to already be available inside the driver pod, via a mounted PVC or a pre-built image. `FileJob` describes where the file lives, not how it gets there.
+`file_source` can reference both **remote** URIs (such as `s3a://`, `gs://`, `hdfs://`, or `https://`) and `local://` paths. The SDK passes the URI through to the Spark runtime, which is responsible for resolving and accessing it. For a `local://` path, the SDK does not package or upload anything on your behalf; the file must already be available inside the driver pod, for example through a mounted PVC or a pre-built image. `FileJob` describes where the file lives, not how it gets there.
 
 A `FuncJob` takes a Python function instead of a file:
 
 ```python
-from kubeflow.spark.types import FuncJob
+from kubeflow.spark import FuncJob
 
 def transform():
     # your Spark logic here
@@ -60,7 +60,23 @@ def transform():
 job = FuncJob(func=transform)
 ```
 
-The function has to be a plain, top-level function defined in an importable `.py` module — the SDK reads its source directly via `inspect.getsource()` to serialize it, which means lambdas, decorated functions, async functions, and anything defined interactively (a REPL or notebook cell) aren't supported. If you're prototyping in a notebook, the function still needs to live in a module you import from, not be defined inline in a cell.
+The function has to be a plain, top-level function defined in an importable `.py` module — the SDK reads its source directly via `inspect.getsource()` to serialize it, which means lambdas, decorated functions, async functions, and anything defined interactively (a REPL or notebook cell) aren't supported.
+
+Since only the function source is serialized, the function should be self-contained. Any required imports should be placed inside the function body so they're available when the generated script is executed.
+
+For example:
+
+```python
+def transform():
+    from pyspark.sql import SparkSession
+
+    spark = SparkSession.builder.getOrCreate()
+
+    # your Spark logic here
+    ...
+```
+
+If you're prototyping in a notebook, the function still needs to live in a module you import from, not be defined inline in a cell.
 
 For a `FuncJob`, the SDK serializes the function into a generated script, writes it to a shared `emptyDir` volume through an init container, and points the driver at the generated file instead of a script you had to author yourself. This is the one case where the SDK does the packaging step for you.
 
@@ -74,7 +90,7 @@ Once a job is submitted, both types converge on the same shape — a name, a nam
 
 1. **SparkClient validates and builds a spec.** Your `FileJob` or `FuncJob` gets translated into a `SparkApplication` custom resource.
 2. **The Kubernetes API stores it.** At this point nothing is running yet — the resource exists, but nobody's acted on it.
-3. **The Spark Operator notices.** It watches for `SparkApplication` resources cluster-wide and reacts as soon as a new one appears.
+3. **The Spark Operator notices.** It watches for `SparkApplication` resources in the namespaces it was configured for and reacts as soon as a new one appears.
 4. **A driver pod starts.** For a `FuncJob`, an init container writes the serialized function to a volume first; for a `FileJob`, the driver points straight at the referenced script.
 5. **The driver fans out to executors**, however many were requested.
 
@@ -89,7 +105,7 @@ Beyond the job definition itself, `submit_job()` takes `spark_conf` for Spark-le
 ```python
 client.submit_job(
     job=FileJob(
-        file_source="s3://bucket/job.py",
+        file_source="https://raw.githubusercontent.com/<repo>/<branch>/spark_job.py",
     ),
     spark_conf={
         "spark.sql.adaptive.enabled": "true",
@@ -101,6 +117,8 @@ client.submit_job(
 `options` covers the Kubernetes-native pieces that don't belong in Spark config — labels, annotations, node placement, and job naming — as a list of typed option objects:
 
 ```python
+import uuid
+
 from kubeflow.spark import (
     Annotations,
     FileJob,
@@ -113,7 +131,7 @@ from kubeflow.spark import (
 
 client.submit_job(
     job=FileJob(
-        file_source="s3://bucket/job.py",
+        file_source="https://raw.githubusercontent.com/<repo>/<branch>/spark_job.py",
     ),
     options=[
         Name(f"batch-job-options-{uuid.uuid4().hex[:8]}"),
@@ -139,6 +157,8 @@ Once a job is submitted, the same six calls manage it regardless of how it start
 ![The six lifecycle checkpoints for any submitted job](/images/2026-07-25-sparkclient-batch-jobs/lifecycle.png)
 
 ```python
+from kubeflow.spark import SparkClient, SparkJobStatus
+
 job_name = client.submit_job(
     job,
     num_executors=3,

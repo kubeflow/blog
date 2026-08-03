@@ -29,6 +29,7 @@ This post captures the key takeaways from the booth, the most common architectur
 - **When Kubeflow Fights Cilium: Debugging 60% Idle GPUs in Kubernetes**
 **Speakers:** [Ramkumar Nagaraj](https://www.linkedin.com/in/ramkumar-nagaraj/), [Bingi Narasimha Karthik](https://www.linkedin.com/in/bingi-narasimha-k/) (Adobe)
 **Sched Link:** [View on Sched](https://kccncind2026.sched.com/event/2IW3n/when-kubeflow-fights-cilium-debugging-60-idle-gpus-in-kubernetes-ramkumar-nagaraj-bingi-narasimha-karthik-adobe)
+**Blog Post:** [Read on CNCF Blog](https://www.cncf.io/blog/2026/07/23/when-kubeflow-meets-cilium-debugging-60-idle-gpus-in-kubernetes/)
 
 <iframe width="100%" height="400" src="https://www.youtube.com/embed/BG9XGouyM9c" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 

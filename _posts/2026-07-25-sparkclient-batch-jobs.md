@@ -41,7 +41,7 @@ A `FileJob` points at an existing script:
 from kubeflow.spark import FileJob
 
 job = FileJob(
-    file_source="s3a://my-bucket/jobs/etl.py",
+    file_source=file_source="https://raw.githubusercontent.com/<repo>/<branch>/spark_job.py",
     args=["--date", "2026-07-25"],
 )
 ```

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>KubeCon + CloudNativeCon India 2026: Our Kubeflow Community Experience | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="KubeCon + CloudNativeCon India 2026: Our Kubeflow Community Experience" />
+<meta name="author" content="Khushi Agrawal" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Introduction" />
+<meta property="og:description" content="Introduction" />
+<link rel="canonical" href="https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow.html" />
+<meta property="og:url" content="https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow.html" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-07-27T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="KubeCon + CloudNativeCon India 2026: Our Kubeflow Community Experience" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Khushi Agrawal"},"dateModified":"2026-07-27T00:00:00-05:00","datePublished":"2026-07-27T00:00:00-05:00","description":"Introduction","headline":"KubeCon + CloudNativeCon India 2026: Our Kubeflow Community Experience","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow.html"},"url":"https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">KubeCon + CloudNativeCon India 2026: Our Kubeflow Community Experience</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2026-07-27T00:00:00-05:00" itemprop="datePublished">
+        Jul 27, 2026
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Khushi Agrawal</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#kubecon">kubecon</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#community">community</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#introduction">Introduction</a></li>
+<li class="toc-entry toc-h2"><a href="#featured-talks">Featured Talks</a></li>
+<li class="toc-entry toc-h2"><a href="#kubeflow-booth-highlights">Kubeflow Booth Highlights</a></li>
+<li class="toc-entry toc-h2"><a href="#popular-questions-from-the-audience">Popular Questions from the Audience</a></li>
+<li class="toc-entry toc-h2"><a href="#our-experience">Our Experience</a></li>
+<li class="toc-entry toc-h2"><a href="#want-to-help">Want to Help?</a></li>
+</ul><h2 id="introduction">
+<a class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
+
+<p><img src="/images/2026-07-27-kubecon-2026-india-kubeflow/kubecon-india-2026-2.jpg" alt="Kubeflow volunteer team at the booth"></p>
+
+<p>KubeCon + CloudNativeCon India 2026 in Mumbai brought together an incredible crowd of developers, maintainers, and cloud-native enthusiasts. The energy throughout the event was inspiring, especially seeing how central AI, machine learning, and MLOps have become within the Kubernetes landscape. (Above image shows part of our volunteer team at the Kubeflow booth, ready to connect with the community.)</p>
+
+<p>This year, Kubeflow had a strong presence at the CNCF Project Pavilion, serving as a central hub for anyone looking to scale AI workloads on cloud-native infrastructure. The conference highlighted the growing adoption of the ecosystem, with a noticeable increase in enterprise users and developers looking to standardize their AI platforms.</p>
+
+<p>This post captures the key takeaways from the booth, the most common architecture questions from the community, and the overall presence of the Kubeflow ecosystem at the event. We hope this gives you a glimpse into the week and encourages you to get involved at future gatherings!</p>
+
+<h2 id="featured-talks">
+<a class="anchor" href="#featured-talks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Featured Talks</h2>
+
+<ul>
+  <li>
+<strong>“Hey AI, Train Llama”: Making Kubeflow Agent-Native with MCP</strong>
+<strong>Speakers:</strong> <a href="https://www.linkedin.com/in/akashjaiswal03/">Akash Jaiswal</a> (Oracle), <a href="https://www.linkedin.com/in/abhijeet-dhumal-b6a4a41aa/">Abhijeet Dhumal</a> (Red Hat)
+<strong>Sched Link (Open-Source Summit):</strong> <a href="https://ossindia2026.sched.com/event/2KNF7/hey-ai-train-llama-making-kubeflow-agent-native-with-mcp-akash-jaiswal-oracle-abhijeet-dhumal-red-hat">View on Sched</a>
+</li>
+</ul>
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/cZ2BP5hQjc8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<ul>
+  <li>
+<strong>When Kubeflow Fights Cilium: Debugging 60% Idle GPUs in Kubernetes</strong>
+<strong>Speakers:</strong> <a href="https://www.linkedin.com/in/ramkumar-nagaraj/">Ramkumar Nagaraj</a>, <a href="https://www.linkedin.com/in/bingi-narasimha-k/">Bingi Narasimha Karthik</a> (Adobe)
+<strong>Sched Link:</strong> <a href="https://kccncind2026.sched.com/event/2IW3n/when-kubeflow-fights-cilium-debugging-60-idle-gpus-in-kubernetes-ramkumar-nagaraj-bingi-narasimha-karthik-adobe">View on Sched</a>
+<strong>Blog Post:</strong> <a href="https://www.cncf.io/blog/2026/07/23/when-kubeflow-meets-cilium-debugging-60-idle-gpus-in-kubernetes/">Read on CNCF Blog</a>
+</li>
+</ul>
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/BG9XGouyM9c" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<h2 id="kubeflow-booth-highlights">
+<a class="anchor" href="#kubeflow-booth-highlights" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kubeflow Booth Highlights</h2>
+
+<p>From the moment the exhibition doors opened, the Kubeflow booth was buzzing with activity. We had conversations with a wide mix of attendees, from students looking for their first open-source project to senior platform engineers running large-scale training workloads in production.</p>
+
+<p><img src="/images/2026-07-27-kubecon-2026-india-kubeflow/kubecon-india-2026-1.jpg" alt="Attendees at the Kubeflow booth"></p>
+
+<p>Here are some of the main takeaways from our time at the booth:</p>
+
+<ul>
+  <li>
+    <p><strong>From Experimentation to Production:</strong> Many engineers shared how their organizations are moving away from isolated scripts and adopting Kubeflow to standardize their machine learning workflows. We heard stories about teams scaling production pipelines, managing complex deployments, and cutting down model training times.</p>
+  </li>
+  <li>
+    <p><strong>Growing Interest in GenAI and LLMs:</strong> A big portion of our discussions centered around large language models and RAG pipelines. Visitors wanted to know how Kubeflow handles distributed training, model serving, and efficient resource allocation for GPU workloads.</p>
+  </li>
+  <li>
+    <p><strong>Onboarding New Contributors:</strong> We met many developers eager to contribute to the project. We walked them through the repository structure, showed them how to find good first issues on GitHub, and invited them to join our weekly community calls. Several GSoC mentors and active contributors at the booth also shared their firsthand experiences and guidance on getting started.</p>
+  </li>
+</ul>
+
+<h2 id="popular-questions-from-the-audience">
+<a class="anchor" href="#popular-questions-from-the-audience" aria-hidden="true"><span class="octicon octicon-link"></span></a>Popular Questions from the Audience</h2>
+
+<p><strong>How does end-to-end Kubeflow work?</strong></p>
+
+<p>Kubeflow is the foundation for AI Platforms on Kubernetes. It provides a composable, modular, and scalable community distribution that covers every stage of the AI lifecycle. We explained how teams can deploy subprojects independently or together, using Kubeflow Notebooks for development, Kubeflow Trainer for scalable LLM fine-tuning, Kubeflow Pipelines (KFP) for automated workflows, and Kubeflow Hub for managing model metadata.</p>
+
+<p><strong>How is Kubeflow different from MLflow?</strong></p>
+
+<p>They work best together. Kubeflow <a href="https://github.com/kubeflow/mlflow-integration">integrates directly with MLflow</a>. While MLflow focuses on tracking experiments and registering models, Kubeflow acts as your cloud-native platform foundation, handling the underlying Kubernetes infrastructure, multi-tenant security, and GPU compute resources at scale.</p>
+
+<p><strong>How can Kubeflow help optimize costs when training LLMs on GPUs?</strong></p>
+
+<p>With generative AI costs top of mind, visitors wanted to know how to get more out of their hardware. We shared how Kubernetes-native scheduling, resource quotas, and multi-tenancy allow teams to safely share centralized GPU pools. Combined with scale-to-zero serving and spot instance support, organizations can avoid wasting budget on idle compute.</p>
+
+<p><strong>How does Kubeflow handle pipeline resilience and step failures?</strong></p>
+
+<p>When training jobs run for hours or days, hardware issues are inevitable. We discussed how Kubeflow Pipelines uses isolated, containerized steps with built-in retry policies and task caching. If a single pod crashes or hits a network issue, the pipeline can automatically recover and resume without losing progress from previously completed steps.</p>
+
+<h2 id="our-experience">
+<a class="anchor" href="#our-experience" aria-hidden="true"><span class="octicon octicon-link"></span></a>Our Experience</h2>
+
+<p>Volunteering at the Kubeflow booth this year was a lot of fun. Beyond the packed presentation rooms and technical sessions, what stood out was the energy of the people who stopped by. Whether we were troubleshooting a deployment setup for a platform engineer or breaking down MLOps basics for a student, every conversation reminded us why open-source collaboration is so rewarding.</p>
+
+<p>We also had a great time behind the scenes, swapping stories about debugging disasters over coffee breaks while running the booth shifts. Nothing beats getting the community together in person. We hope this motivates more of you to volunteer at future events. You will not want to miss the next one! 😊</p>
+
+<p>A big thank you to everyone who volunteered their time and energy to make the booth a success: <a href="https://github.com/jaiakash">Akash Jaiswal</a>, <a href="https://github.com/yashpal2104">Yash Pal</a>, <a href="https://github.com/abhijeet-dhumal">Abhijeet Dhumal</a>, <a href="https://github.com/aniketpati1121">Aniket Patil</a>, <a href="https://github.com/kmr-rohit">Rohit Kumar</a>, <a href="https://github.com/khushiiagrawal">Khushi Agrawal</a>, <a href="https://github.com/danish9039">Danish Siddiqui</a>, <a href="https://github.com/digvijay-y">Digvijay Yeware</a>, <a href="https://github.com/kapil27">Kapil Nema</a>, <a href="https://github.com/krishna-kg732">Krishna Gupta</a>, <a href="https://github.com/kunal-511">Kunal Dugar</a>, <a href="https://github.com/XploY04">Yash Agarwal</a>, <a href="https://github.com/milinddethe15">Milind Dethe</a>, <a href="https://github.com/sachin21212121">Sachin Jha</a>, and <a href="https://github.com/varodrig">Valentina Rodriguez Sosa</a> for her ongoing guidance and support. You all made this event special!</p>
+
+<p><img src="/images/2026-07-27-kubecon-2026-india-kubeflow/kubecon-india-2026-4.jpg" alt="Kubeflow volunteers at the booth"></p>
+
+<p><img src="/images/2026-07-27-kubecon-2026-india-kubeflow/kubecon-india-2026-3.jpg" alt="Kubeflow team at KubeCon India 2026"></p>
+
+<h2 id="want-to-help">
+<a class="anchor" href="#want-to-help" aria-hidden="true"><span class="octicon octicon-link"></span></a>Want to Help?</h2>
+
+<p>The Kubeflow community holds open meetings and is always looking for more volunteers, developers, and users to help shape the future of machine learning on Kubernetes. If you are interested in getting involved, check out the resources below. We would love to build with you!</p>
+
+<ul>
+  <li>Visit the <a href="https://www.kubeflow.org/">Kubeflow website</a> or <a href="https://github.com/kubeflow">GitHub repositories</a>.</li>
+  <li>Join the <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow Slack channels</a>.</li>
+  <li>Subscribe to the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list.</li>
+  <li>To volunteer for future events, join the <a href="https://cloud-native.slack.com/?redir=%2Farchives%2FC078ZMRQPB6%3Fname%3DC078ZMRQPB6">#kubeflow-outreach</a> channel on the CNCF Slack.</li>
+  <li>Attend our weekly <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-community-call">community meeting</a> to see what we are currently working on.</li>
+</ul>
+
+<p>Feel free to share your thoughts, questions, or KubeCon memories in the comments below. See you at the next event!</p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name"></li>
+          <li><a class="u-email" href="mailto:"></a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

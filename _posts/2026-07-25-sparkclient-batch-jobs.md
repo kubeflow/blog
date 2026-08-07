@@ -18,7 +18,7 @@ This post walks through how the new `submit_job()` API and its accompanying life
 
 Running Spark on Kubernetes usually assumes a platform or infra team is around to stand up and maintain the cluster — the Spark Operator, the `SparkApplication` CRDs, the driver/executor resource tuning. That's a fair assumption at a large org with a dedicated platform team. It's a much bigger ask for a smaller team, or for the data engineer or ML engineer who just needs a job to run and doesn't have that infra support behind them.
  
-`submit_job()` is built for exactly that gap — `FileJob` for teams running existing ETL scripts, `FuncJob` for those who'd rather hand over a Python function directly — with the same predictable lifecycle underneath either way. The practical payoff: running a Spark step no longer requires someone dedicated to managing the cluster it runs on.
+`submit_job()` is built for exactly that gap — `FileJob` for teams running existing ETL scripts, `FuncJob` for those who'd rather hand over a Python function directly — with the same predictable lifecycle underneath either way. The practical payoff: running a Spark step no longer requires users to author and manage SparkApplication resources directly—the SDK handles that for them.
  
 ## Quick start
  
@@ -34,7 +34,7 @@ Clone the repo and run any of them directly against a cluster with the Spark Ope
 
 ## Two ways to submit a job
 
-`submit_job()` accepts either a **FileJob** or a **FuncJob**, and builds a `SparkApplication` spec from whichever one you pass in.
+`submit_job()` accepts either a `FileJob` or a `FuncJob`, and builds a `SparkApplication` spec from whichever one you pass in.
 
 ![Two doors into the batch pipeline — FileJob vs FuncJob](/images/2026-07-25-sparkclient-batch-jobs/two_jobs.png)
 
@@ -45,7 +45,6 @@ from kubeflow.spark import FileJob
 
 job = FileJob(
     file_source="https://raw.githubusercontent.com/kubeflow/sdk/main/examples/spark/spark_job.py",
-    args=["--date", "2026-07-25"],
 )
 ```
 
@@ -85,11 +84,11 @@ For a `FuncJob`, the SDK serializes the function into a generated script, writes
 
 Once a job is submitted, both types converge on the same shape — a name, a namespace, a status, a driver pod, some executors — so every lifecycle call downstream treats a `FileJob` and a `FuncJob` identically.
 
-## What happens when you call submit_job()
+## What happens when you call `submit_job()`
 
 `submit_job()` doesn't run the job — it hands off a request and returns as soon as the request is accepted:
 
-![What happens under the hood when submit_job() is called](/images/2026-07-25-sparkclient-batch-jobs/architecture.png)
+![What happens under the hood when `submit_job()` is called](/images/2026-07-25-sparkclient-batch-jobs/architecture.png)
 
 1. **SparkClient validates and builds a spec.** Your `FileJob` or `FuncJob` gets translated into a `SparkApplication` custom resource.
 2. **The Kubernetes API stores it.** At this point nothing is running yet — the resource exists, but nobody's acted on it.
@@ -99,7 +98,7 @@ Once a job is submitted, both types converge on the same shape — a name, a nam
 
 `submit_job()` returns once step 2 completes — it doesn't block on job completion. That's what the lifecycle APIs are for.
 
-## Configuring a job with spark_conf and options
+## Configuring a job with `spark_conf` and `options`
 
 Beyond the job definition itself, `submit_job()` takes `spark_conf` for Spark-level tuning and `options` for Kubernetes-level configuration.
 
@@ -151,13 +150,15 @@ client.submit_job(
 )
 ```
 
-Both are optional — the earlier examples in this post work fine without either — but together they cover the two axes teams usually need to customize: how Spark runs the job, and how Kubernetes schedules and labels it. Worth knowing what you get when you leave them out: one executor, 1 core and 512Mi for both driver and executor, and the `spark-operator-spark` service account. Driver resources aren't configurable through `submit_job()` today, unlike `connect()`, which accepts a `Driver` object.
+Both are optional — the earlier examples in this post work fine without either — but together they cover the two axes teams usually need to customize: how Spark runs the job, and how Kubernetes schedules and labels it. Worth knowing what you get when you leave them out: one executor, 1 core and 512Mi for both driver and executor, and the `spark-operator-spark` service account. Driver and executor resources aren't configurable through `submit_job()` today, unlike `connect()`, which accepts both Driver and Executor objects.
 
 ## Lifecycle APIs
 
 Submission is the first of six checkpoints; the remaining five manage the job regardless of how it started:
 
 ![The six lifecycle checkpoints for any submitted job](/images/2026-07-25-sparkclient-batch-jobs/lifecycle.png)
+
+### Submit a batch job
 
 ```python
 from kubeflow.spark import FileJob, SparkClient, SparkJobStatus
@@ -171,23 +172,43 @@ job_name = client.submit_job(
     num_executors=3,
     resources_per_executor={"cpu": "2", "memory": "4Gi"},
 )
+```
 
-final_job = client.wait_for_job_status(
+### Wait for a job to complete
+
+```python
+client.wait_for_job_status(
     job_name,
     status={SparkJobStatus.COMPLETED, SparkJobStatus.FAILED},
     timeout=600,
     polling_interval=2,
 )
+```
 
+### Get job details
+
+```python
 job = client.get_job(job_name)
 print(job.status, job.num_executors, job.driver_pod_name)
+```
 
-for j in client.list_jobs(status={SparkJobStatus.RUNNING}):
-    print(j.name, j.status)
+### List running jobs
 
+```python
+for job in client.list_jobs(status={SparkJobStatus.RUNNING}):
+    print(job.name, job.status)
+```
+
+### Stream job logs
+
+```python
 for line in client.get_job_logs(job_name, follow=True):
     print(line)
+```
 
+### Delete a job
+
+```python
 client.delete_job(job_name)
 ```
 
@@ -203,7 +224,7 @@ Executor-level log access isn't wired in yet — the driver is where Spark surfa
 
 ## What's next
 
-Batch submission and the lifecycle APIs have full unit coverage plus end-to-end suites for both success and failure paths. The next phase of this project focuses on observability — pulling metrics from the Spark REST API (stage progress, executor stats, job duration), structured event tracking, and eventually a Prometheus-compatible export path.
+Batch submission and the lifecycle APIs have unit and end-to-end tests for both success and failure paths. The next phase of this project focuses on observability — pulling metrics from the Spark REST API (stage progress, executor stats, job duration), structured event tracking, and eventually a Prometheus-compatible export path.
 
 None of this replaces the Spark Operator or reinvents Spark on Kubernetes — SparkClient stays a thin, Kubernetes-native layer on top of it. The goal is narrower and more practical: let the people who actually need to run Spark jobs — data engineers scheduling ETL, ML engineers prepping training data — do it from Python, without first becoming experts in `SparkApplication` YAML.
 

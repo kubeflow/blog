@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2026-08-03T16:52:18-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><author><name>{&quot;name&quot;=&gt;&quot;&quot;, &quot;email&quot;=&gt;&quot;&quot;}</name><email></email></author><entry><title type="html">KubeCon + CloudNativeCon India 2026: Our Kubeflow Community Experience</title><link href="https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow.html" rel="alternate" type="text/html" title="KubeCon + CloudNativeCon India 2026: Our Kubeflow Community Experience" /><published>2026-07-27T00:00:00-05:00</published><updated>2026-07-27T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow</id><content type="html" xml:base="https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow.html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2026-08-07T17:06:07-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><author><name>{&quot;name&quot;=&gt;&quot;&quot;, &quot;email&quot;=&gt;&quot;&quot;}</name><email></email></author><entry><title type="html">KubeCon + CloudNativeCon India 2026: Our Kubeflow Community Experience</title><link href="https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow.html" rel="alternate" type="text/html" title="KubeCon + CloudNativeCon India 2026: Our Kubeflow Community Experience" /><published>2026-07-27T00:00:00-05:00</published><updated>2026-07-27T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow</id><content type="html" xml:base="https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow.html"><![CDATA[<h2 id="introduction">Introduction</h2>
 
 <p><img src="/images/2026-07-27-kubecon-2026-india-kubeflow/kubecon-india-2026-2.jpg" alt="Kubeflow volunteer team at the booth" /></p>
 
@@ -89,7 +89,304 @@
   <li>Attend our weekly <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-community-call">community meeting</a> to see what we are currently working on.</li>
 </ul>
 
-<p>Feel free to share your thoughts, questions, or KubeCon memories in the comments below. See you at the next event!</p>]]></content><author><name>Khushi Agrawal</name></author><category term="kubecon" /><category term="community" /><summary type="html"><![CDATA[Introduction]]></summary></entry><entry><title type="html">Kale 2.0: A new chapter for an old idea</title><link href="https://blog.kubeflow.org/kale-2.0-release/" rel="alternate" type="text/html" title="Kale 2.0: A new chapter for an old idea" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kale-2.0-release</id><content type="html" xml:base="https://blog.kubeflow.org/kale-2.0-release/"><![CDATA[<p>This is a post I’d long wished for, then lost hope for, then forgot about. Somehow, things started moving again. And here we are. Kale is officially part of the Kubeflow ecosystem, it’s alive and growing, and now has a new release that will lay the foundation for a whole new chapter.</p>
+<p>Feel free to share your thoughts, questions, or KubeCon memories in the comments below. See you at the next event!</p>]]></content><author><name>Khushi Agrawal</name></author><category term="kubecon" /><category term="community" /><summary type="html"><![CDATA[Introduction]]></summary></entry><entry><title type="html">Batch Jobs for SparkClient: Submitting and Managing Spark Workloads from Python</title><link href="https://blog.kubeflow.org/sdk/spark-batch-jobs/" rel="alternate" type="text/html" title="Batch Jobs for SparkClient: Submitting and Managing Spark Workloads from Python" /><published>2026-07-25T00:00:00-05:00</published><updated>2026-07-25T00:00:00-05:00</updated><id>https://blog.kubeflow.org/sdk/sparkclient-batch-jobs</id><content type="html" xml:base="https://blog.kubeflow.org/sdk/spark-batch-jobs/"><![CDATA[<p>As part of GSoC 2026, we’ve been extending <strong>SparkClient</strong> (<a href="https://github.com/kubeflow/sdk/blob/main/proposals/107-spark-client/README.md">KEP-107</a>) — the Kubeflow SDK’s Python interface for running Spark on Kubernetes — with support for batch job submission and lifecycle management. Previously, SparkClient covered interactive workloads well via <code class="language-plaintext highlighter-rouge">connect()</code>, but running a batch job (the “submit a script, walk away, come back to results” kind of work that powers ETL pipelines and scheduled data prep) meant working with the <code class="language-plaintext highlighter-rouge">SparkApplication</code> CRD directly.</p>
+
+<p>This post walks through how the new <code class="language-plaintext highlighter-rouge">submit_job()</code> API and its accompanying lifecycle APIs work, what’s happening on the cluster when you call them, and where the current implementation draws its boundaries.</p>
+
+<h2 id="why-this-matters-in-practice">Why this matters in practice</h2>
+
+<p>Running Spark on Kubernetes usually assumes a platform or infra team is around to stand up and maintain the cluster — the Spark Operator, the <code class="language-plaintext highlighter-rouge">SparkApplication</code> CRDs, the driver/executor resource tuning. That’s a fair assumption at a large org with a dedicated platform team. It’s a much bigger ask for a smaller team, or for the data engineer or ML engineer who just needs a job to run and doesn’t have that infra support behind them.</p>
+
+<p><code class="language-plaintext highlighter-rouge">submit_job()</code> is built for exactly that gap — <code class="language-plaintext highlighter-rouge">FileJob</code> for teams running existing ETL scripts, <code class="language-plaintext highlighter-rouge">FuncJob</code> for those who’d rather hand over a Python function directly — with the same predictable lifecycle underneath either way. The practical payoff: running a Spark step no longer requires users to author and manage SparkApplication resources directly—the SDK handles that for them.</p>
+
+<h2 id="quick-start">Quick start</h2>
+
+<p>If you’d rather run something than read about it first, the <a href="https://github.com/kubeflow/sdk/tree/main/examples/spark"><code class="language-plaintext highlighter-rouge">examples/spark</code></a> directory in the <code class="language-plaintext highlighter-rouge">kubeflow/sdk</code> repo has runnable scripts covering everything in this post:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">batch_job_lifecycle.py</code> — submits <code class="language-plaintext highlighter-rouge">spark_job.py</code> as a <code class="language-plaintext highlighter-rouge">FileJob</code>, then walks through waiting, checking status, pulling logs, and cleanup</li>
+  <li><code class="language-plaintext highlighter-rouge">batch_func_job_lifecycle.py</code> — the same lifecycle, with a <code class="language-plaintext highlighter-rouge">FuncJob</code> instead</li>
+  <li><code class="language-plaintext highlighter-rouge">batch_job_options.py</code> — the same lifecycle with <code class="language-plaintext highlighter-rouge">options</code> applied, then verified on the created resource</li>
+  <li><code class="language-plaintext highlighter-rouge">batch_failed_job.py</code> — what a failure looks like end to end</li>
+  <li><code class="language-plaintext highlighter-rouge">spark_job.py</code> — the minimal PySpark script the lifecycle examples actually submit and run</li>
+</ul>
+
+<p>Clone the repo and run any of them directly against a cluster with the Spark Operator installed. The rest of this post walks through what those scripts are actually doing under the hood.</p>
+
+<h2 id="two-ways-to-submit-a-job">Two ways to submit a job</h2>
+
+<p><code class="language-plaintext highlighter-rouge">submit_job()</code> accepts either a <code class="language-plaintext highlighter-rouge">FileJob</code> or a <code class="language-plaintext highlighter-rouge">FuncJob</code>, and builds a <code class="language-plaintext highlighter-rouge">SparkApplication</code> spec from whichever one you pass in.</p>
+
+<p><img src="/images/2026-07-25-sparkclient-batch-jobs/two_jobs.png" alt="Two doors into the batch pipeline — FileJob vs FuncJob" /></p>
+
+<p>A <code class="language-plaintext highlighter-rouge">FileJob</code> points at an existing script:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.spark</span> <span class="kn">import</span> <span class="n">FileJob</span>
+
+<span class="n">job</span> <span class="o">=</span> <span class="n">FileJob</span><span class="p">(</span>
+    <span class="n">file_source</span><span class="o">=</span><span class="s">"https://raw.githubusercontent.com/kubeflow/sdk/main/examples/spark/spark_job.py"</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">file_source</code> can reference both <strong>remote</strong> URIs (such as <code class="language-plaintext highlighter-rouge">s3a://</code>, <code class="language-plaintext highlighter-rouge">gs://</code>, <code class="language-plaintext highlighter-rouge">hdfs://</code>, or <code class="language-plaintext highlighter-rouge">https://</code>) and <code class="language-plaintext highlighter-rouge">local://</code> paths. The SDK passes the URI through to the Spark runtime, which is responsible for resolving and accessing it. For a <code class="language-plaintext highlighter-rouge">local://</code> path, the SDK does not package or upload anything on your behalf — the file must already be available inside the driver pod, for example through a volume mounted with <code class="language-plaintext highlighter-rouge">spark.kubernetes.driver.volumes.*</code> entries in <code class="language-plaintext highlighter-rouge">spark_conf</code>. Batch jobs currently run on a fixed <code class="language-plaintext highlighter-rouge">apache/spark</code> image and don’t accept <code class="language-plaintext highlighter-rouge">PodTemplateOverride</code> (Spark Connect only), so baking the script into a custom image or mounting a PVC through a pod template isn’t an option yet. <code class="language-plaintext highlighter-rouge">FileJob</code> describes where the file lives, not how it gets there.</p>
+
+<p>A <code class="language-plaintext highlighter-rouge">FuncJob</code> takes a Python function instead of a file:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.spark</span> <span class="kn">import</span> <span class="n">FuncJob</span>
+
+<span class="k">def</span> <span class="nf">transform</span><span class="p">():</span>
+    <span class="c1"># your Spark logic here
+</span>    <span class="p">...</span>
+
+<span class="n">job</span> <span class="o">=</span> <span class="n">FuncJob</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The function has to be a plain, top-level function defined in an importable <code class="language-plaintext highlighter-rouge">.py</code> module — the SDK reads its source directly via <code class="language-plaintext highlighter-rouge">inspect.getsource()</code> to serialize it, which means lambdas, decorated functions, async functions, and anything defined interactively (a REPL or notebook cell) aren’t supported.</p>
+
+<p>Since only the function source is serialized, the function should be self-contained. Any required imports should be placed inside the function body so they’re available when the generated script is executed. Parameters are passed separately via <code class="language-plaintext highlighter-rouge">FuncJob(func=..., func_args={"samples": 10})</code>, and their values must be JSON-like primitives — strings, numbers, booleans, <code class="language-plaintext highlighter-rouge">None</code>, and lists or dicts of those.</p>
+
+<p>For example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">transform</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+    <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span><span class="p">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+
+    <span class="c1"># your Spark logic here
+</span>    <span class="p">...</span>
+</code></pre></div></div>
+
+<p>If you’re prototyping in a notebook, the function still needs to live in a module you import from, not be defined inline in a cell.</p>
+
+<p>For a <code class="language-plaintext highlighter-rouge">FuncJob</code>, the SDK serializes the function into a generated script, writes it to a shared <code class="language-plaintext highlighter-rouge">emptyDir</code> volume through an init container, and points the driver at the generated file instead of a script you had to author yourself. This is the one case where the SDK does the packaging step for you.</p>
+
+<p>Once a job is submitted, both types converge on the same shape — a name, a namespace, a status, a driver pod, some executors — so every lifecycle call downstream treats a <code class="language-plaintext highlighter-rouge">FileJob</code> and a <code class="language-plaintext highlighter-rouge">FuncJob</code> identically.</p>
+
+<h2 id="what-happens-when-you-call-submit_job">What happens when you call <code class="language-plaintext highlighter-rouge">submit_job()</code></h2>
+
+<p><code class="language-plaintext highlighter-rouge">submit_job()</code> doesn’t run the job — it hands off a request and returns as soon as the request is accepted:</p>
+
+<p><img src="/images/2026-07-25-sparkclient-batch-jobs/architecture.png" alt="What happens under the hood when `submit_job()` is called" /></p>
+
+<ol>
+  <li><strong>SparkClient validates and builds a spec.</strong> Your <code class="language-plaintext highlighter-rouge">FileJob</code> or <code class="language-plaintext highlighter-rouge">FuncJob</code> gets translated into a <code class="language-plaintext highlighter-rouge">SparkApplication</code> custom resource.</li>
+  <li><strong>The Kubernetes API stores it.</strong> At this point nothing is running yet — the resource exists, but nobody’s acted on it.</li>
+  <li><strong>The Spark Operator notices.</strong> It watches for <code class="language-plaintext highlighter-rouge">SparkApplication</code> resources in the namespaces it was configured for and reacts as soon as a new one appears.</li>
+  <li><strong>A driver pod starts.</strong> For a <code class="language-plaintext highlighter-rouge">FuncJob</code>, an init container writes the serialized function to a volume first; for a <code class="language-plaintext highlighter-rouge">FileJob</code>, the driver points straight at the referenced script.</li>
+  <li><strong>The driver fans out to executors</strong>, however many were requested.</li>
+</ol>
+
+<p><code class="language-plaintext highlighter-rouge">submit_job()</code> returns once step 2 completes — it doesn’t block on job completion. That’s what the lifecycle APIs are for.</p>
+
+<h2 id="configuring-a-job-with-spark_conf-and-options">Configuring a job with <code class="language-plaintext highlighter-rouge">spark_conf</code> and <code class="language-plaintext highlighter-rouge">options</code></h2>
+
+<p>Beyond the job definition itself, <code class="language-plaintext highlighter-rouge">submit_job()</code> takes <code class="language-plaintext highlighter-rouge">spark_conf</code> for Spark-level tuning and <code class="language-plaintext highlighter-rouge">options</code> for Kubernetes-level configuration.</p>
+
+<p><code class="language-plaintext highlighter-rouge">spark_conf</code> maps straight to Spark configuration properties:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">client</span><span class="p">.</span><span class="n">submit_job</span><span class="p">(</span>
+    <span class="n">job</span><span class="o">=</span><span class="n">FileJob</span><span class="p">(</span>
+        <span class="n">file_source</span><span class="o">=</span><span class="s">"https://raw.githubusercontent.com/kubeflow/sdk/main/examples/spark/spark_job.py"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">spark_conf</span><span class="o">=</span><span class="p">{</span>
+        <span class="s">"spark.sql.adaptive.enabled"</span><span class="p">:</span> <span class="s">"true"</span><span class="p">,</span>
+        <span class="s">"spark.sql.shuffle.partitions"</span><span class="p">:</span> <span class="s">"200"</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">options</code> covers the Kubernetes-native pieces that don’t belong in Spark config — labels, annotations, node placement, and job naming — as a list of typed option objects:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">uuid</span>
+
+<span class="kn">from</span> <span class="nn">kubeflow.spark</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Annotations</span><span class="p">,</span>
+    <span class="n">FileJob</span><span class="p">,</span>
+    <span class="n">Labels</span><span class="p">,</span>
+    <span class="n">Name</span><span class="p">,</span>
+    <span class="n">NodeSelector</span><span class="p">,</span>
+    <span class="n">SparkClient</span><span class="p">,</span>
+    <span class="n">Toleration</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">client</span><span class="p">.</span><span class="n">submit_job</span><span class="p">(</span>
+    <span class="n">job</span><span class="o">=</span><span class="n">FileJob</span><span class="p">(</span>
+        <span class="n">file_source</span><span class="o">=</span><span class="s">"https://raw.githubusercontent.com/kubeflow/sdk/main/examples/spark/spark_job.py"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">options</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">Name</span><span class="p">(</span><span class="sa">f</span><span class="s">"batch-job-options-</span><span class="si">{</span><span class="n">uuid</span><span class="p">.</span><span class="n">uuid4</span><span class="p">().</span><span class="nb">hex</span><span class="p">[</span><span class="si">:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">),</span>
+        <span class="n">Labels</span><span class="p">({</span><span class="s">"app"</span><span class="p">:</span> <span class="s">"spark"</span><span class="p">,</span> <span class="s">"team"</span><span class="p">:</span> <span class="s">"ml"</span><span class="p">}),</span>
+        <span class="n">Annotations</span><span class="p">({</span><span class="s">"owner"</span><span class="p">:</span> <span class="s">"kubeflow"</span><span class="p">,</span> <span class="s">"environment"</span><span class="p">:</span> <span class="s">"dev"</span><span class="p">}),</span>
+        <span class="n">NodeSelector</span><span class="p">({</span><span class="s">"kubernetes.io/os"</span><span class="p">:</span> <span class="s">"linux"</span><span class="p">}),</span>
+        <span class="n">Toleration</span><span class="p">(</span>
+            <span class="n">key</span><span class="o">=</span><span class="s">"dedicated"</span><span class="p">,</span>
+            <span class="n">operator</span><span class="o">=</span><span class="s">"Equal"</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s">"spark"</span><span class="p">,</span>
+            <span class="n">effect</span><span class="o">=</span><span class="s">"NoSchedule"</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Both are optional — the earlier examples in this post work fine without either — but together they cover the two axes teams usually need to customize: how Spark runs the job, and how Kubernetes schedules and labels it. Worth knowing what you get when you leave them out: one executor, 1 core and 512Mi for both driver and executor, and the <code class="language-plaintext highlighter-rouge">spark-operator-spark</code> service account. Driver and executor resources aren’t configurable through <code class="language-plaintext highlighter-rouge">submit_job()</code> today, unlike <code class="language-plaintext highlighter-rouge">connect()</code>, which accepts both Driver and Executor objects.</p>
+
+<h2 id="lifecycle-apis">Lifecycle APIs</h2>
+
+<p>One design goal for these lifecycle APIs was consistency across Kubeflow SDKs. Rather than introducing a new management model, SparkClient follows the same lifecycle pattern as TrainerClient. If you’ve previously managed distributed training workloads with TrainerClient, the APIs for submitting, monitoring, and managing Spark batch jobs should feel immediately familiar.</p>
+
+<p>This consistency makes it easier to move between different stages of an ML workflow. A team might use SparkClient to prepare and transform large-scale datasets with Apache Spark, then use TrainerClient to launch distributed PyTorch training on the processed data. Although the underlying workloads are different, both clients expose a similar lifecycle interface.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>TrainerClient</th>
+      <th>SparkClient</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">train()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">submit_job()</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">list_jobs()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">list_jobs()</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">get_job()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">get_job()</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">get_job_logs()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">get_job_logs()</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">wait_for_job_status()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">wait_for_job_status()</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">delete_job()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">delete_job()</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Submission is the first of six checkpoints; the remaining five manage the job regardless of how it started:</p>
+
+<p><img src="/images/2026-07-25-sparkclient-batch-jobs/lifecycle.png" alt="The six lifecycle checkpoints for any submitted job" /></p>
+
+<h3 id="submit-a-batch-job">Submit a batch job</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.spark</span> <span class="kn">import</span> <span class="n">FileJob</span><span class="p">,</span> <span class="n">SparkClient</span><span class="p">,</span> <span class="n">SparkJobStatus</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">SparkClient</span><span class="p">()</span>
+
+<span class="n">job_name</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">submit_job</span><span class="p">(</span>
+    <span class="n">FileJob</span><span class="p">(</span>
+        <span class="n">file_source</span><span class="o">=</span><span class="s">"https://raw.githubusercontent.com/kubeflow/sdk/main/examples/spark/spark_job.py"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">num_executors</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">resources_per_executor</span><span class="o">=</span><span class="p">{</span><span class="s">"cpu"</span><span class="p">:</span> <span class="s">"2"</span><span class="p">,</span> <span class="s">"memory"</span><span class="p">:</span> <span class="s">"4Gi"</span><span class="p">},</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Output:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-job-e09b45b5
+</code></pre></div></div>
+
+<h3 id="wait-for-a-job-to-complete">Wait for a job to complete</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">client</span><span class="p">.</span><span class="n">wait_for_job_status</span><span class="p">(</span>
+    <span class="n">job_name</span><span class="p">,</span>
+    <span class="n">status</span><span class="o">=</span><span class="p">{</span><span class="n">SparkJobStatus</span><span class="p">.</span><span class="n">COMPLETED</span><span class="p">,</span> <span class="n">SparkJobStatus</span><span class="p">.</span><span class="n">FAILED</span><span class="p">},</span>
+    <span class="n">timeout</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+    <span class="n">polling_interval</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">job</span><span class="p">.</span><span class="n">status</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Output:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>COMPLETED
+</code></pre></div></div>
+
+<h3 id="get-job-details">Get job details</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">job</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_job</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">job</span><span class="p">.</span><span class="n">status</span><span class="p">,</span> <span class="n">job</span><span class="p">.</span><span class="n">num_executors</span><span class="p">,</span> <span class="n">job</span><span class="p">.</span><span class="n">driver_pod_name</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Output:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>COMPLETED 3 spark-job-e09b45b5-driver
+</code></pre></div></div>
+
+<h3 id="list-running-jobs">List running jobs</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">client</span><span class="p">.</span><span class="n">list_jobs</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="p">{</span><span class="n">SparkJobStatus</span><span class="p">.</span><span class="n">RUNNING</span><span class="p">}):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">job</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">job</span><span class="p">.</span><span class="n">status</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Output:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-job-a13d8c72 RUNNING
+spark-job-b91f7a2e RUNNING
+</code></pre></div></div>
+
+<h3 id="stream-job-logs">Stream job logs</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">client</span><span class="p">.</span><span class="n">get_job_logs</span><span class="p">(</span><span class="n">job_name</span><span class="p">,</span> <span class="n">follow</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Output:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>25/08/08 17:54:02 INFO SparkContext: Running Spark version 4.x.x
+25/08/08 17:54:05 INFO SparkContext: Starting job...
+25/08/08 17:54:12 INFO DAGScheduler: Job 0 finished successfully
+25/08/08 17:54:18 INFO SparkContext: Spark application completed successfully
+</code></pre></div></div>
+
+<h3 id="delete-a-job">Delete a job</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">client</span><span class="p">.</span><span class="n">delete_job</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Output:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Job deleted successfully.
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">wait_for_job_status()</code> polls the <code class="language-plaintext highlighter-rouge">SparkApplication</code>’s status on a timer and returns the resolved <code class="language-plaintext highlighter-rouge">SparkJob</code> once it reaches one of the target statuses. SDK-level status is a simplified four-state model (<code class="language-plaintext highlighter-rouge">CREATED</code>, <code class="language-plaintext highlighter-rouge">RUNNING</code>, <code class="language-plaintext highlighter-rouge">COMPLETED</code>, <code class="language-plaintext highlighter-rouge">FAILED</code>) mapped from the underlying <code class="language-plaintext highlighter-rouge">SparkApplication</code> states, so callers don’t need to interpret raw CRD conditions. Two details worth knowing: if the job reaches <code class="language-plaintext highlighter-rouge">FAILED</code> and <code class="language-plaintext highlighter-rouge">FAILED</code> isn’t in your target set, the call raises <code class="language-plaintext highlighter-rouge">RuntimeError</code> right away instead of waiting out the timeout — which is why the example above passes both <code class="language-plaintext highlighter-rouge">COMPLETED</code> and <code class="language-plaintext highlighter-rouge">FAILED</code> — and any operator state the SDK doesn’t recognize is mapped to <code class="language-plaintext highlighter-rouge">FAILED</code> conservatively.</p>
+
+<h2 id="log-retrieval">Log retrieval</h2>
+
+<p><code class="language-plaintext highlighter-rouge">get_job_logs()</code> reads from the <strong>driver pod only</strong>, via the Kubernetes API, with <code class="language-plaintext highlighter-rouge">follow=True</code> supported for streaming as new lines are written.</p>
+
+<p><img src="/images/2026-07-25-sparkclient-batch-jobs/logging.png" alt="Where get_job_logs() actually reads from" /></p>
+
+<p>Executor-level log access isn’t wired in yet — the driver is where Spark surfaces stage failures, exceptions, and final job status, so it covers the common debugging path for this first release. Executor logs are a reasonable follow-up, not a blocker for shipping batch support. One caveat either way: logs are only readable while the driver pod exists, so <code class="language-plaintext highlighter-rouge">get_job_logs()</code> raises <code class="language-plaintext highlighter-rouge">RuntimeError</code> if the driver hasn’t started yet or has already been cleaned up — pull them before <code class="language-plaintext highlighter-rouge">delete_job()</code>.</p>
+
+<h2 id="whats-next">What’s next</h2>
+
+<p>Batch submission and the lifecycle APIs have unit and end-to-end tests for both success and failure paths. The next phase of this project focuses on observability — pulling metrics from the Spark REST API (stage progress, executor stats, job duration), structured event tracking, and eventually a Prometheus-compatible export path.</p>
+
+<p>None of this replaces the Spark Operator or reinvents Spark on Kubernetes — SparkClient stays a thin, Kubernetes-native layer on top of it. The goal is narrower and more practical: let the people who actually need to run Spark jobs — data engineers scheduling ETL, ML engineers prepping training data — do it from Python, without first becoming experts in <code class="language-plaintext highlighter-rouge">SparkApplication</code> YAML.</p>
+
+<h2 id="want-to-help">Want to Help?</h2>
+
+<p>The Kubeflow community is always looking for more contributors, testers, and users interested in Spark on Kubernetes and the broader SDK ecosystem. If you’d like to get involved:</p>
+
+<ul>
+  <li>Explore the <a href="https://sdk.kubeflow.org/en/latest/">Kubeflow SDK documentation</a> to learn more about SparkClient, TrainerClient, and the rest of the SDK.</li>
+  <li>Learn about the <a href="https://docs.google.com/document/d/1jH2WAX2ePxOfI4JuiVK9nPlesDMiyg67xzLwhpR7wTQ/edit?tab=t.0">ML Experience and Kubeflow SDK APIs</a>, which outlines the vision for consistent Python APIs across Kubeflow projects.</li>
+  <li>Visit the <a href="https://www.kubeflow.org/">Kubeflow website</a> or <a href="https://github.com/kubeflow">GitHub repositories</a>.</li>
+  <li>Join the <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow Slack channels</a>.</li>
+  <li>Subscribe to the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list.</li>
+  <li>Attend the biweekly <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-community-call">Kubeflow Spark on Kubernetes call</a> hosted by the Data working group.</li>
+</ul>
+
+<p>Feel free to share questions or feedback in the comments below — always happy to talk SparkClient.</p>]]></content><author><name>Sameer Yadav</name></author><category term="gsoc" /><category term="spark" /><category term="sdk" /><summary type="html"><![CDATA[How the SparkClient SDK's new batch job APIs work under the hood — submit_job(), FileJob/FuncJob, the lifecycle APIs, and log retrieval.]]></summary></entry><entry><title type="html">Kale 2.0: A new chapter for an old idea</title><link href="https://blog.kubeflow.org/kale-2.0-release/" rel="alternate" type="text/html" title="Kale 2.0: A new chapter for an old idea" /><published>2026-05-06T00:00:00-05:00</published><updated>2026-05-06T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kale-2.0-release</id><content type="html" xml:base="https://blog.kubeflow.org/kale-2.0-release/"><![CDATA[<p>This is a post I’d long wished for, then lost hope for, then forgot about. Somehow, things started moving again. And here we are. Kale is officially part of the Kubeflow ecosystem, it’s alive and growing, and now has a new release that will lay the foundation for a whole new chapter.</p>
 
 <p>Kale began as my graduate thesis in Data Science. It turned into a real product at Arrikto, a Greek startup that got swept away by the strong currents of the startup world. Kale wa then picked up by the community, and at some point started showing up in talks and tutorials I had nothing to do with. Then — like a lot of open source — it went quiet. For a few years I kept an eye on the inbox, answered the occasional question, and watched the repo slowly drift away from the world it was built for.</p>
 
@@ -1696,413 +1993,4 @@ out the resources below. We look forward to working with you!</p>
   <li>Join the <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow Slack channel</a>.</li>
   <li>Join the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list.</li>
   <li>Attend our weekly <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-community-call">community meeting</a>.</li>
-</ul>]]></content><author><name>Kubeflow 1.11 Release Team</name></author><category term="release" /><summary type="html"><![CDATA[Kubeflow AI Reference Platform 1.11 delivers substantial platform improvements focused on scalability, security, and operational efficiency. The release reduces per namespace overhead, strengthens multi-tenant defaults, and improves overall reliability for running Kubeflow at scale on Kubernetes.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introducing the Kubeflow SDK: A Pythonic API to Run AI Workloads at Scale</title><link href="https://blog.kubeflow.org/sdk/intro/" rel="alternate" type="text/html" title="Introducing the Kubeflow SDK: A Pythonic API to Run AI Workloads at Scale" /><published>2025-11-07T00:00:00-06:00</published><updated>2025-11-07T00:00:00-06:00</updated><id>https://blog.kubeflow.org/sdk/introducing-kubeflow-sdk</id><content type="html" xml:base="https://blog.kubeflow.org/sdk/intro/"><![CDATA[<blockquote>
-  <p><strong>⚡ We want your feedback!</strong> Help shape the future of Kubeflow SDK by taking our <a href="https://docs.google.com/forms/d/e/1FAIpQLSet_IAFQzMMDWolzFt5LI9lhzqOOStjIGHxgYqKBnVcRtDfrw/viewform?usp=dialog">quick survey</a>.</p>
-</blockquote>
-
-<h1 id="unified-sdk-concept">Unified SDK Concept</h1>
-
-<p>Scaling AI workloads shouldn’t require deep expertise in distributed systems and container orchestration. Whether you are prototyping on local hardware or deploying to a production Kubernetes cluster, you need a unified API that abstracts infrastructure complexity while preserving flexibility. That’s exactly what the Kubeflow Python SDK delivers.</p>
-
-<p>As an AI Practitioner, you’ve probably experienced this frustrating journey: you start by prototyping locally, training your model on your laptop. When you need more compute power, you have to rewrite everything for distributed training. You containerize your code, rebuild images for every small change, write Kubernetes YAMLs, wrestle with kubectl, and juggle multiple SDKs — one for training, another for hyperparameter tuning, and yet another for pipelines. Each step demands different tools, APIs, and mental models.</p>
-
-<p>All this complexity slows down productivity, drains focus, and ultimately holds back AI innovation. What if there was a better way?</p>
-
-<p>The Kubeflow community started the <strong>Kubeflow SDK &amp; ML Experience Working Group</strong> (WG) in order to address these challenges. You can find more information about this WG on our <a href="https://youtu.be/VkbVVk2OGUI?list=PLmzRWLV1CK_wSO2IMPnzChxESmaoXNfrY">YouTube playlist</a>.</p>
-
-<h1 id="introducing-kubeflow-sdk">Introducing Kubeflow SDK</h1>
-
-<p>The SDK sits on top of the Kubeflow ecosystem as a unified interface layer. When you write Python code, the SDK translates it into the appropriate Kubernetes resources — generating CRs, handling orchestration, and managing distributed communication. You get all the power of Kubeflow and distributed AI compute without needing to understand Kubernetes.</p>
-
-<p><img src="/images/2025-11-07-introducing-kubeflow-sdk/kubeflow-sdk.drawio.svg" alt="kubeflow ecosystem" /></p>
-
-<p>Getting started is simple:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">install</span> <span class="n">kubeflow</span>
-</code></pre></div></div>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.trainer</span> <span class="kn">import</span> <span class="n">TrainerClient</span>
-
-<span class="k">def</span> <span class="nf">train_model</span><span class="p">():</span>
-    <span class="kn">import</span> <span class="nn">torch</span>
-
-    <span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">())</span>
-
-    <span class="c1"># Training loop
-</span>    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-        <span class="c1"># Your training logic
-</span>        <span class="k">pass</span>
-
-    <span class="n">torch</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s">"model.pt"</span><span class="p">)</span>
-
-<span class="c1"># Create a client and train
-</span><span class="n">client</span> <span class="o">=</span> <span class="n">TrainerClient</span><span class="p">()</span>
-<span class="n">client</span><span class="p">.</span><span class="n">train</span><span class="p">(</span><span class="n">train_func</span><span class="o">=</span><span class="n">train_model</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>The following principles are the foundation that guide the design and implementation of the SDK:</p>
-
-<ul>
-  <li><strong>Unified Experience</strong>: Single SDK to interact with multiple Kubeflow projects through consistent Python APIs</li>
-  <li><strong>Simplified AI Workloads</strong>: Abstract away Kubernetes complexity and work effortlessly across all Kubeflow projects using familiar Python APIs</li>
-  <li><strong>Built for Scale</strong>: Seamlessly scale any AI workload — from local laptop to large-scale production cluster with thousands of GPUs using the same APIs.</li>
-  <li><strong>Rapid Iteration</strong>: Reduced friction between development and production environments</li>
-  <li><strong>Local Development</strong>: First-class support for local development without a Kubernetes cluster requiring only pip installation</li>
-</ul>
-
-<h2 id="role-in-the-kubeflow-ecosystem">Role in the Kubeflow Ecosystem</h2>
-
-<p>The SDK doesn’t replace any Kubeflow projects — it provides a unified way to use them. Kubeflow Trainer, Katib, Spark Operator, Pipelines, etc still handle the actual workload execution. The SDK makes them easier to interact with through consistent Python APIs, letting you work entirely in the language you already use for ML development.</p>
-
-<p>This creates a clear separation:</p>
-<ul>
-  <li><strong>AI Practitioners</strong> use the SDK to submit jobs and manage workflows through Python, without touching YAML or Kubernetes directly</li>
-  <li><strong>Platform Administrators</strong> continue managing infrastructure — installing components, configuring runtimes, setting resource quotas. Nothing changes on the infrastructure side.</li>
-</ul>
-
-<p><img src="/images/2025-11-07-introducing-kubeflow-sdk/user-personas.drawio.svg" alt="kubeflow user personas" /></p>
-
-<p>The Kubeflow SDK works with your existing Kubeflow deployment. If you already have Kubeflow Trainer and Katib installed, just <code class="language-plaintext highlighter-rouge">pip install kubeflow</code> and start using them through the unified interface. As Kubeflow evolves with new components and features, the SDK provides a stable Python layer that adapts alongside the ecosystem.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Project</th>
-      <th>Status</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Kubeflow Trainer</td>
-      <td>Available ✅</td>
-      <td>Train and fine-tune AI models with various frameworks</td>
-    </tr>
-    <tr>
-      <td>Kubeflow Optimizer</td>
-      <td>Available ✅</td>
-      <td>Hyperparameter optimization</td>
-    </tr>
-    <tr>
-      <td>Kubeflow Pipelines</td>
-      <td>Planned 🚧</td>
-      <td>Build, run, and track AI workflows</td>
-    </tr>
-    <tr>
-      <td>Kubeflow Model Registry</td>
-      <td>Planned 🚧</td>
-      <td>Manage model artifacts, versions and ML artifacts metadata</td>
-    </tr>
-    <tr>
-      <td>Kubeflow Spark Operator</td>
-      <td>Planned 🚧</td>
-      <td>Manage Spark applications for data processing and feature engineering</td>
-    </tr>
-  </tbody>
-</table>
-
-<h1 id="key-features">Key Features</h1>
-
-<h2 id="unified-python-interface">Unified Python Interface</h2>
-
-<p>The SDK provides a consistent experience across all Kubeflow components. Whether you’re training models or optimizing hyperparameters, the APIs follow the same patterns:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.trainer</span> <span class="kn">import</span> <span class="n">TrainerClient</span>
-<span class="kn">from</span> <span class="nn">kubeflow.optimizer</span> <span class="kn">import</span> <span class="n">OptimizerClient</span>
-
-<span class="c1"># Initialize clients
-</span><span class="n">trainer</span> <span class="o">=</span> <span class="n">TrainerClient</span><span class="p">()</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">OptimizerClient</span><span class="p">()</span>
-
-<span class="c1"># List jobs
-</span><span class="n">TrainerClient</span><span class="p">().</span><span class="n">list_jobs</span><span class="p">()</span>
-<span class="n">OptimizerClient</span><span class="p">().</span><span class="n">list_jobs</span><span class="p">()</span>
-</code></pre></div></div>
-
-<h2 id="trainer-client">Trainer Client</h2>
-
-<p>The TrainerClient provides the easiest way to run distributed training on Kubernetes, built on top of <a href="https://blog.kubeflow.org/trainer/intro/">Kubeflow Trainer v2</a>. Whether you’re training custom models with PyTorch, or fine-tuning LLMs, the client provides a Python API for submitting and monitoring training jobs at scale.</p>
-
-<p>The client works with pre-configured runtimes that Platform Administrators set up. These runtimes define the container images, resource policies, and infrastructure settings. As an AI Practitioner, you reference these runtimes and focus on your training code:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.trainer</span> <span class="kn">import</span> <span class="n">TrainerClient</span><span class="p">,</span> <span class="n">CustomTrainer</span>
-
-<span class="k">def</span> <span class="nf">get_torch_dist</span><span class="p">():</span>
-    <span class="s">"""Your PyTorch training code runs on each node."""</span>
-    <span class="kn">import</span> <span class="nn">os</span>
-    <span class="kn">import</span> <span class="nn">torch</span>
-    <span class="kn">import</span> <span class="nn">torch.distributed</span> <span class="k">as</span> <span class="n">dist</span>
-
-    <span class="n">dist</span><span class="p">.</span><span class="n">init_process_group</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s">"gloo"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"PyTorch Distributed Environment"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"WORLD_SIZE: </span><span class="si">{</span><span class="n">dist</span><span class="p">.</span><span class="n">get_world_size</span><span class="p">()</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"RANK: </span><span class="si">{</span><span class="n">dist</span><span class="p">.</span><span class="n">get_rank</span><span class="p">()</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"LOCAL_RANK: </span><span class="si">{</span><span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'LOCAL_RANK'</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-
-<span class="c1"># Create the TrainJob
-</span><span class="n">job_id</span> <span class="o">=</span> <span class="n">TrainerClient</span><span class="p">().</span><span class="n">train</span><span class="p">(</span>
-    <span class="n">runtime</span><span class="o">=</span><span class="n">TrainerClient</span><span class="p">().</span><span class="n">get_runtime</span><span class="p">(</span><span class="s">"torch-distributed"</span><span class="p">),</span>
-    <span class="n">trainer</span><span class="o">=</span><span class="n">CustomTrainer</span><span class="p">(</span>
-        <span class="n">func</span><span class="o">=</span><span class="n">get_torch_dist</span><span class="p">,</span>
-        <span class="n">num_nodes</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-        <span class="n">resources_per_node</span><span class="o">=</span><span class="p">{</span>
-            <span class="s">"cpu"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-        <span class="p">},</span>
-    <span class="p">),</span>
-<span class="p">)</span>
-
-<span class="c1"># Wait for TrainJob to complete
-</span><span class="n">TrainerClient</span><span class="p">().</span><span class="n">wait_for_job_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
-
-<span class="c1"># Print TrainJob logs
-</span><span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">TrainerClient</span><span class="p">().</span><span class="n">get_job_logs</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">job_id</span><span class="p">)))</span>
-</code></pre></div></div>
-
-<p>The TrainerClient supports <code class="language-plaintext highlighter-rouge">CustomTrainer</code> for your own training logic and <a href="https://www.kubeflow.org/docs/components/trainer/user-guides/builtin-trainer/torchtune/"><code class="language-plaintext highlighter-rouge">BuiltinTrainer</code></a> for pre-packaged training patterns like LLM fine-tuning.</p>
-
-<p>Getting started with LLM fine-tuning is as simple as a single line. The default model, dataset, and training configurations are pre-baked into the runtime:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">TrainerClient</span><span class="p">().</span><span class="n">train</span><span class="p">(</span>
-    <span class="n">runtime</span><span class="o">=</span><span class="n">TrainerClient</span><span class="p">().</span><span class="n">get_runtime</span><span class="p">(</span><span class="s">"torchtune-qwen2.5-1.5b"</span><span class="p">),</span>
-<span class="p">)</span>
-</code></pre></div></div>
-
-<p>You can also customize every aspect of the fine-tuning process — specify your own dataset, model, LoRA configuration, and training hyperparameters:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.trainer</span> <span class="kn">import</span> <span class="n">TrainerClient</span><span class="p">,</span> <span class="n">BuiltinTrainer</span><span class="p">,</span> <span class="n">TorchTuneConfig</span>
-<span class="kn">from</span> <span class="nn">kubeflow.trainer</span> <span class="kn">import</span> <span class="n">Initializer</span><span class="p">,</span> <span class="n">HuggingFaceDatasetInitializer</span><span class="p">,</span> <span class="n">HuggingFaceModelInitializer</span>
-<span class="kn">from</span> <span class="nn">kubeflow.trainer</span> <span class="kn">import</span> <span class="n">TorchTuneInstructDataset</span><span class="p">,</span> <span class="n">LoraConfig</span><span class="p">,</span> <span class="n">DataFormat</span>
-
-<span class="n">client</span> <span class="o">=</span> <span class="n">TrainerClient</span><span class="p">()</span>
-
-<span class="n">client</span><span class="p">.</span><span class="n">train</span><span class="p">(</span>
-    <span class="n">runtime</span><span class="o">=</span><span class="n">client</span><span class="p">.</span><span class="n">get_runtime</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">"torchtune-llama3.2-1b"</span><span class="p">),</span>
-    <span class="n">initializer</span><span class="o">=</span><span class="n">Initializer</span><span class="p">(</span>
-        <span class="n">dataset</span><span class="o">=</span><span class="n">HuggingFaceDatasetInitializer</span><span class="p">(</span>
-            <span class="n">storage_uri</span><span class="o">=</span><span class="s">"hf://tatsu-lab/alpaca/data"</span>
-        <span class="p">),</span>
-        <span class="n">model</span><span class="o">=</span><span class="n">HuggingFaceModelInitializer</span><span class="p">(</span>
-            <span class="n">storage_uri</span><span class="o">=</span><span class="s">"hf://meta-llama/Llama-3.2-1B-Instruct"</span><span class="p">,</span>
-            <span class="n">access_token</span><span class="o">=</span><span class="s">"hf_..."</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="p">),</span>
-    <span class="n">trainer</span><span class="o">=</span><span class="n">BuiltinTrainer</span><span class="p">(</span>
-        <span class="n">config</span><span class="o">=</span><span class="n">TorchTuneConfig</span><span class="p">(</span>
-            <span class="n">dataset_preprocess_config</span><span class="o">=</span><span class="n">TorchTuneInstructDataset</span><span class="p">(</span>
-                <span class="n">source</span><span class="o">=</span><span class="n">DataFormat</span><span class="p">.</span><span class="n">PARQUET</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="n">peft_config</span><span class="o">=</span><span class="n">LoraConfig</span><span class="p">(</span>
-                <span class="n">apply_lora_to_mlp</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-                <span class="n">lora_attn_modules</span><span class="o">=</span><span class="p">[</span><span class="s">"q_proj"</span><span class="p">,</span> <span class="s">"k_proj"</span><span class="p">,</span> <span class="s">"v_proj"</span><span class="p">,</span> <span class="s">"output_proj"</span><span class="p">],</span>
-                <span class="n">quantize_base</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="n">resources_per_node</span><span class="o">=</span><span class="p">{</span>
-                <span class="s">"gpu"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="p">}</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
-<span class="p">)</span>
-</code></pre></div></div>
-
-<p>You can mix and match — use the runtime’s default model but specify your own dataset, or keep the default dataset but customize the LoRA parameters. The Initializers download datasets and models once to shared storage, then all training pods access the data from there — reducing startup time and network usage.</p>
-
-<p>For more details about Kubeflow Trainer capabilities, including gang-scheduling, fault tolerance, and MPI support, check out the <a href="https://blog.kubeflow.org/trainer/intro/">Kubeflow Trainer v2 blog post</a>.</p>
-
-<h2 id="optimizer-client">Optimizer Client</h2>
-
-<p>The OptimizerClient manages hyperparameter optimization for large models of any size on Kubernetes. With consistent APIs across TrainerClient and OptimizerClient, you can easily transition from training to optimization — define your training job template once, specify which parameters to optimize, and the client orchestrates multiple trials to find the best hyperparameter configuration. This consistent API design significantly enhances the user experience during AI development.</p>
-
-<p>The client launches trials in parallel according to your resource constraints, tracks metrics across experiments, and identifies optimal parameters.</p>
-
-<p>First, define your training job template:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.trainer</span> <span class="kn">import</span> <span class="n">TrainerClient</span><span class="p">,</span> <span class="n">CustomTrainer</span>
-<span class="kn">from</span> <span class="nn">kubeflow.optimizer</span> <span class="kn">import</span> <span class="n">OptimizerClient</span><span class="p">,</span> <span class="n">TrainJobTemplate</span><span class="p">,</span> <span class="n">Search</span><span class="p">,</span> <span class="n">Objective</span><span class="p">,</span> <span class="n">TrialConfig</span>
-
-<span class="k">def</span> <span class="nf">train_func</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-    <span class="s">"""Training function with hyperparameters."""</span>
-    <span class="c1"># Your training code here
-</span>    <span class="kn">import</span> <span class="nn">time</span>
-    <span class="kn">import</span> <span class="nn">random</span>
-
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-        <span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Training </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s">, lr: </span><span class="si">{</span><span class="n">learning_rate</span><span class="si">}</span><span class="s">, batch_size: </span><span class="si">{</span><span class="n">batch_size</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-
-    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"loss=</span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.77</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-
-
-<span class="c1"># Create a reusable template
-</span><span class="n">template</span> <span class="o">=</span> <span class="n">TrainJobTemplate</span><span class="p">(</span>
-    <span class="n">trainer</span><span class="o">=</span><span class="n">CustomTrainer</span><span class="p">(</span>
-        <span class="n">func</span><span class="o">=</span><span class="n">train_func</span><span class="p">,</span>
-        <span class="n">func_args</span><span class="o">=</span><span class="p">{</span><span class="s">"learning_rate"</span><span class="p">:</span> <span class="s">"0.01"</span><span class="p">,</span> <span class="s">"batch_size"</span><span class="p">:</span> <span class="s">"16"</span><span class="p">},</span>
-        <span class="n">num_nodes</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-        <span class="n">resources_per_node</span><span class="o">=</span><span class="p">{</span><span class="s">"gpu"</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
-    <span class="p">),</span>
-    <span class="n">runtime</span><span class="o">=</span><span class="n">TrainerClient</span><span class="p">().</span><span class="n">get_runtime</span><span class="p">(</span><span class="s">"torch-distributed"</span><span class="p">),</span>
-<span class="p">)</span>
-
-<span class="c1"># Verify that your TrainJob is working with test hyperparameters.
-</span><span class="n">TrainerClient</span><span class="p">().</span><span class="n">train</span><span class="p">(</span><span class="o">**</span><span class="n">template</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Then optimize hyperparameters with a single call:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">optimizer</span> <span class="o">=</span> <span class="n">OptimizerClient</span><span class="p">()</span>
-
-<span class="n">job_name</span> <span class="o">=</span> <span class="n">optimizer</span><span class="p">.</span><span class="n">optimize</span><span class="p">(</span>
-    <span class="c1"># The same template can be used for Hyperparameter Optimisation
-</span>    <span class="n">trial_template</span><span class="o">=</span><span class="n">template</span><span class="p">,</span>
-    <span class="n">search_space</span><span class="o">=</span><span class="p">{</span>
-        <span class="s">"learning_rate"</span><span class="p">:</span> <span class="n">Search</span><span class="p">.</span><span class="n">loguniform</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span>
-        <span class="s">"batch_size"</span><span class="p">:</span> <span class="n">Search</span><span class="p">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">]),</span>
-    <span class="p">},</span>
-    <span class="n">trial_config</span><span class="o">=</span><span class="n">TrialConfig</span><span class="p">(</span>
-        <span class="n">num_trials</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
-        <span class="n">parallel_trials</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-        <span class="n">max_failed_trials</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="p">),</span>
-<span class="p">)</span>
-
-<span class="c1"># Verify OptimizationJob was created
-</span><span class="n">optimizer</span><span class="p">.</span><span class="n">get_job</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
-
-<span class="c1"># Wait for OptimizationJob to complete
-</span><span class="n">optimizer</span><span class="p">.</span><span class="n">wait_for_job_status</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
-
-<span class="c1"># Get the best hyperparameters and metrics from an OptimizationJob
-</span><span class="n">best_results</span> <span class="o">=</span> <span class="n">optimizer</span><span class="p">.</span><span class="n">get_best_results</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">best_results</span><span class="p">)</span>
-<span class="c1"># Output:
-# Result(
-#     parameters={'learning_rate': '0.0234', 'batch_size': '64'},
-#     metrics=[Metric(name='loss', min='0.78', max='0.78', latest='0.78')]
-# )
-</span>
-<span class="c1"># See all the trials (TrainJobs) created during optimization
-</span><span class="n">job</span> <span class="o">=</span> <span class="n">optimizer</span><span class="p">.</span><span class="n">get_job</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">job</span><span class="p">.</span><span class="n">trials</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>This creates multiple TrainJob instances (trials) with different hyperparameter combinations, executes them in parallel based on available resources, and tracks which parameters produce the best results. Each trial is a full training job managed by Kubeflow Trainer. Using <a href="https://www.kubeflow.org/docs/components/katib/user-guides/katib-ui/">Katib UI</a>, you can visualize your optimization with an interactive graph that shows metric performance against hyperparameter values across all trials.</p>
-
-<p><img src="/images/2025-11-07-introducing-kubeflow-sdk/katib-ui.png" alt="Katib UI example" /></p>
-
-<p>For more details about hyperparameter optimization, check out the <a href="https://github.com/kubeflow/sdk/tree/main/docs/proposals/46-hyperparameter-optimization">OptimizerClient KEP</a>.</p>
-
-<h2 id="local-execution-mode">Local Execution Mode</h2>
-
-<p>Local Execution Mode provides backend flexibility while maintaining full API compatibility with the Kubernetes backend, substantially reducing friction for AI practitioners when developing and iterating.</p>
-
-<p>Choose the right execution environment for your stage of development:</p>
-
-<h3 id="local-process-backend-fastest-iteration">Local Process Backend: Fastest Iteration</h3>
-
-<p>The Local Process Backend is your starting point for ML development - offering the fastest possible iteration cycle with zero infrastructure overhead. This backend executes your training code directly as a Python subprocess on your local machine, bypassing containers, orchestration, and network complexity entirely.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.trainer.backends.localprocess</span> <span class="kn">import</span> <span class="n">LocalProcessBackendConfig</span>
-
-<span class="n">config</span> <span class="o">=</span> <span class="n">LocalProcessBackendConfig</span><span class="p">()</span>
-<span class="n">client</span> <span class="o">=</span> <span class="n">TrainerClient</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-
-<span class="c1"># Runs directly on your machine - no containers, no cluster
-</span><span class="n">client</span><span class="p">.</span><span class="n">train</span><span class="p">(</span><span class="n">train_func</span><span class="o">=</span><span class="n">train_model</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="container-backend-production-like-environment">Container Backend: Production-Like Environment</h3>
-
-<p>The Container Backend bridges the gap between local development and production deployment by bringing production parity to your laptop. This backend executes your training code inside containers (using Docker or Podman), ensuring that your development environment matches your production environment byte-for-byte - same dependencies, same Python version, same system libraries, same everything.</p>
-
-<p>Docker Example:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.trainer.backends.container</span> <span class="kn">import</span> <span class="n">ContainerBackendConfig</span>
-
-<span class="n">config</span> <span class="o">=</span> <span class="n">ContainerBackendConfig</span><span class="p">(</span>
-    <span class="n">container_runtime</span><span class="o">=</span><span class="s">"docker"</span><span class="p">,</span>
-    <span class="n">auto_remove</span><span class="o">=</span><span class="bp">True</span>  <span class="c1"># Clean up containers after completion
-</span><span class="p">)</span>
-
-<span class="n">client</span> <span class="o">=</span> <span class="n">TrainerClient</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-
-<span class="c1"># Launch 2-node distributed training locally
-</span><span class="n">client</span><span class="p">.</span><span class="n">train</span><span class="p">(</span><span class="n">train_func</span><span class="o">=</span><span class="n">train_model</span><span class="p">,</span> <span class="n">num_nodes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Podman Example:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.trainer.backends.container</span> <span class="kn">import</span> <span class="n">ContainerBackendConfig</span>
-
-<span class="n">config</span> <span class="o">=</span> <span class="n">ContainerBackendConfig</span><span class="p">(</span>
-    <span class="n">container_runtime</span><span class="o">=</span><span class="s">"podman"</span><span class="p">,</span>
-    <span class="n">auto_remove</span><span class="o">=</span><span class="bp">True</span>
-<span class="p">)</span>
-
-<span class="n">client</span> <span class="o">=</span> <span class="n">TrainerClient</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-<span class="n">client</span><span class="p">.</span><span class="n">train</span><span class="p">(</span><span class="n">train_func</span><span class="o">=</span><span class="n">train_model</span><span class="p">,</span> <span class="n">num_nodes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="kubernetes-backend-production-scale">Kubernetes Backend: Production Scale</h3>
-
-<p>The Kubernetes Backend enables Kubeflow SDK to perform reliably at production scale - enabling you to deploy the exact same training code you developed locally to a production Kubernetes cluster with massive computational resources. This backend transforms your simple <code class="language-plaintext highlighter-rouge">client.train()</code> call into a full-fledged distributed training job managed by Kubeflow’s Trainer, complete with fault tolerance, resource scheduling, and cluster-wide orchestration.</p>
-
-<p>Kubernetes Example:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.trainer.backends.kubernetes</span> <span class="kn">import</span> <span class="n">KubernetesBackendConfig</span>
-
-<span class="n">config</span> <span class="o">=</span> <span class="n">KubernetesBackendConfig</span><span class="p">(</span>
-    <span class="n">namespace</span><span class="o">=</span><span class="s">"ml-training"</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">client</span> <span class="o">=</span> <span class="n">TrainerClient</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-
-<span class="c1"># Scales to hundreds of nodes - the same code you tested locally
-</span><span class="n">client</span><span class="p">.</span><span class="n">train</span><span class="p">(</span>
-    <span class="n">train_func</span><span class="o">=</span><span class="n">train_model</span><span class="p">,</span>
-    <span class="n">num_nodes</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="n">packages_to_install</span><span class="o">=</span><span class="p">[</span><span class="s">"torch"</span><span class="p">,</span> <span class="s">"transformers"</span><span class="p">]</span>
-<span class="p">)</span>
-</code></pre></div></div>
-
-<h1 id="whats-next">What’s Next?</h1>
-
-<p>We’re just getting started. The Kubeflow SDK currently supports Trainer and Optimizer, but the vision is much bigger — a unified Python interface for the entire <a href="https://www.kubeflow.org/docs/started/architecture/#kubeflow-projects-in-the-ai-lifecycle">Cloud Native AI Lifecycle</a>.</p>
-
-<p>Here’s what’s on the horizon:</p>
-
-<ul>
-  <li><a href="https://github.com/kubeflow/sdk/issues/125"><strong>Pipelines Integration</strong></a>: A PipelinesClient to build end-to-end ML workflows. Pipelines will reuse the core Kubeflow SDK primitives for training, optimization, and deployment in a single pipeline. The Kubeflow SDK will also power <a href="https://github.com/kubeflow/pipelines-components">KFP core components</a></li>
-  <li><a href="https://github.com/kubeflow/sdk/issues/59"><strong>Model Registry Integration</strong></a>: Seamlessly manage model artifacts and versions across the training and serving lifecycle</li>
-  <li><a href="https://github.com/kubeflow/sdk/issues/107"><strong>Spark Operator Integration</strong></a>: Data processing and feature engineering through a SparkClient interface</li>
-  <li><a href="https://github.com/kubeflow/sdk/issues/50"><strong>Documentation</strong></a>: Full Kubeflow SDK documentation with guides, examples, and API references</li>
-  <li><a href="https://github.com/kubeflow/sdk/issues/153"><strong>Local Execution for Optimizer</strong></a>: Run hyperparameter optimization experiments locally before scaling to Kubernetes</li>
-  <li><a href="https://github.com/kubeflow/sdk/issues/48"><strong>Workspace Snapshots</strong></a>: Capture your entire development environment and reproduce it in distributed training jobs</li>
-  <li><a href="https://github.com/kubeflow/sdk/issues/23"><strong>Multi-Cluster Support</strong></a>: Manage training jobs across multiple Kubernetes clusters from a single SDK interface</li>
-  <li><a href="https://github.com/kubeflow/trainer/issues/2655"><strong>Distributed Data Cache</strong></a>: In-memory caching for large datasets via initializer SDK configuration</li>
-  <li><a href="https://github.com/kubeflow/trainer/issues/2752"><strong>Additional Built-in Trainers</strong></a>: Support for more fine-tuning frameworks beyond TorchTune — <a href="https://github.com/unslothai/unsloth">Unsloth</a>, <a href="https://github.com/meta-pytorch/torchforge">torchforge</a>, <a href="https://github.com/axolotl-ai-cloud/axolotl">Axolotl</a>, <a href="https://github.com/hiyouga/LLaMA-Factory">LLaMA-Factory</a>, and others</li>
-</ul>
-
-<p>The community is driving these features forward. If you have ideas, feedback, or want to contribute, we’d love to hear from you!</p>
-
-<h1 id="get-involved">Get Involved</h1>
-
-<p>The Kubeflow SDK is built by and for the community. We welcome contributions, feedback, and participation from everyone!</p>
-
-<p><strong>🔔 Help Shape the Future of Kubeflow SDK</strong></p>
-
-<p>We want to hear from you! Take our <a href="https://docs.google.com/forms/d/e/1FAIpQLSet_IAFQzMMDWolzFt5LI9lhzqOOStjIGHxgYqKBnVcRtDfrw/viewform?usp=dialog">Kubeflow Unified SDK Survey</a> 
-to help us understand your biggest pain points and identify which new features will provide the most value to you and 
-your team. Your feedback directly influences our roadmap and priorities.</p>
-
-<p><strong>Resources</strong>:</p>
-<ul>
-  <li><a href="https://github.com/kubeflow/sdk">GitHub Repo</a></li>
-  <li><a href="https://docs.google.com/document/d/1rX7ELAHRb_lvh0Y7BK1HBYAbA0zi9enB0F_358ZC58w/edit?tab=t.0#heading=h.e0573r7wwkgl">Kubeflow SDK design document</a></li>
-</ul>
-
-<p><strong>Connect with the Community</strong>:</p>
-<ul>
-  <li>Join <a href="https://cloud-native.slack.com/archives/C08KJBVDH5H">#kubeflow-ml-experience</a> on <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels">CNCF Slack</a></li>
-  <li>Attend the <a href="https://bit.ly/kf-ml-experience">Kubeflow SDK and ML Experience WG</a> meetings</li>
-  <li>Check out <a href="https://github.com/kubeflow/sdk/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22">good first issues</a> to get started</li>
-</ul>]]></content><author><name>Kubeflow SDK Team</name></author><category term="sdk" /><category term="trainer" /><category term="optimizer" /><summary type="html"><![CDATA[⚡ We want your feedback! Help shape the future of Kubeflow SDK by taking our quick survey.]]></summary></entry></feed>
+</ul>]]></content><author><name>Kubeflow 1.11 Release Team</name></author><category term="release" /><summary type="html"><![CDATA[Kubeflow AI Reference Platform 1.11 delivers substantial platform improvements focused on scalability, security, and operational efficiency. The release reduces per namespace overhead, strengthens multi-tenant defaults, and improves overall reliability for running Kubeflow at scale on Kubernetes.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

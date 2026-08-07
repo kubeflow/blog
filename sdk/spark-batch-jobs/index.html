@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Batch Jobs for SparkClient: Submitting and Managing Spark Workloads from Python | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Batch Jobs for SparkClient: Submitting and Managing Spark Workloads from Python" />
+<meta name="author" content="Sameer Yadav" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="How the SparkClient SDK’s new batch job APIs work under the hood — submit_job(), FileJob/FuncJob, the lifecycle APIs, and log retrieval." />
+<meta property="og:description" content="How the SparkClient SDK’s new batch job APIs work under the hood — submit_job(), FileJob/FuncJob, the lifecycle APIs, and log retrieval." />
+<link rel="canonical" href="https://blog.kubeflow.org/sdk/spark-batch-jobs/" />
+<meta property="og:url" content="https://blog.kubeflow.org/sdk/spark-batch-jobs/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-07-25T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Batch Jobs for SparkClient: Submitting and Managing Spark Workloads from Python" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Sameer Yadav"},"dateModified":"2026-07-25T00:00:00-05:00","datePublished":"2026-07-25T00:00:00-05:00","description":"How the SparkClient SDK’s new batch job APIs work under the hood — submit_job(), FileJob/FuncJob, the lifecycle APIs, and log retrieval.","headline":"Batch Jobs for SparkClient: Submitting and Managing Spark Workloads from Python","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/sdk/spark-batch-jobs/"},"url":"https://blog.kubeflow.org/sdk/spark-batch-jobs/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Batch Jobs for SparkClient: Submitting and Managing Spark Workloads from Python</h1><p class="page-description">How the SparkClient SDK's new batch job APIs work under the hood — submit_job(), FileJob/FuncJob, the lifecycle APIs, and log retrieval.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2026-07-25T00:00:00-05:00" itemprop="datePublished">
+        Jul 25, 2026
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Sameer Yadav</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#gsoc">gsoc</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#spark">spark</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#sdk">sdk</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#why-this-matters-in-practice">Why this matters in practice</a></li>
+<li class="toc-entry toc-h2"><a href="#quick-start">Quick start</a></li>
+<li class="toc-entry toc-h2"><a href="#two-ways-to-submit-a-job">Two ways to submit a job</a></li>
+<li class="toc-entry toc-h2"><a href="#what-happens-when-you-call-submit_job">What happens when you call submit_job()</a></li>
+<li class="toc-entry toc-h2"><a href="#configuring-a-job-with-spark_conf-and-options">Configuring a job with spark_conf and options</a></li>
+<li class="toc-entry toc-h2"><a href="#lifecycle-apis">Lifecycle APIs</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#submit-a-batch-job">Submit a batch job</a></li>
+<li class="toc-entry toc-h3"><a href="#wait-for-a-job-to-complete">Wait for a job to complete</a></li>
+<li class="toc-entry toc-h3"><a href="#get-job-details">Get job details</a></li>
+<li class="toc-entry toc-h3"><a href="#list-running-jobs">List running jobs</a></li>
+<li class="toc-entry toc-h3"><a href="#stream-job-logs">Stream job logs</a></li>
+<li class="toc-entry toc-h3"><a href="#delete-a-job">Delete a job</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#log-retrieval">Log retrieval</a></li>
+<li class="toc-entry toc-h2"><a href="#whats-next">What’s next</a></li>
+<li class="toc-entry toc-h2"><a href="#want-to-help">Want to Help?</a></li>
+</ul><p>As part of GSoC 2026, we’ve been extending <strong>SparkClient</strong> (<a href="https://github.com/kubeflow/sdk/blob/main/proposals/107-spark-client/README.md">KEP-107</a>) — the Kubeflow SDK’s Python interface for running Spark on Kubernetes — with support for batch job submission and lifecycle management. Previously, SparkClient covered interactive workloads well via <code class="language-plaintext highlighter-rouge">connect()</code>, but running a batch job (the “submit a script, walk away, come back to results” kind of work that powers ETL pipelines and scheduled data prep) meant working with the <code class="language-plaintext highlighter-rouge">SparkApplication</code> CRD directly.</p>
+
+<p>This post walks through how the new <code class="language-plaintext highlighter-rouge">submit_job()</code> API and its accompanying lifecycle APIs work, what’s happening on the cluster when you call them, and where the current implementation draws its boundaries.</p>
+
+<h2 id="why-this-matters-in-practice">
+<a class="anchor" href="#why-this-matters-in-practice" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why this matters in practice</h2>
+
+<p>Running Spark on Kubernetes usually assumes a platform or infra team is around to stand up and maintain the cluster — the Spark Operator, the <code class="language-plaintext highlighter-rouge">SparkApplication</code> CRDs, the driver/executor resource tuning. That’s a fair assumption at a large org with a dedicated platform team. It’s a much bigger ask for a smaller team, or for the data engineer or ML engineer who just needs a job to run and doesn’t have that infra support behind them.</p>
+
+<p><code class="language-plaintext highlighter-rouge">submit_job()</code> is built for exactly that gap — <code class="language-plaintext highlighter-rouge">FileJob</code> for teams running existing ETL scripts, <code class="language-plaintext highlighter-rouge">FuncJob</code> for those who’d rather hand over a Python function directly — with the same predictable lifecycle underneath either way. The practical payoff: running a Spark step no longer requires users to author and manage SparkApplication resources directly—the SDK handles that for them.</p>
+
+<h2 id="quick-start">
+<a class="anchor" href="#quick-start" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick start</h2>
+
+<p>If you’d rather run something than read about it first, the <a href="https://github.com/kubeflow/sdk/tree/main/examples/spark"><code class="language-plaintext highlighter-rouge">examples/spark</code></a> directory in the <code class="language-plaintext highlighter-rouge">kubeflow/sdk</code> repo has runnable scripts covering everything in this post:</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">batch_job_lifecycle.py</code> — submits <code class="language-plaintext highlighter-rouge">spark_job.py</code> as a <code class="language-plaintext highlighter-rouge">FileJob</code>, then walks through waiting, checking status, pulling logs, and cleanup</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">batch_func_job_lifecycle.py</code> — the same lifecycle, with a <code class="language-plaintext highlighter-rouge">FuncJob</code> instead</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">batch_job_options.py</code> — the same lifecycle with <code class="language-plaintext highlighter-rouge">options</code> applied, then verified on the created resource</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">batch_failed_job.py</code> — what a failure looks like end to end</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">spark_job.py</code> — the minimal PySpark script the lifecycle examples actually submit and run</li>
+</ul>
+
+<p>Clone the repo and run any of them directly against a cluster with the Spark Operator installed. The rest of this post walks through what those scripts are actually doing under the hood.</p>
+
+<h2 id="two-ways-to-submit-a-job">
+<a class="anchor" href="#two-ways-to-submit-a-job" aria-hidden="true"><span class="octicon octicon-link"></span></a>Two ways to submit a job</h2>
+
+<p><code class="language-plaintext highlighter-rouge">submit_job()</code> accepts either a <code class="language-plaintext highlighter-rouge">FileJob</code> or a <code class="language-plaintext highlighter-rouge">FuncJob</code>, and builds a <code class="language-plaintext highlighter-rouge">SparkApplication</code> spec from whichever one you pass in.</p>
+
+<p><img src="/images/2026-07-25-sparkclient-batch-jobs/two_jobs.png" alt="Two doors into the batch pipeline — FileJob vs FuncJob"></p>
+
+<p>A <code class="language-plaintext highlighter-rouge">FileJob</code> points at an existing script:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.spark</span> <span class="kn">import</span> <span class="n">FileJob</span>
+
+<span class="n">job</span> <span class="o">=</span> <span class="n">FileJob</span><span class="p">(</span>
+    <span class="n">file_source</span><span class="o">=</span><span class="s">"https://raw.githubusercontent.com/kubeflow/sdk/main/examples/spark/spark_job.py"</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">file_source</code> can reference both <strong>remote</strong> URIs (such as <code class="language-plaintext highlighter-rouge">s3a://</code>, <code class="language-plaintext highlighter-rouge">gs://</code>, <code class="language-plaintext highlighter-rouge">hdfs://</code>, or <code class="language-plaintext highlighter-rouge">https://</code>) and <code class="language-plaintext highlighter-rouge">local://</code> paths. The SDK passes the URI through to the Spark runtime, which is responsible for resolving and accessing it. For a <code class="language-plaintext highlighter-rouge">local://</code> path, the SDK does not package or upload anything on your behalf — the file must already be available inside the driver pod, for example through a volume mounted with <code class="language-plaintext highlighter-rouge">spark.kubernetes.driver.volumes.*</code> entries in <code class="language-plaintext highlighter-rouge">spark_conf</code>. Batch jobs currently run on a fixed <code class="language-plaintext highlighter-rouge">apache/spark</code> image and don’t accept <code class="language-plaintext highlighter-rouge">PodTemplateOverride</code> (Spark Connect only), so baking the script into a custom image or mounting a PVC through a pod template isn’t an option yet. <code class="language-plaintext highlighter-rouge">FileJob</code> describes where the file lives, not how it gets there.</p>
+
+<p>A <code class="language-plaintext highlighter-rouge">FuncJob</code> takes a Python function instead of a file:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.spark</span> <span class="kn">import</span> <span class="n">FuncJob</span>
+
+<span class="k">def</span> <span class="nf">transform</span><span class="p">():</span>
+    <span class="c1"># your Spark logic here
+</span>    <span class="p">...</span>
+
+<span class="n">job</span> <span class="o">=</span> <span class="n">FuncJob</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The function has to be a plain, top-level function defined in an importable <code class="language-plaintext highlighter-rouge">.py</code> module — the SDK reads its source directly via <code class="language-plaintext highlighter-rouge">inspect.getsource()</code> to serialize it, which means lambdas, decorated functions, async functions, and anything defined interactively (a REPL or notebook cell) aren’t supported.</p>
+
+<p>Since only the function source is serialized, the function should be self-contained. Any required imports should be placed inside the function body so they’re available when the generated script is executed. Parameters are passed separately via <code class="language-plaintext highlighter-rouge">FuncJob(func=..., func_args={"samples": 10})</code>, and their values must be JSON-like primitives — strings, numbers, booleans, <code class="language-plaintext highlighter-rouge">None</code>, and lists or dicts of those.</p>
+
+<p>For example:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">transform</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+    <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span><span class="p">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+
+    <span class="c1"># your Spark logic here
+</span>    <span class="p">...</span>
+</code></pre></div></div>
+
+<p>If you’re prototyping in a notebook, the function still needs to live in a module you import from, not be defined inline in a cell.</p>
+
+<p>For a <code class="language-plaintext highlighter-rouge">FuncJob</code>, the SDK serializes the function into a generated script, writes it to a shared <code class="language-plaintext highlighter-rouge">emptyDir</code> volume through an init container, and points the driver at the generated file instead of a script you had to author yourself. This is the one case where the SDK does the packaging step for you.</p>
+
+<p>Once a job is submitted, both types converge on the same shape — a name, a namespace, a status, a driver pod, some executors — so every lifecycle call downstream treats a <code class="language-plaintext highlighter-rouge">FileJob</code> and a <code class="language-plaintext highlighter-rouge">FuncJob</code> identically.</p>
+
+<h2 id="what-happens-when-you-call-submit_job">
+<a class="anchor" href="#what-happens-when-you-call-submit_job" aria-hidden="true"><span class="octicon octicon-link"></span></a>What happens when you call <code class="language-plaintext highlighter-rouge">submit_job()</code>
+</h2>
+
+<p><code class="language-plaintext highlighter-rouge">submit_job()</code> doesn’t run the job — it hands off a request and returns as soon as the request is accepted:</p>
+
+<p><img src="/images/2026-07-25-sparkclient-batch-jobs/architecture.png" alt="What happens under the hood when `submit_job()` is called"></p>
+
+<ol>
+  <li>
+<strong>SparkClient validates and builds a spec.</strong> Your <code class="language-plaintext highlighter-rouge">FileJob</code> or <code class="language-plaintext highlighter-rouge">FuncJob</code> gets translated into a <code class="language-plaintext highlighter-rouge">SparkApplication</code> custom resource.</li>
+  <li>
+<strong>The Kubernetes API stores it.</strong> At this point nothing is running yet — the resource exists, but nobody’s acted on it.</li>
+  <li>
+<strong>The Spark Operator notices.</strong> It watches for <code class="language-plaintext highlighter-rouge">SparkApplication</code> resources in the namespaces it was configured for and reacts as soon as a new one appears.</li>
+  <li>
+<strong>A driver pod starts.</strong> For a <code class="language-plaintext highlighter-rouge">FuncJob</code>, an init container writes the serialized function to a volume first; for a <code class="language-plaintext highlighter-rouge">FileJob</code>, the driver points straight at the referenced script.</li>
+  <li>
+<strong>The driver fans out to executors</strong>, however many were requested.</li>
+</ol>
+
+<p><code class="language-plaintext highlighter-rouge">submit_job()</code> returns once step 2 completes — it doesn’t block on job completion. That’s what the lifecycle APIs are for.</p>
+
+<h2 id="configuring-a-job-with-spark_conf-and-options">
+<a class="anchor" href="#configuring-a-job-with-spark_conf-and-options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuring a job with <code class="language-plaintext highlighter-rouge">spark_conf</code> and <code class="language-plaintext highlighter-rouge">options</code>
+</h2>
+
+<p>Beyond the job definition itself, <code class="language-plaintext highlighter-rouge">submit_job()</code> takes <code class="language-plaintext highlighter-rouge">spark_conf</code> for Spark-level tuning and <code class="language-plaintext highlighter-rouge">options</code> for Kubernetes-level configuration.</p>
+
+<p><code class="language-plaintext highlighter-rouge">spark_conf</code> maps straight to Spark configuration properties:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">client</span><span class="p">.</span><span class="n">submit_job</span><span class="p">(</span>
+    <span class="n">job</span><span class="o">=</span><span class="n">FileJob</span><span class="p">(</span>
+        <span class="n">file_source</span><span class="o">=</span><span class="s">"https://raw.githubusercontent.com/kubeflow/sdk/main/examples/spark/spark_job.py"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">spark_conf</span><span class="o">=</span><span class="p">{</span>
+        <span class="s">"spark.sql.adaptive.enabled"</span><span class="p">:</span> <span class="s">"true"</span><span class="p">,</span>
+        <span class="s">"spark.sql.shuffle.partitions"</span><span class="p">:</span> <span class="s">"200"</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">options</code> covers the Kubernetes-native pieces that don’t belong in Spark config — labels, annotations, node placement, and job naming — as a list of typed option objects:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">uuid</span>
+
+<span class="kn">from</span> <span class="nn">kubeflow.spark</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Annotations</span><span class="p">,</span>
+    <span class="n">FileJob</span><span class="p">,</span>
+    <span class="n">Labels</span><span class="p">,</span>
+    <span class="n">Name</span><span class="p">,</span>
+    <span class="n">NodeSelector</span><span class="p">,</span>
+    <span class="n">SparkClient</span><span class="p">,</span>
+    <span class="n">Toleration</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">client</span><span class="p">.</span><span class="n">submit_job</span><span class="p">(</span>
+    <span class="n">job</span><span class="o">=</span><span class="n">FileJob</span><span class="p">(</span>
+        <span class="n">file_source</span><span class="o">=</span><span class="s">"https://raw.githubusercontent.com/kubeflow/sdk/main/examples/spark/spark_job.py"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">options</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">Name</span><span class="p">(</span><span class="sa">f</span><span class="s">"batch-job-options-</span><span class="si">{</span><span class="n">uuid</span><span class="p">.</span><span class="n">uuid4</span><span class="p">().</span><span class="nb">hex</span><span class="p">[</span><span class="si">:</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s">"</span><span class="p">),</span>
+        <span class="n">Labels</span><span class="p">({</span><span class="s">"app"</span><span class="p">:</span> <span class="s">"spark"</span><span class="p">,</span> <span class="s">"team"</span><span class="p">:</span> <span class="s">"ml"</span><span class="p">}),</span>
+        <span class="n">Annotations</span><span class="p">({</span><span class="s">"owner"</span><span class="p">:</span> <span class="s">"kubeflow"</span><span class="p">,</span> <span class="s">"environment"</span><span class="p">:</span> <span class="s">"dev"</span><span class="p">}),</span>
+        <span class="n">NodeSelector</span><span class="p">({</span><span class="s">"kubernetes.io/os"</span><span class="p">:</span> <span class="s">"linux"</span><span class="p">}),</span>
+        <span class="n">Toleration</span><span class="p">(</span>
+            <span class="n">key</span><span class="o">=</span><span class="s">"dedicated"</span><span class="p">,</span>
+            <span class="n">operator</span><span class="o">=</span><span class="s">"Equal"</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s">"spark"</span><span class="p">,</span>
+            <span class="n">effect</span><span class="o">=</span><span class="s">"NoSchedule"</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Both are optional — the earlier examples in this post work fine without either — but together they cover the two axes teams usually need to customize: how Spark runs the job, and how Kubernetes schedules and labels it. Worth knowing what you get when you leave them out: one executor, 1 core and 512Mi for both driver and executor, and the <code class="language-plaintext highlighter-rouge">spark-operator-spark</code> service account. Driver and executor resources aren’t configurable through <code class="language-plaintext highlighter-rouge">submit_job()</code> today, unlike <code class="language-plaintext highlighter-rouge">connect()</code>, which accepts both Driver and Executor objects.</p>
+
+<h2 id="lifecycle-apis">
+<a class="anchor" href="#lifecycle-apis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lifecycle APIs</h2>
+
+<p>One design goal for these lifecycle APIs was consistency across Kubeflow SDKs. Rather than introducing a new management model, SparkClient follows the same lifecycle pattern as TrainerClient. If you’ve previously managed distributed training workloads with TrainerClient, the APIs for submitting, monitoring, and managing Spark batch jobs should feel immediately familiar.</p>
+
+<p>This consistency makes it easier to move between different stages of an ML workflow. A team might use SparkClient to prepare and transform large-scale datasets with Apache Spark, then use TrainerClient to launch distributed PyTorch training on the processed data. Although the underlying workloads are different, both clients expose a similar lifecycle interface.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>TrainerClient</th>
+      <th>SparkClient</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">train()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">submit_job()</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">list_jobs()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">list_jobs()</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">get_job()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">get_job()</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">get_job_logs()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">get_job_logs()</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">wait_for_job_status()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">wait_for_job_status()</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">delete_job()</code></td>
+      <td><code class="language-plaintext highlighter-rouge">delete_job()</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Submission is the first of six checkpoints; the remaining five manage the job regardless of how it started:</p>
+
+<p><img src="/images/2026-07-25-sparkclient-batch-jobs/lifecycle.png" alt="The six lifecycle checkpoints for any submitted job"></p>
+
+<h3 id="submit-a-batch-job">
+<a class="anchor" href="#submit-a-batch-job" aria-hidden="true"><span class="octicon octicon-link"></span></a>Submit a batch job</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.spark</span> <span class="kn">import</span> <span class="n">FileJob</span><span class="p">,</span> <span class="n">SparkClient</span><span class="p">,</span> <span class="n">SparkJobStatus</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">SparkClient</span><span class="p">()</span>
+
+<span class="n">job_name</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">submit_job</span><span class="p">(</span>
+    <span class="n">FileJob</span><span class="p">(</span>
+        <span class="n">file_source</span><span class="o">=</span><span class="s">"https://raw.githubusercontent.com/kubeflow/sdk/main/examples/spark/spark_job.py"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">num_executors</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">resources_per_executor</span><span class="o">=</span><span class="p">{</span><span class="s">"cpu"</span><span class="p">:</span> <span class="s">"2"</span><span class="p">,</span> <span class="s">"memory"</span><span class="p">:</span> <span class="s">"4Gi"</span><span class="p">},</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Output:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-job-e09b45b5
+</code></pre></div></div>
+
+<h3 id="wait-for-a-job-to-complete">
+<a class="anchor" href="#wait-for-a-job-to-complete" aria-hidden="true"><span class="octicon octicon-link"></span></a>Wait for a job to complete</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">client</span><span class="p">.</span><span class="n">wait_for_job_status</span><span class="p">(</span>
+    <span class="n">job_name</span><span class="p">,</span>
+    <span class="n">status</span><span class="o">=</span><span class="p">{</span><span class="n">SparkJobStatus</span><span class="p">.</span><span class="n">COMPLETED</span><span class="p">,</span> <span class="n">SparkJobStatus</span><span class="p">.</span><span class="n">FAILED</span><span class="p">},</span>
+    <span class="n">timeout</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+    <span class="n">polling_interval</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">job</span><span class="p">.</span><span class="n">status</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Output:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>COMPLETED
+</code></pre></div></div>
+
+<h3 id="get-job-details">
+<a class="anchor" href="#get-job-details" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get job details</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">job</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_job</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">job</span><span class="p">.</span><span class="n">status</span><span class="p">,</span> <span class="n">job</span><span class="p">.</span><span class="n">num_executors</span><span class="p">,</span> <span class="n">job</span><span class="p">.</span><span class="n">driver_pod_name</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Output:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>COMPLETED 3 spark-job-e09b45b5-driver
+</code></pre></div></div>
+
+<h3 id="list-running-jobs">
+<a class="anchor" href="#list-running-jobs" aria-hidden="true"><span class="octicon octicon-link"></span></a>List running jobs</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">client</span><span class="p">.</span><span class="n">list_jobs</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="p">{</span><span class="n">SparkJobStatus</span><span class="p">.</span><span class="n">RUNNING</span><span class="p">}):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">job</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">job</span><span class="p">.</span><span class="n">status</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Output:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-job-a13d8c72 RUNNING
+spark-job-b91f7a2e RUNNING
+</code></pre></div></div>
+
+<h3 id="stream-job-logs">
+<a class="anchor" href="#stream-job-logs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Stream job logs</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">client</span><span class="p">.</span><span class="n">get_job_logs</span><span class="p">(</span><span class="n">job_name</span><span class="p">,</span> <span class="n">follow</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Output:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>25/08/08 17:54:02 INFO SparkContext: Running Spark version 4.x.x
+25/08/08 17:54:05 INFO SparkContext: Starting job...
+25/08/08 17:54:12 INFO DAGScheduler: Job 0 finished successfully
+25/08/08 17:54:18 INFO SparkContext: Spark application completed successfully
+</code></pre></div></div>
+
+<h3 id="delete-a-job">
+<a class="anchor" href="#delete-a-job" aria-hidden="true"><span class="octicon octicon-link"></span></a>Delete a job</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">client</span><span class="p">.</span><span class="n">delete_job</span><span class="p">(</span><span class="n">job_name</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Output:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Job deleted successfully.
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">wait_for_job_status()</code> polls the <code class="language-plaintext highlighter-rouge">SparkApplication</code>’s status on a timer and returns the resolved <code class="language-plaintext highlighter-rouge">SparkJob</code> once it reaches one of the target statuses. SDK-level status is a simplified four-state model (<code class="language-plaintext highlighter-rouge">CREATED</code>, <code class="language-plaintext highlighter-rouge">RUNNING</code>, <code class="language-plaintext highlighter-rouge">COMPLETED</code>, <code class="language-plaintext highlighter-rouge">FAILED</code>) mapped from the underlying <code class="language-plaintext highlighter-rouge">SparkApplication</code> states, so callers don’t need to interpret raw CRD conditions. Two details worth knowing: if the job reaches <code class="language-plaintext highlighter-rouge">FAILED</code> and <code class="language-plaintext highlighter-rouge">FAILED</code> isn’t in your target set, the call raises <code class="language-plaintext highlighter-rouge">RuntimeError</code> right away instead of waiting out the timeout — which is why the example above passes both <code class="language-plaintext highlighter-rouge">COMPLETED</code> and <code class="language-plaintext highlighter-rouge">FAILED</code> — and any operator state the SDK doesn’t recognize is mapped to <code class="language-plaintext highlighter-rouge">FAILED</code> conservatively.</p>
+
+<h2 id="log-retrieval">
+<a class="anchor" href="#log-retrieval" aria-hidden="true"><span class="octicon octicon-link"></span></a>Log retrieval</h2>
+
+<p><code class="language-plaintext highlighter-rouge">get_job_logs()</code> reads from the <strong>driver pod only</strong>, via the Kubernetes API, with <code class="language-plaintext highlighter-rouge">follow=True</code> supported for streaming as new lines are written.</p>
+
+<p><img src="/images/2026-07-25-sparkclient-batch-jobs/logging.png" alt="Where get_job_logs() actually reads from"></p>
+
+<p>Executor-level log access isn’t wired in yet — the driver is where Spark surfaces stage failures, exceptions, and final job status, so it covers the common debugging path for this first release. Executor logs are a reasonable follow-up, not a blocker for shipping batch support. One caveat either way: logs are only readable while the driver pod exists, so <code class="language-plaintext highlighter-rouge">get_job_logs()</code> raises <code class="language-plaintext highlighter-rouge">RuntimeError</code> if the driver hasn’t started yet or has already been cleaned up — pull them before <code class="language-plaintext highlighter-rouge">delete_job()</code>.</p>
+
+<h2 id="whats-next">
+<a class="anchor" href="#whats-next" aria-hidden="true"><span class="octicon octicon-link"></span></a>What’s next</h2>
+
+<p>Batch submission and the lifecycle APIs have unit and end-to-end tests for both success and failure paths. The next phase of this project focuses on observability — pulling metrics from the Spark REST API (stage progress, executor stats, job duration), structured event tracking, and eventually a Prometheus-compatible export path.</p>
+
+<p>None of this replaces the Spark Operator or reinvents Spark on Kubernetes — SparkClient stays a thin, Kubernetes-native layer on top of it. The goal is narrower and more practical: let the people who actually need to run Spark jobs — data engineers scheduling ETL, ML engineers prepping training data — do it from Python, without first becoming experts in <code class="language-plaintext highlighter-rouge">SparkApplication</code> YAML.</p>
+
+<h2 id="want-to-help">
+<a class="anchor" href="#want-to-help" aria-hidden="true"><span class="octicon octicon-link"></span></a>Want to Help?</h2>
+
+<p>The Kubeflow community is always looking for more contributors, testers, and users interested in Spark on Kubernetes and the broader SDK ecosystem. If you’d like to get involved:</p>
+
+<ul>
+  <li>Explore the <a href="https://sdk.kubeflow.org/en/latest/">Kubeflow SDK documentation</a> to learn more about SparkClient, TrainerClient, and the rest of the SDK.</li>
+  <li>Learn about the <a href="https://docs.google.com/document/d/1jH2WAX2ePxOfI4JuiVK9nPlesDMiyg67xzLwhpR7wTQ/edit?tab=t.0">ML Experience and Kubeflow SDK APIs</a>, which outlines the vision for consistent Python APIs across Kubeflow projects.</li>
+  <li>Visit the <a href="https://www.kubeflow.org/">Kubeflow website</a> or <a href="https://github.com/kubeflow">GitHub repositories</a>.</li>
+  <li>Join the <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow Slack channels</a>.</li>
+  <li>Subscribe to the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list.</li>
+  <li>Attend the biweekly <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-community-call">Kubeflow Spark on Kubernetes call</a> hosted by the Data working group.</li>
+</ul>
+
+<p>Feel free to share questions or feedback in the comments below — always happy to talk SparkClient.</p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/sdk/spark-batch-jobs/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name"></li>
+          <li><a class="u-email" href="mailto:"></a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -154,6 +154,19 @@ Both are optional — the earlier examples in this post work fine without either
 
 ## Lifecycle APIs
 
+One design goal for these lifecycle APIs was consistency across Kubeflow SDKs. Rather than introducing a new management model, SparkClient follows the same lifecycle pattern as TrainerClient. If you've previously managed distributed training workloads with TrainerClient, the APIs for submitting, monitoring, and managing Spark batch jobs should feel immediately familiar.
+
+This consistency makes it easier to move between different stages of an ML workflow. A team might use SparkClient to prepare and transform large-scale datasets with Apache Spark, then use TrainerClient to launch distributed PyTorch training on the processed data. Although the underlying workloads are different, both clients expose a similar lifecycle interface.
+
+| TrainerClient | SparkClient |
+|---------------|-------------|
+| `train()` | `submit_job()` |
+| `list_jobs()` | `list_jobs()` |
+| `get_job()` | `get_job()` |
+| `get_job_logs()` | `get_job_logs()` |
+| `wait_for_job_status()` | `wait_for_job_status()` |
+| `delete_job()` | `delete_job()` |
+
 Submission is the first of six checkpoints; the remaining five manage the job regardless of how it started:
 
 ![The six lifecycle checkpoints for any submitted job](/images/2026-07-25-sparkclient-batch-jobs/lifecycle.png)
@@ -174,6 +187,12 @@ job_name = client.submit_job(
 )
 ```
 
+Output:
+
+```text
+spark-job-e09b45b5
+```
+
 ### Wait for a job to complete
 
 ```python
@@ -183,6 +202,14 @@ client.wait_for_job_status(
     timeout=600,
     polling_interval=2,
 )
+
+print(job.status)
+```
+
+Output:
+
+```text
+COMPLETED
 ```
 
 ### Get job details
@@ -190,6 +217,11 @@ client.wait_for_job_status(
 ```python
 job = client.get_job(job_name)
 print(job.status, job.num_executors, job.driver_pod_name)
+```
+Output:
+
+```text
+COMPLETED 3 spark-job-e09b45b5-driver
 ```
 
 ### List running jobs
@@ -199,6 +231,13 @@ for job in client.list_jobs(status={SparkJobStatus.RUNNING}):
     print(job.name, job.status)
 ```
 
+Output:
+
+```text
+spark-job-a13d8c72 RUNNING
+spark-job-b91f7a2e RUNNING
+```
+
 ### Stream job logs
 
 ```python
@@ -206,10 +245,24 @@ for line in client.get_job_logs(job_name, follow=True):
     print(line)
 ```
 
+Output:
+
+```text
+25/08/08 17:54:02 INFO SparkContext: Running Spark version 4.x.x
+25/08/08 17:54:05 INFO SparkContext: Starting job...
+25/08/08 17:54:12 INFO DAGScheduler: Job 0 finished successfully
+25/08/08 17:54:18 INFO SparkContext: Spark application completed successfully
+```
+
 ### Delete a job
 
 ```python
 client.delete_job(job_name)
+```
+Output:
+
+```text
+Job deleted successfully.
 ```
 
 `wait_for_job_status()` polls the `SparkApplication`'s status on a timer and returns the resolved `SparkJob` once it reaches one of the target statuses. SDK-level status is a simplified four-state model (`CREATED`, `RUNNING`, `COMPLETED`, `FAILED`) mapped from the underlying `SparkApplication` states, so callers don't need to interpret raw CRD conditions. Two details worth knowing: if the job reaches `FAILED` and `FAILED` isn't in your target set, the call raises `RuntimeError` right away instead of waiting out the timeout — which is why the example above passes both `COMPLETED` and `FAILED` — and any operator state the SDK doesn't recognize is mapped to `FAILED` conservatively.
@@ -232,6 +285,8 @@ None of this replaces the Spark Operator or reinvents Spark on Kubernetes — Sp
  
 The Kubeflow community is always looking for more contributors, testers, and users interested in Spark on Kubernetes and the broader SDK ecosystem. If you'd like to get involved:
  
+- Explore the [Kubeflow SDK documentation](https://sdk.kubeflow.org/en/latest/) to learn more about SparkClient, TrainerClient, and the rest of the SDK.
+-  Learn about the [ML Experience and Kubeflow SDK APIs](https://docs.google.com/document/d/1jH2WAX2ePxOfI4JuiVK9nPlesDMiyg67xzLwhpR7wTQ/edit?tab=t.0), which outlines the vision for consistent Python APIs across Kubeflow projects.
 - Visit the [Kubeflow website](https://www.kubeflow.org/) or [GitHub repositories](https://github.com/kubeflow).
 - Join the [Kubeflow Slack channels](https://www.kubeflow.org/docs/about/community/).
 - Subscribe to the [kubeflow-discuss](https://groups.google.com/g/kubeflow-discuss) mailing list.

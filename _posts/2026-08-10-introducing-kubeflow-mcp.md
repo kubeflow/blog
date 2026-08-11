@@ -27,22 +27,22 @@ With MCP, the agent calls Kubeflow tools directly. It checks your cluster, estim
 Here's what a real interaction looks like:
 
 ```text
-User: "Fine-tune gemma-2b on the alpaca dataset using LoRA"
+User: "Fine-tune Llama-3.2-1B on the alpaca dataset using LoRA"
 
-1. Agent calls pre_flight(model="google/gemma-2b")
-   → Trainer v2.2 installed, 4x A100 available, gemma runtime found
+1. Agent calls pre_flight(model="meta-llama/Llama-3.2-1B")
+   → Trainer v2.2 installed, 4x A100 available, torchtune runtime found
 
-2. Agent calls fine_tune(model="hf://google/gemma-2b",
+2. Agent calls fine_tune(model="hf://meta-llama/Llama-3.2-1B",
                          dataset="hf://tatsu-lab/alpaca",
-                         runtime="torchtune-gemma-2b",
+                         runtime="torchtune-llama3.2-1b",
                          confirmed=False)
    → Returns full TrainJob spec for review
 
 3. User: "Looks good, submit it"
    Agent calls fine_tune(..., confirmed=True)
-   → TrainJob "train-gemma-abc" created
+   → TrainJob "train-llama-abc" created
 
-4. Agent calls get_training_logs("train-gemma-abc")
+4. Agent calls get_training_logs("train-llama-abc")
    → Epoch 1/3 ━━━━━━━━━━━━ 34% loss=1.42
 ```
 
@@ -80,7 +80,7 @@ Tools are organized into phases that guide agents through the correct sequence:
 
 ### Two-Phase Confirmation
 
-Every mutating operation previews first. The agent sees exactly what would happen before anything touches the cluster, and only proceeds with explicit approval. An agent can never accidentally create, delete, or modify a resource without the user seeing the full spec first.
+Every job-creating and destructive operation previews first. The agent sees exactly what would happen before anything touches the cluster, and only proceeds with explicit approval. Training submission, job deletion, and runtime create/patch/delete are all gated this way, so an agent can never accidentally create or destroy a resource without the user seeing the full spec first.
 
 ![Two-Phase Confirmation](/images/2026-08-10-introducing-kubeflow-mcp/mcp-confirm-gate.png)
 
@@ -103,8 +103,8 @@ Not everyone needs the same level of access. Four built-in personas control whic
 | Persona | Tools available | Intended for |
 |---------|----------------|--------------|
 | `readonly` | 12 | Browsing, auditing, demos |
-| `data-scientist` | 16 | Training and monitoring |
-| `ml-engineer` | 20 | + lifecycle management |
+| `data-scientist` | 16 | Training, monitoring, deleting own jobs |
+| `ml-engineer` | 20 | + container jobs, suspend/resume, CRD inspection |
 | `platform-admin` | 23 | Full access including CRD/runtime ops |
 
 ![Persona-Based Access Control](/images/2026-08-10-introducing-kubeflow-mcp/mcp-personas.png)
@@ -115,13 +115,13 @@ kubeflow-mcp serve --persona data-scientist
 
 ### Token-Efficient Modes
 
-LLMs have limited context windows. Registering all 23 tools costs ~2,400 tokens. Two alternative modes reduce this dramatically while preserving full functionality:
+LLMs have limited context windows. Registering all 23 tools loads every tool description and input schema up front. Two alternative modes shrink that surface dramatically while preserving full functionality:
 
-| Mode | Tools exposed | Token cost | How it works |
-|------|---------------|------------|--------------|
-| `full` | 23 | ~2,400 | All tools registered directly |
-| `progressive` | 3 | ~85 | Agent discovers tools on demand via meta-tools |
-| `semantic` | 2 | ~69 | Agent searches tools by natural language description |
+| Mode | Tools exposed | How it works |
+|------|---------------|--------------|
+| `full` | 23 | All tools registered directly |
+| `progressive` | 3 | Agent discovers tools on demand via meta-tools |
+| `semantic` | 2 | Agent searches tools by natural language description |
 
 ```bash
 kubeflow-mcp serve --mode progressive
@@ -132,7 +132,7 @@ kubeflow-mcp serve --mode progressive
 The server auto-detects your Kubernetes distribution and adapts its guidance:
 
 - **OpenShift**: Adds required writable volumes, sets environment variables to avoid permission errors under restricted security contexts
-- **EKS/GKE**: Detects GPU node pools and suggests tolerations
+- **EKS/GKE**: Identifies the platform from node pool labels and surfaces GPU toleration guidance
 - **Kind/Minikube**: Works out of the box for local development
 
 ### Resilience
@@ -159,7 +159,7 @@ Each span carries structured attributes following OpenTelemetry semantic convent
 
 ## Get Started
 
-**Prerequisites**: Python 3.10+, a Kubernetes cluster with [Kubeflow Trainer v2.2+](https://github.com/kubeflow/trainer) installed.
+**Prerequisites**: Python 3.10–3.12, Kubernetes 1.27+, and a cluster with [Kubeflow Trainer v2.2+](https://github.com/kubeflow/trainer) installed.
 
 ```bash
 pip install kubeflow-mcp
@@ -169,17 +169,30 @@ pip install kubeflow-mcp
 
 ```bash
 kubeflow-mcp serve \
-  --clients trainer \             # modules: trainer, optimizer (stub), hub (stub)
-  --persona ml-engineer \         # readonly | data-scientist | ml-engineer | platform-admin
-  --mode full \                   # full | progressive | semantic
-  --instruction-tier full \       # full | compact | minimal
-  --transport stdio \             # stdio | http | sse
-  --auth-token SECRET \           # bearer token for HTTP auth (dev/staging)
-  --otel-endpoint URL \           # OTLP HTTP endpoint (optional tracing)
-  --log-level INFO \              # DEBUG | INFO | WARNING | ERROR
-  --log-format console \          # console | json (auto-detected if omitted)
-  --no-banner                     # suppress startup banner
+  --clients trainer \
+  --persona ml-engineer \
+  --mode full \
+  --instruction-tier full \
+  --transport stdio \
+  --auth-token SECRET \
+  --otel-endpoint URL \
+  --log-level INFO \
+  --log-format console \
+  --no-banner
 ```
+
+| Flag | Values | Default |
+|------|--------|---------|
+| `--clients` | `trainer`, `optimizer` (stub), `hub` (stub) | `trainer` |
+| `--persona` | `readonly`, `data-scientist`, `ml-engineer`, `platform-admin` | `readonly` |
+| `--mode` | `full`, `progressive`, `semantic` | `full` |
+| `--instruction-tier` | `full`, `compact`, `minimal` | `full` |
+| `--transport` | `stdio`, `http`, `sse` | `stdio` |
+| `--auth-token` | Bearer token string | — |
+| `--otel-endpoint` | OTLP HTTP endpoint URL | — |
+| `--log-level` | `DEBUG`, `INFO`, `WARNING`, `ERROR` | `INFO` |
+| `--log-format` | `console`, `json` | auto-detected |
+| `--no-banner` | Flag | — |
 
 ### Connect Your Agent
 
@@ -255,7 +268,7 @@ The Kubeflow MCP Server is built by and for the community. We welcome contributi
 - Attend the [Kubeflow SDK and ML Experience WG](https://bit.ly/kf-ml-experience) meetings
 - Check out [good first issues](https://github.com/kubeflow/mcp-server/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) to get started
 
-**Live Demo ([Open Source Summit India 2025](https://ossindia2026.sched.com/event/2KNF7/hey-ai-train-llama-making-kubeflow-agent-native-with-mcp-akash-jaiswal-oracle-abhijeet-dhumal-red-hat))**: same MCP server, three clients..
+**Live Demo ([Open Source Summit India 2026](https://ossindia2026.sched.com/event/2KNF7/hey-ai-train-llama-making-kubeflow-agent-native-with-mcp-akash-jaiswal-oracle-abhijeet-dhumal-red-hat))**: same MCP server, three clients:
 
 - **LangChain + LiteLLM**: pre-flight checks, confirm gate
 - **Claude**: custom distributed training
@@ -265,4 +278,4 @@ The Kubeflow MCP Server is built by and for the community. We welcome contributi
 
 ---
 
-*The Kubeflow MCP Server is an Apache 2.0 project under the [Kubeflow](https://www.kubeflow.org/) umbrella, a CNCF Sandbox project.*
+*The Kubeflow MCP Server is an Apache 2.0 project under the [Kubeflow](https://www.kubeflow.org/) umbrella, a CNCF Graduated project.*

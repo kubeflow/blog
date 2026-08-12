@@ -1,4 +1,441 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2026-08-07T17:06:07-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><author><name>{&quot;name&quot;=&gt;&quot;&quot;, &quot;email&quot;=&gt;&quot;&quot;}</name><email></email></author><entry><title type="html">KubeCon + CloudNativeCon India 2026: Our Kubeflow Community Experience</title><link href="https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow.html" rel="alternate" type="text/html" title="KubeCon + CloudNativeCon India 2026: Our Kubeflow Community Experience" /><published>2026-07-27T00:00:00-05:00</published><updated>2026-07-27T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow</id><content type="html" xml:base="https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow.html"><![CDATA[<h2 id="introduction">Introduction</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2026-08-12T10:44:35-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><author><name>{&quot;name&quot;=&gt;&quot;&quot;, &quot;email&quot;=&gt;&quot;&quot;}</name><email></email></author><entry><title type="html">Introducing Kubeflow MCP: An Agent Interface for Cloud Native AI at Scale</title><link href="https://blog.kubeflow.org/introducing-kubeflow-mcp/" rel="alternate" type="text/html" title="Introducing Kubeflow MCP: An Agent Interface for Cloud Native AI at Scale" /><published>2026-08-10T00:00:00-05:00</published><updated>2026-08-10T00:00:00-05:00</updated><id>https://blog.kubeflow.org/introducing-kubeflow-mcp</id><content type="html" xml:base="https://blog.kubeflow.org/introducing-kubeflow-mcp/"><![CDATA[<h2 id="agent-native-infrastructure">Agent-Native Infrastructure</h2>
+
+<p>AI agents are rapidly becoming the primary interface for software development. Engineers use them to write code, debug systems, and automate operational workflows. But when it comes to AI infrastructure (submitting training jobs, managing GPU resources, monitoring distributed workloads) agents hit a wall. They can generate scripts and suggest commands, but they cannot interact with the cluster directly.</p>
+
+<p>The <strong>Kubeflow MCP Server</strong> removes that wall. It exposes Kubeflow operations as <a href="https://modelcontextprotocol.io/">Model Context Protocol</a> (MCP) tools, an open standard that gives AI agents structured, discoverable access to external systems. The agent talks to Kubeflow. Kubeflow talks back.</p>
+
+<h2 id="what-this-changes">What This Changes</h2>
+
+<p>Without MCP, the workflow looks like this: you describe what you want to your agent, it generates a Python script, you run the script, something fails, you paste the error back, the agent suggests a fix, you try again. The human is the message bus between the agent and the cluster.</p>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/mcp-before-after.png" alt="From Manual Pipelines to Conversational Training" /></p>
+
+<p>With MCP, the agent calls Kubeflow tools directly. It checks your cluster, estimates resource requirements, previews the training job spec, waits for your approval, submits it, and streams logs back, all within the same conversation. You stay in control, but you’re no longer the bottleneck.</p>
+
+<p>Here’s what a real interaction looks like:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User: "Fine-tune Llama-3.2-1B on the alpaca dataset using LoRA"
+
+1. Agent calls pre_flight(model="meta-llama/Llama-3.2-1B")
+   → Trainer v2.2 installed, 4x A100 available, torchtune runtime found
+
+2. Agent calls fine_tune(model="hf://meta-llama/Llama-3.2-1B",
+                         dataset="hf://tatsu-lab/alpaca",
+                         runtime="torchtune-llama3.2-1b",
+                         confirmed=False)
+   → Returns full TrainJob spec for review
+
+3. User: "Looks good, submit it"
+   Agent calls fine_tune(..., confirmed=True)
+   → TrainJob "train-llama-abc" created
+
+4. Agent calls get_training_logs("train-llama-abc")
+   → Epoch 1/3 ━━━━━━━━━━━━ 34% loss=1.42
+</code></pre></div></div>
+
+<p>Four tool calls. No YAML. No copy-pasting between tabs. The agent operated directly on the cluster, and nothing happened without the user’s explicit approval.</p>
+
+<h2 id="where-it-fits">Where It Fits</h2>
+
+<p>The diagram below shows the three layers: AI agents on the left, the MCP Server in the middle translating tool calls into Kubernetes API operations, and the Kubeflow infrastructure on the right executing them.</p>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/mcp-server-architecture.png" alt="Kubeflow MCP Architecture" /></p>
+
+<p>The MCP Server is not a replacement for the <a href="https://blog.kubeflow.org/sdk/intro/">Kubeflow SDK</a>. It’s a new interface layer that sits alongside it. The SDK is for writing Python programs. The MCP Server is for AI agents that need to <em>act</em> on your behalf.</p>
+
+<p>Both are backed by the same infrastructure: Kubeflow Trainer creates TrainJobs, JobSet manages distributed execution, and Kubernetes schedules pods onto GPUs. The difference is who’s driving: a Python script you wrote, or an agent you’re conversing with.</p>
+
+<p>The Trainer client is fully implemented today. As additional Kubeflow components gain MCP support, the same server will expose them all through a unified agent interface.</p>
+
+<h2 id="key-features">Key Features</h2>
+
+<h3 id="guided-workflow-with-23-tools">Guided Workflow with 23 Tools</h3>
+
+<p>Tools are organized into phases that guide agents through the correct sequence:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Phase</th>
+      <th>Tools</th>
+      <th>What they do</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Planning</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">pre_flight</code>, <code class="language-plaintext highlighter-rouge">check_compatibility</code>, <code class="language-plaintext highlighter-rouge">get_cluster_resources</code>, <code class="language-plaintext highlighter-rouge">estimate_resources</code></td>
+      <td>Validate the cluster, estimate GPU needs, catch blockers early</td>
+    </tr>
+    <tr>
+      <td><strong>Discovery</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">list_training_jobs</code>, <code class="language-plaintext highlighter-rouge">get_training_job</code>, <code class="language-plaintext highlighter-rouge">list_runtimes</code>, <code class="language-plaintext highlighter-rouge">get_runtime</code></td>
+      <td>Browse what’s running and what runtimes are available</td>
+    </tr>
+    <tr>
+      <td><strong>Training</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">fine_tune</code>, <code class="language-plaintext highlighter-rouge">run_custom_training</code>, <code class="language-plaintext highlighter-rouge">run_container_training</code></td>
+      <td>LoRA/QLoRA fine-tuning, custom distributed scripts, or container jobs</td>
+    </tr>
+    <tr>
+      <td><strong>Monitoring</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">get_training_logs</code>, <code class="language-plaintext highlighter-rouge">get_training_events</code>, <code class="language-plaintext highlighter-rouge">wait_for_training</code></td>
+      <td>Stream logs, diagnose scheduling issues, wait for completion</td>
+    </tr>
+    <tr>
+      <td><strong>Lifecycle</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">delete_training_job</code>, <code class="language-plaintext highlighter-rouge">update_training_job</code></td>
+      <td>Suspend, resume, or clean up jobs</td>
+    </tr>
+    <tr>
+      <td><strong>Platform</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">inspect_crd</code>, <code class="language-plaintext highlighter-rouge">inspect_controller</code>, <code class="language-plaintext highlighter-rouge">patch_runtime</code>, <code class="language-plaintext highlighter-rouge">create_runtime</code>, <code class="language-plaintext highlighter-rouge">delete_runtime</code></td>
+      <td>Admin operations for CRDs and runtimes</td>
+    </tr>
+    <tr>
+      <td><strong>Health</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">health_check</code>, <code class="language-plaintext highlighter-rouge">get_server_logs</code></td>
+      <td>Server diagnostics</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/mcp-workflow-phases.png" alt="Guided Training Workflow" /></p>
+
+<h3 id="two-phase-confirmation">Two-Phase Confirmation</h3>
+
+<p>Every job-creating and destructive operation previews first. The agent sees exactly what would happen before anything touches the cluster, and only proceeds with explicit approval. Training submission, job deletion, and runtime create/patch/delete are all gated this way, so an agent can never accidentally create or destroy a resource without the user seeing the full spec first.</p>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/mcp-confirm-gate.png" alt="Two-Phase Confirmation" /></p>
+
+<h3 id="security">Security</h3>
+
+<p>The server is designed to be safe by default:</p>
+
+<ul>
+  <li><strong>Input validation</strong>: Kubernetes names and namespaces are validated against strict patterns; injection and path traversal attempts are rejected</li>
+  <li><strong>Data masking</strong>: Tokens, passwords, and credentials are automatically masked in logs</li>
+  <li><strong>DNS rebinding protection</strong>: Host and Origin header validation on HTTP transport</li>
+  <li><strong>Ownership guards</strong>: Non-admin personas can only modify jobs created through the MCP server</li>
+  <li><strong>Authentication</strong>: Bearer token for development, JWT/JWKS verification for production</li>
+</ul>
+
+<p>See <a href="https://github.com/kubeflow/mcp-server/blob/main/SECURITY.md">SECURITY.md</a> for the full threat model and hardening guide.</p>
+
+<h3 id="personas">Personas</h3>
+
+<p>Not everyone needs the same level of access. Four built-in personas control which tools an agent can see:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Persona</th>
+      <th>Tools available</th>
+      <th>Intended for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">readonly</code></td>
+      <td>12</td>
+      <td>Browsing, auditing, demos</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">data-scientist</code></td>
+      <td>16</td>
+      <td>Training, monitoring, deleting own jobs</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ml-engineer</code></td>
+      <td>20</td>
+      <td>+ container jobs, suspend/resume, CRD inspection</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">platform-admin</code></td>
+      <td>23</td>
+      <td>Full access including CRD/runtime ops</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/mcp-personas.png" alt="Persona-Based Access Control" /></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubeflow-mcp serve <span class="nt">--persona</span> data-scientist
+</code></pre></div></div>
+
+<h3 id="token-efficient-modes">Token-Efficient Modes</h3>
+
+<p>LLMs have limited context windows. Registering all 23 tools loads every tool description and input schema up front. Two alternative modes shrink that surface dramatically while preserving full functionality:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Tools exposed</th>
+      <th>How it works</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">full</code></td>
+      <td>23</td>
+      <td>All tools registered directly</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">progressive</code></td>
+      <td>3</td>
+      <td>Agent discovers tools on demand via meta-tools</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">semantic</code></td>
+      <td>2</td>
+      <td>Agent searches tools by natural language description</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubeflow-mcp serve <span class="nt">--mode</span> progressive
+</code></pre></div></div>
+
+<h3 id="platform-awareness">Platform Awareness</h3>
+
+<p>The server auto-detects your Kubernetes distribution and adapts its guidance:</p>
+
+<ul>
+  <li><strong>OpenShift</strong>: Adds required writable volumes, sets environment variables to avoid permission errors under restricted security contexts</li>
+  <li><strong>EKS/GKE</strong>: Identifies the platform from node pool labels and surfaces GPU toleration guidance</li>
+  <li><strong>Kind/Minikube</strong>: Works out of the box for local development</li>
+</ul>
+
+<h3 id="resilience">Resilience</h3>
+
+<ul>
+  <li>Rate limiting protects the Kubernetes API from agent-driven burst traffic</li>
+  <li>Circuit breaker prevents cascading failures when the cluster is unhealthy</li>
+  <li>Structured error hints help agents diagnose and recover without human intervention</li>
+</ul>
+
+<h3 id="observability">Observability</h3>
+
+<p>Optional OpenTelemetry tracing covers every tool call with zero code changes:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubeflow-mcp serve <span class="nt">--otel-endpoint</span> http://localhost:4318
+</code></pre></div></div>
+
+<p>Each span carries structured attributes following OpenTelemetry semantic conventions, covering tool identity, execution outcome, persona context, and session correlation for end-to-end tracing across agent sessions.</p>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/jaeger-trace-list.png" alt="Jaeger Trace List" /></p>
+
+<p><br /></p>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/jaeger-trace-waterfall.png" alt="Jaeger Trace Waterfall" /></p>
+
+<h2 id="get-started">Get Started</h2>
+
+<p><strong>Prerequisites</strong>: Python 3.10–3.12, Kubernetes 1.27+, and a cluster with <a href="https://github.com/kubeflow/trainer">Kubeflow Trainer v2.2+</a> installed.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>kubeflow-mcp
+</code></pre></div></div>
+
+<h3 id="server-configuration">Server Configuration</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubeflow-mcp serve <span class="se">\</span>
+  <span class="nt">--clients</span> trainer <span class="se">\</span>
+  <span class="nt">--persona</span> ml-engineer <span class="se">\</span>
+  <span class="nt">--mode</span> full <span class="se">\</span>
+  <span class="nt">--instruction-tier</span> full <span class="se">\</span>
+  <span class="nt">--transport</span> stdio <span class="se">\</span>
+  <span class="nt">--auth-token</span> SECRET <span class="se">\</span>
+  <span class="nt">--otel-endpoint</span> URL <span class="se">\</span>
+  <span class="nt">--log-level</span> INFO <span class="se">\</span>
+  <span class="nt">--log-format</span> console <span class="se">\</span>
+  <span class="nt">--no-banner</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>Values</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--clients</code></td>
+      <td><code class="language-plaintext highlighter-rouge">trainer</code>, <code class="language-plaintext highlighter-rouge">optimizer</code> (stub), <code class="language-plaintext highlighter-rouge">hub</code> (stub)</td>
+      <td><code class="language-plaintext highlighter-rouge">trainer</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--persona</code></td>
+      <td><code class="language-plaintext highlighter-rouge">readonly</code>, <code class="language-plaintext highlighter-rouge">data-scientist</code>, <code class="language-plaintext highlighter-rouge">ml-engineer</code>, <code class="language-plaintext highlighter-rouge">platform-admin</code></td>
+      <td><code class="language-plaintext highlighter-rouge">readonly</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--mode</code></td>
+      <td><code class="language-plaintext highlighter-rouge">full</code>, <code class="language-plaintext highlighter-rouge">progressive</code>, <code class="language-plaintext highlighter-rouge">semantic</code></td>
+      <td><code class="language-plaintext highlighter-rouge">full</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--instruction-tier</code></td>
+      <td><code class="language-plaintext highlighter-rouge">full</code>, <code class="language-plaintext highlighter-rouge">compact</code>, <code class="language-plaintext highlighter-rouge">minimal</code></td>
+      <td><code class="language-plaintext highlighter-rouge">full</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--transport</code></td>
+      <td><code class="language-plaintext highlighter-rouge">stdio</code>, <code class="language-plaintext highlighter-rouge">http</code>, <code class="language-plaintext highlighter-rouge">sse</code></td>
+      <td><code class="language-plaintext highlighter-rouge">stdio</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--auth-token</code></td>
+      <td>Bearer token string</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--otel-endpoint</code></td>
+      <td>OTLP HTTP endpoint URL</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--log-level</code></td>
+      <td><code class="language-plaintext highlighter-rouge">DEBUG</code>, <code class="language-plaintext highlighter-rouge">INFO</code>, <code class="language-plaintext highlighter-rouge">WARNING</code>, <code class="language-plaintext highlighter-rouge">ERROR</code></td>
+      <td><code class="language-plaintext highlighter-rouge">INFO</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--log-format</code></td>
+      <td><code class="language-plaintext highlighter-rouge">console</code>, <code class="language-plaintext highlighter-rouge">json</code></td>
+      <td>auto-detected</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-banner</code></td>
+      <td>Flag</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="connect-your-agent">Connect Your Agent</h3>
+
+<p><strong>Cursor IDE</strong> — add to <code class="language-plaintext highlighter-rouge">.cursor/mcp.json</code>:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"mcpServers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"kubeflow"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kubeflow-mcp"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"serve"</span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Claude Code</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>claude mcp add kubeflow <span class="nt">--</span> kubeflow-mcp serve
+</code></pre></div></div>
+
+<p><strong>HTTP (remote / team deployment)</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubeflow-mcp serve <span class="nt">--transport</span> http <span class="nt">--auth-token</span> <span class="nv">$MY_TOKEN</span>
+</code></pre></div></div>
+
+<p>Then point any MCP client at <code class="language-plaintext highlighter-rouge">http://your-host:8000/mcp</code>.</p>
+
+<h3 id="mcp-inspector">MCP Inspector</h3>
+
+<p>Verify your setup using the <a href="https://github.com/modelcontextprotocol/inspector">MCP Inspector</a>, a visual debugging tool that lets you browse registered tools, invoke them interactively, and inspect server responses:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make inspector
+</code></pre></div></div>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/mcp-inspector.png" alt="MCP Inspector" /></p>
+
+<h2 id="whats-next">What’s Next?</h2>
+
+<p>The Trainer client ships today, but the vision is much bigger: a unified agent interface for the entire Cloud Native AI lifecycle.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Client</th>
+      <th>Status</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Kubeflow Trainer</strong></td>
+      <td>Available ✅</td>
+      <td>Train and fine-tune AI models via MCP tools</td>
+    </tr>
+    <tr>
+      <td><strong>Kubeflow Optimizer (Katib)</strong></td>
+      <td>Planned 🚧</td>
+      <td>Hyperparameter search, trial comparison, optimal config</td>
+    </tr>
+    <tr>
+      <td><strong>Model Registry</strong></td>
+      <td>Planned 🚧</td>
+      <td>Model registration, promotion, lineage tracking</td>
+    </tr>
+    <tr>
+      <td><strong>Kubeflow Pipelines</strong></td>
+      <td>Planned 🚧</td>
+      <td>Build, run, and track end-to-end ML workflows</td>
+    </tr>
+    <tr>
+      <td><strong>Spark Operator</strong></td>
+      <td>Planned 🚧</td>
+      <td>Data processing and feature engineering</td>
+    </tr>
+    <tr>
+      <td><strong>Feast</strong></td>
+      <td>Planned 🚧</td>
+      <td>Feature store management</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Here’s what’s coming beyond new clients:</p>
+
+<ul>
+  <li><strong>Multi-Provider Agent Runtime</strong>: Pluggable LLM backends (<code class="language-plaintext highlighter-rouge">ollama</code>, <code class="language-plaintext highlighter-rouge">litellm</code>) for local or cloud-routed agent inference</li>
+  <li><strong>Enterprise &amp; In-Cluster</strong>: Native OIDC/OAuth, Kubernetes RBAC binding, Helm chart, and Agent-to-Agent (A2A) delegation</li>
+  <li><strong>Advanced Training</strong>: Checkpoint save/restore, real-time metrics, dynamic scaling, and multi-cluster support</li>
+</ul>
+
+<p>The <a href="https://github.com/kubeflow/mcp-server/blob/main/ROADMAP.md">ROADMAP</a> tracks the full phased delivery plan.</p>
+
+<h2 id="get-involved">Get Involved</h2>
+
+<p>The Kubeflow MCP Server is built by and for the community. We welcome contributions, feedback, and participation from everyone!</p>
+
+<p><strong>Resources</strong>:</p>
+<ul>
+  <li><a href="https://github.com/kubeflow/mcp-server">GitHub Repo</a></li>
+  <li><a href="https://github.com/kubeflow/mcp-server/blob/main/README.md">Documentation</a></li>
+  <li><a href="https://github.com/kubeflow/mcp-server/blob/main/ROADMAP.md">ROADMAP</a></li>
+</ul>
+
+<p><strong>Connect with the Community</strong>:</p>
+<ul>
+  <li>Join <a href="https://cloud-native.slack.com/archives/C08KJBVDH5H">#kubeflow-ml-experience</a> on <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels">CNCF Slack</a></li>
+  <li>Attend the <a href="https://bit.ly/kf-ml-experience">Kubeflow SDK and ML Experience WG</a> meetings</li>
+  <li>Check out <a href="https://github.com/kubeflow/mcp-server/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22">good first issues</a> to get started</li>
+</ul>
+
+<p><strong>Live Demo (<a href="https://ossindia2026.sched.com/event/2KNF7/hey-ai-train-llama-making-kubeflow-agent-native-with-mcp-akash-jaiswal-oracle-abhijeet-dhumal-red-hat">Open Source Summit India 2026</a>)</strong>: same MCP server, three clients:</p>
+
+<ul>
+  <li><strong>LangChain + LiteLLM</strong>: pre-flight checks, confirm gate</li>
+  <li><strong>Claude</strong>: custom distributed training</li>
+  <li><strong>Cursor IDE</strong>: fine-tuning with torchtune runtime</li>
+</ul>
+
+<p><a href="https://youtu.be/cZ2BP5hQjc8"><img src="https://img.youtube.com/vi/cZ2BP5hQjc8/maxresdefault.jpg" alt="Demo: Fine-tune Llama on OpenShift" /></a></p>
+
+<hr />
+
+<p><em>The Kubeflow MCP Server is an Apache 2.0 project under the <a href="https://www.kubeflow.org/">Kubeflow</a> umbrella, a CNCF Graduated project.</em></p>]]></content><author><name>Abhijeet Dhumal</name></author><category term="release" /><category term="mcp" /><summary type="html"><![CDATA[An open MCP interface that lets AI agents operate Kubeflow directly from conversation.]]></summary></entry><entry><title type="html">KubeCon + CloudNativeCon India 2026: Our Kubeflow Community Experience</title><link href="https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow.html" rel="alternate" type="text/html" title="KubeCon + CloudNativeCon India 2026: Our Kubeflow Community Experience" /><published>2026-07-27T00:00:00-05:00</published><updated>2026-07-27T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow</id><content type="html" xml:base="https://blog.kubeflow.org/kubecon/community/2026/07/27/kubecon-2026-india-kubeflow.html"><![CDATA[<h2 id="introduction">Introduction</h2>
 
 <p><img src="/images/2026-07-27-kubecon-2026-india-kubeflow/kubecon-india-2026-2.jpg" alt="Kubeflow volunteer team at the booth" /></p>
 
@@ -1590,407 +2027,4 @@ amount of compute.</p>
 
 <p>Like Kubeflow, Metaflow is an open-source project actively developed by multiple organizations — including Netflix, which maintains a dedicated team working on Metaflow, and <a href="https://outerbounds.com">Outerbounds, which provides a managed Metaflow platform</a> deployed in customers’ own cloud environments.</p>
 
-<p>The Metaflow community convenes at <a href="http://slack.outerbounds.co">the Metaflow Slack</a>. We welcome you to join, ask questions, and give feedback about the Kubeflow integration, and share your wishlist items for the roadmap. We are looking forward to a fruitful collaboration between the two communities!</p>]]></content><author><name>{&quot;name&quot;=&gt;&quot;&quot;, &quot;email&quot;=&gt;&quot;&quot;}</name></author><category term="community" /><summary type="html"><![CDATA[A tale of two flows: Metaflow and Kubeflow]]></summary></entry><entry><title type="html">Kubeflow AI Reference Platform 1.11 Release Announcement</title><link href="https://blog.kubeflow.org/kubeflow-1.11-release/" rel="alternate" type="text/html" title="Kubeflow AI Reference Platform 1.11 Release Announcement" /><published>2025-12-22T00:00:00-06:00</published><updated>2025-12-22T00:00:00-06:00</updated><id>https://blog.kubeflow.org/kubeflow-1.11-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-1.11-release/"><![CDATA[<p>Kubeflow AI Reference Platform 1.11 delivers substantial platform improvements focused on scalability, security, and operational efficiency. The release reduces per namespace overhead, strengthens multi-tenant defaults, and improves overall reliability for running Kubeflow at scale on Kubernetes.</p>
-
-<h2 id="highlight-features">Highlight features</h2>
-
-<ul>
-  <li>Trainer v2.1.0 with unified TrainJob API, Python-first workflows, and built-in LLM fine-tuning support</li>
-  <li>Multi-tenant S3 storage with per-namespace credentials, with SeaweedFS replacing MinIO as the default backend</li>
-  <li>Massive scalability improvements enabling Kubeflow deployments to scale to 1,000+ users, profiles, and namespaces</li>
-  <li>Zero pod overhead by default for namespaces and profiles, significantly reducing baseline resource consumption</li>
-  <li>Optimized Istio service mesh configuration to dramatically reduce sidecar memory usage and network traffic in large clusters</li>
-  <li>Stronger security defaults with Pod Security Standards (restricted for system namespaces, baseline for user namespaces)</li>
-  <li>Improved authentication and exposure patterns for KServe inference services, with automated tests and documentation</li>
-  <li>Expanded Helm chart support (experimental) to improve modularity and deployment flexibility</li>
-  <li>Updates across core components, including Kubeflow Pipelines, Katib, KServe, Model Registry, Istio, and Spark Operator</li>
-</ul>
-
-<h2 id="kubeflow-platform-manifests--security">Kubeflow Platform (Manifests &amp; Security)</h2>
-
-<p>The Kubeflow Platform Working Group focuses on simplifying Kubeflow installation, operations, and security. See details below.</p>
-
-<h3 id="manifests">Manifests:</h3>
-
-<ul>
-  <li><a href="https://github.com/kubeflow/manifests/blob/master/README.md">Documentation updates</a> that make it easier to install,
-extend and upgrade Kubeflow</li>
-  <li>For more details and future plans please check <a href="https://github.com/kubeflow/manifests/issues/3038">1.12.0</a> roadmap.</li>
-</ul>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center">Notebooks</th>
-      <th style="text-align: center">Dashboard</th>
-      <th style="text-align: center">Pipelines</th>
-      <th style="text-align: center">Katib</th>
-      <th style="text-align: center">Trainer</th>
-      <th style="text-align: center">KServe</th>
-      <th style="text-align: center">Model Registry</th>
-      <th style="text-align: center">Spark</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center"><a href="https://github.com/kubeflow/kubeflow/issues/7459">1.10</a></td>
-      <td style="text-align: center"><a href="https://github.com/kubeflow/kubeflow/releases/tag/v1.10.0">1.10</a></td>
-      <td style="text-align: center"><a href="https://github.com/kubeflow/pipelines/releases/tag/2.15.2">2.15.2</a></td>
-      <td style="text-align: center"><a href="https://github.com/kubeflow/katib/releases/tag/v0.19.0">0.19.0</a></td>
-      <td style="text-align: center"><a href="https://github.com/kubeflow/trainer/releases/tag/v2.1.0">2.1.0</a></td>
-      <td style="text-align: center"><a href="https://github.com/kserve/kserve/releases/tag/v0.15.2">0.15.2</a></td>
-      <td style="text-align: center"><a href="https://github.com/kubeflow/model-registry/releases/tag/v0.3.4">0.3.4</a></td>
-      <td style="text-align: center"><a href="https://github.com/kubeflow/spark-operator/releases/tag/v2.4.0">2.4.0</a></td>
-    </tr>
-  </tbody>
-</table>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center">Kubernetes</th>
-      <th style="text-align: center">Kind</th>
-      <th style="text-align: center">Kustomize</th>
-      <th style="text-align: center">Cert Manager</th>
-      <th style="text-align: center">Knative</th>
-      <th style="text-align: center">Istio</th>
-      <th style="text-align: center">Dex</th>
-      <th style="text-align: center">OAuth2-proxy</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center">1.33+</td>
-      <td style="text-align: center">0.30.0</td>
-      <td style="text-align: center">5.7.1</td>
-      <td style="text-align: center">1.16.1</td>
-      <td style="text-align: center">1.20</td>
-      <td style="text-align: center">1.28</td>
-      <td style="text-align: center">2.43</td>
-      <td style="text-align: center">7.10</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="security">Security:</h3>
-
-<ul>
-  <li><strong>Pod Security Standards enforced by default</strong>:
-    <ul>
-      <li><code class="language-plaintext highlighter-rouge">restricted</code> for all Kubeflow system namespaces<br />
-(<a href="https://github.com/kubeflow/manifests/pull/3190">#3190</a>, <a href="https://github.com/kubeflow/manifests/pull/3050">#3050</a>)</li>
-      <li><code class="language-plaintext highlighter-rouge">baseline</code> for user namespaces<br />
-(<a href="https://github.com/kubeflow/manifests/pull/3204">#3204</a>, <a href="https://github.com/kubeflow/manifests/pull/3220">#3220</a>)</li>
-    </ul>
-  </li>
-  <li><strong>Network policies enabled by default</strong> for critical system namespaces<br />
-(<code class="language-plaintext highlighter-rouge">knative-serving</code>, <code class="language-plaintext highlighter-rouge">oauth2-proxy</code>, <code class="language-plaintext highlighter-rouge">cert-manager</code>, <code class="language-plaintext highlighter-rouge">istio-system</code>, <code class="language-plaintext highlighter-rouge">auth</code>)<br />
-(<a href="https://github.com/kubeflow/manifests/pull/3228">#3228</a>)</li>
-  <li><strong>Improved multi-tenant isolation for object storage</strong>, with per-namespace S3 credentials<br />
-(<a href="https://github.com/kubeflow/manifests/pull/3240">#3240</a>)</li>
-  <li><strong>Authentication enforcement for KServe inference services</strong><br />
-(<a href="https://github.com/kubeflow/manifests/pull/3180">#3180</a>)</li>
-</ul>
-
-<p>Trivy CVE scans December 15 2025:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center">Working Group</th>
-      <th style="text-align: center">Images</th>
-      <th style="text-align: center">Critical CVE</th>
-      <th style="text-align: center">High CVE</th>
-      <th style="text-align: center">Medium CVE</th>
-      <th style="text-align: center">Low CVE</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center">Katib</td>
-      <td style="text-align: center">18</td>
-      <td style="text-align: center">1</td>
-      <td style="text-align: center">35</td>
-      <td style="text-align: center">158</td>
-      <td style="text-align: center">562</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">Pipelines</td>
-      <td style="text-align: center">15</td>
-      <td style="text-align: center">12</td>
-      <td style="text-align: center">432</td>
-      <td style="text-align: center">1051</td>
-      <td style="text-align: center">1558</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">Workbenches(Notebooks)</td>
-      <td style="text-align: center">12</td>
-      <td style="text-align: center">39</td>
-      <td style="text-align: center">312</td>
-      <td style="text-align: center">525</td>
-      <td style="text-align: center">267</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">Kserve</td>
-      <td style="text-align: center">16</td>
-      <td style="text-align: center">35</td>
-      <td style="text-align: center">535</td>
-      <td style="text-align: center">11929</td>
-      <td style="text-align: center">1745</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">Manifests</td>
-      <td style="text-align: center">15</td>
-      <td style="text-align: center">6</td>
-      <td style="text-align: center">105</td>
-      <td style="text-align: center">256</td>
-      <td style="text-align: center">55</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">Trainer</td>
-      <td style="text-align: center">9</td>
-      <td style="text-align: center">4</td>
-      <td style="text-align: center">157</td>
-      <td style="text-align: center">9012</td>
-      <td style="text-align: center">728</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">Model Registry</td>
-      <td style="text-align: center">3</td>
-      <td style="text-align: center">3</td>
-      <td style="text-align: center">75</td>
-      <td style="text-align: center">132</td>
-      <td style="text-align: center">36</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">Spark</td>
-      <td style="text-align: center">1</td>
-      <td style="text-align: center">4</td>
-      <td style="text-align: center">22</td>
-      <td style="text-align: center">1688</td>
-      <td style="text-align: center">151</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">All Images</td>
-      <td style="text-align: center">89</td>
-      <td style="text-align: center">104</td>
-      <td style="text-align: center">1673</td>
-      <td style="text-align: center">24751</td>
-      <td style="text-align: center">5102</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="pipelines">Pipelines</h2>
-
-<p>This release of KFP introduces several notable changes that users should consider prior to upgrading. Comprehensive upgrade and documentation notes will follow shortly. In the interim, please note the following key modifications</p>
-
-<h3 id="default-object-store-update">Default object store update</h3>
-
-<p>Kubeflow Pipelines now defaults to SeaweedFS for the object store deployment, replacing the previous default of MinIO.
-MinIO remains fully supported, as does any S3-compatible object storage backend, only the default deployment configuration has changed.</p>
-
-<p>Existing MinIO manifests are still available for users who wish to continue using MinIO, though these legacy manifests may be removed in future releases. Users with existing data are advised to back up and restore as needed when switching object store backends.</p>
-
-<h3 id="database-backend-upgrade">Database backend upgrade</h3>
-
-<p>This release includes a major upgrade to the Gorm database backend, which introduces an automated database index migration for users upgrading from versions prior to 2.15.0.
-Because this migration does not support rollback, it is strongly recommended that production databases be backed up before performing the upgrade.</p>
-
-<h2 id="model-registry">Model Registry</h2>
-
-<p>Model Registry continues to mature with new capabilities for model discovery, governance, and deeper integration with the Kubeflow ecosystem.</p>
-
-<h3 id="model-registry-ui">Model Registry UI</h3>
-
-<p>The user-friendly web interface for centralized model metadata, version tracking, and artifact management now supports filtering, sorting, archiving, custom metadata, and metadata editing making it easier for teams to organize and govern their model lifecycle.</p>
-
-<h3 id="model-catalog">Model Catalog</h3>
-
-<p>A new Model Catalog feature enables model discovery and sharing with governance controls.
-A <a href="https://github.com/kubeflow/community/blob/master/proposals/907-model-registry-renaming/README.md#model-catalog-cluster-scoped-company-scoped">Model Catalog</a> is a pattern where an organisation can define their validated and approved models, enabling discovery and sharing across teams, while at the same time ensuring model governance and compliance.
-Admin can define a number of catalog sources, filtering and enable model visibility, including Hugging Face.
-Teams can discover and use approved models from the organisation’s catalog.
-The catalog UI and backend are under active development.</p>
-
-<h3 id="kserve-integration">KServe Integration</h3>
-
-<ul>
-  <li><strong>Custom Storage Initializer (CSI)</strong>  Enables model download and deployment using model metadata directly from the Registry.</li>
-  <li><strong>Reconciliation loop</strong>  A deployable Kubernetes controller which observes KServe InferenceServices to automatically populate Model Registry logical-model records, keeping registry audit records of live deployments.</li>
-</ul>
-
-<h3 id="storage-integrations">Storage Integrations</h3>
-
-<ul>
-  <li><strong>Python client workflows</strong>  Data scientists can leverage convenience functions in the Python client to <a href="https://model-registry.readthedocs.io/en/latest/#uploading-local-models-to-external-storage-and-registering-them">package, store, and register models and their metadata</a> in a single playbook.</li>
-  <li><strong>Async Upload Job</strong>  A Kubernetes Job for transferring and packaging models (including KServe ModelCar OCI Image format), simplifying model storage operations in production environments, leveraging scaling and orchestration capabilities of Kubernetes without additional dependencies.</li>
-</ul>
-
-<h3 id="additional-improvements">Additional Improvements</h3>
-
-<ul>
-  <li>Removal of the legacy Google MLMD dependency.</li>
-  <li>PostgreSQL support alongside MySQL.</li>
-  <li>Multi-architecture container builds (amd64/arm64).</li>
-  <li>SBOM generation for container builds and OpenSSF Scorecard CI integration.</li>
-</ul>
-
-<h2 id="training-operator-trainer--katib">Training Operator (Trainer) &amp; Katib</h2>
-
-<p>Kubeflow 1.11 includes Trainer v2.1.0, a major architectural evolution that simplifies distributed training on Kubernetes with a unified API, Python-first workflows, and enhanced LLM fine-tuning capabilities.</p>
-
-<h3 id="new-api-architecture">New API Architecture</h3>
-
-<p>Kubeflow Trainer v2 introduces <strong>TrainJob</strong>  a unified training job API that replaces framework-specific CRDs (PyTorchJob, TFJob, etc.). Infrastructure configuration is now separated into <strong>TrainingRuntime</strong> and <strong>ClusterTrainingRuntime</strong> resources, creating a clean boundary between platform engineering (runtime setup) and data science (job submission).</p>
-
-<h3 id="python-first-experience">Python-First Experience</h3>
-
-<ul>
-  <li><strong>No YAML required</strong>  Install with <code class="language-plaintext highlighter-rouge">pip install kubeflow</code> and submit jobs directly from Python notebooks or scripts.</li>
-  <li><strong>Local execution mode</strong>  Develop and test training code locally without a Kubernetes cluster before scaling to production.</li>
-  <li><strong>Helm Charts</strong>  Deploy with <code class="language-plaintext highlighter-rouge">helm install kubeflow-trainer oci://ghcr.io/kubeflow/charts/kubeflow-trainer --version 2.1.0</code>.</li>
-</ul>
-
-<h3 id="llm-fine-tuning">LLM Fine-Tuning</h3>
-
-<p>Built-in support for large language model fine-tuning workflows:</p>
-<ul>
-  <li>TorchTune trainer with pre-configured runtimes for Llama 3.2, Qwen 2.5, and more.</li>
-  <li>LoRA, QLoRA, and DoRA for parameter-efficient fine-tuning.</li>
-  <li>Dataset and model initializers for HuggingFace and S3 storage.</li>
-</ul>
-
-<h3 id="distributed-ai-data-cache">Distributed AI Data Cache</h3>
-
-<p>Optional in-memory cache cluster (powered by <a href="https://arrow.apache.org/">Apache Arrow</a> and <a href="https://datafusion.apache.org/">Apache DataFusion</a> ) streams datasets directly to GPU nodes with zero-copy transfers, maximizing GPU utilization and minimizing I/O wait times for large-scale training workloads. More details can be found <a href="https://www.kubeflow.org/docs/components/trainer/user-guides/data-cache/">here</a>.</p>
-
-<h3 id="scheduler-integrations">Scheduler Integrations</h3>
-
-<ul>
-  <li><strong>Kueue</strong>  Topology-aware scheduling and multi-cluster job dispatching for TrainJobs, enabling optimal placement for distributed training across node groups.</li>
-  <li><strong>Volcano</strong>  Gang-scheduling support with PodGroup integration.</li>
-  <li><strong>MPI</strong>  First-class support for MPI-based distributed training workloads on Kubernetes.</li>
-</ul>
-
-<h3 id="katib">Katib</h3>
-
-<p>Katib hyperparameter tuning remains compatible with Trainer v2, allowing users to optimize model hyperparameters alongside the new training workflow.</p>
-
-<p>A major addition is the integration with Kubeflow SDK (<a href="https://github.com/kubeflow/sdk/tree/main/docs/proposals/46-hyperparameter-optimization">KEP-46</a>, <a href="https://github.com/kubeflow/sdk/pull/124">PR #124</a>). The new <code class="language-plaintext highlighter-rouge">OptimizerClient</code> allows users to define and run hyperparameter experiments directly from Python notebooks without writing YAML. You can configure search spaces, objectives, and algorithms using <code class="language-plaintext highlighter-rouge">OptimizerClient().optimize()</code>. Each trial runs as a TrainJob with different hyperparameter values, and training code can report metrics using simple Python functions. The client includes standard methods for managing jobs: <code class="language-plaintext highlighter-rouge">create_job()</code>, <code class="language-plaintext highlighter-rouge">get_job()</code>, <code class="language-plaintext highlighter-rouge">list_jobs()</code>, and <code class="language-plaintext highlighter-rouge">delete_job()</code>.</p>
-
-<h2 id="spark-operator">Spark Operator</h2>
-
-<p>The Spark Operator has received broad improvements in Kubeflow 1.11, spanning Spark version support, workload management, scheduling, and operational simplicity.</p>
-
-<h3 id="broader-spark-support">Broader Spark Support</h3>
-
-<p>The operator now supports Apache Spark 4 and introduces Spark Connect, enabling modern client–server Spark interactions. This allows users to connect to Spark sessions remotely and improves compatibility with the evolving Spark ecosystem.</p>
-
-<h3 id="workload-management--scheduling">Workload Management &amp; Scheduling</h3>
-
-<ul>
-  <li><strong>Suspend / Resume SparkApplications</strong>  Users can now suspend and resume jobs, giving greater control over workload lifecycle.</li>
-  <li><strong>Kueue integration</strong>  Integration with <a href="https://kueue.sigs.k8s.io/">Kueue</a> enables queue-based workload management and fair sharing of cluster resources across teams.</li>
-  <li><strong>Enhanced dynamic allocation</strong>  Improved shuffle tracking and dynamic allocation controls for more efficient resource usage.</li>
-</ul>
-
-<h3 id="operations--security">Operations &amp; Security</h3>
-
-<ul>
-  <li><strong>Automatic CRD upgrades</strong>  Helm hooks now handle CRD upgrades automatically, reducing manual steps during upgrades.</li>
-  <li><strong>Deprecation of sparkctl</strong>  Legacy <code class="language-plaintext highlighter-rouge">sparkctl</code> has been deprecated in favor of kubectl-native workflows.</li>
-  <li><strong>Flexible Ingress &amp; cert-manager support</strong>  More configurable Ingress (TLS, annotations, URL patterns) and simplified certificate handling via cert-manager.</li>
-</ul>
-
-<h3 id="observability">Observability</h3>
-
-<ul>
-  <li><strong>Structured logging</strong>  Configurable JSON and console log output formats.</li>
-  <li><strong>Better validation</strong>  Stricter validation of SparkApplication names and specs, catching misconfigurations earlier.</li>
-</ul>
-
-<h2 id="kserve">KServe</h2>
-
-<p>KServe in Kubeflow 1.11 delivers major improvements across model serving, inference capabilities, and operational maturity.</p>
-
-<h3 id="multi-node-inference">Multi-Node Inference</h3>
-
-<p>KServe now supports multi-node inference, enabling large models to be distributed across multiple nodes using Ray-based serving runtimes. This is critical for deploying very large language models that exceed single-node GPU capacity.</p>
-
-<h3 id="model-cache-improvements">Model Cache Improvements</h3>
-
-<p>The Model Cache feature, introduced in v0.14, has been significantly hardened. Fixes include correct URI matching, protection against cache mismatches, support for multiple node groups, and PVC/PV retention after InferenceService deletion making model caching more reliable for production use.</p>
-
-<h3 id="keda-autoscaling-integration">KEDA Autoscaling Integration</h3>
-
-<p>KServe introduces integration with <a href="https://keda.sh/">KEDA</a> for event-driven autoscaling, including an external scaler implementation. This gives users more flexible scaling options beyond the built-in Knative and HPA-based autoscalers.</p>
-
-<h3 id="gateway-api-support">Gateway API Support</h3>
-
-<p>Raw deployment mode now supports the Kubernetes Gateway API, providing a modern, standardized alternative to Ingress for routing inference traffic.</p>
-
-<h3 id="vllm--hugging-face-runtime-updates">vLLM &amp; Hugging Face Runtime Updates</h3>
-
-<ul>
-  <li>Upgraded vLLM to v0.8.1+ with support for reasoning models, tool calling, embeddings, reranking, and Llama 4 / Qwen 3.</li>
-  <li>vLLM V1 engine support and CPU inference via Intel Extension for PyTorch.</li>
-  <li>LMCache integration with vLLM for improved KV cache reuse.</li>
-  <li>Hugging Face runtime updates include 4-bit quantization support (bitsandbytes), speculative decoding, and deprecation of OpenVINO support.</li>
-</ul>
-
-<h3 id="inference-graph-enhancements">Inference Graph Enhancements</h3>
-
-<ul>
-  <li>InferenceGraphs now support pod spec fields (affinity, tolerations, resources) and well-known labels.</li>
-  <li>Improved Istio mesh compatibility and fixed response codes for conditional routing steps.</li>
-</ul>
-
-<h3 id="operational--security-improvements">Operational &amp; Security Improvements</h3>
-
-<ul>
-  <li>ModelCar (OCI-based model loading) enabled by default.</li>
-  <li>Collocation of transformer and predictor containers in a single pod.</li>
-  <li>Stop-and-resume model serving via annotations (serverless mode).</li>
-  <li>Configurable label and annotation propagation to serving pods.</li>
-  <li>SBOM generation and third-party license inclusion for all images.</li>
-  <li>Multiple CVE fixes including <code class="language-plaintext highlighter-rouge">CVE-2025-43859</code> and <code class="language-plaintext highlighter-rouge">CVE-2025-24357</code>.</li>
-</ul>
-
-<h2 id="kubeflow-sdk">Kubeflow SDK</h2>
-
-<p>Kubeflow 1.11 is the first AI Reference Platform release where users can simply <code class="language-plaintext highlighter-rouge">pip install kubeflow</code> to start working with AI workloads, no Kubernetes expertise required. The <a href="https://sdk.kubeflow.org/en/latest/">Kubeflow SDK</a> provides a unified Python interface to train models, run hyperparameter tuning, and manage model artifacts across the Kubeflow ecosystem. It also enables local development without a Kubernetes cluster, so users can iterate on their training code locally before scaling to production. For documentation and examples, visit <a href="https://sdk.kubeflow.org/en/latest/">sdk.kubeflow.org</a>.</p>
-
-<h2 id="dashboard-and-notebooks">Dashboard and Notebooks</h2>
-
-<p>The Kubeflow Central Dashboard and Notebooks remain at version 1.10 in this release, providing stable and reliable experiences. Stay tuned for interesting updates in upcoming Kubeflow AI Reference Platform releases.</p>
-
-<h2 id="how-to-get-started-with-111">How to get started with 1.11</h2>
-
-<p>Visit the Kubeflow AI Reference Platform 1.11 <a href="https://github.com/kubeflow/manifests/releases">release page</a> or head over to the Getting Started and Support pages.</p>
-
-<h2 id="join-the-community">Join the Community</h2>
-
-<p>We would like to thank everyone who contributed to Kubeflow 1.11, and especially Valentina Rodriguez Sosa for her work as the v1.11 Release Manager. We also extend our thanks to the entire release team and the working group leads, who continuously and generously dedicate their time and expertise to Kubeflow.</p>
-
-<p>Release team members : Valentina Rodriguez Sosa, Anya Kramar, Tarek Abouzeid, Andy Stoneberg, Humair Khan, Matteo Mortari, Adysen Rothman, Jon Burdo, Milos Grubjesic, Vraj Bhatt, Dhanisha Phadate, Alok Dangre</p>
-
-<p>Working Group leads : Andrey Velichkevich, Julius von Kohout,  Mathew Wicks, Matteo Mortari</p>
-
-<p>Kubeflow Steering Committee : Andrey Velichkevich, Julius von Kohout, Yuan Tang, Johnu George, Francisco Javier Araceo</p>
-
-<p>You can find more details about Kubeflow distributions
-<a href="https://www.kubeflow.org/docs/started/installing-kubeflow/#packaged-distributions">here</a>.</p>
-
-<h2 id="want-to-help">Want to help?</h2>
-
-<p>The Kubeflow community Working Groups hold open meetings and are always looking for more volunteers and users to unlock
-the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check
-out the resources below. We look forward to working with you!</p>
-
-<ul>
-  <li>Visit our <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow website</a> or Kubeflow GitHub Page.</li>
-  <li>Join the <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow Slack channel</a>.</li>
-  <li>Join the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list.</li>
-  <li>Attend our weekly <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-community-call">community meeting</a>.</li>
-</ul>]]></content><author><name>Kubeflow 1.11 Release Team</name></author><category term="release" /><summary type="html"><![CDATA[Kubeflow AI Reference Platform 1.11 delivers substantial platform improvements focused on scalability, security, and operational efficiency. The release reduces per namespace overhead, strengthens multi-tenant defaults, and improves overall reliability for running Kubeflow at scale on Kubernetes.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://blog.kubeflow.org/images/logo.png" /><media:content medium="image" url="https://blog.kubeflow.org/images/logo.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>The Metaflow community convenes at <a href="http://slack.outerbounds.co">the Metaflow Slack</a>. We welcome you to join, ask questions, and give feedback about the Kubeflow integration, and share your wishlist items for the roadmap. We are looking forward to a fruitful collaboration between the two communities!</p>]]></content><author><name>{&quot;name&quot;=&gt;&quot;&quot;, &quot;email&quot;=&gt;&quot;&quot;}</name></author><category term="community" /><summary type="html"><![CDATA[A tale of two flows: Metaflow and Kubeflow]]></summary></entry></feed>

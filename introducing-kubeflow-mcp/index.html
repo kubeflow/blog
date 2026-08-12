@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Introducing Kubeflow MCP: An Agent Interface for Cloud Native AI at Scale | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Introducing Kubeflow MCP: An Agent Interface for Cloud Native AI at Scale" />
+<meta name="author" content="Abhijeet Dhumal" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An open MCP interface that lets AI agents operate Kubeflow directly from conversation." />
+<meta property="og:description" content="An open MCP interface that lets AI agents operate Kubeflow directly from conversation." />
+<link rel="canonical" href="https://blog.kubeflow.org/introducing-kubeflow-mcp/" />
+<meta property="og:url" content="https://blog.kubeflow.org/introducing-kubeflow-mcp/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-08-10T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Introducing Kubeflow MCP: An Agent Interface for Cloud Native AI at Scale" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Abhijeet Dhumal"},"dateModified":"2026-08-10T00:00:00-05:00","datePublished":"2026-08-10T00:00:00-05:00","description":"An open MCP interface that lets AI agents operate Kubeflow directly from conversation.","headline":"Introducing Kubeflow MCP: An Agent Interface for Cloud Native AI at Scale","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/introducing-kubeflow-mcp/"},"url":"https://blog.kubeflow.org/introducing-kubeflow-mcp/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Introducing Kubeflow MCP: An Agent Interface for Cloud Native AI at Scale</h1><p class="page-description">An open MCP interface that lets AI agents operate Kubeflow directly from conversation.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2026-08-10T00:00:00-05:00" itemprop="datePublished">
+        Aug 10, 2026
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Abhijeet Dhumal</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#release">release</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#mcp">mcp</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#agent-native-infrastructure">Agent-Native Infrastructure</a></li>
+<li class="toc-entry toc-h2"><a href="#what-this-changes">What This Changes</a></li>
+<li class="toc-entry toc-h2"><a href="#where-it-fits">Where It Fits</a></li>
+<li class="toc-entry toc-h2"><a href="#key-features">Key Features</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#guided-workflow-with-23-tools">Guided Workflow with 23 Tools</a></li>
+<li class="toc-entry toc-h3"><a href="#two-phase-confirmation">Two-Phase Confirmation</a></li>
+<li class="toc-entry toc-h3"><a href="#security">Security</a></li>
+<li class="toc-entry toc-h3"><a href="#personas">Personas</a></li>
+<li class="toc-entry toc-h3"><a href="#token-efficient-modes">Token-Efficient Modes</a></li>
+<li class="toc-entry toc-h3"><a href="#platform-awareness">Platform Awareness</a></li>
+<li class="toc-entry toc-h3"><a href="#resilience">Resilience</a></li>
+<li class="toc-entry toc-h3"><a href="#observability">Observability</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#get-started">Get Started</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#server-configuration">Server Configuration</a></li>
+<li class="toc-entry toc-h3"><a href="#connect-your-agent">Connect Your Agent</a></li>
+<li class="toc-entry toc-h3"><a href="#mcp-inspector">MCP Inspector</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#whats-next">What’s Next?</a></li>
+<li class="toc-entry toc-h2"><a href="#get-involved">Get Involved</a></li>
+</ul><h2 id="agent-native-infrastructure">
+<a class="anchor" href="#agent-native-infrastructure" aria-hidden="true"><span class="octicon octicon-link"></span></a>Agent-Native Infrastructure</h2>
+
+<p>AI agents are rapidly becoming the primary interface for software development. Engineers use them to write code, debug systems, and automate operational workflows. But when it comes to AI infrastructure (submitting training jobs, managing GPU resources, monitoring distributed workloads) agents hit a wall. They can generate scripts and suggest commands, but they cannot interact with the cluster directly.</p>
+
+<p>The <strong>Kubeflow MCP Server</strong> removes that wall. It exposes Kubeflow operations as <a href="https://modelcontextprotocol.io/">Model Context Protocol</a> (MCP) tools, an open standard that gives AI agents structured, discoverable access to external systems. The agent talks to Kubeflow. Kubeflow talks back.</p>
+
+<h2 id="what-this-changes">
+<a class="anchor" href="#what-this-changes" aria-hidden="true"><span class="octicon octicon-link"></span></a>What This Changes</h2>
+
+<p>Without MCP, the workflow looks like this: you describe what you want to your agent, it generates a Python script, you run the script, something fails, you paste the error back, the agent suggests a fix, you try again. The human is the message bus between the agent and the cluster.</p>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/mcp-before-after.png" alt="From Manual Pipelines to Conversational Training"></p>
+
+<p>With MCP, the agent calls Kubeflow tools directly. It checks your cluster, estimates resource requirements, previews the training job spec, waits for your approval, submits it, and streams logs back, all within the same conversation. You stay in control, but you’re no longer the bottleneck.</p>
+
+<p>Here’s what a real interaction looks like:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>User: "Fine-tune Llama-3.2-1B on the alpaca dataset using LoRA"
+
+1. Agent calls pre_flight(model="meta-llama/Llama-3.2-1B")
+   → Trainer v2.2 installed, 4x A100 available, torchtune runtime found
+
+2. Agent calls fine_tune(model="hf://meta-llama/Llama-3.2-1B",
+                         dataset="hf://tatsu-lab/alpaca",
+                         runtime="torchtune-llama3.2-1b",
+                         confirmed=False)
+   → Returns full TrainJob spec for review
+
+3. User: "Looks good, submit it"
+   Agent calls fine_tune(..., confirmed=True)
+   → TrainJob "train-llama-abc" created
+
+4. Agent calls get_training_logs("train-llama-abc")
+   → Epoch 1/3 ━━━━━━━━━━━━ 34% loss=1.42
+</code></pre></div></div>
+
+<p>Four tool calls. No YAML. No copy-pasting between tabs. The agent operated directly on the cluster, and nothing happened without the user’s explicit approval.</p>
+
+<h2 id="where-it-fits">
+<a class="anchor" href="#where-it-fits" aria-hidden="true"><span class="octicon octicon-link"></span></a>Where It Fits</h2>
+
+<p>The diagram below shows the three layers: AI agents on the left, the MCP Server in the middle translating tool calls into Kubernetes API operations, and the Kubeflow infrastructure on the right executing them.</p>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/mcp-server-architecture.png" alt="Kubeflow MCP Architecture"></p>
+
+<p>The MCP Server is not a replacement for the <a href="https://blog.kubeflow.org/sdk/intro/">Kubeflow SDK</a>. It’s a new interface layer that sits alongside it. The SDK is for writing Python programs. The MCP Server is for AI agents that need to <em>act</em> on your behalf.</p>
+
+<p>Both are backed by the same infrastructure: Kubeflow Trainer creates TrainJobs, JobSet manages distributed execution, and Kubernetes schedules pods onto GPUs. The difference is who’s driving: a Python script you wrote, or an agent you’re conversing with.</p>
+
+<p>The Trainer client is fully implemented today. As additional Kubeflow components gain MCP support, the same server will expose them all through a unified agent interface.</p>
+
+<h2 id="key-features">
+<a class="anchor" href="#key-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Key Features</h2>
+
+<h3 id="guided-workflow-with-23-tools">
+<a class="anchor" href="#guided-workflow-with-23-tools" aria-hidden="true"><span class="octicon octicon-link"></span></a>Guided Workflow with 23 Tools</h3>
+
+<p>Tools are organized into phases that guide agents through the correct sequence:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Phase</th>
+      <th>Tools</th>
+      <th>What they do</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Planning</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">pre_flight</code>, <code class="language-plaintext highlighter-rouge">check_compatibility</code>, <code class="language-plaintext highlighter-rouge">get_cluster_resources</code>, <code class="language-plaintext highlighter-rouge">estimate_resources</code>
+</td>
+      <td>Validate the cluster, estimate GPU needs, catch blockers early</td>
+    </tr>
+    <tr>
+      <td><strong>Discovery</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">list_training_jobs</code>, <code class="language-plaintext highlighter-rouge">get_training_job</code>, <code class="language-plaintext highlighter-rouge">list_runtimes</code>, <code class="language-plaintext highlighter-rouge">get_runtime</code>
+</td>
+      <td>Browse what’s running and what runtimes are available</td>
+    </tr>
+    <tr>
+      <td><strong>Training</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">fine_tune</code>, <code class="language-plaintext highlighter-rouge">run_custom_training</code>, <code class="language-plaintext highlighter-rouge">run_container_training</code>
+</td>
+      <td>LoRA/QLoRA fine-tuning, custom distributed scripts, or container jobs</td>
+    </tr>
+    <tr>
+      <td><strong>Monitoring</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">get_training_logs</code>, <code class="language-plaintext highlighter-rouge">get_training_events</code>, <code class="language-plaintext highlighter-rouge">wait_for_training</code>
+</td>
+      <td>Stream logs, diagnose scheduling issues, wait for completion</td>
+    </tr>
+    <tr>
+      <td><strong>Lifecycle</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">delete_training_job</code>, <code class="language-plaintext highlighter-rouge">update_training_job</code>
+</td>
+      <td>Suspend, resume, or clean up jobs</td>
+    </tr>
+    <tr>
+      <td><strong>Platform</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">inspect_crd</code>, <code class="language-plaintext highlighter-rouge">inspect_controller</code>, <code class="language-plaintext highlighter-rouge">patch_runtime</code>, <code class="language-plaintext highlighter-rouge">create_runtime</code>, <code class="language-plaintext highlighter-rouge">delete_runtime</code>
+</td>
+      <td>Admin operations for CRDs and runtimes</td>
+    </tr>
+    <tr>
+      <td><strong>Health</strong></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">health_check</code>, <code class="language-plaintext highlighter-rouge">get_server_logs</code>
+</td>
+      <td>Server diagnostics</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/mcp-workflow-phases.png" alt="Guided Training Workflow"></p>
+
+<h3 id="two-phase-confirmation">
+<a class="anchor" href="#two-phase-confirmation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Two-Phase Confirmation</h3>
+
+<p>Every job-creating and destructive operation previews first. The agent sees exactly what would happen before anything touches the cluster, and only proceeds with explicit approval. Training submission, job deletion, and runtime create/patch/delete are all gated this way, so an agent can never accidentally create or destroy a resource without the user seeing the full spec first.</p>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/mcp-confirm-gate.png" alt="Two-Phase Confirmation"></p>
+
+<h3 id="security">
+<a class="anchor" href="#security" aria-hidden="true"><span class="octicon octicon-link"></span></a>Security</h3>
+
+<p>The server is designed to be safe by default:</p>
+
+<ul>
+  <li>
+<strong>Input validation</strong>: Kubernetes names and namespaces are validated against strict patterns; injection and path traversal attempts are rejected</li>
+  <li>
+<strong>Data masking</strong>: Tokens, passwords, and credentials are automatically masked in logs</li>
+  <li>
+<strong>DNS rebinding protection</strong>: Host and Origin header validation on HTTP transport</li>
+  <li>
+<strong>Ownership guards</strong>: Non-admin personas can only modify jobs created through the MCP server</li>
+  <li>
+<strong>Authentication</strong>: Bearer token for development, JWT/JWKS verification for production</li>
+</ul>
+
+<p>See <a href="https://github.com/kubeflow/mcp-server/blob/main/SECURITY.md">SECURITY.md</a> for the full threat model and hardening guide.</p>
+
+<h3 id="personas">
+<a class="anchor" href="#personas" aria-hidden="true"><span class="octicon octicon-link"></span></a>Personas</h3>
+
+<p>Not everyone needs the same level of access. Four built-in personas control which tools an agent can see:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Persona</th>
+      <th>Tools available</th>
+      <th>Intended for</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">readonly</code></td>
+      <td>12</td>
+      <td>Browsing, auditing, demos</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">data-scientist</code></td>
+      <td>16</td>
+      <td>Training, monitoring, deleting own jobs</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ml-engineer</code></td>
+      <td>20</td>
+      <td>+ container jobs, suspend/resume, CRD inspection</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">platform-admin</code></td>
+      <td>23</td>
+      <td>Full access including CRD/runtime ops</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/mcp-personas.png" alt="Persona-Based Access Control"></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubeflow-mcp serve <span class="nt">--persona</span> data-scientist
+</code></pre></div></div>
+
+<h3 id="token-efficient-modes">
+<a class="anchor" href="#token-efficient-modes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Token-Efficient Modes</h3>
+
+<p>LLMs have limited context windows. Registering all 23 tools loads every tool description and input schema up front. Two alternative modes shrink that surface dramatically while preserving full functionality:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>Tools exposed</th>
+      <th>How it works</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">full</code></td>
+      <td>23</td>
+      <td>All tools registered directly</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">progressive</code></td>
+      <td>3</td>
+      <td>Agent discovers tools on demand via meta-tools</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">semantic</code></td>
+      <td>2</td>
+      <td>Agent searches tools by natural language description</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubeflow-mcp serve <span class="nt">--mode</span> progressive
+</code></pre></div></div>
+
+<h3 id="platform-awareness">
+<a class="anchor" href="#platform-awareness" aria-hidden="true"><span class="octicon octicon-link"></span></a>Platform Awareness</h3>
+
+<p>The server auto-detects your Kubernetes distribution and adapts its guidance:</p>
+
+<ul>
+  <li>
+<strong>OpenShift</strong>: Adds required writable volumes, sets environment variables to avoid permission errors under restricted security contexts</li>
+  <li>
+<strong>EKS/GKE</strong>: Identifies the platform from node pool labels and surfaces GPU toleration guidance</li>
+  <li>
+<strong>Kind/Minikube</strong>: Works out of the box for local development</li>
+</ul>
+
+<h3 id="resilience">
+<a class="anchor" href="#resilience" aria-hidden="true"><span class="octicon octicon-link"></span></a>Resilience</h3>
+
+<ul>
+  <li>Rate limiting protects the Kubernetes API from agent-driven burst traffic</li>
+  <li>Circuit breaker prevents cascading failures when the cluster is unhealthy</li>
+  <li>Structured error hints help agents diagnose and recover without human intervention</li>
+</ul>
+
+<h3 id="observability">
+<a class="anchor" href="#observability" aria-hidden="true"><span class="octicon octicon-link"></span></a>Observability</h3>
+
+<p>Optional OpenTelemetry tracing covers every tool call with zero code changes:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubeflow-mcp serve <span class="nt">--otel-endpoint</span> http://localhost:4318
+</code></pre></div></div>
+
+<p>Each span carries structured attributes following OpenTelemetry semantic conventions, covering tool identity, execution outcome, persona context, and session correlation for end-to-end tracing across agent sessions.</p>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/jaeger-trace-list.png" alt="Jaeger Trace List"></p>
+
+<p><br></p>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/jaeger-trace-waterfall.png" alt="Jaeger Trace Waterfall"></p>
+
+<h2 id="get-started">
+<a class="anchor" href="#get-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get Started</h2>
+
+<p><strong>Prerequisites</strong>: Python 3.10–3.12, Kubernetes 1.27+, and a cluster with <a href="https://github.com/kubeflow/trainer">Kubeflow Trainer v2.2+</a> installed.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>kubeflow-mcp
+</code></pre></div></div>
+
+<h3 id="server-configuration">
+<a class="anchor" href="#server-configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Server Configuration</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubeflow-mcp serve <span class="se">\</span>
+  <span class="nt">--clients</span> trainer <span class="se">\</span>
+  <span class="nt">--persona</span> ml-engineer <span class="se">\</span>
+  <span class="nt">--mode</span> full <span class="se">\</span>
+  <span class="nt">--instruction-tier</span> full <span class="se">\</span>
+  <span class="nt">--transport</span> stdio <span class="se">\</span>
+  <span class="nt">--auth-token</span> SECRET <span class="se">\</span>
+  <span class="nt">--otel-endpoint</span> URL <span class="se">\</span>
+  <span class="nt">--log-level</span> INFO <span class="se">\</span>
+  <span class="nt">--log-format</span> console <span class="se">\</span>
+  <span class="nt">--no-banner</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flag</th>
+      <th>Values</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--clients</code></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">trainer</code>, <code class="language-plaintext highlighter-rouge">optimizer</code> (stub), <code class="language-plaintext highlighter-rouge">hub</code> (stub)</td>
+      <td><code class="language-plaintext highlighter-rouge">trainer</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--persona</code></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">readonly</code>, <code class="language-plaintext highlighter-rouge">data-scientist</code>, <code class="language-plaintext highlighter-rouge">ml-engineer</code>, <code class="language-plaintext highlighter-rouge">platform-admin</code>
+</td>
+      <td><code class="language-plaintext highlighter-rouge">readonly</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--mode</code></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">full</code>, <code class="language-plaintext highlighter-rouge">progressive</code>, <code class="language-plaintext highlighter-rouge">semantic</code>
+</td>
+      <td><code class="language-plaintext highlighter-rouge">full</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--instruction-tier</code></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">full</code>, <code class="language-plaintext highlighter-rouge">compact</code>, <code class="language-plaintext highlighter-rouge">minimal</code>
+</td>
+      <td><code class="language-plaintext highlighter-rouge">full</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--transport</code></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">stdio</code>, <code class="language-plaintext highlighter-rouge">http</code>, <code class="language-plaintext highlighter-rouge">sse</code>
+</td>
+      <td><code class="language-plaintext highlighter-rouge">stdio</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--auth-token</code></td>
+      <td>Bearer token string</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--otel-endpoint</code></td>
+      <td>OTLP HTTP endpoint URL</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--log-level</code></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">DEBUG</code>, <code class="language-plaintext highlighter-rouge">INFO</code>, <code class="language-plaintext highlighter-rouge">WARNING</code>, <code class="language-plaintext highlighter-rouge">ERROR</code>
+</td>
+      <td><code class="language-plaintext highlighter-rouge">INFO</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--log-format</code></td>
+      <td>
+<code class="language-plaintext highlighter-rouge">console</code>, <code class="language-plaintext highlighter-rouge">json</code>
+</td>
+      <td>auto-detected</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--no-banner</code></td>
+      <td>Flag</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="connect-your-agent">
+<a class="anchor" href="#connect-your-agent" aria-hidden="true"><span class="octicon octicon-link"></span></a>Connect Your Agent</h3>
+
+<p><strong>Cursor IDE</strong> — add to <code class="language-plaintext highlighter-rouge">.cursor/mcp.json</code>:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"mcpServers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"kubeflow"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kubeflow-mcp"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"serve"</span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>Claude Code</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>claude mcp add kubeflow <span class="nt">--</span> kubeflow-mcp serve
+</code></pre></div></div>
+
+<p><strong>HTTP (remote / team deployment)</strong>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubeflow-mcp serve <span class="nt">--transport</span> http <span class="nt">--auth-token</span> <span class="nv">$MY_TOKEN</span>
+</code></pre></div></div>
+
+<p>Then point any MCP client at <code class="language-plaintext highlighter-rouge">http://your-host:8000/mcp</code>.</p>
+
+<h3 id="mcp-inspector">
+<a class="anchor" href="#mcp-inspector" aria-hidden="true"><span class="octicon octicon-link"></span></a>MCP Inspector</h3>
+
+<p>Verify your setup using the <a href="https://github.com/modelcontextprotocol/inspector">MCP Inspector</a>, a visual debugging tool that lets you browse registered tools, invoke them interactively, and inspect server responses:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make inspector
+</code></pre></div></div>
+
+<p><img src="/images/2026-08-10-introducing-kubeflow-mcp/mcp-inspector.png" alt="MCP Inspector"></p>
+
+<h2 id="whats-next">
+<a class="anchor" href="#whats-next" aria-hidden="true"><span class="octicon octicon-link"></span></a>What’s Next?</h2>
+
+<p>The Trainer client ships today, but the vision is much bigger: a unified agent interface for the entire Cloud Native AI lifecycle.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Client</th>
+      <th>Status</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Kubeflow Trainer</strong></td>
+      <td>Available ✅</td>
+      <td>Train and fine-tune AI models via MCP tools</td>
+    </tr>
+    <tr>
+      <td><strong>Kubeflow Optimizer (Katib)</strong></td>
+      <td>Planned 🚧</td>
+      <td>Hyperparameter search, trial comparison, optimal config</td>
+    </tr>
+    <tr>
+      <td><strong>Model Registry</strong></td>
+      <td>Planned 🚧</td>
+      <td>Model registration, promotion, lineage tracking</td>
+    </tr>
+    <tr>
+      <td><strong>Kubeflow Pipelines</strong></td>
+      <td>Planned 🚧</td>
+      <td>Build, run, and track end-to-end ML workflows</td>
+    </tr>
+    <tr>
+      <td><strong>Spark Operator</strong></td>
+      <td>Planned 🚧</td>
+      <td>Data processing and feature engineering</td>
+    </tr>
+    <tr>
+      <td><strong>Feast</strong></td>
+      <td>Planned 🚧</td>
+      <td>Feature store management</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Here’s what’s coming beyond new clients:</p>
+
+<ul>
+  <li>
+<strong>Multi-Provider Agent Runtime</strong>: Pluggable LLM backends (<code class="language-plaintext highlighter-rouge">ollama</code>, <code class="language-plaintext highlighter-rouge">litellm</code>) for local or cloud-routed agent inference</li>
+  <li>
+<strong>Enterprise &amp; In-Cluster</strong>: Native OIDC/OAuth, Kubernetes RBAC binding, Helm chart, and Agent-to-Agent (A2A) delegation</li>
+  <li>
+<strong>Advanced Training</strong>: Checkpoint save/restore, real-time metrics, dynamic scaling, and multi-cluster support</li>
+</ul>
+
+<p>The <a href="https://github.com/kubeflow/mcp-server/blob/main/ROADMAP.md">ROADMAP</a> tracks the full phased delivery plan.</p>
+
+<h2 id="get-involved">
+<a class="anchor" href="#get-involved" aria-hidden="true"><span class="octicon octicon-link"></span></a>Get Involved</h2>
+
+<p>The Kubeflow MCP Server is built by and for the community. We welcome contributions, feedback, and participation from everyone!</p>
+
+<p><strong>Resources</strong>:</p>
+<ul>
+  <li><a href="https://github.com/kubeflow/mcp-server">GitHub Repo</a></li>
+  <li><a href="https://github.com/kubeflow/mcp-server/blob/main/README.md">Documentation</a></li>
+  <li><a href="https://github.com/kubeflow/mcp-server/blob/main/ROADMAP.md">ROADMAP</a></li>
+</ul>
+
+<p><strong>Connect with the Community</strong>:</p>
+<ul>
+  <li>Join <a href="https://cloud-native.slack.com/archives/C08KJBVDH5H">#kubeflow-ml-experience</a> on <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels">CNCF Slack</a>
+</li>
+  <li>Attend the <a href="https://bit.ly/kf-ml-experience">Kubeflow SDK and ML Experience WG</a> meetings</li>
+  <li>Check out <a href="https://github.com/kubeflow/mcp-server/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22">good first issues</a> to get started</li>
+</ul>
+
+<p><strong>Live Demo (<a href="https://ossindia2026.sched.com/event/2KNF7/hey-ai-train-llama-making-kubeflow-agent-native-with-mcp-akash-jaiswal-oracle-abhijeet-dhumal-red-hat">Open Source Summit India 2026</a>)</strong>: same MCP server, three clients:</p>
+
+<ul>
+  <li>
+<strong>LangChain + LiteLLM</strong>: pre-flight checks, confirm gate</li>
+  <li>
+<strong>Claude</strong>: custom distributed training</li>
+  <li>
+<strong>Cursor IDE</strong>: fine-tuning with torchtune runtime</li>
+</ul>
+
+<p><a href="https://youtu.be/cZ2BP5hQjc8"><img src="https://img.youtube.com/vi/cZ2BP5hQjc8/maxresdefault.jpg" alt="Demo: Fine-tune Llama on OpenShift"></a></p>
+
+<hr>
+
+<p><em>The Kubeflow MCP Server is an Apache 2.0 project under the <a href="https://www.kubeflow.org/">Kubeflow</a> umbrella, a CNCF Graduated project.</em></p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/introducing-kubeflow-mcp/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name"></li>
+          <li><a class="u-email" href="mailto:"></a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

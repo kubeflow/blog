@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="830" viewBox="0 0 1200 830" role="img" aria-labelledby="title desc">
+  <title id="title">From different SQL definitions to one certified business answer</title>
+  <desc id="desc">Without a semantic contract, consumers create different SQL and receive different answers. With Semantic Operator, consumers select a certified metric and receive one consistent answer.</desc>
+  <defs>
+    <marker id="grayArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#64748b"/>
+    </marker>
+    <marker id="blueArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/>
+    </marker>
+    <style>
+      .title { font: 700 30px system-ui, sans-serif; fill: #172554; }
+      .heading { font: 700 24px system-ui, sans-serif; fill: #172554; }
+      .label { font: 700 18px system-ui, sans-serif; fill: #1e293b; }
+      .body { font: 16px system-ui, sans-serif; fill: #334155; }
+      .panel { stroke-width: 2; rx: 18; }
+      .box { stroke-width: 1.5; rx: 11; }
+      .grayFlow { stroke: #64748b; stroke-width: 2.5; fill: none; marker-end: url(#grayArrow); }
+      .blueFlow { stroke: #2563eb; stroke-width: 3; fill: none; marker-end: url(#blueArrow); }
+    </style>
+  </defs>
+
+  <rect width="1200" height="830" fill="#f8fafc"/>
+  <text x="600" y="48" text-anchor="middle" class="title">One question should have one business answer</text>
+
+  <rect x="45" y="85" width="525" height="700" class="panel" fill="#fff7ed" stroke="#fb923c"/>
+  <text x="307" y="125" text-anchor="middle" class="heading">Without a semantic contract</text>
+
+  <rect x="105" y="160" width="405" height="82" class="box" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="307" y="192" text-anchor="middle" class="label">Agents, applications, and BI tools</text>
+  <text x="307" y="219" text-anchor="middle" class="body">Each consumer owns its definition</text>
+  <path d="M307 242 L307 282" class="grayFlow"/>
+
+  <rect x="105" y="287" width="405" height="105" class="box" fill="#fffbeb" stroke="#f59e0b"/>
+  <text x="307" y="321" text-anchor="middle" class="label">Different SQL</text>
+  <text x="307" y="350" text-anchor="middle" class="body">Different columns, joins, and grains</text>
+  <text x="307" y="376" text-anchor="middle" class="body">Every query can still run</text>
+  <path d="M307 392 L307 432" class="grayFlow"/>
+
+  <rect x="105" y="437" width="405" height="150" class="box" fill="#fff1f2" stroke="#e11d48"/>
+  <text x="307" y="473" text-anchor="middle" class="label">Different answers</text>
+  <text x="307" y="509" text-anchor="middle" class="body">Agent: $4.8M</text>
+  <text x="307" y="538" text-anchor="middle" class="body">Notebook: $5.1M</text>
+  <text x="307" y="567" text-anchor="middle" class="body">Dashboard: $5.6M</text>
+  <path d="M307 587 L307 627" class="grayFlow"/>
+
+  <rect x="105" y="632" width="405" height="92" class="box" fill="#ffffff" stroke="#e11d48"/>
+  <text x="307" y="668" text-anchor="middle" class="label">The result looks plausible</text>
+  <text x="307" y="698" text-anchor="middle" class="body">Nobody knows which answer is correct</text>
+
+  <rect x="630" y="85" width="525" height="700" class="panel" fill="#eff6ff" stroke="#3b82f6"/>
+  <text x="892" y="125" text-anchor="middle" class="heading">With Semantic Operator</text>
+
+  <rect x="690" y="160" width="405" height="82" class="box" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="892" y="192" text-anchor="middle" class="label">Agents, applications, and BI tools</text>
+  <text x="892" y="219" text-anchor="middle" class="body">Select certified business concepts</text>
+  <path d="M892 242 L892 282" class="blueFlow"/>
+
+  <rect x="690" y="287" width="405" height="105" class="box" fill="#fdf4ff" stroke="#a21caf"/>
+  <text x="892" y="321" text-anchor="middle" class="label">Semantic Operator</text>
+  <text x="892" y="350" text-anchor="middle" class="body">Applies governance before planning</text>
+  <text x="892" y="376" text-anchor="middle" class="body">Creates one deterministic SQL statement</text>
+  <path d="M892 392 L892 432" class="blueFlow"/>
+
+  <rect x="690" y="437" width="405" height="150" class="box" fill="#ecfeff" stroke="#0891b2"/>
+  <text x="892" y="473" text-anchor="middle" class="label">Certified definition</text>
+  <text x="892" y="509" text-anchor="middle" class="body">Approved metric expression</text>
+  <text x="892" y="538" text-anchor="middle" class="body">Approved relationships and grain</text>
+  <text x="892" y="567" text-anchor="middle" class="body">Versioned model for audit</text>
+  <path d="M892 587 L892 627" class="blueFlow"/>
+
+  <rect x="690" y="632" width="405" height="92" class="box" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="892" y="668" text-anchor="middle" class="label">One governed answer: $5.1M</text>
+  <text x="892" y="698" text-anchor="middle" class="body">Consistent across every consumer</text>
+</svg>

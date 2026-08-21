@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1030" viewBox="0 0 1200 1030" role="img" aria-labelledby="title desc">
+  <title id="title">How ossiectl creates a SemanticModel</title>
+  <desc id="desc">Catalog and query engine metadata flows into ossiectl. Optional business metadata enriches the draft. Engineers review and certify the generated SemanticModel YAML before applying it to Kubernetes. Semantic Operator then validates and publishes the model.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
+      <path d="M0 0 L11 5.5 L0 11 Z" fill="#475569"/>
+    </marker>
+    <style>
+      .title { font: 700 31px system-ui, sans-serif; fill: #172554; }
+      .heading { font: 700 23px system-ui, sans-serif; fill: #172554; }
+      .label { font: 700 18px system-ui, sans-serif; fill: #1e293b; }
+      .body { font: 16px system-ui, sans-serif; fill: #334155; }
+      .small { font: 14px system-ui, sans-serif; fill: #475569; }
+      .layer { stroke-width: 2; rx: 16; }
+      .item { stroke-width: 1.5; rx: 10; }
+      .flow { stroke: #475569; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1200" height="1030" fill="#f8fafc"/>
+  <text x="600" y="48" text-anchor="middle" class="title">Bootstrap a semantic model from existing metadata</text>
+
+  <rect x="100" y="85" width="1000" height="150" class="layer" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="600" y="120" text-anchor="middle" class="heading">Existing metadata</text>
+  <rect x="145" y="148" width="270" height="58" class="item" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="280" y="175" text-anchor="middle" class="label">Query engine</text>
+  <text x="280" y="197" text-anchor="middle" class="small">Information schema</text>
+  <rect x="465" y="148" width="270" height="58" class="item" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="600" y="175" text-anchor="middle" class="label">Apache Polaris</text>
+  <text x="600" y="197" text-anchor="middle" class="small">Tables exposed to the engine</text>
+  <rect x="785" y="148" width="270" height="58" class="item" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="920" y="175" text-anchor="middle" class="label">DataHub</text>
+  <text x="920" y="197" text-anchor="middle" class="small">Optional business context</text>
+
+  <path d="M600 235 L600 275" class="flow"/>
+
+  <rect x="250" y="280" width="700" height="150" class="layer" fill="#ecfeff" stroke="#0891b2"/>
+  <text x="600" y="320" text-anchor="middle" class="heading">ossiectl derive</text>
+  <text x="600" y="357" text-anchor="middle" class="body">Discover tables and columns</text>
+  <text x="600" y="386" text-anchor="middle" class="body">Map physical metadata into Apache Ossie structures</text>
+  <text x="600" y="415" text-anchor="middle" class="body">Add available descriptions and business context</text>
+
+  <path d="M600 430 L600 470" class="flow"/>
+
+  <rect x="250" y="475" width="700" height="120" class="layer" fill="#fdf4ff" stroke="#a21caf"/>
+  <text x="600" y="515" text-anchor="middle" class="heading">Draft SemanticModel YAML</text>
+  <text x="600" y="551" text-anchor="middle" class="body">Datasets, fields, sources, types, and descriptions</text>
+  <text x="600" y="578" text-anchor="middle" class="small">Readable configuration that can be stored in Git</text>
+
+  <path d="M600 595 L600 635" class="flow"/>
+
+  <rect x="250" y="640" width="700" height="145" class="layer" fill="#fff7ed" stroke="#ea580c"/>
+  <text x="600" y="680" text-anchor="middle" class="heading">Engineer review and certification</text>
+  <text x="600" y="716" text-anchor="middle" class="body">Confirm physical bindings and descriptions</text>
+  <text x="600" y="745" text-anchor="middle" class="body">Add certified metrics, relationships, and policies</text>
+  <text x="600" y="772" text-anchor="middle" class="small">Human review remains the source of trust</text>
+
+  <path d="M600 785 L600 825" class="flow"/>
+
+  <rect x="250" y="830" width="700" height="82" class="layer" fill="#f0f9ff" stroke="#0284c7"/>
+  <text x="600" y="865" text-anchor="middle" class="heading">Apply the SemanticModel to Kubernetes</text>
+  <text x="600" y="894" text-anchor="middle" class="body">kubectl, GitOps, or a deployment pipeline</text>
+
+  <path d="M600 912 L600 952" class="flow"/>
+
+  <rect x="250" y="957" width="700" height="60" class="layer" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="600" y="994" text-anchor="middle" class="label">Semantic Operator validates, compiles, and publishes the model</text>
+</svg>

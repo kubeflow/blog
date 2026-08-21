@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1040" viewBox="0 0 1200 1040" role="img" aria-labelledby="title desc">
+  <title id="title">Semantic Operator between consumers and query engines</title>
+  <desc id="desc">AI agents, applications, and business intelligence tools connect through MCP, REST, and governed SQL views. Semantic Operator authenticates, applies governance, and plans one SQL query. StarRocks or Trino executes the query against existing analytical data.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
+      <path d="M0 0 L11 5.5 L0 11 Z" fill="#475569"/>
+    </marker>
+    <style>
+      .title { font: 700 31px system-ui, sans-serif; fill: #172554; }
+      .heading { font: 700 23px system-ui, sans-serif; fill: #172554; }
+      .label { font: 700 18px system-ui, sans-serif; fill: #1e293b; }
+      .body { font: 16px system-ui, sans-serif; fill: #334155; }
+      .small { font: 14px system-ui, sans-serif; fill: #475569; }
+      .layer { stroke-width: 2; rx: 16; }
+      .item { stroke-width: 1.5; rx: 10; }
+      .flow { stroke: #475569; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .support { stroke: #64748b; stroke-width: 2.5; fill: none; marker-end: url(#arrow); stroke-dasharray: 7 6; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="1040" fill="#f8fafc"/>
+  <text x="600" y="48" text-anchor="middle" class="title">Semantic Operator sits between consumers and analytical data</text>
+
+  <rect x="100" y="85" width="1000" height="125" class="layer" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="600" y="118" text-anchor="middle" class="heading">Consumers</text>
+  <rect x="160" y="138" width="235" height="48" class="item" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="277" y="169" text-anchor="middle" class="label">AI agents</text>
+  <rect x="482" y="138" width="235" height="48" class="item" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="599" y="169" text-anchor="middle" class="label">Applications</text>
+  <rect x="805" y="138" width="235" height="48" class="item" fill="#ffffff" stroke="#a5b4fc"/>
+  <text x="922" y="169" text-anchor="middle" class="label">BI tools</text>
+
+  <path d="M600 210 L600 250" class="flow"/>
+
+  <rect x="100" y="255" width="1000" height="105" class="layer" fill="#f0f9ff" stroke="#0284c7"/>
+  <text x="600" y="288" text-anchor="middle" class="heading">Access interfaces</text>
+  <text x="280" y="329" text-anchor="middle" class="label">MCP</text>
+  <text x="600" y="329" text-anchor="middle" class="label">REST</text>
+  <text x="920" y="329" text-anchor="middle" class="label">Governed SQL views</text>
+
+  <path d="M600 360 L600 400" class="flow"/>
+
+  <rect x="100" y="405" width="1000" height="260" class="layer" fill="#fdf4ff" stroke="#a21caf"/>
+  <text x="600" y="442" text-anchor="middle" class="heading">Semantic Operator</text>
+
+  <rect x="150" y="475" width="560" height="155" class="item" fill="#ffffff" stroke="#c026d3"/>
+  <text x="430" y="510" text-anchor="middle" class="label">Semantic server</text>
+  <text x="430" y="543" text-anchor="middle" class="body">Authenticate the caller</text>
+  <text x="430" y="572" text-anchor="middle" class="body">Apply metric, column, and row policies</text>
+  <text x="430" y="601" text-anchor="middle" class="body">Plan one deterministic SQL statement</text>
+
+  <rect x="755" y="475" width="295" height="155" class="item" fill="#ffffff" stroke="#c026d3"/>
+  <text x="902" y="510" text-anchor="middle" class="label">Kubernetes operator</text>
+  <text x="902" y="543" text-anchor="middle" class="body">Validate the model</text>
+  <text x="902" y="572" text-anchor="middle" class="body">Check physical schema</text>
+  <text x="902" y="601" text-anchor="middle" class="body">Publish valid versions</text>
+
+  <rect x="780" y="680" width="245" height="70" class="item" fill="#eef2ff" stroke="#6366f1"/>
+  <text x="902" y="709" text-anchor="middle" class="label">Apache Ossie</text>
+  <text x="902" y="733" text-anchor="middle" class="small">SemanticModel resource</text>
+  <path d="M902 680 L902 635" class="support"/>
+
+  <path d="M430 665 L430 705" class="flow"/>
+
+  <rect x="100" y="710" width="560" height="88" class="layer" fill="#ecfeff" stroke="#0891b2"/>
+  <text x="380" y="744" text-anchor="middle" class="heading">Governed SQL</text>
+  <text x="380" y="773" text-anchor="middle" class="body">One statement with model version and request hash</text>
+
+  <path d="M380 798 L380 838" class="flow"/>
+
+  <rect x="100" y="843" width="1000" height="92" class="layer" fill="#fefce8" stroke="#ca8a04"/>
+  <text x="600" y="877" text-anchor="middle" class="heading">Query engine</text>
+  <text x="600" y="909" text-anchor="middle" class="body">StarRocks or Trino</text>
+
+  <path d="M600 935 L600 967" class="flow"/>
+
+  <rect x="250" y="972" width="700" height="55" class="layer" fill="#f0fdf4" stroke="#16a34a"/>
+  <text x="600" y="1007" text-anchor="middle" class="label">Existing warehouse or lakehouse data</text>
+</svg>

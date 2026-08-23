@@ -22,10 +22,10 @@ CNCF graduation is not just a badge, it is confirmation that a project is mature
 
 Since joining CNCF as an incubating project in 2023, Kubeflow has grown into a genuinely massive community effort:
 
-6,600+ contributors across 1,000+ organizations
-33,000+ GitHub stars across its repositories
-Nearly 260 million PyPI downloads of its Python packages
-Adopted by major enterprises from different industries
+* 6,600+ contributors across 1,000+ organizations
+* 33,000+ GitHub stars across its repositories
+* Nearly 260 million PyPI downloads of its Python packages
+* Adopted by major enterprises from different industries
 
 To get here, the project also completed a third-party security audit, formalized its steering committee, and adopted the CNCF Code of Conduct. The kind of unglamorous work that makes "production-ready" more than a marketing line.
 

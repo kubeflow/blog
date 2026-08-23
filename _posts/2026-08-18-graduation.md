@@ -16,7 +16,7 @@ Kubeflow just reached one of the biggest milestones a cloud native project can h
 
 ## What This Means
 
-CNCF graduation isn't just a badge, it's confirmation that a project is mature, widely adopted, and production-ready. For Kubeflow, it recognizes the project's role as the Kubernetes-native backbone for running AI and ML workloads at scale: from data processing and interactive development to distributed training, fine-tuning, inference, and model serving.
+CNCF graduation is not just a badge, it is confirmation that a project is mature, widely adopted, and production-ready. For Kubeflow, it recognizes the project's role as the Kubernetes-native backbone for running AI and ML workloads at scale: from data processing and interactive development to distributed training, fine-tuning, inference, and model serving.
 
 ## By the Numbers
 

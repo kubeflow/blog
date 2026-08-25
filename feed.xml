@@ -1,4 +1,63 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2026-08-12T10:44:35-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><author><name>{&quot;name&quot;=&gt;&quot;&quot;, &quot;email&quot;=&gt;&quot;&quot;}</name><email></email></author><entry><title type="html">Introducing Kubeflow MCP: An Agent Interface for Cloud Native AI at Scale</title><link href="https://blog.kubeflow.org/introducing-kubeflow-mcp/" rel="alternate" type="text/html" title="Introducing Kubeflow MCP: An Agent Interface for Cloud Native AI at Scale" /><published>2026-08-10T00:00:00-05:00</published><updated>2026-08-10T00:00:00-05:00</updated><id>https://blog.kubeflow.org/introducing-kubeflow-mcp</id><content type="html" xml:base="https://blog.kubeflow.org/introducing-kubeflow-mcp/"><![CDATA[<h2 id="agent-native-infrastructure">Agent-Native Infrastructure</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2026-08-25T16:35:38-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><author><name>{&quot;name&quot;=&gt;&quot;&quot;, &quot;email&quot;=&gt;&quot;&quot;}</name><email></email></author><entry><title type="html">Kubeflow Has Graduated from CNCF</title><link href="https://blog.kubeflow.org/graduation/" rel="alternate" type="text/html" title="Kubeflow Has Graduated from CNCF" /><published>2026-08-18T00:00:00-05:00</published><updated>2026-08-18T00:00:00-05:00</updated><id>https://blog.kubeflow.org/graduation</id><content type="html" xml:base="https://blog.kubeflow.org/graduation/"><![CDATA[<h2 id="kubeflow-has-graduated-from-cncf">Kubeflow Has Graduated from CNCF</h2>
+
+<p>Kubeflow just reached one of the biggest milestones a cloud native project can hit! Graduation from the Cloud Native Computing Foundation (CNCF).</p>
+
+<h2 id="what-this-means">What This Means</h2>
+
+<p>CNCF graduation is not just a badge, it is confirmation that a project is mature, widely adopted, and production-ready. For Kubeflow, it recognizes the project’s role as the Kubernetes-native backbone for running AI and ML workloads at scale: from data processing and interactive development to distributed training, fine-tuning, inference, and model serving.</p>
+
+<h2 id="by-the-numbers">By the Numbers</h2>
+
+<p>Since joining CNCF as an incubating project in 2023, Kubeflow has grown into a genuinely massive community effort:</p>
+
+<ul>
+  <li>6,600+ contributors across 1,000+ organizations</li>
+  <li>33,000+ GitHub stars across its repositories</li>
+  <li>Nearly 260 million PyPI downloads of its Python packages</li>
+  <li>Adopted by major enterprises from different industries, including Bloomberg, NVIDIA, Red Hat, LinkedIn, and Spotify, which use Kubeflow to standardize their AI workloads</li>
+</ul>
+
+<p>To get here, the project also completed a third-party security audit, formalized its steering committee, and adopted the CNCF Code of Conduct. The kind of unglamorous work that makes “production-ready” more than a marketing line.</p>
+
+<h2 id="why-it-matters">Why It Matters</h2>
+
+<p>As more enterprises move AI workloads from experimentation into production, they need infrastructure that’s scalable, portable, and vendor-neutral, not locked into a single cloud or platform. Kubeflow gives teams that foundation on Kubernetes, letting data scientists, ML engineers, and platform teams work from the same standardized base instead of stitching together one-off tooling.</p>
+
+<h2 id="a-community-effort">A Community Effort</h2>
+
+<p>What stands out most in CNCF’s announcement isn’t the metrics, it’s how many people, across multiple different companies and industries describe Kubeflow as something they genuinely built together over years, often outside their day jobs. Voices from NVIDIA, Red Hat, Capital One, AWS, Canonical and others all shared what this milestone means to them.</p>
+
+<p>That’s really what graduation reflects: a community that committed to an open, Kubernetes-native vision for AI infrastructure long enough to make it the standard.</p>
+
+<p>You can find more details about Kubeflow Graduation
+<a href="https://www.cncf.io/announcements/2026/08/17/cncf-announces-kubeflows-graduation-solidifying-the-standard-for-cloud-native-ai-operations/">here</a>.</p>
+
+<h2 id="catch-up-on-past-kubeflow-events">Catch Up on Past Kubeflow Events</h2>
+
+<p>Graduation is a great excuse to look back at some of the talks and sessions the community has put together. Check out the playlists from past Kubeflow events:</p>
+
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=wyP1gvQB4GM&amp;list=PLj6h78yzYM2Nk-8Zyjaefz9yFJ-NxC-qn">Kubeflow Summit Europe 2024</a></li>
+  <li><a href="https://www.youtube.com/watch?v=CKUKQWmRF5g&amp;list=PLj6h78yzYM2MCEJPmVgUZsEx7lFjqh8BC">Kubeflow Virtual Planning Symposium 2025</a></li>
+  <li><a href="https://www.youtube.com/watch?v=rohVQQmQwWY&amp;list=PLj6h78yzYM2PeQhNvI6WUOeNUcegvHvf0">Kubeflow Summit NA 2025</a></li>
+  <li><a href="https://www.youtube.com/watch?v=8QwBeZd1Vpc&amp;list=PLj6h78yzYM2NiD1QOHcD4PYY-8JxD0pNh">Kubeflow Summit 2025 - Europe</a></li>
+  <li><a href="https://www.youtube.com/watch?v=ZFFdDwD0Z-k&amp;list=PLj6h78yzYM2PnalRBhPCbxEm_rup1b3X0">Cloud Native AI + Kubeflow Day 2026</a></li>
+</ul>
+
+<p>Want more? Subscribe to the <a href="https://www.youtube.com/kubeflow">Kubeflow YouTube channel</a> to catch new talks, demos, and community meeting recordings as soon as they’re posted.</p>
+
+<h2 id="want-to-help">Want to help?</h2>
+
+<p>The Kubeflow community Working Groups hold open meetings and are always looking for more volunteers and users to unlock
+the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check
+out the resources below. We look forward to working with you!</p>
+
+<ul>
+  <li>Visit our <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow website</a> or Kubeflow GitHub Page.</li>
+  <li>Join the <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow Slack channel</a>.</li>
+  <li>Join the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list.</li>
+  <li>Attend our weekly <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-community-call">community meeting</a>.</li>
+</ul>]]></content><author><name>Kubeflow</name></author><summary type="html"><![CDATA[Kubeflow is a CNCF Graduated Project]]></summary></entry><entry><title type="html">Introducing Kubeflow MCP: An Agent Interface for Cloud Native AI at Scale</title><link href="https://blog.kubeflow.org/introducing-kubeflow-mcp/" rel="alternate" type="text/html" title="Introducing Kubeflow MCP: An Agent Interface for Cloud Native AI at Scale" /><published>2026-08-10T00:00:00-05:00</published><updated>2026-08-10T00:00:00-05:00</updated><id>https://blog.kubeflow.org/introducing-kubeflow-mcp</id><content type="html" xml:base="https://blog.kubeflow.org/introducing-kubeflow-mcp/"><![CDATA[<h2 id="agent-native-infrastructure">Agent-Native Infrastructure</h2>
 
 <p>AI agents are rapidly becoming the primary interface for software development. Engineers use them to write code, debug systems, and automate operational workflows. But when it comes to AI infrastructure (submitting training jobs, managing GPU resources, monitoring distributed workloads) agents hit a wall. They can generate scripts and suggest commands, but they cannot interact with the cluster directly.</p>
 
@@ -1914,117 +1973,4 @@ amount of compute.</p>
   <li>View the full <a href="https://github.com/kubeflow/sdk/releases/tag/0.4.0">Changelog</a>.</li>
 </ul>
 
-<p><strong>Headed to <a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/">KubeCon + CloudNativeCon 2026 EU</a>?</strong> Stop by the Kubeflow booth to see these features in action!</p>]]></content><author><name>Kubeflow SDK Team</name></author><category term="release" /><category term="sdk" /><summary type="html"><![CDATA[Explore the full documentation at sdk.kubeflow.org]]></summary></entry><entry><title type="html">Introducing the Metaflow-Kubeflow Integration</title><link href="https://blog.kubeflow.org/metaflow/" rel="alternate" type="text/html" title="Introducing the Metaflow-Kubeflow Integration" /><published>2026-02-04T00:00:00-06:00</published><updated>2026-02-04T00:00:00-06:00</updated><id>https://blog.kubeflow.org/introducing-metaflow-kubeflow-integration</id><content type="html" xml:base="https://blog.kubeflow.org/metaflow/"><![CDATA[<h1 id="a-tale-of-two-flows-metaflow-and-kubeflow">A tale of two flows: Metaflow and Kubeflow</h1>
-
-<p>Metaflow is a Python framework for building and operating ML and AI projects, originally developed and open-sourced by Netflix in 2019. In many ways, Kubeflow and Metaflow are cousins: closely related in spirit, but designed with distinct goals and priorities.</p>
-
-<p><a href="https://docs.metaflow.org/">Metaflow</a> emerged from Netflix’s need to empower data scientists and ML/AI developers with developer-friendly, Python-native tooling, so that they could easily iterate quickly on ideas, compare modeling approaches, and ship the best solutions to production without heavy engineering or DevOps involvement. On the infrastructure side, Metaflow started with AWS-native services like AWS Batch and Step Functions, later expanding to provide first-class support for the Kubernetes ecosystem and other hyperscaler clouds.</p>
-
-<p>In contrast, Kubeflow began as a set of Kubernetes operators for distributed TensorFlow and Jupyter Notebook management. Over time, it has evolved into a comprehensive Cloud Native AI ecosystem, offering a broad set of tools out of the box. These include Trainer, Katib, Spark Operator for orchestrating distributed AI workloads, Workspaces for interactive development environments, Hub for AI catalog and artifacts management, KServe for model serving, and Pipelines to deploy end-to-end ML workflows and stitching Kubeflow components together.</p>
-
-<p>Over the years, Metaflow has delighted end users with its intuitive APIs, while Kubeflow has delivered tons of value to infrastructure teams through its robust platform components. This complementary nature of the tools motivated us to build a bridge between the two: <a href="https://docs.metaflow.org/production/scheduling-metaflow-flows/scheduling-with-kubeflow">you can now author projects in Metaflow and deploy them as Kubeflow Pipelines</a>, side by side with your existing Kubeflow workloads.</p>
-
-<h1 id="why-metaflow--kubeflow">Why Metaflow → Kubeflow</h1>
-
-<p>In <a href="https://www.cncf.io/wp-content/uploads/2025/11/cncf_report_techradar_111025a.pdf">the most recent CNCF Technology Radar survey</a> from October 2025, Metaflow got the highest positive scores in the “<em>likelihood to recommend</em>” and “<em>usefulness</em>” categories, reflecting its success in providing a set of stable, productivity-boosting APIs for ML/AI developers.</p>
-
-<p>Metaflow spans the entire development lifecycle—from early experimentation to production deployment and ongoing operations. To give you an idea, the core features below illustrate the breadth of its API surface, grouped by project stage:</p>
-
-<h2 id="development">Development</h2>
-
-<ul>
-  <li>
-    <p>Straightforward APIs for <a href="https://docs.metaflow.org/metaflow/basics">creating and composing workflows</a>.</p>
-  </li>
-  <li>
-    <p>Automated state transfer and management through <a href="https://docs.metaflow.org/metaflow/basics#artifacts">artifacts</a>, allowing you to <a href="https://docs.metaflow.org/metaflow/authoring-flows/introduction">build flows incrementally</a> and resume them freely (see <a href="https://netflixtechblog.com/supercharging-the-ml-and-ai-development-experience-at-netflix-b2d5b95c63eb">a recent article by Netflix</a> about the topic)</p>
-  </li>
-  <li>
-    <p>Interactive, <a href="https://docs.metaflow.org/metaflow/basics">real-time visual outputs</a> from tasks through cards - a perfect substrate for <a href="https://outerbounds.com/blog/visualize-everything-with-ai">custom observability solutions, created quickly with AI copilots</a>.</p>
-  </li>
-  <li>
-    <p>Choose the right balance between code and configuration through <a href="https://docs.metaflow.org/metaflow/configuring-flows/introduction">built-in configuration management</a>.</p>
-  </li>
-  <li>
-    <p>Create domain-specific abstractions and project-level policies through <a href="https://docs.metaflow.org/metaflow/composing-flows/introduction">custom decorators</a>.</p>
-  </li>
-</ul>
-
-<h2 id="scaling">Scaling</h2>
-
-<ul>
-  <li>
-    <p><a href="https://docs.metaflow.org/scaling/remote-tasks/introduction">Scale flows horizontally and vertically</a>: Both task and data parallelism are supported.</p>
-  </li>
-  <li>
-    <p><a href="https://docs.metaflow.org/scaling/failures">Handle failures gracefully</a>.</p>
-  </li>
-  <li>
-    <p><a href="https://docs.metaflow.org/scaling/dependencies">Package dependencies automatically</a> with support for Conda, PyPI, and uv.</p>
-  </li>
-  <li>
-    <p>Leverage <a href="https://docs.metaflow.org/scaling/remote-tasks/distributed-computing">distributed computing paradigms</a> such as Ray, MPI, and Torch Distributed.</p>
-  </li>
-  <li>
-    <p><a href="https://docs.metaflow.org/scaling/checkpoint/introduction">Checkpoint long-running tasks</a> and manage checkpoints consistently.</p>
-  </li>
-</ul>
-
-<h2 id="deployment">Deployment</h2>
-
-<ul>
-  <li>
-    <p>Maintain a clear separation between experimentation, production, and individual developers through <a href="https://docs.metaflow.org/scaling/tagging">namespaces</a>.</p>
-  </li>
-  <li>
-    <p>Adopt CI/CD and GitOps best practices through <a href="https://docs.metaflow.org/production/coordinating-larger-metaflow-projects">branching</a>.</p>
-  </li>
-  <li>
-    <p><a href="https://docs.metaflow.org/production/event-triggering">Compose large, reactive systems</a> through isolated sub-flows with event triggering.</p>
-  </li>
-</ul>
-
-<p>These features provide a unified, user-facing API for the capabilities required by real-world ML and AI systems. Behind the scenes, Metaflow is built on integrations with production-quality infrastructure, effectively acting as a user-interface layer over platforms like Kubernetes - and now, Kubeflow. The diagram below illustrates the division of responsibilities:
-<img style="max-width: 100%; height: auto; display: block;" alt="kubeflow-metaflow-arch" src="https://github.com/user-attachments/assets/88f4af4e-7e27-4287-b275-88e4b1b87449" /></p>
-
-<p>The key benefit of the Metaflow–Kubeflow integration is that it allows organizations to <strong>keep their existing Kubernetes and Kubeflow infrastructure intact, while upgrading the developer experience with higher-level abstractions and additional functionality, provided by Metaflow.</strong></p>
-
-<p>Currently, the integration supports deploying Metaflow flows as Kubeflow Pipelines. Once you have Metaflow tasks running on Kubernetes, you can access other components such as Katib and Trainer from Metaflow tasks through their Python clients as usual.</p>
-
-<h1 id="metaflow--kubeflow-in-practice">Metaflow → Kubeflow in practice</h1>
-
-<p>As the integration requires no changes in your existing Kubeflow infrastructure, it is straightforward to get started. You can <a href="https://docs.metaflow.org/getting-started/infrastructure">deploy Metaflow in an existing cloud account</a> (GCP, Azure, or AWS) or you can <a href="https://docs.metaflow.org/getting-started/devstack">install the dev stack on your laptop</a> with a single command.</p>
-
-<p>Once you have Metaflow and Kubeflow running independently, you can install the extension providing the integration (you can <a href="https://docs.metaflow.org/production/scheduling-metaflow-flows/scheduling-with-kubeflow">follow instructions in the documentation</a>):</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install metaflow-kubeflow
-</code></pre></div></div>
-
-<p>The only configuration needed is to point Metaflow at your Kubeflow Pipelines service, either by adding the following line in the Metaflow config or by setting it as an environment variable:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>METAFLOW_KUBEFLOW_PIPELINES_URL = "http://my-kubeflow"
-</code></pre></div></div>
-
-<p>After this, you can author a Metaflow flow as usual and test it locally:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python flow.py run
-</code></pre></div></div>
-
-<p>which runs the flow quickly as local processes. If everything looks good, you can deploy the flow as a Kubeflow pipeline:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python flow.py kubeflow-pipelines create
-</code></pre></div></div>
-
-<p>This will package all the source code and dependencies of the flow automatically, compile the Metaflow flow into a Kubeflow Pipelines YAML and deploy it to Kubeflow, which you can see alongside your existing pipelines in the Kubeflow UI. The following screencast shows the process in action:</p>
-
-<p><a href="https://www.youtube.com/watch?v=ALg0A9SzRG8"><img src="https://i.ytimg.com/vi/ALg0A9SzRG8/maxresdefault.jpg" alt="" /></a></p>
-
-<p>The integration doesn’t have 100% feature coverage yet: Some Metaflow features such as <a href="https://docs.metaflow.org/metaflow/basics#conditionals">conditional</a> and <a href="https://docs.metaflow.org/metaflow/basics#recursion">recursive</a> steps are not yet supported. In future versions, we may also provide additional convenience APIs for other Kubeflow components, such as KServe - or you can easily implement them by yourself as <a href="https://docs.metaflow.org/metaflow/composing-flows/custom-decorators">custom decorators</a> with the <a href="https://sdk.kubeflow.org/en/latest/">Kubeflow SDK</a>!</p>
-
-<p>If you want to learn more about the integration, you can watch <a href="https://www.youtube.com/watch?v=YDKRIiQNMU0">an announcement webinar</a> on Youtube.</p>
-
-<h1 id="feedback-welcome">Feedback welcome!</h1>
-
-<p>Like Kubeflow, Metaflow is an open-source project actively developed by multiple organizations — including Netflix, which maintains a dedicated team working on Metaflow, and <a href="https://outerbounds.com">Outerbounds, which provides a managed Metaflow platform</a> deployed in customers’ own cloud environments.</p>
-
-<p>The Metaflow community convenes at <a href="http://slack.outerbounds.co">the Metaflow Slack</a>. We welcome you to join, ask questions, and give feedback about the Kubeflow integration, and share your wishlist items for the roadmap. We are looking forward to a fruitful collaboration between the two communities!</p>]]></content><author><name>{&quot;name&quot;=&gt;&quot;&quot;, &quot;email&quot;=&gt;&quot;&quot;}</name></author><category term="community" /><summary type="html"><![CDATA[A tale of two flows: Metaflow and Kubeflow]]></summary></entry></feed>
+<p><strong>Headed to <a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/">KubeCon + CloudNativeCon 2026 EU</a>?</strong> Stop by the Kubeflow booth to see these features in action!</p>]]></content><author><name>Kubeflow SDK Team</name></author><category term="release" /><category term="sdk" /><summary type="html"><![CDATA[Explore the full documentation at sdk.kubeflow.org]]></summary></entry></feed>

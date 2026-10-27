@@ -105,7 +105,7 @@ The same structured request, effective identity, model version, and query engine
 
 Governance runs before query planning. Policies control which metrics and columns a role may use and can apply bounded row filters. An unauthorized request fails before SQL exists.
 
-We are working on integrations with [Open Policy Agent](https://www.openpolicyagent.org/) and [Apache Ranger](https://ranger.apache.org/) so organizations can connect existing policy systems to semantic access decisions. These integrations are roadmap work and are not part of the initial release.
+Models can also name an external policy provider such as [Open Policy Agent](https://www.openpolicyagent.org/) or [Apache Ranger](https://ranger.apache.org/), so organizations can connect existing policy systems to semantic access decisions. The provider adds a second decision before any SQL is generated and cannot weaken the model's built-in governance.
 
 ## Security by design
 

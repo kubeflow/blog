@@ -7,7 +7,7 @@ description: "Semantic Operator gives AI agents a deterministic and governed pat
 hide: false
 categories: [agents, data, operators]
 permalink: /introducing-semantic-operator/
-author: "Vara Bonthu and Manabu McCloskey"
+author: "Vara Bonthu (AWS), Manabu McCloskey (AWS), Andrey Velichkevich (Apple), Manish M (Apple)"
 ---
 
 ## Business decisions start with trusted data

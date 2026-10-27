@@ -111,7 +111,7 @@ Models can also name an external policy provider such as [Open Policy Agent](htt
 
 Semantic Operator can validate [JSON Web Tokens](https://www.rfc-editor.org/rfc/rfc7519) against an issuer's public keys. It can also run behind an authenticating proxy when trusted headers are explicitly enabled. An unverified caller receives an authentication error. A verified caller without permission receives an authorization error.
 
-The manager and query server use separate database credentials, and the query server uses read only access. Metric expressions and row policies are validated before execution. Failed model updates do not replace the last valid model. Generated SQL includes the semantic model version and a request hash for traceability.
+The manager and query server can be configured with separate database credentials, so the query server only needs read-only access. Metric expressions and row policies are validated before execution. Failed model updates do not replace the last valid model.
 
 ## Built for existing data platforms
 

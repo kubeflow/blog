@@ -71,7 +71,7 @@ If a model update fails validation or schema checks, it is not published. The la
 
 A notebook, dashboard, pipeline, application, and agent can now use the same business contract. The contract is portable. The query is specific to the selected engine.
 
-Semantic Operator is now a Kubeflow subproject. The source code is available in the [Kubeflow Semantic Operator repository](https://github.com/kubeflow/semantic-operator). The [Semantic Operator documentation](https://semantic.kubeflow.org/en/latest/) includes the architecture, installation guide, model authoring guide, and runnable examples.
+Semantic Operator is now a Kubeflow subproject. The source code is available in the [Kubeflow Semantic Operator repository](https://github.com/kubeflow/semantic-operator). The [Semantic Operator documentation](https://kubeflow.github.io/semantic-operator/) includes the architecture, installation guide, model authoring guide, and runnable examples.
 
 ## Bootstrap models with ossiectl
 

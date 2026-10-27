@@ -35,7 +35,7 @@ A table called `subscriptions` does not explain which statuses count as active. 
 
 The model has to guess. A different phrase can lead to a different table, join, filter, or aggregation. Both SQL statements may run successfully. Both answers may look reasonable. Only one may match the definition used by the business.
 
-![From generated SQL to certified business meaning](/images/2026-08-28-introducing-semantic-operator/problem-and-solution.svg)
+![From generated SQL to certified business meaning](/images/2026-10-27-introducing-semantic-operator/problem-and-solution.svg)
 
 This is not only a query generation problem. It is a business context problem. Returning a confident but incorrect number to a leader can affect pricing, investment, staffing, and customer decisions.
 
@@ -79,7 +79,7 @@ Writing the first semantic model by hand can be slow when a platform has many ta
 
 It can inspect a query engine information schema, including tables exposed through an open catalog such as [Apache Polaris](https://polaris.apache.org/). It can also enrich the result with business context from [DataHub](https://github.com/datahub-project/datahub). The command writes a draft `SemanticModel` YAML file with datasets and fields. Engineers then review the draft, add certified metrics and relationships, and apply it to Kubernetes.
 
-![How ossiectl creates a SemanticModel](/images/2026-08-28-introducing-semantic-operator/ossiectl-flow.svg)
+![How ossiectl creates a SemanticModel](/images/2026-10-27-introducing-semantic-operator/ossiectl-flow.svg)
 
 This is an authoring step. It is not in the query path. Teams can run it when they create a model or when they want help reviewing schema changes. The generated YAML remains normal source-controlled configuration that engineers can inspect and edit.
 
@@ -87,7 +87,7 @@ This is an authoring step. It is not in the query path. Teams can run it when th
 
 An agent does not need to understand a warehouse schema or invent a join. It discovers the metrics and dimensions that it is allowed to use. It then sends a structured request through the [Model Context Protocol](https://modelcontextprotocol.io/), or MCP. Applications can use the REST interface. Business intelligence tools can use governed SQL views.
 
-![Semantic Operator architecture](/images/2026-08-28-introducing-semantic-operator/architecture.svg)
+![Semantic Operator architecture](/images/2026-10-27-introducing-semantic-operator/architecture.svg)
 
 The request follows a clear path.
 
@@ -127,7 +127,7 @@ Kubeflow already provides open components for training, pipelines, notebooks, mo
 
 Semantic Operator adds that missing contract between AI workloads and analytical data. Pipelines can use certified metrics as inputs or evaluation outputs. Model Registry records can refer to the semantic model used for training or evaluation. Notebooks can query shared definitions instead of copying SQL. Spark jobs can prepare datasets that semantic models bind to.
 
-The [Kubeflow Agents Working Group](https://github.com/kubeflow/community/pull/1025) is a natural home for this work. MCP is a primary interface for Semantic Operator. The project will also work with the Data Working Group and Spark Operator community on data platform integrations.
+The [Kubeflow Agents Working Group](https://github.com/kubeflow/community/tree/master/wg-agents) is a natural home for this work. MCP is a primary interface for Semantic Operator. The project will also work with the Data Working Group and Spark Operator community on data platform integrations.
 
 Kubeflow also gives the project a vendor-neutral home. Releases, security decisions, roadmaps, and ownership can develop through an open community process.
 

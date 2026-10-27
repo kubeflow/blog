@@ -131,7 +131,7 @@ Semantic Operator adds that missing contract between AI workloads and analytical
 
 The proposed [Kubeflow Agents Working Group](https://github.com/kubeflow/community/pull/1025) is a natural home for this work. MCP is a primary interface for Semantic Operator. The project will also work with the Data Working Group and Spark Operator community on data platform integrations.
 
-Kubeflow also gives the project a vendor neutral home. Releases, security decisions, roadmaps, and ownership can develop through an open community process.
+Kubeflow also gives the project a vendor-neutral home. Releases, security decisions, roadmaps, and ownership can develop through an open community process.
 
 ## Working with Apache Ossie
 

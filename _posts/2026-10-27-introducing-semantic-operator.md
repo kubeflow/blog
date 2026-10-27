@@ -156,3 +156,7 @@ We welcome feedback from data engineers, platform engineers, application develop
 Explore the [Semantic Operator repository](https://github.com/kubeflow/semantic-operator) and follow the [documentation](https://kubeflow.github.io/semantic-operator/) for installation instructions and a runnable proof of concept. The original [subproject proposal](https://github.com/kubeflow/community/pull/1024) records the community discussion behind the move to Kubeflow. You can also learn more about the underlying standard from the [Apache Ossie project](https://ossie.apache.org/) and its [core specification](https://github.com/apache/ossie/blob/main/core-spec/spec.md).
 
 If you have built the same metric more than once, or watched an agent produce convincing but incorrect SQL, we would like to hear from you. Bring the tools and engines that matter to your users. Help us build the integrations in the open.
+
+## Thank you
+
+Thank you to everyone who helped bring Semantic Operator into Kubeflow and shaped this launch post, including [Andrey Velichkevich](https://github.com/andreyvelich), [Manish M](https://github.com/osscm), [Tarek Abouzeid](https://github.com/tarekabouzeid), [Pratik Naik](https://github.com/pratik-naik003), and [Haroon](https://github.com/haroon0x). Your reviews, feedback, and support made this project better.

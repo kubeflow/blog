@@ -81,7 +81,7 @@ It can inspect a query engine information schema, including tables exposed throu
 
 ![How ossiectl creates a SemanticModel](/images/2026-08-28-introducing-semantic-operator/ossiectl-flow.svg)
 
-This is an authoring step. It is not in the query path. Teams can run it when they create a model or when they want help reviewing schema changes. The generated YAML remains normal source controlled configuration that engineers can inspect and edit.
+This is an authoring step. It is not in the query path. Teams can run it when they create a model or when they want help reviewing schema changes. The generated YAML remains normal source-controlled configuration that engineers can inspect and edit.
 
 ## From a semantic request to one SQL statement
 

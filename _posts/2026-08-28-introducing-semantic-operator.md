@@ -147,7 +147,7 @@ With the repository now in Kubeflow, the first community work will focus on a st
 
 Technical work will expand engine support, workload identity, multi team isolation, and storage for larger compiled models. We also plan to add Kubeflow integration examples and work toward optional inclusion in the Kubeflow Community Distribution after the project has a supported release and integration tests.
 
-Scalability is an important part of that roadmap. We will test model compilation, schema validation, publication, and serving with large numbers of tables, models, and databases. The results will define supported limits and guide work on artifact storage, controller concurrency, and multi namespace operation.
+Scalability is an important part of that roadmap. We will test model compilation, schema validation, publication, and serving with large numbers of tables, models, and databases. The results will define supported limits and guide work on artifact storage, controller concurrency, and multi-namespace operation.
 
 We also plan to add [ontology support](https://github.com/apache/ossie/blob/main/ontology/ontology.md) as Apache Ossie develops that part of the specification. An ontology describes shared business concepts and how they relate across domains. The goal is to connect those concepts to semantic models without weakening deterministic planning or governance.
 

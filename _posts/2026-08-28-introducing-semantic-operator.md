@@ -121,8 +121,6 @@ Semantic Operator does not replace a warehouse, catalog, or processing engine. I
 
 [Adding an engine](https://kubeflow.github.io/semantic-operator/guides/adding-an-engine/) requires two focused integrations. A dialect renders engine-specific SQL. A client handles connections, queries, and schema inspection. The semantic model, governance rules, serving interfaces, and planner stay unchanged. This separation is how Trino was added alongside StarRocks. It is also the path for community support of more engines.
 
-Model scaffolding can read information schemas through supported query engines such as StarRocks and Trino. This includes data exposed to the engine through catalogs such as Apache Polaris. DataHub can add business metadata. These integrations help teams start from their existing open source data platforms, then review and certify the result before publication.
-
 ## Why Kubeflow
 
 Kubeflow already provides open components for training, pipelines, notebooks, model serving, model metadata, and data processing. AI systems built with those components still need trustworthy business context.

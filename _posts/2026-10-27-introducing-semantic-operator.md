@@ -10,6 +10,14 @@ permalink: /introducing-semantic-operator/
 author: "Vara Bonthu (AWS), Manabu McCloskey (AWS), Andrey Velichkevich (Apple), Manish M (Apple)"
 ---
 
+![How Semantic Operator works](/images/2026-10-27-introducing-semantic-operator/overview.svg)
+
+Semantic Operator is a new Kubeflow subproject that gives AI agents trusted answers from business data. It works in three steps:
+
+1. **Define metrics.** Data teams describe certified metrics once in an [Apache Ossie (incubating)](https://ossie.apache.org/) model. Semantic Operator checks the model against the live database schema before publishing it.
+2. **Request metrics.** AI agents discover and request metrics through the [Model Context Protocol](https://modelcontextprotocol.io/) (MCP). They see only the metrics and dimensions they are allowed to use.
+3. **Get deterministic SQL.** Semantic Operator applies governance, creates one SQL statement, runs it on StarRocks or Trino, and returns the results. The language model never writes the SQL.
+
 ## Business decisions start with trusted data
 
 Organizations invest significant time in business reporting. Data engineers prepare datasets. Business intelligence analysts define metrics and build reports in tools such as Power BI. Leaders use those reports to understand orders, customers, subscriptions, revenue, and operating performance.

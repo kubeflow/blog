@@ -55,7 +55,7 @@ Many organizations started building their own semantic formats. The definition o
 
 Metrics become tied to one platform. Teams repeat the same definitions for another engine. Agents receive different context depending on the data source. Moving a workload can also mean rebuilding the semantic layer.
 
-The open source community is addressing this portability problem through [Apache Ossie](https://ossie.apache.org/). Apache Ossie defines a vendor neutral format for semantic models. It gives tools a shared way to describe datasets, fields, relationships, metrics, and AI context.
+The open source community is addressing this portability problem through [Apache Ossie (incubating)](https://ossie.apache.org/). Apache Ossie defines a vendor-neutral format for semantic models. It gives tools a shared way to describe datasets, fields, relationships, metrics, and AI context.
 
 A portable specification solves one part of the problem. Organizations also need a reliable way to validate models, bind them to physical data, serve them to agents, apply governance, and create SQL for the selected query engine.
 

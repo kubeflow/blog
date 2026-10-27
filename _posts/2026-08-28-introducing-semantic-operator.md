@@ -75,7 +75,7 @@ Semantic Operator is now a Kubeflow subproject. The source code is available in 
 
 ## Bootstrap models with ossiectl
 
-Writing the first semantic model by hand can be slow when a platform has many tables. The [`ossiectl`](https://semantic.kubeflow.org/en/latest/architecture/ossiectl/) command helps engineers bootstrap that work from metadata they already have.
+Writing the first semantic model by hand can be slow when a platform has many tables. The [`ossiectl`](https://kubeflow.github.io/semantic-operator/architecture/ossiectl/) command helps engineers bootstrap that work from metadata they already have.
 
 It can inspect a query engine information schema, including tables exposed through an open catalog such as [Apache Polaris](https://polaris.apache.org/). It can also enrich the result with business context from [DataHub](https://github.com/datahub-project/datahub). The command writes a draft `SemanticModel` YAML file with datasets and fields. Engineers then review the draft, add certified metrics and relationships, and apply it to Kubernetes.
 

@@ -127,7 +127,7 @@ Kubeflow already provides open components for training, pipelines, notebooks, mo
 
 Semantic Operator adds that missing contract between AI workloads and analytical data. Pipelines can use certified metrics as inputs or evaluation outputs. Model Registry records can refer to the semantic model used for training or evaluation. Notebooks can query shared definitions instead of copying SQL. Spark jobs can prepare datasets that semantic models bind to.
 
-The proposed [Kubeflow Agents Working Group](https://github.com/kubeflow/community/pull/1025) is a natural home for this work. MCP is a primary interface for Semantic Operator. The project will also work with the Data Working Group and Spark Operator community on data platform integrations.
+The [Kubeflow Agents Working Group](https://github.com/kubeflow/community/pull/1025) is a natural home for this work. MCP is a primary interface for Semantic Operator. The project will also work with the Data Working Group and Spark Operator community on data platform integrations.
 
 Kubeflow also gives the project a vendor-neutral home. Releases, security decisions, roadmaps, and ownership can develop through an open community process.
 

@@ -139,7 +139,7 @@ Semantic Operator implements the Apache Ossie specification. It does not own the
 
 We plan to work closely with the Apache Ossie community as the standard evolves. The project will publish a compatibility matrix for specification versions, expression dialects, and query engines. We also want Semantic Operator to become a useful Kubernetes reference implementation, with agreement from the Apache Ossie community.
 
-Portable Ossie content will remain separate from Kubernetes specific features. This allows teams to reuse the same semantic definitions across compatible tools.
+Portable Ossie content will remain separate from Kubernetes-specific features. This allows teams to reuse the same semantic definitions across compatible tools.
 
 ## What comes next
 

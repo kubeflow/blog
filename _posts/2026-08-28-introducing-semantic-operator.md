@@ -145,7 +145,7 @@ Portable Ossie content will remain separate from Kubernetes specific features. T
 
 With the repository now in Kubeflow, the first community work will focus on a stable foundation. This includes public governance, contribution and security guidance, a release process, signed images, and a public roadmap.
 
-Technical work will expand engine support, workload identity, multi team isolation, and storage for larger compiled models. We also plan to add Kubeflow integration examples and work toward optional inclusion in the Kubeflow Community Distribution after the project has a supported release and integration tests.
+Technical work will expand engine support, workload identity, multi-team isolation, and storage for larger compiled models. We also plan to add Kubeflow integration examples and work toward optional inclusion in the Kubeflow Community Distribution after the project has a supported release and integration tests.
 
 Scalability is an important part of that roadmap. We will test model compilation, schema validation, publication, and serving with large numbers of tables, models, and databases. The results will define supported limits and guide work on artifact storage, controller concurrency, and multi-namespace operation.
 

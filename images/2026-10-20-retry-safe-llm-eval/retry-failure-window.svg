@@ -1,4 +1,4 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 900" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 900" role="img" aria-labelledby="title desc">
   <title id="title">Retry-safe LLM evaluation failure window</title>
   <desc id="desc">The worker receives a mock LLM response and fails before saving it. A Kubeflow Pipelines retry makes a second endpoint request. Naive retries and saved-result lookup cause two mock executions; endpoint-side idempotency uses two requests but only one execution.</desc>
   <defs>
@@ -23,26 +23,26 @@
 
   <!-- Failure sequence -->
   <rect x="55" y="135" width="285" height="150" rx="18" fill="#e8f2fb" stroke="#8cbce7" stroke-width="2"/>
-  <text x="80" y="175" class="nodeTitle">1 Â· KFP worker</text>
+  <text x="80" y="175" class="nodeTitle">1 · KFP worker</text>
   <text x="80" y="210" class="nodeText">Sends the evaluation</text>
   <text x="80" y="235" class="nodeText">with a stable job ID</text>
 
   <path d="M345 210 L385 210" class="arrow"/>
   <rect x="395" y="135" width="300" height="150" rx="18" fill="#e8f2fb" stroke="#8cbce7" stroke-width="2"/>
-  <text x="420" y="175" class="nodeTitle">2 Â· Mock endpoint</text>
+  <text x="420" y="175" class="nodeTitle">2 · Mock endpoint</text>
   <text x="420" y="210" class="nodeText">Executes and returns</text>
   <text x="420" y="235" class="nodeText">a response</text>
 
   <path d="M700 210 L740 210" class="arrow"/>
   <rect x="750" y="135" width="330" height="150" rx="18" fill="#fff0ef" stroke="#db6b66" stroke-width="2"/>
-  <text x="775" y="175" class="nodeTitle">3 Â· Failure injected</text>
+  <text x="775" y="175" class="nodeTitle">3 · Failure injected</text>
   <text x="775" y="210" class="nodeText">Worker fails after the</text>
   <text x="775" y="235" class="nodeText">response, before saving it</text>
   <path d="M1040 155 L1060 175 M1060 155 L1040 175" stroke="#b42318" stroke-width="4" stroke-linecap="round"/>
 
   <path d="M1085 210 L1125 210" class="arrow"/>
   <rect x="1135" y="135" width="310" height="150" rx="18" fill="#fff7e6" stroke="#e6b75b" stroke-width="2"/>
-  <text x="1160" y="175" class="nodeTitle">4 Â· Result store</text>
+  <text x="1160" y="175" class="nodeTitle">4 · Result store</text>
   <text x="1160" y="210" class="nodeText">No completed result</text>
   <text x="1160" y="235" class="nodeText">is available to look up</text>
 
@@ -69,7 +69,7 @@
   <rect x="535" y="485" width="430" height="340" rx="20" fill="#ffffff" stroke="#cdd5df" stroke-width="2"/>
   <rect x="535" y="485" width="430" height="66" rx="20" fill="#edf2f7"/>
   <text x="565" y="526" class="cardTitle">Saved-result lookup</text>
-  <text x="565" y="590" class="cardText">Lookup returns â€œnot foundâ€ because</text>
+  <text x="565" y="590" class="cardText">Lookup returns “not found” because</text>
   <text x="565" y="616" class="cardText">the first result was never saved.</text>
   <text x="565" y="652" class="cardText">The endpoint is called again.</text>
   <line x1="565" y1="685" x2="935" y2="685" stroke="#e0e5eb" stroke-width="2"/>

@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+state.sqlite3
+*.sqlite3
+# The compiled KFP IR YAML is checked in as a runnable artifact.

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Introducing Semantic Operator: Governed Data Access for AI Agents | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Introducing Semantic Operator: Governed Data Access for AI Agents" />
+<meta name="author" content="Vara Bonthu (AWS), Manabu McCloskey (AWS), Andrey Velichkevich (Apple), Manish M (Apple)" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Semantic Operator gives AI agents a deterministic and governed path from certified business concepts to analytical data." />
+<meta property="og:description" content="Semantic Operator gives AI agents a deterministic and governed path from certified business concepts to analytical data." />
+<link rel="canonical" href="https://blog.kubeflow.org/introducing-semantic-operator/" />
+<meta property="og:url" content="https://blog.kubeflow.org/introducing-semantic-operator/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-10-27T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Introducing Semantic Operator: Governed Data Access for AI Agents" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Vara Bonthu (AWS), Manabu McCloskey (AWS), Andrey Velichkevich (Apple), Manish M (Apple)"},"dateModified":"2026-10-27T00:00:00-05:00","datePublished":"2026-10-27T00:00:00-05:00","description":"Semantic Operator gives AI agents a deterministic and governed path from certified business concepts to analytical data.","headline":"Introducing Semantic Operator: Governed Data Access for AI Agents","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/introducing-semantic-operator/"},"url":"https://blog.kubeflow.org/introducing-semantic-operator/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Introducing Semantic Operator: Governed Data Access for AI Agents</h1><p class="page-description">Semantic Operator gives AI agents a deterministic and governed path from certified business concepts to analytical data.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2026-10-27T00:00:00-05:00" itemprop="datePublished">
+        Oct 27, 2026
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Vara Bonthu (AWS), Manabu McCloskey (AWS), Andrey Velichkevich (Apple), Manish M (Apple)</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      11 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#agents">agents</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#data">data</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#operators">operators</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#business-decisions-start-with-trusted-data">Business decisions start with trusted data</a></li>
+<li class="toc-entry toc-h2"><a href="#ai-agents-changed-the-interface">AI agents changed the interface</a></li>
+<li class="toc-entry toc-h2"><a href="#a-semantic-layer-provides-the-missing-context">A semantic layer provides the missing context</a></li>
+<li class="toc-entry toc-h2"><a href="#semantic-definitions-should-be-portable">Semantic definitions should be portable</a></li>
+<li class="toc-entry toc-h2"><a href="#introducing-semantic-operator">Introducing Semantic Operator</a></li>
+<li class="toc-entry toc-h2"><a href="#bootstrap-models-with-ossiectl">Bootstrap models with ossiectl</a></li>
+<li class="toc-entry toc-h2"><a href="#from-a-semantic-request-to-one-sql-statement">From a semantic request to one SQL statement</a></li>
+<li class="toc-entry toc-h2"><a href="#governance-before-execution">Governance before execution</a></li>
+<li class="toc-entry toc-h2"><a href="#security-by-design">Security by design</a></li>
+<li class="toc-entry toc-h2"><a href="#built-for-existing-data-platforms">Built for existing data platforms</a></li>
+<li class="toc-entry toc-h2"><a href="#why-kubeflow">Why Kubeflow</a></li>
+<li class="toc-entry toc-h2"><a href="#working-with-apache-ossie">Working with Apache Ossie</a></li>
+<li class="toc-entry toc-h2"><a href="#what-comes-next">What comes next</a></li>
+<li class="toc-entry toc-h2"><a href="#join-the-discussion">Join the discussion</a></li>
+<li class="toc-entry toc-h2"><a href="#thank-you">Thank you</a></li>
+</ul><p><img src="/images/2026-10-27-introducing-semantic-operator/overview.svg" alt="How Semantic Operator works"></p>
+
+<p>Semantic Operator is a new Kubeflow subproject that gives AI agents trusted answers from business data. It works in three steps:</p>
+
+<ol>
+  <li>
+<strong>Define metrics.</strong> Data teams describe certified metrics once in an <a href="https://ossie.apache.org/">Apache Ossie (incubating)</a> model. Semantic Operator checks the model against the live database schema before publishing it.</li>
+  <li>
+<strong>Request metrics.</strong> AI agents discover and request metrics through the <a href="https://modelcontextprotocol.io/">Model Context Protocol</a> (MCP). They see only the metrics and dimensions they are allowed to use.</li>
+  <li>
+<strong>Get deterministic SQL.</strong> Semantic Operator applies governance, creates one SQL statement, runs it on StarRocks or Trino, and returns the results. The language model never writes the SQL.</li>
+</ol>
+
+<h2 id="business-decisions-start-with-trusted-data">
+<a class="anchor" href="#business-decisions-start-with-trusted-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Business decisions start with trusted data</h2>
+
+<p>Organizations invest significant time in business reporting. Data engineers prepare datasets. Business intelligence analysts define metrics and build reports in tools such as Power BI. Leaders use those reports to understand orders, customers, subscriptions, revenue, and operating performance.</p>
+
+<p>This work is essential. A growing organization needs consistent facts to make good decisions. The report must mean the same thing to finance, sales, operations, and product teams. If a revenue calculation is wrong, a business decision based on that report can also be wrong.</p>
+
+<p>Traditional reporting has a review process. Engineers and analysts inspect the data model, agree on metric definitions, validate relationships, and test the result. The dashboard is useful because people have done the work to make its numbers trustworthy.</p>
+
+<h2 id="ai-agents-changed-the-interface">
+<a class="anchor" href="#ai-agents-changed-the-interface" aria-hidden="true"><span class="octicon octicon-link"></span></a>AI agents changed the interface</h2>
+
+<p>Large language models made business data accessible through natural language. Organizations are now building agents that can answer questions such as:</p>
+
+<ol>
+  <li>How many orders did we receive last week?</li>
+  <li>Which customers are at risk of leaving?</li>
+  <li>How many active subscribers do we have?</li>
+  <li>What was recurring revenue in the last quarter?</li>
+</ol>
+
+<p>The experience is compelling. A user asks a question and receives an answer without waiting for a new dashboard.</p>
+
+<p>The common implementation is also risky. The language model connects to a database, discovers tables, and writes SQL from the wording of the question. It sees schemas and column names. It often does not know the business meaning behind them.</p>
+
+<p>A table called <code class="language-plaintext highlighter-rouge">subscriptions</code> does not explain which statuses count as active. A column called <code class="language-plaintext highlighter-rouge">revenue</code> does not say whether it contains gross revenue, recognized revenue, or recurring revenue. A customer table does not explain which relationship should be used when several account identifiers exist.</p>
+
+<p>The model has to guess. A different phrase can lead to a different table, join, filter, or aggregation. Both SQL statements may run successfully. Both answers may look reasonable. Only one may match the definition used by the business.</p>
+
+<p><img src="/images/2026-10-27-introducing-semantic-operator/problem-and-solution.svg" alt="From generated SQL to certified business meaning"></p>
+
+<p>This is not only a query generation problem. It is a business context problem. Returning a confident but incorrect number to a leader can affect pricing, investment, staffing, and customer decisions.</p>
+
+<h2 id="a-semantic-layer-provides-the-missing-context">
+<a class="anchor" href="#a-semantic-layer-provides-the-missing-context" aria-hidden="true"><span class="octicon octicon-link"></span></a>A semantic layer provides the missing context</h2>
+
+<p>A <a href="https://github.com/apache/ossie/blob/main/core-spec/spec.md">semantic layer</a> records the meaning that a database schema cannot express on its own. It defines datasets, fields, relationships, metrics, allowed dimensions, business descriptions, synonyms, and context for AI systems.</p>
+
+<p>The agent no longer needs to invent the calculation for recurring revenue. It selects the certified revenue metric and the approved time dimension. The semantic layer owns the relationship and aggregation rules.</p>
+
+<p>Different wording can still resolve to the same certified concepts. Once that happens, the same model and structured request produce the same SQL. The language model helps understand the question. Deterministic software plans the query.</p>
+
+<p>This separation is critical for trustworthy analytics. The model can reason about language. It is not trusted to invent business logic.</p>
+
+<h2 id="semantic-definitions-should-be-portable">
+<a class="anchor" href="#semantic-definitions-should-be-portable" aria-hidden="true"><span class="octicon octicon-link"></span></a>Semantic definitions should be portable</h2>
+
+<p>Many organizations started building their own semantic formats. The definition often fits one query engine, catalog, or business intelligence tool. That approach becomes difficult when a company uses several databases or lakehouse engines.</p>
+
+<p>Metrics become tied to one platform. Teams repeat the same definitions for another engine. Agents receive different context depending on the data source. Moving a workload can also mean rebuilding the semantic layer.</p>
+
+<p>The open source community is addressing this portability problem through <a href="https://ossie.apache.org/">Apache Ossie (incubating)</a>. Apache Ossie defines a vendor-neutral format for semantic models. It gives tools a shared way to describe datasets, fields, relationships, metrics, and AI context.</p>
+
+<p>A portable specification solves one part of the problem. Organizations also need a reliable way to validate models, bind them to physical data, serve them to agents, apply governance, and create SQL for the selected query engine.</p>
+
+<h2 id="introducing-semantic-operator">
+<a class="anchor" href="#introducing-semantic-operator" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introducing Semantic Operator</h2>
+
+<p>Today we are introducing <strong>Semantic Operator</strong>, a <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/">Kubernetes operator</a> and semantic server that operationalizes Apache Ossie models.</p>
+
+<p>Semantic Operator accepts an Apache Ossie based <a href="https://github.com/apache/ossie/blob/main/core-spec/spec.md#semantic-model"><code class="language-plaintext highlighter-rouge">SemanticModel</code></a> Kubernetes resource. It validates the definition and checks its physical schema bindings. It compiles a valid model into a versioned artifact. The serving layer then exposes certified concepts through <a href="https://modelcontextprotocol.io/">MCP</a>, REST, and governed SQL views.</p>
+
+<p>When an agent asks for a metric, the language model selects from the concepts it is allowed to see. Semantic Operator applies governance and creates one deterministic SQL statement from the certified definitions. The language model does not write the SQL.</p>
+
+<p>If a model update fails validation or schema checks, it is not published. The last valid version remains available. This keeps an invalid change from silently reaching every agent and application.</p>
+
+<p>A notebook, dashboard, pipeline, application, and agent can now use the same business contract. The contract is portable. The query is specific to the selected engine.</p>
+
+<p>Semantic Operator is now a Kubeflow subproject. The source code is available in the <a href="https://github.com/kubeflow/semantic-operator">Kubeflow Semantic Operator repository</a>. The <a href="https://kubeflow.github.io/semantic-operator/">Semantic Operator documentation</a> includes the architecture, installation guide, model authoring guide, and runnable examples.</p>
+
+<h2 id="bootstrap-models-with-ossiectl">
+<a class="anchor" href="#bootstrap-models-with-ossiectl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bootstrap models with ossiectl</h2>
+
+<p>Writing the first semantic model by hand can be slow when a platform has many tables. The <a href="https://kubeflow.github.io/semantic-operator/architecture/ossiectl/"><code class="language-plaintext highlighter-rouge">ossiectl</code></a> command helps engineers bootstrap that work from metadata they already have.</p>
+
+<p>It can inspect a query engine information schema, including tables exposed through an open catalog such as <a href="https://polaris.apache.org/">Apache Polaris</a>. It can also enrich the result with business context from <a href="https://github.com/datahub-project/datahub">DataHub</a>. The command writes a draft <code class="language-plaintext highlighter-rouge">SemanticModel</code> YAML file with datasets and fields. Engineers then review the draft, add certified metrics and relationships, and apply it to Kubernetes.</p>
+
+<p><img src="/images/2026-10-27-introducing-semantic-operator/ossiectl-flow.svg" alt="How ossiectl creates a SemanticModel"></p>
+
+<p>This is an authoring step. It is not in the query path. Teams can run it when they create a model or when they want help reviewing schema changes. The generated YAML remains normal source-controlled configuration that engineers can inspect and edit.</p>
+
+<h2 id="from-a-semantic-request-to-one-sql-statement">
+<a class="anchor" href="#from-a-semantic-request-to-one-sql-statement" aria-hidden="true"><span class="octicon octicon-link"></span></a>From a semantic request to one SQL statement</h2>
+
+<p>An agent does not need to understand a warehouse schema or invent a join. It discovers the metrics and dimensions that it is allowed to use. It then sends a structured request through the <a href="https://modelcontextprotocol.io/">Model Context Protocol</a>, or MCP. Applications can use the REST interface. Business intelligence tools can use governed SQL views.</p>
+
+<p><img src="/images/2026-10-27-introducing-semantic-operator/architecture.svg" alt="Semantic Operator architecture"></p>
+
+<p>The request follows a clear path.</p>
+
+<ol>
+  <li>A platform team applies an Apache Ossie model as a Kubernetes resource.</li>
+  <li>Semantic Operator validates the model and checks its physical bindings.</li>
+  <li>The operator publishes a versioned compiled model.</li>
+  <li>An authenticated caller selects certified metrics and dimensions.</li>
+  <li>Governance rules run before query planning.</li>
+  <li>The deterministic planner creates one SQL statement.</li>
+  <li>StarRocks or Trino executes the query against the existing data platform.</li>
+</ol>
+
+<p>The same structured request, effective identity, model version, and query engine dialect produce the same SQL. This makes queries easier to review, test, and audit. Generated statements also carry the model version and a request hash for traceability.</p>
+
+<h2 id="governance-before-execution">
+<a class="anchor" href="#governance-before-execution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Governance before execution</h2>
+
+<p>Governance runs before query planning. Policies control which metrics and columns a role may use and can apply bounded row filters. An unauthorized request fails before SQL exists.</p>
+
+<p>Models can also name an external policy provider such as <a href="https://www.openpolicyagent.org/">Open Policy Agent</a> or <a href="https://ranger.apache.org/">Apache Ranger</a>, so organizations can connect existing policy systems to semantic access decisions. The provider adds a second decision before any SQL is generated and cannot weaken the model’s built-in governance.</p>
+
+<h2 id="security-by-design">
+<a class="anchor" href="#security-by-design" aria-hidden="true"><span class="octicon octicon-link"></span></a>Security by design</h2>
+
+<p>Semantic Operator can validate <a href="https://www.rfc-editor.org/rfc/rfc7519">JSON Web Tokens</a> against an issuer’s public keys. It can also run behind an authenticating proxy when trusted headers are explicitly enabled. An unverified caller receives an authentication error. A verified caller without permission receives an authorization error.</p>
+
+<p>The manager and query server can be configured with separate database credentials, so the query server only needs read-only access. Metric expressions and row policies are validated before execution. Failed model updates do not replace the last valid model.</p>
+
+<h2 id="built-for-existing-data-platforms">
+<a class="anchor" href="#built-for-existing-data-platforms" aria-hidden="true"><span class="octicon octicon-link"></span></a>Built for existing data platforms</h2>
+
+<p>Semantic Operator does not replace a warehouse, catalog, or processing engine. It runs on top of infrastructure that teams already operate.</p>
+
+<p><a href="https://www.starrocks.io/">StarRocks</a> and <a href="https://trino.io/">Trino</a> are supported today. Both use the same logical planner. Small engine interfaces handle SQL syntax, connectivity, and schema inspection. This design provides a clear path for more engines.</p>
+
+<p><a href="https://kubeflow.github.io/semantic-operator/guides/adding-an-engine/">Adding an engine</a> requires two focused integrations. A dialect renders engine-specific SQL. A client handles connections, queries, and schema inspection. The semantic model, governance rules, serving interfaces, and planner stay unchanged. This separation is how Trino was added alongside StarRocks. It is also the path for community support of more engines.</p>
+
+<h2 id="why-kubeflow">
+<a class="anchor" href="#why-kubeflow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why Kubeflow</h2>
+
+<p>Kubeflow already provides open components for training, pipelines, notebooks, model serving, model metadata, and data processing. AI systems built with those components still need trustworthy business context.</p>
+
+<p>Semantic Operator adds that missing contract between AI workloads and analytical data. Pipelines can use certified metrics as inputs or evaluation outputs. Model Registry records can refer to the semantic model used for training or evaluation. Notebooks can query shared definitions instead of copying SQL. Spark jobs can prepare datasets that semantic models bind to.</p>
+
+<p>The <a href="https://github.com/kubeflow/community/tree/master/wg-agents">Kubeflow Agents Working Group</a> is a natural home for this work. MCP is a primary interface for Semantic Operator. The project will also work with the Data Working Group and Spark Operator community on data platform integrations.</p>
+
+<p>Kubeflow also gives the project a vendor-neutral home. Releases, security decisions, roadmaps, and ownership can develop through an open community process.</p>
+
+<h2 id="working-with-apache-ossie">
+<a class="anchor" href="#working-with-apache-ossie" aria-hidden="true"><span class="octicon octicon-link"></span></a>Working with Apache Ossie</h2>
+
+<p>Semantic Operator implements the Apache Ossie specification. It does not own the specification.</p>
+
+<p>We plan to work closely with the Apache Ossie community as the standard evolves. The project will publish a compatibility matrix for specification versions, expression dialects, and query engines. We also want Semantic Operator to become a useful Kubernetes reference implementation, with agreement from the Apache Ossie community.</p>
+
+<p>Portable Ossie content will remain separate from Kubernetes-specific features. This allows teams to reuse the same semantic definitions across compatible tools.</p>
+
+<h2 id="what-comes-next">
+<a class="anchor" href="#what-comes-next" aria-hidden="true"><span class="octicon octicon-link"></span></a>What comes next</h2>
+
+<p>With the repository now in Kubeflow, the first community work will focus on a stable foundation. This builds on the existing contribution, security, and release guidance with public governance, a first supported release, signed images, and a public roadmap.</p>
+
+<p>Technical work will expand engine support, workload identity, multi-team isolation, and storage for larger compiled models. We also plan to add Kubeflow integration examples and work toward optional inclusion in the Kubeflow Community Distribution after the project has a supported release and integration tests.</p>
+
+<p>Scalability is an important part of that roadmap. We will test model compilation, schema validation, publication, and serving with large numbers of tables, models, and databases. The results will define supported limits and guide work on artifact storage, controller concurrency, and multi-namespace operation.</p>
+
+<p>We also plan to add <a href="https://github.com/apache/ossie/blob/main/ontology/ontology.md">ontology support</a> as Apache Ossie develops that part of the specification. An ontology describes shared business concepts and how they relate across domains. The goal is to connect those concepts to semantic models without weakening deterministic planning or governance.</p>
+
+<h2 id="join-the-discussion">
+<a class="anchor" href="#join-the-discussion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Join the discussion</h2>
+
+<p>We welcome feedback from data engineers, platform engineers, application developers, agent builders, and business intelligence teams. We are looking for contributors who want to add query engines, dialects, catalogs, metadata tools, identity providers, policy engines, and Kubeflow integrations.</p>
+
+<p>Explore the <a href="https://github.com/kubeflow/semantic-operator">Semantic Operator repository</a> and follow the <a href="https://kubeflow.github.io/semantic-operator/">documentation</a> for installation instructions and a runnable proof of concept. The original <a href="https://github.com/kubeflow/community/pull/1024">subproject proposal</a> records the community discussion behind the move to Kubeflow. You can also learn more about the underlying standard from the <a href="https://ossie.apache.org/">Apache Ossie project</a> and its <a href="https://github.com/apache/ossie/blob/main/core-spec/spec.md">core specification</a>.</p>
+
+<p>If you have built the same metric more than once, or watched an agent produce convincing but incorrect SQL, we would like to hear from you. Bring the tools and engines that matter to your users. Help us build the integrations in the open.</p>
+
+<h2 id="thank-you">
+<a class="anchor" href="#thank-you" aria-hidden="true"><span class="octicon octicon-link"></span></a>Thank you</h2>
+
+<p>Thank you to everyone who helped bring Semantic Operator into Kubeflow and shaped this launch post, including <a href="https://github.com/andreyvelich">Andrey Velichkevich</a>, <a href="https://github.com/osscm">Manish M</a>, <a href="https://github.com/tarekabouzeid">Tarek Abouzeid</a>, <a href="https://github.com/pratik-naik003">Pratik Naik</a>, and <a href="https://github.com/haroon0x">Haroon</a>. Your reviews, feedback, and support made this project better.</p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/introducing-semantic-operator/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name"></li>
+          <li><a class="u-email" href="mailto:"></a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

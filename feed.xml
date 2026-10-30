@@ -1,4 +1,167 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2026-08-25T16:35:38-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><author><name>{&quot;name&quot;=&gt;&quot;&quot;, &quot;email&quot;=&gt;&quot;&quot;}</name><email></email></author><entry><title type="html">Kubeflow Has Graduated from CNCF</title><link href="https://blog.kubeflow.org/graduation/" rel="alternate" type="text/html" title="Kubeflow Has Graduated from CNCF" /><published>2026-08-18T00:00:00-05:00</published><updated>2026-08-18T00:00:00-05:00</updated><id>https://blog.kubeflow.org/graduation</id><content type="html" xml:base="https://blog.kubeflow.org/graduation/"><![CDATA[<h2 id="kubeflow-has-graduated-from-cncf">Kubeflow Has Graduated from CNCF</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://blog.kubeflow.org/feed.xml" rel="self" type="application/atom+xml" /><link href="https://blog.kubeflow.org/" rel="alternate" type="text/html" /><updated>2026-10-29T19:25:35-05:00</updated><id>https://blog.kubeflow.org/feed.xml</id><title type="html">Kubeflow</title><subtitle>The Machine Learning Toolkit for Kubernetes.</subtitle><author><name>{&quot;name&quot;=&gt;&quot;&quot;, &quot;email&quot;=&gt;&quot;&quot;}</name><email></email></author><entry><title type="html">Introducing Semantic Operator: Governed Data Access for AI Agents</title><link href="https://blog.kubeflow.org/introducing-semantic-operator/" rel="alternate" type="text/html" title="Introducing Semantic Operator: Governed Data Access for AI Agents" /><published>2026-10-27T00:00:00-05:00</published><updated>2026-10-27T00:00:00-05:00</updated><id>https://blog.kubeflow.org/introducing-semantic-operator</id><content type="html" xml:base="https://blog.kubeflow.org/introducing-semantic-operator/"><![CDATA[<p><img src="/images/2026-10-27-introducing-semantic-operator/overview.svg" alt="How Semantic Operator works" /></p>
+
+<p>Semantic Operator is a new Kubeflow subproject that gives AI agents trusted answers from business data. It works in three steps:</p>
+
+<ol>
+  <li><strong>Define metrics.</strong> Data teams describe certified metrics once in an <a href="https://ossie.apache.org/">Apache Ossie (incubating)</a> model. Semantic Operator checks the model against the live database schema before publishing it.</li>
+  <li><strong>Request metrics.</strong> AI agents discover and request metrics through the <a href="https://modelcontextprotocol.io/">Model Context Protocol</a> (MCP). They see only the metrics and dimensions they are allowed to use.</li>
+  <li><strong>Get deterministic SQL.</strong> Semantic Operator applies governance, creates one SQL statement, runs it on StarRocks or Trino, and returns the results. The language model never writes the SQL.</li>
+</ol>
+
+<h2 id="business-decisions-start-with-trusted-data">Business decisions start with trusted data</h2>
+
+<p>Organizations invest significant time in business reporting. Data engineers prepare datasets. Business intelligence analysts define metrics and build reports in tools such as Power BI. Leaders use those reports to understand orders, customers, subscriptions, revenue, and operating performance.</p>
+
+<p>This work is essential. A growing organization needs consistent facts to make good decisions. The report must mean the same thing to finance, sales, operations, and product teams. If a revenue calculation is wrong, a business decision based on that report can also be wrong.</p>
+
+<p>Traditional reporting has a review process. Engineers and analysts inspect the data model, agree on metric definitions, validate relationships, and test the result. The dashboard is useful because people have done the work to make its numbers trustworthy.</p>
+
+<h2 id="ai-agents-changed-the-interface">AI agents changed the interface</h2>
+
+<p>Large language models made business data accessible through natural language. Organizations are now building agents that can answer questions such as:</p>
+
+<ol>
+  <li>How many orders did we receive last week?</li>
+  <li>Which customers are at risk of leaving?</li>
+  <li>How many active subscribers do we have?</li>
+  <li>What was recurring revenue in the last quarter?</li>
+</ol>
+
+<p>The experience is compelling. A user asks a question and receives an answer without waiting for a new dashboard.</p>
+
+<p>The common implementation is also risky. The language model connects to a database, discovers tables, and writes SQL from the wording of the question. It sees schemas and column names. It often does not know the business meaning behind them.</p>
+
+<p>A table called <code class="language-plaintext highlighter-rouge">subscriptions</code> does not explain which statuses count as active. A column called <code class="language-plaintext highlighter-rouge">revenue</code> does not say whether it contains gross revenue, recognized revenue, or recurring revenue. A customer table does not explain which relationship should be used when several account identifiers exist.</p>
+
+<p>The model has to guess. A different phrase can lead to a different table, join, filter, or aggregation. Both SQL statements may run successfully. Both answers may look reasonable. Only one may match the definition used by the business.</p>
+
+<p><img src="/images/2026-10-27-introducing-semantic-operator/problem-and-solution.svg" alt="From generated SQL to certified business meaning" /></p>
+
+<p>This is not only a query generation problem. It is a business context problem. Returning a confident but incorrect number to a leader can affect pricing, investment, staffing, and customer decisions.</p>
+
+<h2 id="a-semantic-layer-provides-the-missing-context">A semantic layer provides the missing context</h2>
+
+<p>A <a href="https://github.com/apache/ossie/blob/main/core-spec/spec.md">semantic layer</a> records the meaning that a database schema cannot express on its own. It defines datasets, fields, relationships, metrics, allowed dimensions, business descriptions, synonyms, and context for AI systems.</p>
+
+<p>The agent no longer needs to invent the calculation for recurring revenue. It selects the certified revenue metric and the approved time dimension. The semantic layer owns the relationship and aggregation rules.</p>
+
+<p>Different wording can still resolve to the same certified concepts. Once that happens, the same model and structured request produce the same SQL. The language model helps understand the question. Deterministic software plans the query.</p>
+
+<p>This separation is critical for trustworthy analytics. The model can reason about language. It is not trusted to invent business logic.</p>
+
+<h2 id="semantic-definitions-should-be-portable">Semantic definitions should be portable</h2>
+
+<p>Many organizations started building their own semantic formats. The definition often fits one query engine, catalog, or business intelligence tool. That approach becomes difficult when a company uses several databases or lakehouse engines.</p>
+
+<p>Metrics become tied to one platform. Teams repeat the same definitions for another engine. Agents receive different context depending on the data source. Moving a workload can also mean rebuilding the semantic layer.</p>
+
+<p>The open source community is addressing this portability problem through <a href="https://ossie.apache.org/">Apache Ossie (incubating)</a>. Apache Ossie defines a vendor-neutral format for semantic models. It gives tools a shared way to describe datasets, fields, relationships, metrics, and AI context.</p>
+
+<p>A portable specification solves one part of the problem. Organizations also need a reliable way to validate models, bind them to physical data, serve them to agents, apply governance, and create SQL for the selected query engine.</p>
+
+<h2 id="introducing-semantic-operator">Introducing Semantic Operator</h2>
+
+<p>Today we are introducing <strong>Semantic Operator</strong>, a <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/">Kubernetes operator</a> and semantic server that operationalizes Apache Ossie models.</p>
+
+<p>Semantic Operator accepts an Apache Ossie based <a href="https://github.com/apache/ossie/blob/main/core-spec/spec.md#semantic-model"><code class="language-plaintext highlighter-rouge">SemanticModel</code></a> Kubernetes resource. It validates the definition and checks its physical schema bindings. It compiles a valid model into a versioned artifact. The serving layer then exposes certified concepts through <a href="https://modelcontextprotocol.io/">MCP</a>, REST, and governed SQL views.</p>
+
+<p>When an agent asks for a metric, the language model selects from the concepts it is allowed to see. Semantic Operator applies governance and creates one deterministic SQL statement from the certified definitions. The language model does not write the SQL.</p>
+
+<p>If a model update fails validation or schema checks, it is not published. The last valid version remains available. This keeps an invalid change from silently reaching every agent and application.</p>
+
+<p>A notebook, dashboard, pipeline, application, and agent can now use the same business contract. The contract is portable. The query is specific to the selected engine.</p>
+
+<p>Semantic Operator is now a Kubeflow subproject. The source code is available in the <a href="https://github.com/kubeflow/semantic-operator">Kubeflow Semantic Operator repository</a>. The <a href="https://kubeflow.github.io/semantic-operator/">Semantic Operator documentation</a> includes the architecture, installation guide, model authoring guide, and runnable examples.</p>
+
+<h2 id="bootstrap-models-with-ossiectl">Bootstrap models with ossiectl</h2>
+
+<p>Writing the first semantic model by hand can be slow when a platform has many tables. The <a href="https://kubeflow.github.io/semantic-operator/architecture/ossiectl/"><code class="language-plaintext highlighter-rouge">ossiectl</code></a> command helps engineers bootstrap that work from metadata they already have.</p>
+
+<p>It can inspect a query engine information schema, including tables exposed through an open catalog such as <a href="https://polaris.apache.org/">Apache Polaris</a>. It can also enrich the result with business context from <a href="https://github.com/datahub-project/datahub">DataHub</a>. The command writes a draft <code class="language-plaintext highlighter-rouge">SemanticModel</code> YAML file with datasets and fields. Engineers then review the draft, add certified metrics and relationships, and apply it to Kubernetes.</p>
+
+<p><img src="/images/2026-10-27-introducing-semantic-operator/ossiectl-flow.svg" alt="How ossiectl creates a SemanticModel" /></p>
+
+<p>This is an authoring step. It is not in the query path. Teams can run it when they create a model or when they want help reviewing schema changes. The generated YAML remains normal source-controlled configuration that engineers can inspect and edit.</p>
+
+<h2 id="from-a-semantic-request-to-one-sql-statement">From a semantic request to one SQL statement</h2>
+
+<p>An agent does not need to understand a warehouse schema or invent a join. It discovers the metrics and dimensions that it is allowed to use. It then sends a structured request through the <a href="https://modelcontextprotocol.io/">Model Context Protocol</a>, or MCP. Applications can use the REST interface. Business intelligence tools can use governed SQL views.</p>
+
+<p><img src="/images/2026-10-27-introducing-semantic-operator/architecture.svg" alt="Semantic Operator architecture" /></p>
+
+<p>The request follows a clear path.</p>
+
+<ol>
+  <li>A platform team applies an Apache Ossie model as a Kubernetes resource.</li>
+  <li>Semantic Operator validates the model and checks its physical bindings.</li>
+  <li>The operator publishes a versioned compiled model.</li>
+  <li>An authenticated caller selects certified metrics and dimensions.</li>
+  <li>Governance rules run before query planning.</li>
+  <li>The deterministic planner creates one SQL statement.</li>
+  <li>StarRocks or Trino executes the query against the existing data platform.</li>
+</ol>
+
+<p>The same structured request, effective identity, model version, and query engine dialect produce the same SQL. This makes queries easier to review, test, and audit. Generated statements also carry the model version and a request hash for traceability.</p>
+
+<h2 id="governance-before-execution">Governance before execution</h2>
+
+<p>Governance runs before query planning. Policies control which metrics and columns a role may use and can apply bounded row filters. An unauthorized request fails before SQL exists.</p>
+
+<p>Models can also name an external policy provider such as <a href="https://www.openpolicyagent.org/">Open Policy Agent</a> or <a href="https://ranger.apache.org/">Apache Ranger</a>, so organizations can connect existing policy systems to semantic access decisions. The provider adds a second decision before any SQL is generated and cannot weaken the model’s built-in governance.</p>
+
+<h2 id="security-by-design">Security by design</h2>
+
+<p>Semantic Operator can validate <a href="https://www.rfc-editor.org/rfc/rfc7519">JSON Web Tokens</a> against an issuer’s public keys. It can also run behind an authenticating proxy when trusted headers are explicitly enabled. An unverified caller receives an authentication error. A verified caller without permission receives an authorization error.</p>
+
+<p>The manager and query server can be configured with separate database credentials, so the query server only needs read-only access. Metric expressions and row policies are validated before execution. Failed model updates do not replace the last valid model.</p>
+
+<h2 id="built-for-existing-data-platforms">Built for existing data platforms</h2>
+
+<p>Semantic Operator does not replace a warehouse, catalog, or processing engine. It runs on top of infrastructure that teams already operate.</p>
+
+<p><a href="https://www.starrocks.io/">StarRocks</a> and <a href="https://trino.io/">Trino</a> are supported today. Both use the same logical planner. Small engine interfaces handle SQL syntax, connectivity, and schema inspection. This design provides a clear path for more engines.</p>
+
+<p><a href="https://kubeflow.github.io/semantic-operator/guides/adding-an-engine/">Adding an engine</a> requires two focused integrations. A dialect renders engine-specific SQL. A client handles connections, queries, and schema inspection. The semantic model, governance rules, serving interfaces, and planner stay unchanged. This separation is how Trino was added alongside StarRocks. It is also the path for community support of more engines.</p>
+
+<h2 id="why-kubeflow">Why Kubeflow</h2>
+
+<p>Kubeflow already provides open components for training, pipelines, notebooks, model serving, model metadata, and data processing. AI systems built with those components still need trustworthy business context.</p>
+
+<p>Semantic Operator adds that missing contract between AI workloads and analytical data. Pipelines can use certified metrics as inputs or evaluation outputs. Model Registry records can refer to the semantic model used for training or evaluation. Notebooks can query shared definitions instead of copying SQL. Spark jobs can prepare datasets that semantic models bind to.</p>
+
+<p>The <a href="https://github.com/kubeflow/community/tree/master/wg-agents">Kubeflow Agents Working Group</a> is a natural home for this work. MCP is a primary interface for Semantic Operator. The project will also work with the Data Working Group and Spark Operator community on data platform integrations.</p>
+
+<p>Kubeflow also gives the project a vendor-neutral home. Releases, security decisions, roadmaps, and ownership can develop through an open community process.</p>
+
+<h2 id="working-with-apache-ossie">Working with Apache Ossie</h2>
+
+<p>Semantic Operator implements the Apache Ossie specification. It does not own the specification.</p>
+
+<p>We plan to work closely with the Apache Ossie community as the standard evolves. The project will publish a compatibility matrix for specification versions, expression dialects, and query engines. We also want Semantic Operator to become a useful Kubernetes reference implementation, with agreement from the Apache Ossie community.</p>
+
+<p>Portable Ossie content will remain separate from Kubernetes-specific features. This allows teams to reuse the same semantic definitions across compatible tools.</p>
+
+<h2 id="what-comes-next">What comes next</h2>
+
+<p>With the repository now in Kubeflow, the first community work will focus on a stable foundation. This builds on the existing contribution, security, and release guidance with public governance, a first supported release, signed images, and a public roadmap.</p>
+
+<p>Technical work will expand engine support, workload identity, multi-team isolation, and storage for larger compiled models. We also plan to add Kubeflow integration examples and work toward optional inclusion in the Kubeflow Community Distribution after the project has a supported release and integration tests.</p>
+
+<p>Scalability is an important part of that roadmap. We will test model compilation, schema validation, publication, and serving with large numbers of tables, models, and databases. The results will define supported limits and guide work on artifact storage, controller concurrency, and multi-namespace operation.</p>
+
+<p>We also plan to add <a href="https://github.com/apache/ossie/blob/main/ontology/ontology.md">ontology support</a> as Apache Ossie develops that part of the specification. An ontology describes shared business concepts and how they relate across domains. The goal is to connect those concepts to semantic models without weakening deterministic planning or governance.</p>
+
+<h2 id="join-the-discussion">Join the discussion</h2>
+
+<p>We welcome feedback from data engineers, platform engineers, application developers, agent builders, and business intelligence teams. We are looking for contributors who want to add query engines, dialects, catalogs, metadata tools, identity providers, policy engines, and Kubeflow integrations.</p>
+
+<p>Explore the <a href="https://github.com/kubeflow/semantic-operator">Semantic Operator repository</a> and follow the <a href="https://kubeflow.github.io/semantic-operator/">documentation</a> for installation instructions and a runnable proof of concept. The original <a href="https://github.com/kubeflow/community/pull/1024">subproject proposal</a> records the community discussion behind the move to Kubeflow. You can also learn more about the underlying standard from the <a href="https://ossie.apache.org/">Apache Ossie project</a> and its <a href="https://github.com/apache/ossie/blob/main/core-spec/spec.md">core specification</a>.</p>
+
+<p>If you have built the same metric more than once, or watched an agent produce convincing but incorrect SQL, we would like to hear from you. Bring the tools and engines that matter to your users. Help us build the integrations in the open.</p>
+
+<h2 id="thank-you">Thank you</h2>
+
+<p>Thank you to everyone who helped bring Semantic Operator into Kubeflow and shaped this launch post, including <a href="https://github.com/andreyvelich">Andrey Velichkevich</a>, <a href="https://github.com/osscm">Manish M</a>, <a href="https://github.com/tarekabouzeid">Tarek Abouzeid</a>, <a href="https://github.com/pratik-naik003">Pratik Naik</a>, and <a href="https://github.com/haroon0x">Haroon</a>. Your reviews, feedback, and support made this project better.</p>]]></content><author><name>Vara Bonthu (AWS), Manabu McCloskey (AWS), Andrey Velichkevich (Apple), Manish M (Apple)</name></author><category term="agents" /><category term="data" /><category term="operators" /><summary type="html"><![CDATA[Semantic Operator gives AI agents a deterministic and governed path from certified business concepts to analytical data.]]></summary></entry><entry><title type="html">Kubeflow Has Graduated from CNCF</title><link href="https://blog.kubeflow.org/graduation/" rel="alternate" type="text/html" title="Kubeflow Has Graduated from CNCF" /><published>2026-08-18T00:00:00-05:00</published><updated>2026-08-18T00:00:00-05:00</updated><id>https://blog.kubeflow.org/graduation</id><content type="html" xml:base="https://blog.kubeflow.org/graduation/"><![CDATA[<h2 id="kubeflow-has-graduated-from-cncf">Kubeflow Has Graduated from CNCF</h2>
 
 <p>Kubeflow just reached one of the biggest milestones a cloud native project can hit! Graduation from the Cloud Native Computing Foundation (CNCF).</p>
 
@@ -1781,196 +1944,4 @@ amount of compute.</p>
   <li>Explore the <a href="https://www.kubeflow.org/docs/components/trainer/">Kubeflow Trainer docs</a></li>
 </ul>
 
-<p><strong>Headed to <a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/">KubeCon + CloudNativeCon 2026 EU</a>?</strong> Stop by the Kubeflow booth to see these features in action 😸🧊!!</p>]]></content><author><name>Kubeflow Trainer Team</name></author><category term="release" /><category term="trainer" /><summary type="html"><![CDATA[Just a little over one week ahead of KubeCon + CloudNativeCon EU 2026, the Kubeflow team is excited to ship Trainer v2.2. The v2.2 release reinforces our commitment to expanding the Kubeflow Trainer ecosystem – meeting developers where they are by adding native support for JAX, XGBoost, and Flux, while also delivering deeper observability into training jobs.]]></summary></entry><entry><title type="html">Kubeflow SDK v0.4.0: Model Registry, SparkConnect, and Enhanced Developer Experience</title><link href="https://blog.kubeflow.org/kubeflow-sdk-0.4.0-release/" rel="alternate" type="text/html" title="Kubeflow SDK v0.4.0: Model Registry, SparkConnect, and Enhanced Developer Experience" /><published>2026-03-19T00:00:00-05:00</published><updated>2026-03-19T00:00:00-05:00</updated><id>https://blog.kubeflow.org/kubeflow-sdk-0.4.0-release</id><content type="html" xml:base="https://blog.kubeflow.org/kubeflow-sdk-0.4.0-release/"><![CDATA[<blockquote>
-  <p><strong>Explore the full documentation at <a href="https://sdk.kubeflow.org">sdk.kubeflow.org</a></strong></p>
-</blockquote>
-
-<p>With KubeCon just around the corner, we are pleased to announce the release of Kubeflow SDK v0.4.0. This release continues the work toward providing a unified, Pythonic interface for all AI workloads on Kubernetes.</p>
-
-<p>The v0.4.0 release focuses on bridging the gap between data engineering, model management, and production-ready ML pipelines. The Kubeflow SDK now covers most of the MLOps lifecycle – from data processing and hyperparameter optimization to model training and registration:</p>
-
-<p><img src="/images/2026-03-19-kubeflow-sdk-0.4.0-release/kubeflow-sdk.png" alt="Kubeflow SDK Diagram" /></p>
-
-<p>Highlights in Kubeflow SDK v0.4.0 include:</p>
-
-<ul>
-  <li><a href="https://sdk.kubeflow.org/en/latest/hub/index.html">Model Registry Client</a> for managing model artifacts, versions, and metadata directly from the SDK.</li>
-  <li><a href="https://sdk.kubeflow.org/en/latest/spark/index.html">SparkClient API</a> with SparkConnect support for interactive data processing</li>
-  <li><a href="#better-isolation-with-namespaced-trainingruntimes">Namespaced TrainingRuntimes</a> for improved isolation and multi-tenant platform management</li>
-  <li><a href="#furthering-parity-between-local-and-remote-execution">Dataset and Model Initializers</a> enabling better parity between local and Kubernetes execution</li>
-  <li><a href="#a-new-home-for-documentation">A new Kubeflow SDK documentation website</a> with examples, and API reference</li>
-  <li><a href="#required-upgrading-to-python-310">Minimum Python version updated</a> to Python 3.10 for improved security, typing, and runtime performance</li>
-</ul>
-
-<h2 id="unified-model-management-the-model-registry-client">Unified Model Management: The Model Registry Client</h2>
-
-<p>Managing model artifacts, versions, and metadata across experiments has historically required stitching together multiple tools outside of your training code. In v0.4.0, the SDK introduces <code class="language-plaintext highlighter-rouge">ModelRegistryClient</code> – a Pythonic interface to the Kubeflow Model Registry, available under the new <code class="language-plaintext highlighter-rouge">kubeflow.hub</code> submodule.</p>
-
-<p>The client exposes a minimal, curated API: register models, retrieve them by name and version, update their metadata, and iterate over what’s in your registry – all without leaving the SDK. It integrates directly with the Model Registry server and supports token auth and custom CA configuration for production clusters. To install the Model Registry server, see the <a href="https://www.kubeflow.org/docs/components/model-registry/installation/">installation guide</a>.</p>
-
-<p>Install the hub extra to get started:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="s1">'kubeflow[hub]'</span>
-</code></pre></div></div>
-
-<h3 id="usage-example">Usage Example</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.hub</span> <span class="kn">import</span> <span class="n">ModelRegistryClient</span>
-
-<span class="n">client</span> <span class="o">=</span> <span class="n">ModelRegistryClient</span><span class="p">(</span>
-    <span class="s">"https://model-registry.kubeflow.svc.cluster.local"</span><span class="p">,</span>
-    <span class="n">author</span><span class="o">=</span><span class="s">"Your Name"</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="c1"># Register a model
-</span><span class="n">model</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">register_model</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s">"my-model"</span><span class="p">,</span>
-    <span class="n">uri</span><span class="o">=</span><span class="s">"s3://bucket/path/to/model"</span><span class="p">,</span>
-    <span class="n">version</span><span class="o">=</span><span class="s">"1.0.0"</span><span class="p">,</span>
-    <span class="n">model_format_name</span><span class="o">=</span><span class="s">"pytorch"</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="c1"># List all models
-</span><span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">client</span><span class="p">.</span><span class="n">list_models</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Model: </span><span class="si">{</span><span class="n">model</span><span class="p">.</span><span class="n">name</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-
-<span class="c1"># Get a specific version and artifact
-</span><span class="n">version</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_model_version</span><span class="p">(</span><span class="s">"my-model"</span><span class="p">,</span> <span class="s">"1.0.0"</span><span class="p">)</span>
-<span class="n">artifact</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_model_artifact</span><span class="p">(</span><span class="s">"my-model"</span><span class="p">,</span> <span class="s">"1.0.0"</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Model URI: </span><span class="si">{</span><span class="n">artifact</span><span class="p">.</span><span class="n">uri</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p><strong>Note:</strong> <code class="language-plaintext highlighter-rouge">list_models()</code> and <code class="language-plaintext highlighter-rouge">list_model_versions()</code> return lazy iterators backed by pagination, so only the data you consume results in API calls – making it efficient to work with large registries.</p>
-</blockquote>
-
-<h2 id="distributed-ai-data-at-scale-sparkclient--sparkconnect">Distributed AI Data at Scale: SparkClient &amp; SparkConnect</h2>
-
-<p>Data is a fundamental piece to every AI workload, and Apache Spark has become a cornerstone technology for large-scale data processing. However, deploying and managing Spark workloads on Kubernetes has traditionally required users to work directly with Kubernetes manifests and YAML configurations – a process that can be operationally complex. In v0.4.0, the SDK introduces <code class="language-plaintext highlighter-rouge">SparkClient</code> – a high-level, Pythonic API that eliminates this complexity, allowing data engineers and ML practitioners to manage interactive and batch Spark workloads on Kubernetes without writing a single line of YAML. Backed by the Kubeflow Spark Operator (<a href="https://github.com/kubeflow/sdk/blob/main/docs/proposals/107-spark-client/README.md">KEP-107</a>), the initial version of SparkClient introduces support for interactive sessions through the SparkConnect custom resource. In future releases of the Kubeflow SDK, we will expand this support to include batch workloads as well.</p>
-
-<p><code class="language-plaintext highlighter-rouge">SparkClient</code> supports two operational modes. In <strong>create mode</strong>, the SDK provisions a new SparkConnect interactive session on Kubernetes for you – handling CRD creation, pod scheduling, networking, and cleanup automatically. In <strong>connect mode</strong>, you point it at an existing Spark Connect server, useful for shared clusters or cross-namespace access. Either way, you get back a standard <code class="language-plaintext highlighter-rouge">SparkSession</code> and can write the same PySpark code you already know.</p>
-
-<p>Install Kubeflow Spark support:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="s1">'kubeflow[spark]'</span>
-</code></pre></div></div>
-
-<p>To install the Spark Operator, see the <a href="https://www.kubeflow.org/docs/components/spark-operator/getting-started/">installation guide</a>.</p>
-
-<h3 id="usage-example-1">Usage Example</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">kubeflow.spark</span> <span class="kn">import</span> <span class="n">SparkClient</span><span class="p">,</span> <span class="n">Name</span>
-<span class="kn">from</span> <span class="nn">kubeflow.common.types</span> <span class="kn">import</span> <span class="n">KubernetesBackendConfig</span>
-
-<span class="n">client</span> <span class="o">=</span> <span class="n">SparkClient</span><span class="p">(</span>
-    <span class="n">backend_config</span><span class="o">=</span><span class="n">KubernetesBackendConfig</span><span class="p">(</span><span class="n">namespace</span><span class="o">=</span><span class="s">"spark-test"</span><span class="p">)</span>
-<span class="p">)</span>
-
-<span class="c1"># Level 1: Minimal - use all defaults
-</span><span class="n">spark</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="n">Name</span><span class="p">(</span><span class="s">"my-session"</span><span class="p">)])</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">df</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">client</span><span class="p">.</span><span class="n">delete_session</span><span class="p">(</span><span class="s">"my-session"</span><span class="p">)</span>
-
-<span class="c1"># Level 2: Simple -- configure executors and resources
-</span><span class="n">spark</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span>
-    <span class="n">num_executors</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">resources_per_executor</span><span class="o">=</span><span class="p">{</span><span class="s">"cpu"</span><span class="p">:</span> <span class="s">"5"</span><span class="p">,</span> <span class="s">"memory"</span><span class="p">:</span> <span class="s">"1Gi"</span><span class="p">},</span>
-    <span class="n">spark_conf</span><span class="o">=</span><span class="p">{</span><span class="s">"spark.sql.adaptive.enabled"</span><span class="p">:</span> <span class="s">"true"</span><span class="p">},</span>
-    <span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="n">Name</span><span class="p">(</span><span class="s">"my-session-2"</span><span class="p">)],</span>
-<span class="p">)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">df</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">client</span><span class="p">.</span><span class="n">delete_session</span><span class="p">(</span><span class="s">"my-session-2"</span><span class="p">)</span>
-
-<span class="c1"># Connect mode -- attach to an existing Spark Connect server
-</span><span class="n">spark</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="s">"sc://spark-server:15002"</span><span class="p">)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">sql</span><span class="p">(</span><span class="s">"SELECT * FROM my_table"</span><span class="p">)</span>
-<span class="n">df</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
-</code></pre></div></div>
-
-<p>Default specifications: Spark 4.0.1, 1 executor, 512Mi memory and 1 CPU per pod, 300 second session timeout.</p>
-
-<blockquote>
-  <p><strong>Note:</strong> v0.4.0 focuses on SparkConnect session management. Batch job support via SparkApplication CR (<code class="language-plaintext highlighter-rouge">submit_job</code>, <code class="language-plaintext highlighter-rouge">get_job</code>, <code class="language-plaintext highlighter-rouge">list_jobs</code>) is planned for a future release.</p>
-</blockquote>
-
-<h2 id="a-new-home-for-documentation">A New Home for Documentation</h2>
-
-<p>To support the Kubeflow SDK users and contributors, we’ve introduced a dedicated <a href="https://sdk.kubeflow.org">Kubeflow SDK Website</a>. This site includes:</p>
-
-<ul>
-  <li><strong><a href="https://sdk.kubeflow.org/en/latest/getting-started/quickstart.html">Quickstart</a>:</strong> Train your first model with Kubeflow SDK</li>
-  <li><strong><a href="https://sdk.kubeflow.org/en/latest/train/api.html">API Reference</a>:</strong> Automatically updated documentation for all SDK modules.</li>
-  <li><strong><a href="https://sdk.kubeflow.org/en/latest/examples.html">Examples</a>:</strong> Step-by-step guides from local prototyping to remote training.</li>
-</ul>
-
-<h2 id="infrastructure--breaking-changes">Infrastructure &amp; Breaking Changes</h2>
-
-<p>This release includes several architectural updates to ensure the SDK remains secure, scalable, and easy to use. Please note the following requirements when upgrading to v0.4.0.</p>
-
-<h3 id="better-isolation-with-namespaced-trainingruntimes">Better Isolation with Namespaced TrainingRuntimes</h3>
-
-<p>Security and multi-tenancy are core to Kubeflow. In v0.4.0, we’ve introduced support for <a href="https://www.kubeflow.org/docs/components/trainer/operator-guides/runtime/#what-is-trainingruntime">Namespaced TrainingRuntimes</a>. This allows platform teams to provide curated training environments at the namespace level, ensuring that one team’s custom training configuration doesn’t interfere with another’s.</p>
-
-<p><strong>Upgrade Note:</strong> The SDK now prioritizes namespaced runtimes over cluster-wide ones. If you have runtimes with duplicate names in different scopes, verify your <code class="language-plaintext highlighter-rouge">TrainerClient</code> calls are targeting the intended resources.</p>
-
-<h3 id="furthering-parity-between-local-and-remote-execution">Furthering Parity Between Local and Remote Execution</h3>
-
-<p>One of the biggest hurdles in MLOps is the “it worked on my machine” syndrome. With the addition of Dataset and Model Initializers for the <code class="language-plaintext highlighter-rouge">ContainerBackend</code>, the SDK now emulates how Kubernetes handles data dependencies.</p>
-
-<p>Whether you are running locally on Docker or at scale on a cluster, the SDK now automatically manages the “plumbing” of mounting and initializing your data. This ensures your local development environment mirrors the data-loading behavior of your production training jobs.</p>
-
-<h3 id="required-upgrading-to-python-310">Required: Upgrading to Python 3.10+</h3>
-
-<p>To maintain a secure and performant codebase, Kubeflow SDK v0.4.0 is officially moving its minimum requirement to <a href="https://peps.python.org/pep-0619/">Python 3.10</a>.</p>
-
-<p>This change ensures that all SDK users benefit from better security patches, improved type-hinting, and more efficient asynchronous networking for our API clients.</p>
-
-<p><strong>To Upgrade:</strong> Ensure your local environment, Notebook images, and CI/CD pipelines are running Python 3.10 or higher before running <code class="language-plaintext highlighter-rouge">pip install --upgrade kubeflow</code></p>
-
-<h2 id="whats-next-for-kubeflow-sdk">What’s Next for Kubeflow SDK</h2>
-
-<p>Looking ahead, the Kubeflow SDK <a href="https://github.com/kubeflow/sdk/pull/326">2026 Roadmap</a> outlines several exciting initiatives:</p>
-
-<ul>
-  <li><strong>Kubeflow MCP Server</strong> to enable AI-assisted interactions with Kubeflow resources</li>
-  <li><strong>OpenTelemetry integration</strong> for improved observability across SDK operations</li>
-  <li><strong>MLflow support</strong> for experiment tracking and metrics</li>
-  <li><strong>First class support for Kubeflow Pipelines</strong> to bring KFP into the unified SDK</li>
-  <li><strong>TrainJob checkpointing and dynamic LLM Trainers</strong> for more flexible and resilient training workflows</li>
-  <li><strong>End-to-end AI pipelines</strong> orchestrating data processing, training, and optimization using SparkClient, TrainerClient, and OptimizerClient</li>
-  <li><strong>Multi-cluster job submission</strong> leveraging Kueue and Multi-Kueue capabilities for Spark and training workloads</li>
-  <li><strong>Batch Spark job support</strong> via SparkApplication CR for submit, get, and list operations</li>
-</ul>
-
-<p>We encourage the community to review and contribute to the roadmap.</p>
-
-<h2 id="get-involved">Get Involved!</h2>
-
-<p>The Kubeflow SDK is built by and for the community. We welcome contributions, feedback, and participation from everyone! We want to thank the community for their contributions to this release. We invite you to:</p>
-
-<ul>
-  <li><strong>Try it out:</strong> <code class="language-plaintext highlighter-rouge">pip install kubeflow==0.4.0</code></li>
-  <li><strong>Contribute:</strong>
-    <ul>
-      <li>Read the <a href="https://github.com/kubeflow/sdk/blob/main/CONTRIBUTING.md">Contributing Guide</a>.</li>
-      <li>Browse the <a href="https://github.com/kubeflow/sdk/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22">good first issues</a></li>
-      <li>Explore the <a href="https://github.com/kubeflow/sdk">GitHub Repository</a></li>
-    </ul>
-  </li>
-</ul>
-
-<p><strong>Connect with the Community:</strong></p>
-<ul>
-  <li>Join <a href="https://cloud-native.slack.com/archives/C08KJBVDH5H">#kubeflow-sdk</a> on <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels">CNCF Slack</a></li>
-  <li>Attend the <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-community-calendars">Kubeflow SDK and ML Experience WG meetings</a></li>
-</ul>
-
-<p><strong>Learn More</strong></p>
-<ul>
-  <li>Visit the <a href="https://sdk.kubeflow.org">Kubeflow SDK Website</a></li>
-  <li>View the full <a href="https://github.com/kubeflow/sdk/releases/tag/0.4.0">Changelog</a>.</li>
-</ul>
-
-<p><strong>Headed to <a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/">KubeCon + CloudNativeCon 2026 EU</a>?</strong> Stop by the Kubeflow booth to see these features in action!</p>]]></content><author><name>Kubeflow SDK Team</name></author><category term="release" /><category term="sdk" /><summary type="html"><![CDATA[Explore the full documentation at sdk.kubeflow.org]]></summary></entry></feed>
+<p><strong>Headed to <a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/">KubeCon + CloudNativeCon 2026 EU</a>?</strong> Stop by the Kubeflow booth to see these features in action 😸🧊!!</p>]]></content><author><name>Kubeflow Trainer Team</name></author><category term="release" /><category term="trainer" /><summary type="html"><![CDATA[Just a little over one week ahead of KubeCon + CloudNativeCon EU 2026, the Kubeflow team is excited to ship Trainer v2.2. The v2.2 release reinforces our commitment to expanding the Kubeflow Trainer ecosystem – meeting developers where they are by adding native support for JAX, XGBoost, and Flux, while also delivering deeper observability into training jobs.]]></summary></entry></feed>

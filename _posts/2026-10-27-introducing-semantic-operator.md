@@ -165,6 +165,8 @@ Explore the [Semantic Operator repository](https://github.com/kubeflow/semantic-
 
 If you have built the same metric more than once, or watched an agent produce convincing but incorrect SQL, we would like to hear from you. Bring the tools and engines that matter to your users. Help us build the integrations in the open.
 
+Join us in [#kubeflow-semantic-operator](https://cloud-native.slack.com/archives/C0CFDCC66EL) on the CNCF Slack to ask questions, share your use cases, and help shape the project. New to CNCF Slack? [Get an invite](https://slack.cncf.io/) first. Whether you want to try Semantic Operator, review a design, or contribute code, we would love to collaborate with you.
+
 ## Thank you
 
 Thank you to everyone who helped bring Semantic Operator into Kubeflow and shaped this launch post, including [Andrey Velichkevich](https://github.com/andreyvelich), [Manish M](https://github.com/osscm), [Tarek Abouzeid](https://github.com/tarekabouzeid), [Pratik Naik](https://github.com/pratik-naik003), and [Haroon](https://github.com/haroon0x). Your reviews, feedback, and support made this project better.

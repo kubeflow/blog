@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Kubeflow Trainer v2.4: Bringing Workload-Aware Scheduling to TrainJob | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Kubeflow Trainer v2.4: Bringing Workload-Aware Scheduling to TrainJob" />
+<meta name="author" content="Shristi, Andrey Velichkevich" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Imagine launching an AI/ML distributed training job across 64 GPUs. Two frequent problems happen:" />
+<meta property="og:description" content="Imagine launching an AI/ML distributed training job across 64 GPUs. Two frequent problems happen:" />
+<link rel="canonical" href="https://blog.kubeflow.org/kubeflow-trainer-v2.4-release/" />
+<meta property="og:url" content="https://blog.kubeflow.org/kubeflow-trainer-v2.4-release/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-11-06T00:00:00-06:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Kubeflow Trainer v2.4: Bringing Workload-Aware Scheduling to TrainJob" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Shristi, Andrey Velichkevich"},"dateModified":"2026-11-06T00:00:00-06:00","datePublished":"2026-11-06T00:00:00-06:00","description":"Imagine launching an AI/ML distributed training job across 64 GPUs. Two frequent problems happen:","headline":"Kubeflow Trainer v2.4: Bringing Workload-Aware Scheduling to TrainJob","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow-trainer-v2.4-release/"},"url":"https://blog.kubeflow.org/kubeflow-trainer-v2.4-release/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kubeflow Trainer v2.4: Bringing Workload-Aware Scheduling to TrainJob</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2026-11-06T00:00:00-06:00" itemprop="datePublished">
+        Nov 6, 2026
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Shristi, Andrey Velichkevich</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#release">release</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#trainer">trainer</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#why-is-was-important-for-trainjob">Why is WAS Important for TrainJob?</a></li>
+<li class="toc-entry toc-h2"><a href="#hierarchical-scheduling">Hierarchical Scheduling</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#level-1---trainjob-level-zone">Level 1 - TrainJob Level (Zone)</a></li>
+<li class="toc-entry toc-h3"><a href="#1-clustertrainingruntime-and-trainjob-definitions">1. ClusterTrainingRuntime and TrainJob Definitions</a></li>
+<li class="toc-entry toc-h3"><a href="#2-workload-resource-created-by-trainjob-controller">2. Workload Resource Created by TrainJob Controller</a></li>
+<li class="toc-entry toc-h3"><a href="#3-automatically-generated-podgroup-by-the-trainjob-controller">3. Automatically Generated PodGroup by the TrainJob controller</a></li>
+<li class="toc-entry toc-h3"><a href="#4-resulting-pod-spec-association">4. Resulting Pod Spec Association</a></li>
+<li class="toc-entry toc-h3"><a href="#level-2---replicatedjob-level-network-block">Level 2 - ReplicatedJob Level (Network Block)</a></li>
+<li class="toc-entry toc-h3"><a href="#level-3---job--per-replica-level-rack-level">Level 3 - Job / Per-Replica Level (Rack-Level)</a></li>
+<li class="toc-entry toc-h3"><a href="#kubeflow-trainer-v24-creates-podgroups-at-the-level-you-choose">Kubeflow Trainer v2.4 creates PodGroups at the level you choose</a></li>
+<li class="toc-entry toc-h3"><a href="#introducing-the-three-levels-in-trainjob-topology">Introducing the Three Levels in TrainJob Topology</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#adopting-compositepodgroup---roadmap">Adopting CompositePodGroup - ROADMAP</a></li>
+<li class="toc-entry toc-h2"><a href="#other-feature-highlights-in-trainer-v24">Other Feature Highlights in Trainer v2.4</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#dynamic-resource-allocation-dra">Dynamic Resource Allocation (DRA)</a></li>
+<li class="toc-entry toc-h3"><a href="#optimizationjob-alpha-integrations">OptimizationJob Alpha Integrations</a></li>
+<li class="toc-entry toc-h3"><a href="#release-notes-kubeflow-trainer-v240-changelog">Release Notes: Kubeflow Trainer v2.4.0 Changelog</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#breaking-changes--upgrade-notices-v24">Breaking Changes &amp; Upgrade Notices (v2.4)</a></li>
+<li class="toc-entry toc-h2"><a href="#references">References</a></li>
+<li class="toc-entry toc-h2"><a href="#join-the-community">Join the Community</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#contribute">Contribute:</a></li>
+<li class="toc-entry toc-h3"><a href="#connect-with-the-community">Connect with the Community:</a></li>
+<li class="toc-entry toc-h3"><a href="#learn-more">Learn More:</a></li>
+</ul>
+</li>
+</ul><p>Imagine launching an AI/ML distributed training job across 64 GPUs. Two frequent problems happen:</p>
+
+<ol>
+  <li>
+<strong>Idle Resource Trap:</strong> The cluster finds capacity for 63 GPUs and sits idle waiting for the 64th to join, wasting massive resources and increasing the cost. Progress is zero.</li>
+  <li>
+<strong>Dependency Deadlock:</strong> Suppose your training pipeline requires one initializer (to download datasets) and 64 GPU workers (to train). Kubernetes allocates all 64 GPUs to the workers within your quota, so the initializer cannot be scheduled. The workers cannot start without the data, and the initializer cannot be scheduled without capacity: a deadlock.</li>
+</ol>
+
+<p>Standard Kubernetes struggles with AI/ML distributed training (data/model parallelism) that needs the jobs/tasks to be done via groups/gangs of pods.</p>
+
+<p>To solve these problems, the Kubernetes community introduced the Workload API, which brings gang scheduling, topology-aware scheduling, workload-aware preemption, DRA integration, and more through the <code class="language-plaintext highlighter-rouge">Workload</code>, <code class="language-plaintext highlighter-rouge">PodGroup</code>, and <code class="language-plaintext highlighter-rouge">CompositePodGroup</code> objects.</p>
+
+<p>In this blog, we walk you through why TrainJob adopts Workload-Aware Scheduling (WAS), why it matters for AI/ML distributed training, and the architectural tradeoffs and future work involved. TrainJob implements WAS at three levels, and we explain each level and the reasoning behind it.</p>
+
+<p>You’ll also learn how it simplifies the workflow for both data scientists and platform engineers to avoid boilerplate code.</p>
+
+<hr>
+
+<h2 id="why-is-was-important-for-trainjob">
+<a class="anchor" href="#why-is-was-important-for-trainjob" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why is WAS Important for TrainJob?</h2>
+
+<p>By default, <code class="language-plaintext highlighter-rouge">kube-scheduler</code> uses a greedy approach, trying to schedule pods one at a time instead of planning for the whole group. It has no native understanding of PyTorch, TrainJobs, or the needs of distributed ML training, where all pods must be scheduled together and may have specific placement requirements, such as running on the same rack.</p>
+
+<p>To bridge this gap, Kubernetes SIG-Scheduling started a <code class="language-plaintext highlighter-rouge">Workload-Aware Scheduling (WAS)</code> working group to establish WAS building blocks: <code class="language-plaintext highlighter-rouge">Workload</code>, <code class="language-plaintext highlighter-rouge">PodGroup</code>, and <code class="language-plaintext highlighter-rouge">CompositePodGroups</code>. However, these building blocks require actual workload owners like the TrainJob controller to create such resources.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">TrainJob</code> controller creates Workload objects to guide <code class="language-plaintext highlighter-rouge">kube-scheduler</code> on how to admit the pods as a unified group, enforcing all-or-nothing gang scheduling so expensive GPUs are never wasted, alongside <code class="language-plaintext highlighter-rouge">topology-aware scheduling</code> for low communication latency.</p>
+
+<p>Best of all, Trainer APIs hide these complex, low-level scheduling resources from data scientists: practitioners simply specify <code class="language-plaintext highlighter-rouge">numNodes</code> in their <code class="language-plaintext highlighter-rouge">TrainJob</code> while platform administrators pre-configure <code class="language-plaintext highlighter-rouge">ClusterTrainingRuntime</code> with the desired scheduling configuration.</p>
+
+<hr>
+
+<h2 id="hierarchical-scheduling">
+<a class="anchor" href="#hierarchical-scheduling" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hierarchical Scheduling</h2>
+
+<p>To understand the three levels, we must look at how Kubernetes scheduling aligns with the physical reality of an AI data center.</p>
+
+<p>In distributed training, GPU workers communicate constantly to synchronize gradients. If communicating GPUs are placed across distant servers or cloud zones, network latency explodes and training throughput degrades significantly.</p>
+
+<p>Kubeflow Trainer v2.4 introduces a 3-tier hierarchy to map software jobs to physical hardware topology:</p>
+
+<p><img src="/images/2026-11-06-Trainer-v2.4-release-blog/TrainJob-Level.png" alt="TrainJob Level Architecture"></p>
+
+<p><em>TrainJob Multi-Tier Scheduling Topology across Zone, Block, and Rack domains</em></p>
+
+<h3 id="level-1---trainjob-level-zone">
+<a class="anchor" href="#level-1---trainjob-level-zone" aria-hidden="true"><span class="octicon octicon-link"></span></a>Level 1 - TrainJob Level (Zone)</h3>
+<ul>
+  <li>
+<strong>Kubernetes Object:</strong> <code class="language-plaintext highlighter-rouge">PodGroup</code> in v2.4 (<code class="language-plaintext highlighter-rouge">CompositePodGroup</code> planned)</li>
+  <li>
+<strong>Physical Domain:</strong> Cloud Zone (<code class="language-plaintext highlighter-rouge">topology.kubernetes.io/zone</code>)</li>
+  <li>
+<strong>Why it’s needed:</strong> Treats the entire training job as a single unit. It ensures all workers are located within the same cloud zone, avoiding cross-zone latency and bandwidth charges. Ideal for uniform workloads (e.g., PyTorch DDP).</li>
+  <li>
+<strong>User Story: Distributed PyTorch Training with Gang Scheduling:</strong>
+    <blockquote>
+      <p><strong>As a platform engineer</strong>, I want to run a distributed PyTorch TrainJob with 100 nodes that must all be scheduled together. If only 99 workers can be scheduled, no pods should start.</p>
+    </blockquote>
+  </li>
+</ul>
+
+<h3 id="1-clustertrainingruntime-and-trainjob-definitions">
+<a class="anchor" href="#1-clustertrainingruntime-and-trainjob-definitions" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. ClusterTrainingRuntime and TrainJob Definitions</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">trainer.kubeflow.org/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">ClusterTrainingRuntime</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">torch-distributed</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">mlPolicy</span><span class="pi">:</span>
+    <span class="na">numNodes</span><span class="pi">:</span> <span class="m">1</span>
+    <span class="na">torch</span><span class="pi">:</span> <span class="pi">{}</span>
+  <span class="na">scheduling</span><span class="pi">:</span> <span class="pi">{}</span>  <span class="c1"># Enable workload-aware scheduling!</span>
+  <span class="na">template</span><span class="pi">:</span>
+    <span class="na">spec</span><span class="pi">:</span>
+      <span class="na">replicatedJobs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">node</span>
+          <span class="na">template</span><span class="pi">:</span>
+            <span class="na">metadata</span><span class="pi">:</span>
+              <span class="na">labels</span><span class="pi">:</span>
+                <span class="na">trainer.kubeflow.org/trainjob-ancestor-step</span><span class="pi">:</span> <span class="s">trainer</span>
+            <span class="na">spec</span><span class="pi">:</span>
+              <span class="na">template</span><span class="pi">:</span>
+                <span class="na">spec</span><span class="pi">:</span>
+                  <span class="na">containers</span><span class="pi">:</span>
+                    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">node</span>
+                      <span class="na">image</span><span class="pi">:</span> <span class="s">pytorch/pytorch:2.15.0-cuda13.4-cudnn9-runtime</span>
+<span class="nn">---</span>
+<span class="na">apiVersion</span><span class="pi">:</span> <span class="s">trainer.kubeflow.org/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">TrainJob</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">my-job</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">runtimeRef</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">torch-distributed</span>
+  <span class="na">trainer</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">docker.io/torch-run</span>
+    <span class="na">numNodes</span><span class="pi">:</span> <span class="m">100</span>
+    <span class="na">resourcesPerNode</span><span class="pi">:</span>
+      <span class="na">requests</span><span class="pi">:</span>
+        <span class="na">nvidia.com/gpu</span><span class="pi">:</span> <span class="m">4</span>
+</code></pre></div></div>
+
+<h3 id="2-workload-resource-created-by-trainjob-controller">
+<a class="anchor" href="#2-workload-resource-created-by-trainjob-controller" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Workload Resource Created by TrainJob Controller</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">scheduling.k8s.io/v1beta1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Workload</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">my-job-&lt;hash&gt;</span>
+  <span class="na">ownerReferences</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">apiVersion</span><span class="pi">:</span> <span class="s">trainer.kubeflow.org/v1alpha1</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">TrainJob</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">my-job</span>
+      <span class="na">controller</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">controllerRef</span><span class="pi">:</span>
+    <span class="na">apiGroup</span><span class="pi">:</span> <span class="s">trainer.kubeflow.org</span>
+    <span class="na">kind</span><span class="pi">:</span> <span class="s">TrainJob</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">my-job</span>
+  <span class="na">podGroupTemplates</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">my-job</span>
+      <span class="na">schedulingPolicy</span><span class="pi">:</span>
+        <span class="na">gang</span><span class="pi">:</span>
+          <span class="na">minCount</span><span class="pi">:</span> <span class="m">100</span> <span class="c1"># Computed from trainJob.spec.trainer.numNodes</span>
+</code></pre></div></div>
+
+<h3 id="3-automatically-generated-podgroup-by-the-trainjob-controller">
+<a class="anchor" href="#3-automatically-generated-podgroup-by-the-trainjob-controller" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Automatically Generated PodGroup by the TrainJob controller</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">scheduling.k8s.io/v1beta1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">PodGroup</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">&lt;workload-name&gt;-&lt;hash&gt;</span>
+  <span class="na">ownerReferences</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">apiVersion</span><span class="pi">:</span> <span class="s">trainer.kubeflow.org/v1alpha1</span>
+      <span class="na">kind</span><span class="pi">:</span> <span class="s">TrainJob</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">my-job</span>
+      <span class="na">controller</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">workloadRef</span><span class="pi">:</span>
+    <span class="na">workloadName</span><span class="pi">:</span> <span class="s">&lt;workload-name&gt;</span>
+    <span class="na">templateName</span><span class="pi">:</span> <span class="s">my-job</span>
+  <span class="na">schedulingPolicy</span><span class="pi">:</span>
+    <span class="na">gang</span><span class="pi">:</span>
+      <span class="na">minCount</span><span class="pi">:</span> <span class="m">100</span>
+</code></pre></div></div>
+
+<h3 id="4-resulting-pod-spec-association">
+<a class="anchor" href="#4-resulting-pod-spec-association" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. Resulting Pod Spec Association</h3>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">spec</span><span class="pi">:</span>
+  <span class="na">schedulingGroup</span><span class="pi">:</span>
+    <span class="na">podGroupName</span><span class="pi">:</span> <span class="s">&lt;workload-name&gt;-&lt;hash&gt;</span>
+</code></pre></div></div>
+
+<h3 id="level-2---replicatedjob-level-network-block">
+<a class="anchor" href="#level-2---replicatedjob-level-network-block" aria-hidden="true"><span class="octicon octicon-link"></span></a>Level 2 - ReplicatedJob Level (Network Block)</h3>
+<ul>
+  <li>
+<strong>Kubernetes Object:</strong> <code class="language-plaintext highlighter-rouge">PodGroup</code> in v2.4 (<code class="language-plaintext highlighter-rouge">CompositePodGroup</code> planned)</li>
+  <li>
+<strong>Physical Domain:</strong> Network Block / Spine Switch</li>
+  <li>
+<strong>Why it’s needed:</strong> Prevents dependency deadlocks in multi-role pipelines. It allows platform engineers to give data initializers a basic policy (so they can run lazily on cheap nodes to download datasets), while allocating a coordinated gang policy for GPU workers once data is ready.</li>
+  <li><strong>User Story:</strong></li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">trainer.kubeflow.org/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">ClusterTrainingRuntime</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">deepspeed-distributed</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">mlPolicy</span><span class="pi">:</span>
+    <span class="na">numNodes</span><span class="pi">:</span> <span class="m">1</span>
+    <span class="na">mpi</span><span class="pi">:</span>
+      <span class="na">numProcPerNode</span><span class="pi">:</span> <span class="m">1</span>
+  <span class="na">scheduling</span><span class="pi">:</span>
+    <span class="na">replicatedJobs</span><span class="pi">:</span>
+      <span class="c1"># The dataset initializer doesn't need GPUs, so it's scheduled individually.</span>
+      <span class="pi">-</span> <span class="na">targetReplicatedJobs</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">dataset-initializer"</span><span class="pi">]</span>
+        <span class="na">schedulingPolicy</span><span class="pi">:</span>
+          <span class="na">basic</span><span class="pi">:</span> <span class="pi">{}</span>
+      <span class="c1"># MPI launcher and workers are scheduled as one gang within the same zone.</span>
+      <span class="pi">-</span> <span class="na">targetReplicatedJobs</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">launcher"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">node"</span><span class="pi">]</span>
+        <span class="na">schedulingPolicy</span><span class="pi">:</span>
+          <span class="na">gang</span><span class="pi">:</span> <span class="pi">{}</span>
+        <span class="na">schedulingConstraints</span><span class="pi">:</span>
+          <span class="na">topology</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="na">key</span><span class="pi">:</span> <span class="s">topology.kubernetes.io/zone</span>
+  <span class="na">template</span><span class="pi">:</span>
+    <span class="na">spec</span><span class="pi">:</span>
+      <span class="na">replicatedJobs</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">dataset-initializer</span>
+          <span class="s">...</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">node</span>
+          <span class="na">dependsOn</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">dataset-initializer</span>
+              <span class="na">status</span><span class="pi">:</span> <span class="s">Complete</span>
+          <span class="s">...</span>
+        <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">launcher</span>
+          <span class="na">dependsOn</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">node</span>
+              <span class="na">status</span><span class="pi">:</span> <span class="s">Ready</span>
+</code></pre></div></div>
+
+<h3 id="level-3---job--per-replica-level-rack-level">
+<a class="anchor" href="#level-3---job--per-replica-level-rack-level" aria-hidden="true"><span class="octicon octicon-link"></span></a>Level 3 - Job / Per-Replica Level (Rack-Level)</h3>
+<ul>
+  <li>
+<strong>Kubernetes Object:</strong> <code class="language-plaintext highlighter-rouge">PodGroup</code>
+</li>
+  <li>
+<strong>Physical Domain:</strong> Rack / Top-of-Rack Switch (<code class="language-plaintext highlighter-rouge">topology.kubernetes.io/rack</code>)</li>
+  <li>
+<strong>Why it’s needed:</strong> Maximum network throughput and failure isolation. Workers under the same Top-of-Rack (ToR) switch communicate at fast, non-blocking speeds. Each Job can also get its own DRA claims and failure boundary, the building block for Multi-Slice architectures (like TPU slices). In v2.4, the targeted ReplicatedJob can have at most 1 replica, since per-replica PodGroups require Kubernetes v1.38.</li>
+</ul>
+
+<p>Given the above requirements, the TrainJob topology can be represented using the following WAS building blocks for each Level.
+<img src="/images/2026-11-06-Trainer-v2.4-release-blog/WAS-building-blocks.png" alt="WAS Building Blocks"></p>
+
+<h3 id="kubeflow-trainer-v24-creates-podgroups-at-the-level-you-choose">
+<a class="anchor" href="#kubeflow-trainer-v24-creates-podgroups-at-the-level-you-choose" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kubeflow Trainer v2.4 creates PodGroups at the level you choose</h3>
+
+<p>In v2.4, Trainer creates only <code class="language-plaintext highlighter-rouge">PodGroups</code>, and each <code class="language-plaintext highlighter-rouge">ReplicatedJob</code> is scheduled at exactly one level. Platform admins choose the level in the runtime’s <code class="language-plaintext highlighter-rouge">spec.scheduling</code>.</p>
+
+<h3 id="introducing-the-three-levels-in-trainjob-topology">
+<a class="anchor" href="#introducing-the-three-levels-in-trainjob-topology" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introducing the Three Levels in TrainJob Topology</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Level</th>
+      <th style="text-align: left">Configured In</th>
+      <th style="text-align: left">PodGroups Created</th>
+      <th style="text-align: left">When to Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><strong>Level 1: TrainJob</strong></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">scheduling</code></td>
+      <td style="text-align: left">One <code class="language-plaintext highlighter-rouge">PodGroup</code> for all Pods of the <code class="language-plaintext highlighter-rouge">TrainJob</code>
+</td>
+      <td style="text-align: left">All Pods must be scheduled, placed, and preempted as one unit (e.g., PyTorch DDP).</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Level 2: ReplicatedJob</strong></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">scheduling.replicatedJobs[]</code></td>
+      <td style="text-align: left">One <code class="language-plaintext highlighter-rouge">PodGroup</code> per entry</td>
+      <td style="text-align: left">ReplicatedJobs need different policies (e.g., basic policy for data initializers and gang policy for GPU workers).</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>Level 3: Job</strong></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">scheduling.replicatedJobs[].job</code></td>
+      <td style="text-align: left">One <code class="language-plaintext highlighter-rouge">PodGroup</code> per Job</td>
+      <td style="text-align: left">Each Job needs its own gang, topology constraint, or DRA <code class="language-plaintext highlighter-rouge">resourceClaims</code>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Each <code class="language-plaintext highlighter-rouge">PodGroup</code> is independent, so today the hierarchy has a single layer of <code class="language-plaintext highlighter-rouge">PodGroups</code> with no parent above them. That is already enough to solve both problems from the introduction:</p>
+
+<ul>
+  <li>
+<strong>Idle Resource Trap:</strong>  A gang <code class="language-plaintext highlighter-rouge">PodGroup</code> admits all of its workers or none, so GPUs are never held while the job waits for the last worker.</li>
+  <li>
+<strong>Dependency Deadlock:</strong>  At Level 2, the initializers get a basic <code class="language-plaintext highlighter-rouge">PodGroup</code> and start right away. The GPU workers wait in their own gang until all of them can be scheduled.</li>
+</ul>
+
+<h2 id="adopting-compositepodgroup---roadmap">
+<a class="anchor" href="#adopting-compositepodgroup---roadmap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adopting CompositePodGroup - ROADMAP</h2>
+
+<p><code class="language-plaintext highlighter-rouge">CompositePodGroup</code> is alpha in Kubernetes 1.37. Once Trainer adopts it, Levels 1 and 2 become CPGs, Level 3 stays a <code class="language-plaintext highlighter-rouge">PodGroup</code>, and the levels can be combined instead of choosing just one, as the diagram shows. This enables:</p>
+
+<ul>
+  <li>
+    <p><strong>Gang of Gangs:</strong>  A TrainJob-level CPG admits several Job-level gangs together or not at all. An example is multiple TPU slices, each with its own DRA claims.</p>
+  </li>
+  <li>
+    <p><strong>Nested Topologies:</strong> Each level keeps its own placement constraint. For example, the whole <code class="language-plaintext highlighter-rouge">TrainJob</code> stays in one zone, each <code class="language-plaintext highlighter-rouge">ReplicatedJob</code> in one network block, and each Job in one rack.</p>
+  </li>
+  <li>
+    <p><strong>Mixed Policies in One Tree:</strong>  The initializers keep a <code class="language-plaintext highlighter-rouge">basic</code> policy, while a parent gang keeps the GPU worker gangs together.</p>
+  </li>
+</ul>
+
+<p>In short: today you choose between one big gang and several independent ones. With CPG, Trainer can express “all of these gangs, together, close to each other”.</p>
+
+<p>To learn more about Workload-Aware Scheduling in Trainer, check out the <a href="https://trainer.kubeflow.org/en/latest/operator-guides/workload-aware-scheduling.html">docs</a> and follow the progress in <a href="https://github.com/kubeflow/trainer/tree/master/proposals/3015-workload-aware-scheduling">KEP-3015</a>.</p>
+
+<hr>
+
+<h2 id="other-feature-highlights-in-trainer-v24">
+<a class="anchor" href="#other-feature-highlights-in-trainer-v24" aria-hidden="true"><span class="octicon octicon-link"></span></a>Other Feature Highlights in Trainer v2.4</h2>
+
+<p>Beyond Workload-Aware Scheduling, Kubeflow Trainer v2.4 includes:</p>
+<ul>
+  <li>
+<strong>Per-TrainJob <code class="language-plaintext highlighter-rouge">schedulerName</code> overrides</strong> (<a href="https://github.com/kubeflow/trainer/pull/4265">#4265</a>)</li>
+  <li>
+<strong>Job replicas for multi-slice TPU training</strong> (<a href="https://github.com/kubeflow/trainer/pull/4250">#4250</a>)</li>
+  <li>
+<strong>Secured metrics endpoint</strong> with TLS and RBAC-based auth (<a href="https://github.com/kubeflow/trainer/pull/3912">#3912</a>)</li>
+  <li>
+<strong>Prometheus monitoring overlay</strong> (<a href="https://github.com/kubeflow/trainer/pull/4102">#4102</a>)</li>
+  <li>
+<strong>PyTorch 2.15 and CUDA 13.4</strong> in the default runtimes (<a href="https://github.com/kubeflow/trainer/pull/4369">#4369</a>)</li>
+</ul>
+
+<h3 id="dynamic-resource-allocation-dra">
+<a class="anchor" href="#dynamic-resource-allocation-dra" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dynamic Resource Allocation (DRA)</h3>
+<p>Trainer 2.4 adds support for attaching accelerators and other specialised hardware to TrainJobs using Kubernetes Dynamic Resource Allocation (DRA) API (GA in kubernetes 1.34).</p>
+
+<ul>
+  <li>
+    <p>DRA provides a more flexible way to request and attach hardware to TrainJobs, complementing traditional extended resource requests such as <code class="language-plaintext highlighter-rouge">nvidia.com/gpu: 1</code>. Unlike extended resources, DRA supports more advanced device selection, sharing, and allocation policies, giving users greater control over how hardware is assigned to training workloads.</p>
+  </li>
+  <li>
+    <p>To learn more about using DRA in Kubeflow Trainer, check out the <a href="https://trainer.kubeflow.org/en/latest/operator-guides/dynamic-resource-allocation.html">Dynamic Resource Allocation (DRA) docs</a>.</p>
+  </li>
+</ul>
+
+<h3 id="optimizationjob-alpha-integrations">
+<a class="anchor" href="#optimizationjob-alpha-integrations" aria-hidden="true"><span class="octicon octicon-link"></span></a>OptimizationJob Alpha Integrations</h3>
+<ul>
+  <li>
+<strong>Declarative HPO:</strong> Enables the <code class="language-plaintext highlighter-rouge">OptimizationJob</code> -&gt; <code class="language-plaintext highlighter-rouge">TrainJob</code> hierarchy, leveraging TrainJob’s native progress tracking to eliminate the legacy Katib DB dependency.</li>
+  <li>
+<strong>Getting Started:</strong> Enable the <code class="language-plaintext highlighter-rouge">OptimizationJob</code> and <code class="language-plaintext highlighter-rouge">TrainJobStatus</code> alpha feature gates (<a href="https://github.com/kubeflow/trainer/pull/4331">#4331</a>) and follow the <a href="https://trainer.kubeflow.org/en/latest/user-guides/optimizationjob.html">OptimizationJob user guide</a>.</li>
+  <li>
+<strong>CEL-Native Validation:</strong> Implements server-side CEL validation for <code class="language-plaintext highlighter-rouge">SearchSpace</code> and <code class="language-plaintext highlighter-rouge">TrialConfig</code> constraints, ensuring high-quality hyperparameter search configurations at the API layer.</li>
+  <li><a href="https://github.com/kubeflow/trainer/tree/master/proposals/2605-optimization-job-crd">OptimizationJob KEP-3562</a></li>
+</ul>
+
+<h3 id="release-notes-kubeflow-trainer-v240-changelog">
+<a class="anchor" href="#release-notes-kubeflow-trainer-v240-changelog" aria-hidden="true"><span class="octicon octicon-link"></span></a>Release Notes: <a href="https://github.com/kubeflow/trainer/releases/tag/v2.4.0">Kubeflow Trainer v2.4.0 Changelog</a>
+</h3>
+
+<hr>
+
+<h2 id="breaking-changes--upgrade-notices-v24">
+<a class="anchor" href="#breaking-changes--upgrade-notices-v24" aria-hidden="true"><span class="octicon octicon-link"></span></a>Breaking Changes &amp; Upgrade Notices (v2.4)</h2>
+
+<ol>
+  <li>
+    <p><strong>ReplicatedJob Name Length at 20 Characters (<a href="https://github.com/kubeflow/trainer/pull/4391">#4391</a>)</strong><br>
+<code class="language-plaintext highlighter-rouge">TrainingRuntimes</code> and <code class="language-plaintext highlighter-rouge">ClusterTrainingRuntimes</code> with <code class="language-plaintext highlighter-rouge">ReplicatedJob</code> names longer than 20 characters are rejected on creation and on updates that modify <code class="language-plaintext highlighter-rouge">spec.template</code>.</p>
+  </li>
+  <li>
+    <p><strong>CertManagement Configuration Fields Renamed (<a href="https://github.com/kubeflow/trainer/pull/3386">#3386</a>)</strong><br>
+Renames the <code class="language-plaintext highlighter-rouge">CertManagement</code> configuration fields from webhook-specific names to generic names, since the TLS certificate is used by the metrics server and the status server in addition to webhooks.</p>
+  </li>
+  <li>
+    <p><strong>TrainJob image synchronization for MPI Runtimes (<a href="https://github.com/kubeflow/trainer/pull/4301">#4301</a>)</strong><br>
+For MPI runtimes, <code class="language-plaintext highlighter-rouge">Trainjob spec.trainer.image</code> now configures the image for both the worker nodes and the launcher pod. Previously it only configured the launcher pod.</p>
+  </li>
+  <li>
+    <p><strong>Helm manifests retain CRDs on uninstall (<a href="https://github.com/kubeflow/trainer/pull/4122">#4122</a>)</strong><br>
+Helm charts now keep the Custom Resource Definitions (CRDs) on <code class="language-plaintext highlighter-rouge">helm uninstall</code> (<code class="language-plaintext highlighter-rouge">crds.keep: true</code> by default), since deleting a CRD deletes every TrainJob, TrainingRuntime, ClusterTrainingRuntime, and OptimizationJob in the cluster. Set <code class="language-plaintext highlighter-rouge">crds.keep=false</code> to remove the CRDs with the release.</p>
+  </li>
+  <li>
+    <p><strong>Enabling Data Cache in Helm Chart no longer automatically installs LWS subchart (<a href="https://github.com/kubeflow/trainer/pull/4120">#4120</a>)</strong><br>
+When data cache is enabled, the Helm chart no longer automatically installs the LeaderWorkerSet (LWS) dependency. Users who rely on the chart to install LWS must explicitly set <code class="language-plaintext highlighter-rouge">dataCache.lws.install=true</code>. This allows users with an existing LWS installation to enable data caching without installing LWS again.</p>
+  </li>
+  <li>
+    <p><strong>MPI runtimes emit PRTE env vars for Open MPI 5 (<a href="https://github.com/kubeflow/trainer/pull/4029">#4029</a>)</strong><br>
+Suspended TrainJobs that use the MPI plugin (e.g., DeepSpeed, MLX) and were created before the upgrade fail to resume after upgrading to v2.4, because the new <code class="language-plaintext highlighter-rouge">PRTE_MCA_*</code> env vars can’t be applied to the existing immutable JobSet. Wait for MPI-based TrainJobs to complete before upgrading, or recreate them after the upgrade.</p>
+  </li>
+</ol>
+
+<hr>
+
+<h2 id="references">
+<a class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+
+<ol>
+  <li>
+    <p><a href="https://github.com/kubeflow/trainer/tree/master/proposals/3015-workload-aware-scheduling">Proposal for Integration of WAS with TrainJob Controller</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/kubernetes/enhancements/blob/master/keps/sig-scheduling/4671-gang-scheduling/README.md">Gang Scheduling using Workload Object</a></p>
+  </li>
+  <li>
+    <p><a href="https://kubernetes.io/docs/concepts/workloads/workload-api/">Workload API</a></p>
+  </li>
+  <li>
+    <p><a href="https://trainer.kubeflow.org/en/latest/operator-guides/workload-aware-scheduling.html">How to Use Workload API in TrainJob Controller</a></p>
+  </li>
+</ol>
+
+<h2 id="join-the-community">
+<a class="anchor" href="#join-the-community" aria-hidden="true"><span class="octicon octicon-link"></span></a>Join the Community</h2>
+<p>The Kubeflow Trainer is built by and for the community. We welcome contributions, feedback, and participation from everyone! We want to thank the community for their contributions to this release. We invite you to:</p>
+
+<h3 id="contribute">
+<a class="anchor" href="#contribute" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contribute:</h3>
+<ul>
+  <li>Read the <a href="https://github.com/kubeflow/trainer/blob/master/CONTRIBUTING.md">Contributing Guide</a>.</li>
+  <li>Browse the good first issues</li>
+  <li>Explore the GitHub Repository</li>
+</ul>
+
+<h3 id="connect-with-the-community">
+<a class="anchor" href="#connect-with-the-community" aria-hidden="true"><span class="octicon octicon-link"></span></a>Connect with the Community:</h3>
+<ul>
+  <li>Join <a href="https://cloud-native.slack.com/archives/C0742LDFZ4K">#kubeflow-trainer</a> on CNCF Slack</li>
+  <li>Attend our biweekly <a href="https://bit.ly/kf-trainer-meeting">Kubeflow Trainer meetings</a>
+</li>
+</ul>
+
+<h3 id="learn-more">
+<a class="anchor" href="#learn-more" aria-hidden="true"><span class="octicon octicon-link"></span></a>Learn More:</h3>
+<ul>
+  <li>View the <a href="https://github.com/kubeflow/trainer/releases/tag/v2.4.0">GitHub Release</a>
+</li>
+  <li>Explore the <a href="https://trainer.kubeflow.org/">Kubeflow Trainer docs</a>
+</li>
+</ul>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/kubeflow-trainer-v2.4-release/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name"></li>
+          <li><a class="u-email" href="mailto:"></a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

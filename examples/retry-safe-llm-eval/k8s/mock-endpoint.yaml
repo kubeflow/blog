@@ -1,0 +1,79 @@
+# Replace the image with the image you built and pushed for this lab.
+# Deploy this in the same namespace as your KFP tasks, or pass a fully qualified
+# service URL as the pipeline's base_url parameter.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: retry-safe-llm-eval-state
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retry-safe-llm-eval
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: retry-safe-llm-eval
+  template:
+    metadata:
+      labels:
+        app: retry-safe-llm-eval
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+      containers:
+        - name: mock-endpoint
+          image: ghcr.io/REPLACE-ME/retry-safe-llm-eval:0.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          volumeMounts:
+            - name: state
+              mountPath: /data
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
+      volumes:
+        - name: state
+          persistentVolumeClaim:
+            claimName: retry-safe-llm-eval-state
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: retry-safe-llm-eval
+spec:
+  selector:
+    app: retry-safe-llm-eval
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+  type: ClusterIP

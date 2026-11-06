@@ -1,0 +1,341 @@
+# PIPELINE DEFINITION
+# Name: retry-safe-llm-evaluation
+# Description: Compare retry behavior for a mocked LLM evaluation endpoint.
+# Inputs:
+#    base_url: str
+#    experiment_id: str
+#    prompt: str [Default: 'Classify this review as positive or negative: 'The experience was excellent.'']
+components:
+  comp-evaluate-once:
+    executorLabel: exec-evaluate-once
+    inputDefinitions:
+      parameters:
+        base_url:
+          parameterType: STRING
+        experiment_id:
+          parameterType: STRING
+        prompt:
+          parameterType: STRING
+        strategy:
+          parameterType: STRING
+    outputDefinitions:
+      parameters:
+        Output:
+          parameterType: STRING
+  comp-evaluate-once-2:
+    executorLabel: exec-evaluate-once-2
+    inputDefinitions:
+      parameters:
+        base_url:
+          parameterType: STRING
+        experiment_id:
+          parameterType: STRING
+        prompt:
+          parameterType: STRING
+        strategy:
+          parameterType: STRING
+    outputDefinitions:
+      parameters:
+        Output:
+          parameterType: STRING
+  comp-evaluate-once-3:
+    executorLabel: exec-evaluate-once-3
+    inputDefinitions:
+      parameters:
+        base_url:
+          parameterType: STRING
+        experiment_id:
+          parameterType: STRING
+        prompt:
+          parameterType: STRING
+        strategy:
+          parameterType: STRING
+    outputDefinitions:
+      parameters:
+        Output:
+          parameterType: STRING
+deploymentSpec:
+  executors:
+    exec-evaluate-once:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - evaluate_once
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.17.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"' && \"\
+          $0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef evaluate_once(\n    base_url: str,\n    experiment_id: str,\n\
+          \    prompt: str,\n    strategy: str,\n) -> str:\n    \"\"\"Perform one\
+          \ attempt; KFP task retry will re-run this whole component.\"\"\"\n    import\
+          \ json\n    from urllib.error import HTTPError, URLError\n    from urllib.parse\
+          \ import quote\n    from urllib.request import Request, urlopen\n\n    def\
+          \ call(path: str, method: str = \"GET\", body: dict | None = None):\n  \
+          \      data = None if body is None else json.dumps(body).encode(\"utf-8\"\
+          )\n        request = Request(\n            f\"{base_url.rstrip('/')}{path}\"\
+          ,\n            data=data,\n            method=method,\n            headers={\"\
+          Content-Type\": \"application/json\"} if data is not None else {},\n   \
+          \     )\n        try:\n            with urlopen(request, timeout=10) as\
+          \ response:\n                return response.status, json.loads(response.read().decode(\"\
+          utf-8\")), dict(response.headers)\n        except HTTPError as error:\n\
+          \            content = error.read().decode(\"utf-8\")\n            return\
+          \ error.code, json.loads(content) if content else {}, dict(error.headers)\n\
+          \        except URLError as error:\n            raise RuntimeError(f\"Mock\
+          \ endpoint is unreachable: {error}\") from error\n\n    if strategy not\
+          \ in (\"naive\", \"saved-result\", \"idempotency-key\"):\n        raise\
+          \ ValueError(f\"Unsupported strategy: {strategy}\")\n    # Derive stable\
+          \ identifiers inside the component rather than combining\n    # pipeline\
+          \ parameters with a container-only command-line placeholder.\n    evaluation_id\
+          \ = f\"{experiment_id}-{strategy}\"\n    failure_token = f\"{experiment_id}-crash-once-{strategy}\"\
+          \n\n    if strategy != \"naive\":\n        status, saved, _ = call(f\"/results/{quote(evaluation_id,\
+          \ safe='')}\")\n        if status == 200:\n            return json.dumps(saved,\
+          \ sort_keys=True)\n        if status != 404:\n            raise RuntimeError(f\"\
+          Result lookup failed: HTTP {status}: {saved}\")\n\n    payload = {\n   \
+          \     \"evaluation_id\": evaluation_id,\n        \"prompt\": prompt,\n \
+          \       \"failure_token\": failure_token,\n    }\n    if strategy == \"\
+          idempotency-key\":\n        payload[\"idempotency_key\"] = evaluation_id\n\
+          \n    status, result, headers = call(\"/evaluate\", method=\"POST\", body=payload)\n\
+          \    if status != 200:\n        raise RuntimeError(f\"Mock LLM call failed:\
+          \ HTTP {status}: {result}\")\n    if headers.get(\"X-Injected-Crash\", headers.get(\"\
+          x-injected-crash\", \"\")).lower() == \"true\":\n        raise RuntimeError(\"\
+          Injected crash after response, before result persistence\")\n\n    status,\
+          \ saved, _ = call(\n        \"/results\",\n        method=\"POST\",\n  \
+          \      body={\"evaluation_id\": evaluation_id, \"response\": result},\n\
+          \    )\n    if status != 200 or not saved.get(\"saved\"):\n        raise\
+          \ RuntimeError(f\"Result persistence failed: HTTP {status}: {saved}\")\n\
+          \    return json.dumps(result, sort_keys=True)\n\n"
+        image: python:3.11-slim
+    exec-evaluate-once-2:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - evaluate_once
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.17.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"' && \"\
+          $0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef evaluate_once(\n    base_url: str,\n    experiment_id: str,\n\
+          \    prompt: str,\n    strategy: str,\n) -> str:\n    \"\"\"Perform one\
+          \ attempt; KFP task retry will re-run this whole component.\"\"\"\n    import\
+          \ json\n    from urllib.error import HTTPError, URLError\n    from urllib.parse\
+          \ import quote\n    from urllib.request import Request, urlopen\n\n    def\
+          \ call(path: str, method: str = \"GET\", body: dict | None = None):\n  \
+          \      data = None if body is None else json.dumps(body).encode(\"utf-8\"\
+          )\n        request = Request(\n            f\"{base_url.rstrip('/')}{path}\"\
+          ,\n            data=data,\n            method=method,\n            headers={\"\
+          Content-Type\": \"application/json\"} if data is not None else {},\n   \
+          \     )\n        try:\n            with urlopen(request, timeout=10) as\
+          \ response:\n                return response.status, json.loads(response.read().decode(\"\
+          utf-8\")), dict(response.headers)\n        except HTTPError as error:\n\
+          \            content = error.read().decode(\"utf-8\")\n            return\
+          \ error.code, json.loads(content) if content else {}, dict(error.headers)\n\
+          \        except URLError as error:\n            raise RuntimeError(f\"Mock\
+          \ endpoint is unreachable: {error}\") from error\n\n    if strategy not\
+          \ in (\"naive\", \"saved-result\", \"idempotency-key\"):\n        raise\
+          \ ValueError(f\"Unsupported strategy: {strategy}\")\n    # Derive stable\
+          \ identifiers inside the component rather than combining\n    # pipeline\
+          \ parameters with a container-only command-line placeholder.\n    evaluation_id\
+          \ = f\"{experiment_id}-{strategy}\"\n    failure_token = f\"{experiment_id}-crash-once-{strategy}\"\
+          \n\n    if strategy != \"naive\":\n        status, saved, _ = call(f\"/results/{quote(evaluation_id,\
+          \ safe='')}\")\n        if status == 200:\n            return json.dumps(saved,\
+          \ sort_keys=True)\n        if status != 404:\n            raise RuntimeError(f\"\
+          Result lookup failed: HTTP {status}: {saved}\")\n\n    payload = {\n   \
+          \     \"evaluation_id\": evaluation_id,\n        \"prompt\": prompt,\n \
+          \       \"failure_token\": failure_token,\n    }\n    if strategy == \"\
+          idempotency-key\":\n        payload[\"idempotency_key\"] = evaluation_id\n\
+          \n    status, result, headers = call(\"/evaluate\", method=\"POST\", body=payload)\n\
+          \    if status != 200:\n        raise RuntimeError(f\"Mock LLM call failed:\
+          \ HTTP {status}: {result}\")\n    if headers.get(\"X-Injected-Crash\", headers.get(\"\
+          x-injected-crash\", \"\")).lower() == \"true\":\n        raise RuntimeError(\"\
+          Injected crash after response, before result persistence\")\n\n    status,\
+          \ saved, _ = call(\n        \"/results\",\n        method=\"POST\",\n  \
+          \      body={\"evaluation_id\": evaluation_id, \"response\": result},\n\
+          \    )\n    if status != 200 or not saved.get(\"saved\"):\n        raise\
+          \ RuntimeError(f\"Result persistence failed: HTTP {status}: {saved}\")\n\
+          \    return json.dumps(result, sort_keys=True)\n\n"
+        image: python:3.11-slim
+    exec-evaluate-once-3:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - evaluate_once
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.17.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"' && \"\
+          $0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef evaluate_once(\n    base_url: str,\n    experiment_id: str,\n\
+          \    prompt: str,\n    strategy: str,\n) -> str:\n    \"\"\"Perform one\
+          \ attempt; KFP task retry will re-run this whole component.\"\"\"\n    import\
+          \ json\n    from urllib.error import HTTPError, URLError\n    from urllib.parse\
+          \ import quote\n    from urllib.request import Request, urlopen\n\n    def\
+          \ call(path: str, method: str = \"GET\", body: dict | None = None):\n  \
+          \      data = None if body is None else json.dumps(body).encode(\"utf-8\"\
+          )\n        request = Request(\n            f\"{base_url.rstrip('/')}{path}\"\
+          ,\n            data=data,\n            method=method,\n            headers={\"\
+          Content-Type\": \"application/json\"} if data is not None else {},\n   \
+          \     )\n        try:\n            with urlopen(request, timeout=10) as\
+          \ response:\n                return response.status, json.loads(response.read().decode(\"\
+          utf-8\")), dict(response.headers)\n        except HTTPError as error:\n\
+          \            content = error.read().decode(\"utf-8\")\n            return\
+          \ error.code, json.loads(content) if content else {}, dict(error.headers)\n\
+          \        except URLError as error:\n            raise RuntimeError(f\"Mock\
+          \ endpoint is unreachable: {error}\") from error\n\n    if strategy not\
+          \ in (\"naive\", \"saved-result\", \"idempotency-key\"):\n        raise\
+          \ ValueError(f\"Unsupported strategy: {strategy}\")\n    # Derive stable\
+          \ identifiers inside the component rather than combining\n    # pipeline\
+          \ parameters with a container-only command-line placeholder.\n    evaluation_id\
+          \ = f\"{experiment_id}-{strategy}\"\n    failure_token = f\"{experiment_id}-crash-once-{strategy}\"\
+          \n\n    if strategy != \"naive\":\n        status, saved, _ = call(f\"/results/{quote(evaluation_id,\
+          \ safe='')}\")\n        if status == 200:\n            return json.dumps(saved,\
+          \ sort_keys=True)\n        if status != 404:\n            raise RuntimeError(f\"\
+          Result lookup failed: HTTP {status}: {saved}\")\n\n    payload = {\n   \
+          \     \"evaluation_id\": evaluation_id,\n        \"prompt\": prompt,\n \
+          \       \"failure_token\": failure_token,\n    }\n    if strategy == \"\
+          idempotency-key\":\n        payload[\"idempotency_key\"] = evaluation_id\n\
+          \n    status, result, headers = call(\"/evaluate\", method=\"POST\", body=payload)\n\
+          \    if status != 200:\n        raise RuntimeError(f\"Mock LLM call failed:\
+          \ HTTP {status}: {result}\")\n    if headers.get(\"X-Injected-Crash\", headers.get(\"\
+          x-injected-crash\", \"\")).lower() == \"true\":\n        raise RuntimeError(\"\
+          Injected crash after response, before result persistence\")\n\n    status,\
+          \ saved, _ = call(\n        \"/results\",\n        method=\"POST\",\n  \
+          \      body={\"evaluation_id\": evaluation_id, \"response\": result},\n\
+          \    )\n    if status != 200 or not saved.get(\"saved\"):\n        raise\
+          \ RuntimeError(f\"Result persistence failed: HTTP {status}: {saved}\")\n\
+          \    return json.dumps(result, sort_keys=True)\n\n"
+        image: python:3.11-slim
+pipelineInfo:
+  description: Compare retry behavior for a mocked LLM evaluation endpoint.
+  name: retry-safe-llm-evaluation
+root:
+  dag:
+    tasks:
+      evaluate-once:
+        cachingOptions: {}
+        componentRef:
+          name: comp-evaluate-once
+        inputs:
+          parameters:
+            base_url:
+              componentInputParameter: base_url
+            experiment_id:
+              componentInputParameter: experiment_id
+            prompt:
+              componentInputParameter: prompt
+            strategy:
+              runtimeValue:
+                constant: naive
+        retryPolicy:
+          backoffDuration: 0s
+          backoffFactor: 2.0
+          backoffMaxDuration: 3600s
+          maxRetryCount: 1
+        taskInfo:
+          name: naive
+      evaluate-once-2:
+        cachingOptions: {}
+        componentRef:
+          name: comp-evaluate-once-2
+        inputs:
+          parameters:
+            base_url:
+              componentInputParameter: base_url
+            experiment_id:
+              componentInputParameter: experiment_id
+            prompt:
+              componentInputParameter: prompt
+            strategy:
+              runtimeValue:
+                constant: saved-result
+        retryPolicy:
+          backoffDuration: 0s
+          backoffFactor: 2.0
+          backoffMaxDuration: 3600s
+          maxRetryCount: 1
+        taskInfo:
+          name: saved-result
+      evaluate-once-3:
+        cachingOptions: {}
+        componentRef:
+          name: comp-evaluate-once-3
+        inputs:
+          parameters:
+            base_url:
+              componentInputParameter: base_url
+            experiment_id:
+              componentInputParameter: experiment_id
+            prompt:
+              componentInputParameter: prompt
+            strategy:
+              runtimeValue:
+                constant: idempotency-key
+        retryPolicy:
+          backoffDuration: 0s
+          backoffFactor: 2.0
+          backoffMaxDuration: 3600s
+          maxRetryCount: 1
+        taskInfo:
+          name: idempotency-key
+  inputDefinitions:
+    parameters:
+      base_url:
+        parameterType: STRING
+      experiment_id:
+        parameterType: STRING
+      prompt:
+        defaultValue: 'Classify this review as positive or negative: ''The experience
+          was excellent.'''
+        isOptional: true
+        parameterType: STRING
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.17.0

@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 900" role="img" aria-labelledby="title desc">
+  <title id="title">Retry-safe LLM evaluation failure window</title>
+  <desc id="desc">The worker receives a mock LLM response and fails before saving it. A Kubeflow Pipelines retry makes a second endpoint request. Naive retries and saved-result lookup cause two mock executions; endpoint-side idempotency uses two requests but only one execution.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#536273"/>
+    </marker>
+    <style>
+      .heading { font: 700 30px Arial, Helvetica, sans-serif; fill: #172b4d; }
+      .subheading { font: 400 18px Arial, Helvetica, sans-serif; fill: #526174; }
+      .nodeTitle { font: 700 19px Arial, Helvetica, sans-serif; fill: #172b4d; }
+      .nodeText { font: 400 16px Arial, Helvetica, sans-serif; fill: #344256; }
+      .cardTitle { font: 700 22px Arial, Helvetica, sans-serif; fill: #172b4d; }
+      .cardText { font: 400 17px Arial, Helvetica, sans-serif; fill: #344256; }
+      .metric { font: 700 20px Arial, Helvetica, sans-serif; }
+      .small { font: 400 14px Arial, Helvetica, sans-serif; fill: #526174; }
+      .arrow { stroke: #536273; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="1500" height="900" rx="24" fill="#f7f9fc"/>
+  <text x="60" y="62" class="heading">Retry-safe LLM evaluation jobs</text>
+  <text x="60" y="94" class="subheading">Failure window: the response arrived, but the worker's result record did not get saved.</text>
+
+  <!-- Failure sequence -->
+  <rect x="55" y="135" width="285" height="150" rx="18" fill="#e8f2fb" stroke="#8cbce7" stroke-width="2"/>
+  <text x="80" y="175" class="nodeTitle">1 · KFP worker</text>
+  <text x="80" y="210" class="nodeText">Sends the evaluation</text>
+  <text x="80" y="235" class="nodeText">with a stable job ID</text>
+
+  <path d="M345 210 L385 210" class="arrow"/>
+  <rect x="395" y="135" width="300" height="150" rx="18" fill="#e8f2fb" stroke="#8cbce7" stroke-width="2"/>
+  <text x="420" y="175" class="nodeTitle">2 · Mock endpoint</text>
+  <text x="420" y="210" class="nodeText">Executes and returns</text>
+  <text x="420" y="235" class="nodeText">a response</text>
+
+  <path d="M700 210 L740 210" class="arrow"/>
+  <rect x="750" y="135" width="330" height="150" rx="18" fill="#fff0ef" stroke="#db6b66" stroke-width="2"/>
+  <text x="775" y="175" class="nodeTitle">3 · Failure injected</text>
+  <text x="775" y="210" class="nodeText">Worker fails after the</text>
+  <text x="775" y="235" class="nodeText">response, before saving it</text>
+  <path d="M1040 155 L1060 175 M1060 155 L1040 175" stroke="#b42318" stroke-width="4" stroke-linecap="round"/>
+
+  <path d="M1085 210 L1125 210" class="arrow"/>
+  <rect x="1135" y="135" width="310" height="150" rx="18" fill="#fff7e6" stroke="#e6b75b" stroke-width="2"/>
+  <text x="1160" y="175" class="nodeTitle">4 · Result store</text>
+  <text x="1160" y="210" class="nodeText">No completed result</text>
+  <text x="1160" y="235" class="nodeText">is available to look up</text>
+
+  <path d="M790 286 L790 330" class="arrow"/>
+  <rect x="340" y="340" width="820" height="74" rx="18" fill="#172b4d"/>
+  <text x="750" y="385" text-anchor="middle" font="700 22px Arial, Helvetica, sans-serif" fill="#ffffff">Kubeflow Pipelines retries the task with the same evaluation ID</text>
+
+  <!-- Three recovery strategies -->
+  <path d="M750 415 L750 440 L260 440 L260 475" class="arrow"/>
+  <path d="M750 440 L750 475" class="arrow"/>
+  <path d="M750 440 L1240 440 L1240 475" class="arrow"/>
+
+  <rect x="45" y="485" width="430" height="340" rx="20" fill="#ffffff" stroke="#cdd5df" stroke-width="2"/>
+  <rect x="45" y="485" width="430" height="66" rx="20" fill="#edf2f7"/>
+  <text x="75" y="526" class="cardTitle">Naive retry</text>
+  <text x="75" y="590" class="cardText">Retry calls the endpoint again.</text>
+  <text x="75" y="626" class="cardText">No key or saved result prevents</text>
+  <text x="75" y="652" class="cardText">a second mock execution.</text>
+  <line x1="75" y1="685" x2="445" y2="685" stroke="#e0e5eb" stroke-width="2"/>
+  <text x="75" y="729" class="metric" fill="#b42318">2 evaluation requests</text>
+  <text x="75" y="761" class="metric" fill="#b42318">2 logical executions</text>
+  <text x="75" y="796" class="small">One result is saved after recovery.</text>
+
+  <rect x="535" y="485" width="430" height="340" rx="20" fill="#ffffff" stroke="#cdd5df" stroke-width="2"/>
+  <rect x="535" y="485" width="430" height="66" rx="20" fill="#edf2f7"/>
+  <text x="565" y="526" class="cardTitle">Saved-result lookup</text>
+  <text x="565" y="590" class="cardText">Lookup returns “not found” because</text>
+  <text x="565" y="616" class="cardText">the first result was never saved.</text>
+  <text x="565" y="652" class="cardText">The endpoint is called again.</text>
+  <line x1="565" y1="685" x2="935" y2="685" stroke="#e0e5eb" stroke-width="2"/>
+  <text x="565" y="729" class="metric" fill="#b42318">2 evaluation requests</text>
+  <text x="565" y="761" class="metric" fill="#b42318">2 logical executions</text>
+  <text x="565" y="796" class="small">Lookup helps after a result is saved.</text>
+
+  <rect x="1025" y="485" width="430" height="340" rx="20" fill="#ffffff" stroke="#4ca782" stroke-width="3"/>
+  <rect x="1025" y="485" width="430" height="66" rx="20" fill="#e7f7ef"/>
+  <text x="1055" y="526" class="cardTitle">Endpoint idempotency</text>
+  <text x="1055" y="590" class="cardText">The same key returns the endpoint's</text>
+  <text x="1055" y="616" class="cardText">durably stored response.</text>
+  <text x="1055" y="652" class="cardText">No second mock execution occurs.</text>
+  <line x1="1055" y1="685" x2="1425" y2="685" stroke="#d7eee3" stroke-width="2"/>
+  <text x="1055" y="729" class="metric" fill="#18794e">2 evaluation requests</text>
+  <text x="1055" y="761" class="metric" fill="#18794e">1 logical execution</text>
+  <text x="1055" y="796" class="small">Requires real endpoint-side support.</text>
+
+  <text x="60" y="866" class="small">Mock results only. A real provider must implement compatible idempotency semantics for the same guarantee.</text>
+</svg>

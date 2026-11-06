@@ -1,0 +1,3 @@
+# The local demo and scenario tests use only the Python standard library.
+# pytest is needed only to run the test suite.
+pytest>=8,<10

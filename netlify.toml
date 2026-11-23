@@ -1,0 +1,12 @@
+# Netlify is only used for pull request deploy previews. The live site
+# (https://blog.kubeflow.org) is built and deployed to GitHub Pages by
+# `.github/workflows/ci.yaml`.
+#
+# NOTE: the Netlify build image (e.g. Ubuntu Noble 24.04) cannot be set here,
+#       it must be selected in the Netlify project settings.
+#       Ruby is installed from `.ruby-version`. On the Noble image there is no
+#       prebuilt Ruby 2.7, so the first build compiles Ruby (and OpenSSL 1.1.1)
+#       from source, which takes several minutes; later builds use the cache.
+[build]
+  command = "bundle exec jekyll build"
+  publish = "_site"

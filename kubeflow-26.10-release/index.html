@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Kubeflow Community Distribution 26.10 Release Announcement | Kubeflow</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Kubeflow Community Distribution 26.10 Release Announcement" />
+<meta name="author" content="Kubeflow 26.10 Release Team" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Release versioning is calendar-based (Year.Month.Patch). Around two base releases are planned per year, with optional patch releases. The best-effort community support is roughly six months, and commercial support is available from multiple vendors. Please update regularly as explained in the upgrading and extending section to benefit from security and performance improvements." />
+<meta property="og:description" content="Release versioning is calendar-based (Year.Month.Patch). Around two base releases are planned per year, with optional patch releases. The best-effort community support is roughly six months, and commercial support is available from multiple vendors. Please update regularly as explained in the upgrading and extending section to benefit from security and performance improvements." />
+<link rel="canonical" href="https://blog.kubeflow.org/kubeflow-26.10-release/" />
+<meta property="og:url" content="https://blog.kubeflow.org/kubeflow-26.10-release/" />
+<meta property="og:site_name" content="Kubeflow" />
+<meta property="og:image" content="https://blog.kubeflow.org/images/logo.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-11-02T00:00:00-06:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://blog.kubeflow.org/images/logo.png" />
+<meta property="twitter:title" content="Kubeflow Community Distribution 26.10 Release Announcement" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Kubeflow 26.10 Release Team"},"dateModified":"2026-11-02T00:00:00-06:00","datePublished":"2026-11-02T00:00:00-06:00","description":"Release versioning is calendar-based (Year.Month.Patch). Around two base releases are planned per year, with optional patch releases. The best-effort community support is roughly six months, and commercial support is available from multiple vendors. Please update regularly as explained in the upgrading and extending section to benefit from security and performance improvements.","headline":"Kubeflow Community Distribution 26.10 Release Announcement","image":"https://blog.kubeflow.org/images/logo.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.kubeflow.org/kubeflow-26.10-release/"},"url":"https://blog.kubeflow.org/kubeflow-26.10-release/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://blog.kubeflow.org/feed.xml" title="Kubeflow" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-135379910-2','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicons/favicon.ico">
+<link rel="manifest" href="/images/favicons/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#ffffff">
+<meta name="msapplication-config" content="/images/favicons/browserconfig.xml" />
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff"><!-- remove conflicting design language, especially for unvisited links: <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" /> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Kubeflow</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/search/">Search</a><a class="page-link" href="/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Kubeflow Community Distribution 26.10 Release Announcement</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2026-11-02T00:00:00-06:00" itemprop="datePublished">
+        Nov 2, 2026
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Kubeflow 26.10 Release Team</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      13 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#release">release</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="#highlight-features-2610">Highlight features 26.10</a></li>
+<li class="toc-entry toc-h2"><a href="#kubeflow-community-distribution">Kubeflow Community Distribution:</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#kubeflow-community-distribution-26100">Kubeflow Community Distribution 26.10.0</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#pipelines">Pipelines</a></li>
+<li class="toc-entry toc-h2"><a href="#-features">🚀 Features</a></li>
+<li class="toc-entry toc-h2"><a href="#trainer">Trainer</a></li>
+<li class="toc-entry toc-h2"><a href="#-features-1">🚀 Features</a></li>
+<li class="toc-entry toc-h2"><a href="#spark-operator">Spark Operator</a></li>
+<li class="toc-entry toc-h2"><a href="#kserve">KServe</a></li>
+<li class="toc-entry toc-h2"><a href="#-features-2">🚀 Features</a></li>
+<li class="toc-entry toc-h2"><a href="#workspaces-and-dashboard">Workspaces and Dashboard</a></li>
+<li class="toc-entry toc-h2"><a href="#whats-new">What’s New</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#kubeflow-distribution-committee">Kubeflow Distribution Committee</a></li>
+<li class="toc-entry toc-h3"><a href="#semantic-operator">Semantic Operator</a></li>
+<li class="toc-entry toc-h3"><a href="#kubeflow-docs-agent">Kubeflow Docs Agent</a></li>
+<li class="toc-entry toc-h3"><a href="#working-group-agents">Working-Group-Agents</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#how-to-get-started-with-2610">How to get started with 26.10</a></li>
+<li class="toc-entry toc-h2"><a href="#join-the-community">Join the Community</a></li>
+<li class="toc-entry toc-h2"><a href="#want-to-help">Want to help?</a></li>
+</ul><p>Release versioning is calendar-based (Year.Month.Patch). Around two base releases are <a href="https://github.com/kubeflow/community-distribution/blob/master/releases/kubeflow-community-distribution-release-handbook.md">planned</a> per year, with optional patch releases. 
+The <a href="https://www.kubeflow.org/docs/started/support/#support-from-the-kubeflow-community">best-effort community support</a> is roughly six months, and <a href="https://www.kubeflow.org/docs/started/support/#support-from-commercial-providers-in-the-kubeflow-ecosystem">commercial support</a> is available from multiple vendors. 
+Please update regularly as explained in the <a href="https://github.com/kubeflow/community-distribution/blob/de767b82cd6b2d52abcb53d8f8038135338a370a/README.md#upgrading-and-extending">upgrading and extending section</a> to benefit from security and performance improvements.</p>
+
+<h2 id="highlight-features-2610">
+<a class="anchor" href="#highlight-features-2610" aria-hidden="true"><span class="octicon octicon-link"></span></a>Highlight features 26.10</h2>
+
+<ul>
+  <li>
+    <p><strong><a href="https://medium.com/@danishsiddiqui040/why-kubeflow-helm-charts-took-more-than-writing-yaml-ad7ef203222e">Helm charts</a> (<em>experimental</em>):</strong> The charts provide a 1:1 equivalent of the Kustomize manifests, with <a href="https://medium.com/@danishsiddiqui040/why-kubeflow-helm-charts-took-more-than-writing-yaml-ad7ef203222e">full Helm installation and end-to-end integration tests</a>.</p>
+  </li>
+  <li>
+<strong>Kubernetes Versions:</strong> We have support for versions 1.35-1.37.0 as validated via CI/CD.</li>
+  <li>
+<strong>Kubeflow Workspaces 2.0.0 (Notebooks v2)</strong> as the new major release is now enabled by default, with Workspaces entries in the Central Dashboard. Notebooks v1 remains optional and is scheduled for removal in Kubeflow 27.03.</li>
+  <li>
+<strong>Kubeflow Notebooks v1.11.1</strong> fixes the <a href="https://github.com/kubeflow/notebooks/pull/1343">infinite status reconciliation loop in the notebook controller</a>, improving scalability for existing Notebooks v1 installations.</li>
+  <li>
+<strong>Kubeflow Dashboard 2.0.1</strong> includes many dependency and security updates, navigation fixes and self-service viewer management. See the <a href="https://github.com/kubeflow/dashboard/releases/tag/v2.0.1">Dashboard release notes</a>.</li>
+  <li>
+<strong>Kubeflow Pipelines 2.18.0</strong>, with matching python packages. The version 1 SDK compatibility tests are retained, note however that KFP v1 support is scheduled for removal in Kubeflow 27.03. Pipelines now supports <a href="https://medium.com/@siddhantjainofficial26/gsoc-2026-platform-scalability-and-security-df71812c2563">garbage collection for both S3 artifacts and the database</a>.</li>
+  <li>
+<strong>Kubeflow Trainer 2.4.0</strong> adds the OptimizationJob API (alpha), the planned successor to Katib Experiments which is now <a href="https://github.com/kubeflow/katib#readme">deprecated</a> , alongside TrainJob improvements for workload-aware scheduling and DRA.</li>
+  <li>
+<strong>Istio 1.31.3</strong>, Knative Serving and Eventing 1.24.0, cert-manager 1.21.2, Dex 2.46.1 and OAuth2-Proxy 7.15.5. Knative Eventing remains optional.</li>
+  <li>
+<strong>Interactive Spark Connect integration tests</strong> from a Kubeflow Workspace, improved component diagnostics, and security scanning migrated from Trivy to OSV-Scanner.</li>
+</ul>
+
+<h2 id="kubeflow-community-distribution">
+<a class="anchor" href="#kubeflow-community-distribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kubeflow Community Distribution:</h2>
+
+<ul>
+  <li>
+<a href="https://github.com/kubeflow/community-distribution/blob/master/README.md">Documentation updates</a> that make it easier to install, extend and upgrade Kubeflow.</li>
+</ul>
+
+<h3 id="kubeflow-community-distribution-26100">
+<a class="anchor" href="#kubeflow-community-distribution-26100" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kubeflow Community Distribution 26.10.0</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Workspaces (Notebooks v2)</th>
+      <th style="text-align: center">Notebooks v1</th>
+      <th style="text-align: center">Dashboard</th>
+      <th style="text-align: center">Pipelines</th>
+      <th style="text-align: center">Katib</th>
+      <th style="text-align: center">Trainer</th>
+      <th style="text-align: center">KServe</th>
+      <th style="text-align: center">KServe UI</th>
+      <th style="text-align: center">Kubeflow Hub</th>
+      <th style="text-align: center">Spark</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/notebooks/tree/v2.0.0/">2.0.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/notebooks/tree/v1.11.1/">v1.11.1</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/dashboard/tree/v2.0.1/">v2.0.1</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/pipelines/tree/2.18.0/manifests/kustomize">2.18.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/katib/tree/v0.19.0/manifests/v1beta1">v0.19.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/trainer/tree/v2.4.0/manifests">v2.4.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kserve/kserve/tree/v0.21.0">v0.21.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kserve/models-web-app/tree/v1.1.0/manifests/kustomize">v1.1.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/hub/tree/v0.3.18/manifests/kustomize">v0.3.18</a></td>
+      <td style="text-align: center"><a href="https://github.com/kubeflow/spark-operator/tree/v2.5.2">2.5.2</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Kubernetes</th>
+      <th style="text-align: center">Kustomize</th>
+      <th style="text-align: center">Cert Manager</th>
+      <th style="text-align: center">Knative</th>
+      <th style="text-align: center">Istio</th>
+      <th style="text-align: center">Dex</th>
+      <th style="text-align: center">OAuth2-proxy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">1.35-1.37</td>
+      <td style="text-align: center"><a href="https://github.com/kubernetes-sigs/kustomize/releases/tag/kustomize%2Fv5.8.1">v5.8.1</a></td>
+      <td style="text-align: center"><a href="https://github.com/cert-manager/cert-manager/releases/tag/v1.21.2">1.21.2</a></td>
+      <td style="text-align: center"><a href="https://github.com/knative/serving/releases/tag/knative-v1.24.0">v1.24.0</a></td>
+      <td style="text-align: center"><a href="https://github.com/istio/istio/releases/tag/1.31.3">1.31.3</a></td>
+      <td style="text-align: center"><a href="https://github.com/dexidp/dex/releases/tag/v2.46.1">2.46.1</a></td>
+      <td style="text-align: center"><a href="https://github.com/oauth2-proxy/oauth2-proxy/releases/tag/v7.15.5">7.15.5</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="pipelines">
+<a class="anchor" href="#pipelines" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/kubeflow/pipelines">Pipelines</a>
+</h2>
+<h2 id="-features">
+<a class="anchor" href="#-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>🚀 Features</h2>
+<p>Kubeflow Pipelines introduces capabilities centered on automatic artifact previews, pipeline visualization, data management, and automated quality workflows:</p>
+
+<ul>
+  <li>
+<strong>Automatic artifact previews:</strong> Supported Python components can generate Dataset and Model previews in run details, helping you inspect outputs without downloading the full artifact. <a href="https://github.com/kubeflow/pipelines/pull/15087">#15087</a>
+</li>
+  <li>
+<strong>Clearer pipeline visualization:</strong> Nested sub-DAGs expand inline in the UI. Standalone HTML/Mermaid previews with local watch mode let you explore pipelines without deploying a server. <a href="https://github.com/kubeflow/pipelines/pull/14864">#14864</a>, <a href="https://github.com/kubeflow/pipelines/pull/15064">#15064</a>
+</li>
+  <li>
+<strong>More authoring options:</strong> Components gain Kubernetes Dynamic Resource Allocation, init containers, Pydantic BaseModel inputs and outputs, and custom task cache keys. DRA requires a compatible backend, Kubernetes configuration, and resource driver. <a href="https://github.com/kubeflow/pipelines/pull/14243">#14243</a>, <a href="https://github.com/kubeflow/pipelines/pull/13651">#13651</a>, <a href="https://github.com/kubeflow/pipelines/pull/13995">#13995</a>, <a href="https://github.com/kubeflow/pipelines/pull/13762">#13762</a>
+</li>
+  <li>
+<strong>Pipeline data management:</strong> Export/import transfers experiments, pipeline versions and tags, completed run history with MLMD lineage, and schedule definitions between compatible installations. Optional retention policies archive and delete expired completed runs; retention is disabled by default. <a href="https://github.com/kubeflow/pipelines/pull/14659">#14659</a>, <a href="https://github.com/kubeflow/pipelines/pull/13532">#13532</a>
+</li>
+  <li>
+<strong>GitHub Agentic Workflows (gh-aw):</strong> Introduced automated issue triage and quality verification workflows using GitHub Agentic Workflows (gh-aw) to streamline review cycles, maintain contribution quality, and support maintainer velocity. . <a href="https://github.com/kubeflow/pipelines/pull/13293">#13293</a>, <a href="https://github.com/kubeflow/pipelines/pull/14022">#14022</a>, <a href="https://github.com/kubeflow/pipelines/pull/14109">#14109</a>, <a href="https://github.com/kubeflow/pipelines/pull/14035">#14035</a>
+</li>
+</ul>
+
+<h2 id="trainer">
+<a class="anchor" href="#trainer" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/kubeflow/trainer">Trainer</a>
+</h2>
+
+<p>This release, Kubeflow Trainer focused on scheduling, observability and monitoring through Workload-Aware Scheduling and Dynamic Resource Allocation. It also introduces the OptimizationJob API (alpha), which replaces Katib. Katib is now deprecated; v0.19.0 still ships in 26.10 to give users time to migrate.</p>
+
+<p>Check out <a href="https://blog.kubeflow.org/kubeflow-trainer-v2.4-release/">Kubeflow Trainer v2.4 blog post</a> to learn more about these features.</p>
+
+<h2 id="-features-1">
+<a class="anchor" href="#-features-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>🚀 Features</h2>
+
+<p><strong>Workload-Aware Scheduling</strong></p>
+
+<p>This feature introduced integrating the Kubernetes Workload API into Kubeflow Trainer to enable
+native workload aware scheduling for TrainJobs. The Workload API, introduced in Kubernetes v1.35 (alpha)
+and promoted to beta in Kubernetes v1.37, provides multiple features to enhance AI workload scheduling orchestration including:</p>
+<ul>
+  <li>gang-scheduling: <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-scheduling/4671-gang-scheduling">KEP-4671</a>,</li>
+  <li>topology-aware scheduling: <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-scheduling/5732-topology-aware-workload-scheduling">KEP-5732</a>,</li>
+  <li>DRA: <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-scheduling/5729-resourceclaim-support-for-workloads">KEP-5729</a>,
+and other features through the Workload and PodGroup resources.</li>
+</ul>
+
+<p><strong>OptimizationJob API</strong></p>
+
+<p>Implement the full API schema for OptimizationJob, CEL and Webhook validation rules. Moving from Katib legacy Experiment CRD to OptimizationJob CRD.</p>
+
+<p>By integrating OptimizationJob natively under the trainer.kubeflow.org API group, we unify the user experience and enable shared observability with TrainJobs.</p>
+
+<p>Key features of this API schema: CEL-Native Validation, Declarative HPO, Manifests &amp; Tooling.</p>
+
+<p><strong>Dynamic Resource Allocation</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">Dynamic Resource Allocation (DRA)</code> graduated to GA in Kubernetes 1.34, providing a modern alternative to extended resources for GPUs and accelerators. 
+This KEP adds a top-level <code class="language-plaintext highlighter-rouge">resourceClaimsPerNode</code> field on Trainer, next to <code class="language-plaintext highlighter-rouge">resourcesPerNode</code>, so data scientists can request DRA devices with the same UX they already use for CPU/memory/GPU counts. The controller applies these claims to the trainer node PodSpec and wires container-level resources.claims on the node container. 
+Claims for other containers (sidecars, init containers) are configured via the runtimePatches API. It also updates GPU auto-detection so numProcPerNode continues to work with DRA.</p>
+
+<p>Here’s the KEP for this feature:</p>
+<ul>
+  <li>KEP-2782: Dynamic Resource Allocation support for TrainJob <a href="https://github.com/kubeflow/trainer/pull/3540">#3540</a>
+</li>
+</ul>
+
+<p><strong>Scheduling &amp; Integrations:</strong></p>
+<ul>
+  <li>
+    <p>Allow users to select a scheduler per TrainJob through the existing RuntimePatches API, without duplicating or modifying a shared TrainingRuntime.
+<a href="https://github.com/kubeflow/trainer/pull/4265">#4265</a></p>
+  </li>
+  <li>
+    <p>JobSet previously supported multi-slice TPU with replica corresponds to the number of slices
+<code class="language-plaintext highlighter-rouge">parallelism</code> corresponds to the number of hosts in a single slice. There should be an easy to use way to specify these params for multi-TPU training jobs.
+<a href="https://github.com/kubeflow/trainer/pull/4250">#4250</a></p>
+  </li>
+  <li>
+    <p>We introduced a new <code class="language-plaintext highlighter-rouge">ComponentDeleterPlugin</code> interface in Kubeflow Trainer to automatically delete Volcano PodGroup resources when a TrainJob enters a Failed, Complete, or suspended state.</p>
+  </li>
+  <li>
+    <p>Previously, PodGroup objects remained in the cluster and permanently held onto <code class="language-plaintext highlighter-rouge">minResources</code> in the Volcano queue, blocking other jobs from running.</p>
+  </li>
+  <li>
+    <p>The update also prevents the Volcano plugin from recreating the PodGroup while a job is suspended avoiding a create-delete loop and ensures a fresh PodGroup is built cleanly upon resumption. Additionally, it adds the required RBAC delete permissions for Volcano PodGroup resources and updates the Makefile to properly fetch the Volcano CRD for integration tests.
+<a href="https://github.com/kubeflow/trainer/pull/4059">#4059</a></p>
+  </li>
+  <li>
+    <p>An opt-in Prometheus monitoring support for the Kubeflow Trainer controller by enabling metric scraping via Prometheus Operator.
+Key changes include Kustomize &amp; Helm Integration, Security &amp; Authentication, RBAC Parity, Scope focuses strictly on making existing controller-runtime metrics scrapeable rather than introducing new Trainer-specific metrics.
+<a href="https://github.com/kubeflow/trainer/pull/4102">#4102</a></p>
+  </li>
+  <li>
+    <p>The Katib project is deprecated. Users should migrate to the OptimizationJob APIs, which are released as part of the Kubeflow Trainer project under the alpha feature gate.</p>
+  </li>
+</ul>
+
+<p>OptimizationJob is the next step for hyperparameter optimization in Kubeflow. It is natively integrated with the TrainJob API, so every trial can use Trainer runtimes and distributed training features out of the box. Metrics are pushed through the Kubeflow SDK and Trainer status server, so you no longer need a separate database or a metrics collector sidecar.</p>
+
+<p>Work on the remaining features is tracked in <a href="https://github.com/kubeflow/trainer/issues/3562">Issue-3562</a>.</p>
+
+<ul>
+  <li>We added operator documentation for scheduling TrainJob workloads using slurm-bridge on hybrid Kubernetes and Slurm clusters.
+Key highlights include: New Operator Guide, Scheduler Integration Scope, Setup &amp; Usage Details
+<a href="https://github.com/kubeflow/trainer/pull/3951">#3951</a>
+</li>
+</ul>
+
+<h2 id="spark-operator">
+<a class="anchor" href="#spark-operator" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/kubeflow/spark-operator">Spark Operator</a>
+</h2>
+
+<p>Kubeflow 26.10 ships Spark Operator 2.5.2 (up from 2.5.0 in 26.03):</p>
+
+<ul>
+  <li>
+    <p><strong>Spark 4.0.4 base image.</strong> <a href="https://github.com/kubeflow/spark-operator/pull/3061">#3061</a></p>
+  </li>
+  <li>
+    <p><strong>Kustomize as a first-class install path</strong>, with a Prometheus PodMonitor, PodDisruptionBudget, and drift detection that keeps Helm and Kustomize in sync. <a href="https://github.com/kubeflow/spark-operator/pull/2919">#2919</a>, <a href="https://github.com/kubeflow/spark-operator/pull/2922">#2922</a>, <a href="https://github.com/kubeflow/spark-operator/pull/2918">#2918</a>, <a href="https://github.com/kubeflow/spark-operator/pull/2933">#2933</a></p>
+  </li>
+  <li>
+    <p><strong>Safer defaults:</strong> least-privilege controller RBAC and webhook validation of <code class="language-plaintext highlighter-rouge">sparkConf</code> keys. <a href="https://github.com/kubeflow/spark-operator/pull/2914">#2914</a>, <a href="https://github.com/kubeflow/spark-operator/pull/3043">#3043</a></p>
+  </li>
+  <li>
+    <p><strong>Observability and scale:</strong> a new <code class="language-plaintext highlighter-rouge">spark_application_submit_latency_seconds</code> metric and <code class="language-plaintext highlighter-rouge">--kube-api-qps</code> / <code class="language-plaintext highlighter-rouge">--kube-api-burst</code> controller flags. <a href="https://github.com/kubeflow/spark-operator/pull/2942">#2942</a>, <a href="https://github.com/kubeflow/spark-operator/pull/2865">#2865</a></p>
+  </li>
+  <li>
+    <p><strong>Spark Connect fix:</strong> the BlockManager port now matches the Service definition. <a href="https://github.com/kubeflow/spark-operator/pull/2948">#2948</a></p>
+  </li>
+</ul>
+
+<p>Our bi-weekly community call is now called “Spark on Kubernetes” (Fridays, 9:00 AM PST).</p>
+
+<p>Join the #kubeflow-spark-on-kubernetes Slack channel, or see the <a href="https://www.kubeflow.org/docs/about/community/">community page</a> for meeting details.</p>
+
+<h2 id="kserve">
+<a class="anchor" href="#kserve" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/kserve/kserve">KServe</a>
+</h2>
+<h2 id="-features-2">
+<a class="anchor" href="#-features-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>🚀 Features</h2>
+<ul>
+  <li>LLMInferenceService Enhancements
+    <ul>
+      <li>Direct KEDA Autoscaling and Scale-to-Zero</li>
+      <li>Traffic Splitting for Controlled Deployments</li>
+      <li>KV Cache Offloading</li>
+      <li>Static LoRA Adapter Support</li>
+      <li>LocalModelCache Support
+<a href="https://kserve.github.io/website/blog/kserve-0.21-release">Source</a>
+</li>
+    </ul>
+  </li>
+  <li>KServe UI</li>
+</ul>
+
+<p>The <a href="https://github.com/kserve/models-web-app">KServe UI</a> is a component of KServe that provides a user-friendly way to handle the lifecycle of InferenceService CRs in a Kubeflow cluster. This allows users to create, delete, and inspect the state of their Model Servers without needing to interact with Kubernetes resources directly.</p>
+
+<h2 id="workspaces-and-dashboard">
+<a class="anchor" href="#workspaces-and-dashboard" aria-hidden="true"><span class="octicon octicon-link"></span></a>Workspaces and Dashboard</h2>
+<ul>
+  <li>Kubeflow Workspaces is the next generation of Kubeflow Notebooks, replacing the original Notebooks controller with a more flexible and extensible architecture.</li>
+  <li>Kubeflow Workspaces 2.0.0 (Notebooks v2) is enabled by default, with Workspaces entries in the Central Dashboard. Notebooks v1 remains optional and is scheduled for removal in Kubeflow 27.03.</li>
+  <li>Kubeflow Notebooks v1.11.1 fixes the <a href="https://github.com/kubeflow/notebooks/pull/1343">infinite status reconciliation loop in the notebook controller</a>, improving scalability for existing Notebooks v1 installations.</li>
+  <li>Kubeflow Dashboard 2.0.1 includes many dependency and security updates, navigation fixes and self-service viewer management. See the <a href="https://github.com/kubeflow/dashboard/releases/tag/v2.0.1">Dashboard release notes</a>.</li>
+</ul>
+
+<h2 id="whats-new">
+<a class="anchor" href="#whats-new" aria-hidden="true"><span class="octicon octicon-link"></span></a>What’s New</h2>
+
+<h3 id="kubeflow-distribution-committee">
+<a class="anchor" href="#kubeflow-distribution-committee" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kubeflow Distribution Committee</h3>
+
+<p>As Kubeflow has graduated to a CNCF project and as it expands across enterprise platforms and hybrid environments, ensuring consistency, reliability, and smooth integration across individual subprojects has become critical. To address this, we are introducing the Kubeflow Distribution Committee (KDC), a vendor-neutral governance body dedicated to maintaining a robust and production-ready ecosystem.</p>
+
+<p>While the primary focus of the KDC is to empower the Kubeflow Subprojects as modular, high-quality components, the Kubeflow Community Distribution (KCD) serves as a primary example of this effort – providing a validated community-supported implementation that demonstrates the collective power of these projects in a unified platform.
+The committee will only approve policies and decisions that support the following goals:</p>
+
+<ul>
+  <li>Promote the Kubeflow community’s vision, values, and mission in collaboration with the KSC, KOC, and WG Chairs.</li>
+  <li>Validate, report on, and advocate for the consumability of Kubeflow Subprojects by defining requirements for portability and ease of deployment across heterogeneous environments. This includes identifying integration-gaps such as unexposed configurations or packaging hurdles—and opening issues with maintainers to help prioritize improvements necessary for the Kubeflow Subprojects to be effectively integrated into the KCD and the broader vendor ecosystem.</li>
+  <li>Define and maintain the requirements for external projects and distributions of Kubeflow Subprojects to be eligible to use the Kubeflow Conformant mark.</li>
+  <li>Define and maintain the requirements for the Kubeflow Community Distribution. Subject to the KCD Decision Process.</li>
+</ul>
+
+<h3 id="semantic-operator">
+<a class="anchor" href="#semantic-operator" aria-hidden="true"><span class="octicon octicon-link"></span></a>Semantic Operator</h3>
+
+<p>A Kubernetes operator and server that runs an Apache Ossie semantic layer on your existing data platform. You define each business metric once, in a SemanticModel resource. A deterministic compiler turns every request into exactly one governed SQL statement, so AI agents (over MCP), apps (over REST), and BI tools (over SQL views) all compute the metric the same way. The LLM only selects certified metrics and dimensions. It never writes SQL.</p>
+
+<p>Here’s our architecture:
+<img src="/images/2026-11-02-kubeflow-26.10-release/Semantic-Operator-architecture.png" alt="Semantic Operator Architecture"></p>
+
+<p>Many AI agents ask an LLM to generate SQL directly from a warehouse schema. The SQL can run successfully while using the wrong business definition. We measured both approaches across 30 business questions, with three phrasings each at temperature 0:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Path</th>
+      <th>Accuracy</th>
+      <th>Consistency across phrasings</th>
+      <th>Wrong answers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Raw text-to-SQL</td>
+      <td>62/90 (69%)</td>
+      <td>19/30 (63%)</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <td>Semantic Layer</td>
+      <td>87/90 (97%)</td>
+      <td>27/30 (90%)</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Every raw-path miss executed without error and returned a confidently wrong number. Full results and method → https://kubeflow.github.io/semantic-operator/examples/benchmark-results/</p>
+
+<ul>
+  <li>
+    <p>Check out the project: https://github.com/kubeflow/semantic-operator</p>
+  </li>
+  <li>
+    <p>Check out the blog: https://blog.kubeflow.org/introducing-semantic-operator/</p>
+  </li>
+</ul>
+
+<h3 id="kubeflow-docs-agent">
+<a class="anchor" href="#kubeflow-docs-agent" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kubeflow Docs Agent</h3>
+<p>Meet our Project FLO!</p>
+
+<p><img src="../images/2026-11-02-kubeflow-26.10-release/FLO.png" width="200" alt="Meet Our FLO!"></p>
+
+<p><strong>Who FLO is?</strong></p>
+
+<p>FLO is an agentic RAG (Retrieval-Augmented Generation) documentation assistant built to power the Kubeflow website.
+Developed within the kubeflow/docs-agent repository by open-source maintainers including <a href="https://github.com/SanthoshToorpu">Santhosh_t</a> and <a href="https://github.com/kmr-rohit">Rohit Kumar</a> (who heavily developed the “FLO” persona during a Google Summer of Code 2026 project), it serves as the official LLM-powered assistant for the community.
+FLO aligns directly with the architectural goals of the <code class="language-plaintext highlighter-rouge">Kubeflow Agents Working Group (WG-Agents)</code>, serving as a practical implementation of autonomous agentic workflows and Model Context Protocol (MCP) server integrations on Kubernetes. Rather than relying on standard text search, FLO uses these MCP toolsets and hybrid retrieval (combining dense vector embeddings with <code class="language-plaintext highlighter-rouge">BM25</code> sparse retrieval via a Milvus vector database) to pull context from across the entire Kubeflow surface—including prose documentation, GitHub issues, source code, and deployment manifests.</p>
+
+<p><strong>Key technical capabilities of the FLO agent include:</strong></p>
+
+<ul>
+  <li>
+<strong>Production GitOps &amp; Evals:</strong> The agent is managed and deployed using Argo CD GitOps workflows. When changes are merged to the docs-agent repository, a staging step runs an LLM-as-a-judge evaluation dataset (logging telemetry to Langfuse) so that every update is scored for quality before reaching production.</li>
+  <li>
+<strong>Automated Issue Triage:</strong> Beyond answering website queries, FLO’s underlying retrieval engine is equipped with instruction and label sets to automatically triage new GitHub issues based on its documentation grounding.</li>
+  <li>
+<strong>Cloud-Native Serving:</strong> Operating entirely within Kubernetes environments, it utilizes models like Llama 3.1 or Gemma and leverages KServe inference services with WebSocket and HTTP streaming for real-time, bidirectional communication with users.</li>
+</ul>
+
+<p>Kubeflow users often struggle to find relevant information across the extensive documentation scattered across different services, components, and repositories. The traditional search approach lacks context and often returns irrelevant results. This documentation assistant addresses these challenges by:</p>
+
+<ul>
+  <li>Semantic Search: Understanding the intent behind queries rather than just keyword matching</li>
+  <li>Contextual Responses: Providing answers based on the most relevant documentation chunks</li>
+  <li>Real-time Processing: Enabling instant responses through streaming APIs</li>
+  <li>Scalable Architecture: Leveraging Kubernetes for automatic scaling and resource management</li>
+</ul>
+
+<p>Check out the project here: https://github.com/kubeflow/docs-agent</p>
+
+<h3 id="working-group-agents">
+<a class="anchor" href="#working-group-agents" aria-hidden="true"><span class="octicon octicon-link"></span></a>Working-Group-Agents</h3>
+<p>This newly introduced WG focuses on deploying and operationalizing autonomous agentic workflows within Kubeflow.
+Join our slack community: <a href="https://kubeflow.slack.com/messages/kubeflow-wg-agents">wg-agents-slack</a></p>
+
+<h2 id="how-to-get-started-with-2610">
+<a class="anchor" href="#how-to-get-started-with-2610" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to get started with 26.10</h2>
+
+<p>Visit the community distribution <a href="https://github.com/kubeflow/community-distribution/releases">release page</a> or head over to the Getting Started and Support pages.</p>
+
+<h2 id="join-the-community">
+<a class="anchor" href="#join-the-community" aria-hidden="true"><span class="octicon octicon-link"></span></a>Join the Community</h2>
+<p>We would like to thank everyone who contributed to Kubeflow 26.10, and especially <a href="https://github.com/dominikkawka">Dominik Kawka</a> for his work as the v26.10 Release Manager.</p>
+
+<p>We also extend our thanks to the entire release team and the working group leads, who continuously and generously dedicate their time and expertise to Kubeflow.</p>
+
+<p>Release team members : <a href="https://github.com/dominikkawka">Dominik Kawka</a>, <a href="https://github.com/dhanishaphadate">Dhanisha Phadate</a>, <a href="https://github.com/alyssacgoins">Alyssa Goins</a>, <a href="https://github.com/arturmartins">Artur Martins</a>, <a href="https://github.com/tarekabouzeid">Tarek Abouzeid</a>,  <a href="https://github.com/vikas-saxena02">Vikas Saxena</a>, <a href="https://github.com/adysenrothman">Adysen Rothman</a>, <a href="https://github.com/vrajjbhatt">Vraj Bhatt</a>, <a href="https://github.com/modichika">Shristi</a>, <a href="https://github.com/robert-bell">Rob Bell</a>, <a href="https://github.com/christian-heusel">Christian Heusel</a>, <a href="https://github.com/nabuskey">Manabu McClosley</a></p>
+
+<p>Kubeflow Steering Committee : <a href="https://github.com/andreyvelich">Andrey Velichkevich</a>, <a href="https://github.com/chasecadet">Chase Christensen</a>, <a href="https://github.com/franciscojavierarceo">Francisco Arceo</a>, <a href="https://github.com/juliusvonkohout">Julius von Kohout</a>, <a href="https://github.com/thesuperzapper">Mathew Wicks</a></p>
+
+<p>You can find more details about Kubeflow distributions
+<a href="https://www.kubeflow.org/docs/started/installing-kubeflow/#packaged-distributions">here</a>.</p>
+
+<h2 id="want-to-help">
+<a class="anchor" href="#want-to-help" aria-hidden="true"><span class="octicon octicon-link"></span></a>Want to help?</h2>
+
+<p>The Kubeflow community Working Groups hold open meetings and are always looking for more volunteers and users to unlock
+the potential of machine learning. If you’re interested in becoming a Kubeflow contributor, please feel free to check
+out the resources below. We look forward to working with you!</p>
+
+<ul>
+  <li>Visit our <a href="https://www.kubeflow.org/docs/about/community/">Kubeflow website</a> or Kubeflow GitHub Page.</li>
+  <li>Join the <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels">Kubeflow Slack channel</a>.</li>
+  <li>Join the <a href="https://groups.google.com/g/kubeflow-discuss">kubeflow-discuss</a> mailing list.</li>
+  <li>Attend our weekly <a href="https://www.kubeflow.org/docs/about/community/#kubeflow-community-call">community meeting</a>.</li>
+</ul>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="kubeflow/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/kubeflow-26.10-release/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name"></li>
+          <li><a class="u-email" href="mailto:"></a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>The Machine Learning Toolkit for Kubernetes.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/kubeflow" target="_blank" title="kubeflow"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

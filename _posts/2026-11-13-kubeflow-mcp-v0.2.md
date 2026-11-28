@@ -334,16 +334,14 @@ We welcome feedback, ideas, and contributions from the community.
 
 ## References
 
-1. [Kubeflow MCP Server GitHub Repository](https://github.com/kubeflow/mcp-server)
-2. [Kubeflow MCP Server v0.2.1 Release](https://github.com/kubeflow/mcp-server/releases/tag/0.2.1)
-3. [Kubeflow MCP Server v0.2 Release Tracker – Issue #342](https://github.com/kubeflow/mcp-server/issues/342)
-4. [Kubeflow Pipelines Client – Issue #182](https://github.com/kubeflow/mcp-server/issues/182), [PR #468](https://github.com/kubeflow/mcp-server/pull/468), and [PR #561](https://github.com/kubeflow/mcp-server/pull/561)
-5. [Kubeflow Spark Integration – Issue #5](https://github.com/kubeflow/mcp-server/issues/5) and [PR #51](https://github.com/kubeflow/mcp-server/pull/51)
-6. [Kubeflow Optimizer (Katib) Client – Issue #34](https://github.com/kubeflow/mcp-server/issues/34) and [PR #105](https://github.com/kubeflow/mcp-server/pull/105)
-7. [Mutation Authorization and Safety Model](https://github.com/kubeflow/mcp-server/blob/main/docs/design/mutation-safety.md)
-8. [Model Context Protocol Documentation](https://modelcontextprotocol.io/)
-9. [Kubeflow Documentation](https://www.kubeflow.org/docs/)
-10. [Previous Announcement: Introducing Kubeflow MCP](https://blog.kubeflow.org/introducing-kubeflow-mcp/)
+1. [Introducing Kubeflow MCP](https://blog.kubeflow.org/introducing-kubeflow-mcp/) — background and original vision.
+2. [v0.2.1 Release Notes](https://github.com/kubeflow/mcp-server/releases/tag/0.2.1)
+3. [Quickstart & Troubleshooting](https://github.com/kubeflow/mcp-server/blob/0.2.1/docs/quickstart.md) — installation and setup.
+4. [Deployment & Integration Examples](https://github.com/kubeflow/mcp-server/tree/0.2.1/examples) — Kubernetes, kagent, agentgateway, and observability.
+5. [Mutation Authorization & Safety Model](https://github.com/kubeflow/mcp-server/blob/0.2.1/docs/design/mutation-safety.md) — permissions and confirmation behavior.
+6. [Model Context Protocol](https://modelcontextprotocol.io/) — protocol documentation.
+7. [Skills over MCP Working Group](https://modelcontextprotocol.io/community/working-groups/skills-over-mcp) — skills discovery and interoperability.
+8. [Agentic AI Foundation](https://aaif.io/about) — broader open agent ecosystem under the Linux Foundation.
 
 ---
 

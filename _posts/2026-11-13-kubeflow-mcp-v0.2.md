@@ -19,6 +19,8 @@ With **v0.2** (published as **[`0.2.1`](https://github.com/kubeflow/mcp-server/r
 - **Modern protocol core:** Upgraded to **FastMCP 4**, **MCP SDK v2**, and **Kubeflow SDK 0.5.0**.
 - **Hardened safety & ecosystem:** Strict JWT auth, fail-closed policies, deployment/observability profiles, and a GitHub-hosted **Agent Skills catalog** skeleton.
 
+![Kubeflow MCP v0.2: from manual workflows to conversational ML](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-v0.2-intro.png)
+
 One MCP server, multiple Kubeflow clients, and a unified interface for AI agents. Let's walk through what's new and how to get started.
 
 ---
@@ -89,6 +91,8 @@ The **Kubeflow Pipelines Client** wraps `kubeflow.pipelines.PipelinesClient` (Ku
 | **Runs** | `create_pipeline_run`, `create_experiment` | Start pipeline runs and create experiments |
 | **Lifecycle** | `stop_pipeline_run`, `retry_pipeline_run`, `delete_experiment`, `delete_pipeline` | Stop or retry runs, or delete experiments and pipelines |
 
+![Kubeflow MCP Pipelines workflow](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-pipelines-workflow.png)
+
 - **Sandboxed authoring:** `create_pipeline` AST-validates KFP v2 Python code and compiles it in an isolated `python -I` subprocess before uploading.
 - **Role-based guards:** Since KFP does not support MCP ownership labels, authoring and stop/retry require `ml-engineer`, while deletes require `platform-admin`.
 
@@ -130,6 +134,8 @@ The **Spark Client** wraps `kubeflow.spark.SparkClient` (via `kubeflow-mcp[spark
 | **Sessions** | `create_spark_session`, `delete_spark_session` | Provision and tear down MCP-managed SparkConnect sessions |
 | **Monitoring** | `get_spark_session_logs` | Read bounded Spark driver-pod logs |
 
+![Kubeflow MCP Spark session workflow](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-spark-workflow.png)
+
 **Example interaction:**
 
 ```text
@@ -160,6 +166,8 @@ The **Optimizer (Katib) Client** brings end-to-end hyperparameter optimization (
 | **Optimization** | `create_hpo_experiment`, `create_hpo_experiment_from_spec` | Create HPO experiments from flat parameters or a raw `V1beta1Experiment` spec |
 | **Monitoring** | `get_hpo_experiment_trials`, `get_best_trial`, `get_suggestion`, `wait_for_hpo_experiment`, `get_hpo_experiment_trial_logs`, `get_hpo_experiment_events` | Track trials, fetch optimal hyperparameters, and inspect trial logs and events |
 | **Lifecycle** | `update_hpo_experiment`, `delete_hpo_experiment` | Adjust trial budgets/parallelism or delete MCP-managed experiments |
+
+![Kubeflow MCP Katib optimization workflow](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-katib-workflow.png)
 
 - **Flexible HPO creation:** `create_hpo_experiment` supports 7 built-in search algorithms (`random`, `grid`, `tpe`, `cmaes`, `sobol`, Bayesian, multivariate TPE); use `create_hpo_experiment_from_spec` for Hyperband, early stopping, or NAS.
 - **Safe scaling:** Katib has no pause—lowering `parallel_trial_count` deletes active trials—so `update_hpo_experiment` is marked `[DESTRUCTIVE]`, restricted to `ml-engineer+`, and previews affected trials before confirmation.

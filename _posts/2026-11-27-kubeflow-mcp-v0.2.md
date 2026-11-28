@@ -2,7 +2,7 @@
 toc: true
 layout: post
 comments: true
-title: "Kubeflow MCP v0.2: Beyond Training… Run, Monitor, and Tune Through Conversation"
+title: "Kubeflow MCP v0.2: Beyond Training… Run, Monitor and Tune Through Conversation"
 description: "Kubeflow MCP Server v0.2 expands AI agent access across Kubeflow with new Pipelines, Spark, and Optimizer (Katib) client integrations, enhanced Trainer diagnostics, guided workflows, and safety-first operations."
 hide: false
 categories: [release, mcp]
@@ -266,6 +266,8 @@ For Docker/HTTP deployments, cluster verification, RBAC YAML, and troubleshootin
 ### From Your Workstation to Your Cluster
 
 Start locally with an MCP-compatible assistant, or use the deployment examples to bring Kubeflow MCP into your cluster:
+
+![Kubeflow MCP deployment paths: local development, standalone Kubernetes, and kagent through agentgateway, with optional observability](/images/2026-11-27-kubeflow-mcp-v0.2/mcp-deployment-paths.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
 
 - **Kubernetes:** Run the server as an HTTP service with a ServiceAccount and Trainer RBAC.
 - **kagent:** Register the server with kagent to discover and invoke Kubeflow tools through an agent interface.

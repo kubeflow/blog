@@ -17,7 +17,8 @@ With **v0.2**, the server expands from a Trainer-focused integration into a **mu
 - **3 new Kubeflow clients:** Pipelines (14 tools), Spark (5 tools), and Optimizer / Katib (17 tools)—growing the server from 23 to **59 tools**.
 - **Richer Trainer diagnostics:** GPU allocation previews, pod blockers, per-step status, cursor-based log polling, and full confirm-gate coverage.
 - **Modern protocol core:** Upgraded to **FastMCP 4**, **MCP SDK v2**, and **Kubeflow SDK 0.5.0**.
-- **Hardened safety & ecosystem:** Strict JWT auth, fail-closed policies, deployment/observability profiles, and a GitHub-hosted **Agent Skills catalog** skeleton.
+- **Cluster deployment examples:** Ready-to-use manifests for Kubernetes, kagent, and agentgateway with optional observability—see [From Your Workstation to Your Cluster](#from-your-workstation-to-your-cluster).
+- **Hardened safety & skills foundation:** Strict JWT auth, fail-closed policies, and a GitHub-hosted **Agent Skills catalog** skeleton.
 
 ![Kubeflow MCP v0.2: from manual workflows to conversational ML](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-v0.2-intro.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
 
@@ -53,15 +54,7 @@ The v0.2 architecture centers on a single MCP Server process (`kubeflow-mcp serv
 
 ### Kubeflow Pipelines Client (14 Tools)
 
-The **Kubeflow Pipelines Client** wraps `kubeflow.pipelines.PipelinesClient` (`kubeflow-mcp[pipelines]`). Beyond discovering and running existing pipelines, v0.2 includes **pipeline authoring** and **experiment management** so agents can go from prompt to registered pipeline to tracked run.
-
-| Phase | Tools | What they do |
-|---|---|---|
-| **Discovery** | `list_pipelines`, `get_pipeline`, `list_experiments`, `get_experiment` | Browse registered pipelines, versions, and experiments |
-| **Authoring** | `create_pipeline` | Validate, compile, and upload KFP v2 Python pipelines |
-| **Monitoring** | `list_pipeline_runs`, `get_pipeline_run`, `get_pipeline_logs` | Follow runs, inspect task states, and read task pod logs |
-| **Runs** | `create_pipeline_run`, `create_experiment` | Start pipeline runs and create experiments |
-| **Lifecycle** | `stop_pipeline_run`, `retry_pipeline_run`, `delete_experiment`, `delete_pipeline` | Stop or retry runs, or delete experiments and pipelines |
+The **Kubeflow Pipelines Client** wraps `kubeflow.pipelines.PipelinesClient` (`kubeflow-mcp[pipelines]`). Beyond discovering and running existing pipelines, v0.2 includes **pipeline authoring** and **experiment management** across 14 tools spanning discovery, authoring, runs, monitoring, and lifecycle (see the [available tools documentation](https://github.com/kubeflow/mcp-server/blob/0.2.1/README.md#available-tools) for the full list).
 
 ![Kubeflow MCP Pipelines workflow](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-pipelines-workflow.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
 
@@ -96,13 +89,7 @@ User: "List our pipelines and start a run of the customer-churn pipeline."
 
 ### Spark Client (5 Tools)
 
-The **Spark Client** wraps `kubeflow.spark.SparkClient` (via `kubeflow-mcp[spark]`) to manage **SparkConnect** sessions on Kubernetes. It handles session provisioning and returns connection info so PySpark attaches directly without proxying Spark RPCs.
-
-| Phase | Tools | What they do |
-|---|---|---|
-| **Discovery** | `list_spark_sessions`, `get_spark_session` | Browse SparkConnect sessions, driver pods, and connect info |
-| **Sessions** | `create_spark_session`, `delete_spark_session` | Provision and tear down MCP-managed SparkConnect sessions |
-| **Monitoring** | `get_spark_session_logs` | Read bounded Spark driver-pod logs |
+The **Spark Client** wraps `kubeflow.spark.SparkClient` (via `kubeflow-mcp[spark]`) to manage **SparkConnect** sessions on Kubernetes across 5 tools covering discovery, session lifecycle, and driver logs—returning connection info so PySpark attaches directly without proxying Spark RPCs (see the [available tools documentation](https://github.com/kubeflow/mcp-server/blob/0.2.1/README.md#available-tools)).
 
 ![Kubeflow MCP Spark session workflow](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-spark-workflow.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
 
@@ -125,15 +112,7 @@ User: "Show me the currently available Spark sessions and check the logs for spa
 
 ### Optimizer (Katib) Client (17 Tools)
 
-The **Optimizer (Katib) Client** wraps `kubeflow.optimizer.OptimizerClient` (included in the base `kubeflow-mcp` install) to bring end-to-end hyperparameter optimization (HPO) workflows to AI agents.
-
-| Phase | Tools | What they do |
-|---|---|---|
-| **Planning** | `katib_pre_flight` | Verify Katib CRD, controller readiness, and Trainer availability |
-| **Discovery** | `list_hpo_experiments`, `get_hpo_experiment`, `get_hpo_experiment_status`, `get_trial`, `get_successful_trials`, `list_suggestions` | Browse experiments, trials, successful results, and suggestions |
-| **Optimization** | `create_hpo_experiment`, `create_hpo_experiment_from_spec` | Create HPO experiments from flat parameters or a raw `V1beta1Experiment` spec |
-| **Monitoring** | `get_hpo_experiment_trials`, `get_best_trial`, `get_suggestion`, `wait_for_hpo_experiment`, `get_hpo_experiment_trial_logs`, `get_hpo_experiment_events` | Track trials, fetch optimal hyperparameters, and inspect trial logs and events |
-| **Lifecycle** | `update_hpo_experiment`, `delete_hpo_experiment` | Adjust trial budgets/parallelism or delete MCP-managed experiments |
+The **Optimizer (Katib) Client** wraps `kubeflow.optimizer.OptimizerClient` (included in the base `kubeflow-mcp` install) to bring end-to-end hyperparameter optimization (HPO) workflows to AI agents across 17 tools covering pre-flight checks, discovery, experiment creation, trial monitoring, and lifecycle (see the [available tools documentation](https://github.com/kubeflow/mcp-server/blob/0.2.1/README.md#available-tools)).
 
 ![Kubeflow MCP Katib optimization workflow](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-katib-workflow.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
 

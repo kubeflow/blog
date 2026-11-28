@@ -12,7 +12,7 @@ author: "Pratik Naik, Abhijeet Dhumal"
 
 AI agents are rapidly becoming a standard interface for operating software systems, yet machine learning infrastructure remains fragmented across separate APIs, SDKs, and operational workflows. The **Kubeflow MCP Server** bridges that gap through the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/), giving AI agents a consistent, safety-first way to discover capabilities, execute workloads, and monitor clusters.
 
-With **v0.2** (published as **[`0.2.1`](https://github.com/kubeflow/mcp-server/releases/tag/0.2.1)**, combining all `0.2.0` changes and release fixes), the server expands from a Trainer-focused integration into a **multi-client platform**:
+With **v0.2**, the server expands from a Trainer-focused integration into a **multi-client platform**:
 
 - **3 new Kubeflow clients:** Pipelines (14 tools), Spark (5 tools), and Optimizer / Katib (17 tools)—growing the server from 23 to **59 tools**.
 - **Richer Trainer diagnostics:** GPU allocation previews, pod blockers, per-step status, cursor-based log polling, and full confirm-gate coverage.

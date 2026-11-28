@@ -2,7 +2,7 @@
 toc: true
 layout: post
 comments: true
-title: "Kubeflow MCP Server v0.2: Expanding the Kubeflow Ecosystem with New Client Integrations"
+title: "Kubeflow MCP v0.2: Beyond Training… Run, Monitor, and Tune Through Conversation"
 description: "Kubeflow MCP Server v0.2 expands AI agent access across Kubeflow with new Pipelines, Spark, and Optimizer (Katib) client integrations, enhanced Trainer diagnostics, guided workflows, and safety-first operations."
 hide: false
 categories: [release, mcp]

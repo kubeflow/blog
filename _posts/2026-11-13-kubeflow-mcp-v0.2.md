@@ -125,7 +125,7 @@ User: "Show me the currently available Spark sessions and check the logs for spa
 
 ### Optimizer (Katib) Client (17 Tools)
 
-The **Optimizer (Katib) Client** brings end-to-end hyperparameter optimization (HPO) workflows to AI agents and ships in the base install (`kubeflow-katib-api>=0.19.0`).
+The **Optimizer (Katib) Client** wraps `kubeflow.optimizer.OptimizerClient` (included in the base `kubeflow-mcp` install) to bring end-to-end hyperparameter optimization (HPO) workflows to AI agents.
 
 | Phase | Tools | What they do |
 |---|---|---|

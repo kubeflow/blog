@@ -3,460 +3,384 @@ toc: true
 layout: post
 comments: true
 title: "Kubeflow MCP Server v0.2: Expanding the Kubeflow Ecosystem with New Client Integrations"
-description: "Kubeflow MCP Server v0.2 expands AI agent access to Kubeflow with new Pipelines, Spark, Optimizer, and Hub integrations, guided workflows, and safety-focused operations."
+description: "Kubeflow MCP Server v0.2 expands AI agent access across Kubeflow with new Pipelines, Spark, and Optimizer (Katib) client integrations, enhanced Trainer diagnostics, guided workflows, and safety-first operations."
 hide: false
 categories: [release, mcp]
 permalink: /kubeflow-mcp-v0.2/
 author: "Pratik Naik, Abhijeet Dhumal"
 ---
 
-AI agents are becoming an increasingly common interface for interacting with software systems. They can write code, debug applications, and automate development workflows. But interacting with machine learning infrastructure is a different challenge.
+AI agents are rapidly becoming a standard interface for operating software systems, yet machine learning infrastructure remains fragmented across separate APIs, SDKs, and operational workflows. The **Kubeflow MCP Server** bridges that gap through the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/), giving AI agents a consistent, safety-first way to discover capabilities, execute workloads, and monitor clusters.
 
-Kubeflow provides several components for managing the machine learning lifecycle. Training workloads, end-to-end pipelines, distributed data processing, and model management each have their own APIs, SDKs, and operational workflows.
+With **v0.2** (published as **[`0.2.1`](https://github.com/kubeflow/mcp-server/releases/tag/0.2.1)**, combining all `0.2.0` changes and release fixes), the server expands from a Trainer-focused integration into a **multi-client platform**:
 
-Connecting AI agents to these capabilities requires more than exposing a collection of tools. It requires a consistent interface that allows agents to discover capabilities, execute operations, monitor workloads, and interact with infrastructure safely.
+- **3 new Kubeflow clients:** Pipelines (14 tools), Spark (5 tools), and Optimizer / Katib (17 tools)—growing the server from 23 to **59 tools**.
+- **Richer Trainer diagnostics:** GPU allocation previews, pod blockers, per-step status, cursor-based log polling, and full confirm-gate coverage.
+- **Modern protocol core:** Upgraded to **FastMCP 4**, **MCP SDK v2**, and **Kubeflow SDK 0.5.0**.
+- **Hardened safety & ecosystem:** Strict JWT auth, fail-closed policies, deployment/observability profiles, and a GitHub-hosted **Agent Skills catalog** skeleton.
 
-The **Kubeflow MCP Server** provides that interface through the Model Context Protocol (MCP).
-
-With the initial v0.1 release, we introduced a Trainer-focused MCP client that enabled AI agents to interact with Kubeflow Trainer workflows directly.
-
-With **v0.2, we are expanding that foundation into a multi-client platform.**
-
-The new release introduces integrations for Kubeflow Pipelines, Spark, Optimizer (Katib), and Hub (Model Registry), extending agent access beyond model training into pipeline execution, Spark session management, hyperparameter optimization, and model management.
-
-The direction is simple: one MCP server, multiple Kubeflow clients, and a unified interface for AI agents.
-
-In this blog, we walk through what's new in v0.2, how the new client integrations work, the design principles behind them, and how to get started.
+One MCP server, multiple Kubeflow clients, and a unified interface for AI agents. Let's walk through what's new and how to get started.
 
 ---
 
 ## What's New in v0.2?
 
-The biggest change in v0.2 is the expansion of the client architecture.
-
-Previously, the MCP Server primarily exposed Kubeflow Trainer functionality. The new architecture allows multiple Kubeflow components to be integrated through dedicated clients.
+The biggest change in v0.2 is the expansion from a single-client Trainer server into a modular multi-client architecture, letting users enable only the Kubeflow components installed on their cluster.
 
 ### Client Overview
 
-| Client | Status | Tools | Description |
-|---|---|---:|---|
-| Kubeflow Trainer | Available | 23 | Training, fine-tuning, monitoring, and runtime management |
-| Kubeflow Pipelines | New in v0.2 | 8 | Pipeline discovery, execution, monitoring, and lifecycle management |
-| Spark | New in v0.2 | 5 | Spark session discovery, creation, monitoring, and deletion |
-| Optimizer (Katib) | New in v0.2 | 8 | Hyperparameter optimization workflows |
-| Hub (Model Registry) | New in v0.2 | 7 | Model registration, discovery, versions, and artifacts |
+| Client | CLI Flag | Status | Tools | Description |
+|---|---|---|---:|---|
+| **Kubeflow Trainer** | `--clients trainer` *(default)* | Available *(enhanced in v0.2)* | 21 *(+ 2 shared health tools = 23)* | Distributed training, fine-tuning, resource previews, pod diagnostics, and runtime management |
+| **Kubeflow Pipelines** | `--clients pipelines` | New in v0.2 | 14 | Pipeline authoring, discovery, experiments, run execution, monitoring, and lifecycle |
+| **Spark** | `--clients spark` | New in v0.2 | 5 | SparkConnect session discovery, provisioning, driver logs, and teardown |
+| **Optimizer (Katib)** | `--clients optimizer` | New in v0.2 | 17 | Katib pre-flight checks, HPO experiment creation, trial monitoring, and lifecycle |
 
-The Trainer client remains the foundation, while Pipelines, Spark, Optimizer, and Hub bring four new sets of capabilities to the MCP Server.
+The Trainer client remains the default foundation (with two shared server-level health tools, `health_check` and `get_server_logs`, always available), while **Pipelines**, **Spark**, and **Optimizer (Katib)** add 36 new tools for a total of **59 tools** across four active clients.
 
 ---
 
 ## A Unified Multi-Client Architecture
 
-The v0.2 architecture is designed around a central MCP Server that exposes multiple Kubeflow integrations to AI agents.
+The v0.2 architecture centers on a single MCP Server process (`kubeflow-mcp serve`) that dynamically loads client modules and applies shared security, policy, resilience, and observability layers to every tool call.
 
-Instead of requiring agents to understand and interact with different component-specific interfaces independently, they can discover and invoke capabilities through a unified MCP interface.
+```text
+AI Agents & MCP Clients (Cursor · Claude Code · VS Code · KAgent · Custom Agents)
+                                    │
+                   stdio  │  Streamable HTTP  │  SSE (deprecated)
+                                    ▼
+┌───────────────────────────────────────────────────────────────────────────┐
+│  kubeflow-mcp serve  (FastMCP 4 / MCP SDK v2)                             │
+│                                                                           │
+│  Auth          Bearer token · Strict JWT/JWKS (issuer + audience + exp)   │
+│  Policy        4 Personas · ~/.kf-mcp-policy.yaml · Namespace allowlists  │
+│  Tool Modes    full (all tools) · progressive (3) · semantic (2)          │
+│  Safety        Two-phase confirmation (confirmed=False/True) · AST checks │
+│  Resilience    Rate limiter · Per-tool circuit breakers · Timeouts        │
+│  Observability OpenTelemetry tracing · Trace-ID log correlation · Health  │
+└───────────────────────────────────┬───────────────────────────────────────┘
+                                    │
+        ┌───────────────────┬───────┴───────────┬───────────────────┐
+        ▼                   ▼                   ▼                   ▼
+ Trainer (21+2)       Pipelines (14)        Spark (5)        Optimizer (17)
+ Kubeflow Trainer     Kubeflow Pipelines    SparkConnect     Katib v0.19
+  (>=2.3,<2.4)          (kfp / SDK)        (Spark Operator)  (V1beta1 CRs)
+        └───────────────────┴───────┬───────────┴───────────────────┘
+                                    ▼
+       Kubernetes Infrastructure (Kind · Minikube · OpenShift · EKS · GKE)
+```
 
-**Architecture:**
-
-> **TODO:** Add updated v0.2 multi-client architecture diagram.
-
-The architecture should illustrate:
-
-- AI Agents and MCP clients
-- Kubeflow MCP Server
-- Trainer Client
-- Pipelines Client
-- Spark Client
-- Optimizer Client
-- Hub Client
-- Underlying Kubeflow APIs and Kubernetes infrastructure
-
-Each client is responsible for translating agent-facing tool calls into operations supported by its corresponding Kubeflow component.
-
-The result is a consistent interaction model across multiple parts of the Kubeflow ecosystem.
+- **Modular client ownership:** Each client packages its own tools, workflow phases, instruction sections, and `client://guides/*` MCP resources.
+- **Shared server core:** Every loaded client automatically inherits authentication, persona gating, audit logging, rate limiting, and circuit breakers.
 
 ---
 
 ## Key Features
 
-### 1. Kubeflow Pipelines Client
+### 1. Kubeflow Pipelines Client (14 Tools)
 
-One of the major additions in v0.2 is the **Kubeflow Pipelines Client**.
+The **Kubeflow Pipelines Client** wraps `kubeflow.pipelines.PipelinesClient` (Kubeflow SDK `>=0.5.0`, backed by `kfp` via `kubeflow-mcp[pipelines]`). Beyond discovering and running existing pipelines, v0.2 includes **pipeline authoring** and **experiment management** so agents can go from prompt to registered pipeline to tracked run.
 
-Kubeflow Pipelines enables users to build, execute, and manage end-to-end machine learning workflows. The new MCP integration makes these capabilities accessible to AI agents.
-
-The Pipelines client is implemented using the Kubeflow Pipelines SDK.
-
-**Eight tools are introduced:**
-
-| Phase | Tools | Description |
+| Phase | Tools | What they do |
 |---|---|---|
-| Discovery | `list_pipelines` | List available pipelines |
-| Discovery | `get_pipeline` | Retrieve pipeline details |
-| Monitoring | `list_pipeline_runs` | List pipeline runs |
-| Monitoring | `get_pipeline_run` | Retrieve run details |
-| Monitoring | `get_pipeline_logs` | Retrieve pipeline run logs |
-| Create | `create_pipeline_run` | Create a pipeline run |
-| Lifecycle | `stop_pipeline_run` | Stop a running pipeline |
-| Lifecycle | `retry_pipeline_run` | Retry a pipeline run |
+| **Discovery** | `list_pipelines`, `get_pipeline`, `list_experiments`, `get_experiment` | Browse registered pipelines, versions, and experiments |
+| **Authoring** | `create_pipeline` | Validate, compile, and upload KFP v2 Python pipelines |
+| **Monitoring** | `list_pipeline_runs`, `get_pipeline_run`, `get_pipeline_logs` | Follow runs, inspect task states, and read task pod logs |
+| **Runs** | `create_pipeline_run`, `create_experiment` | Start pipeline runs and create experiments |
+| **Lifecycle** | `stop_pipeline_run`, `retry_pipeline_run`, `delete_experiment`, `delete_pipeline` | Stop or retry runs, or delete experiments and pipelines |
 
-These tools are organized around a workflow that starts with discovering available pipelines, moves into execution and monitoring, and provides lifecycle operations when needed.
+- **Sandboxed authoring:** `create_pipeline` AST-validates KFP v2 Python code and compiles it in an isolated `python -I` subprocess before uploading.
+- **Role-based guards:** Since KFP does not support MCP ownership labels, authoring and stop/retry require `ml-engineer`, while deletes require `platform-admin`.
 
 **Example interaction:**
 
 ```text
-User:
-"Show me the available Kubeflow pipelines."
+User: "List our pipelines and start a run of the customer-churn pipeline."
 
-Agent:
-Calls list_pipelines()
+1. Agent calls list_pipelines()
+   → Returns registered pipelines including "customer-churn"
 
-MCP Server:
-Retrieves available pipelines.
+2. Agent calls get_pipeline(name="customer-churn")
+   → Inspects latest version and expected parameters
 
-Agent:
-Presents the pipeline list to the user.
+3. Agent calls create_pipeline_run(pipeline="customer-churn",
+                                   experiment="weekly-eval",
+                                   confirmed=False)
+   → Returns preview of the run configuration for review
 
-User:
-"Show me the details of this pipeline."
+4. User: "Looks good, run it."
+   Agent calls create_pipeline_run(..., confirmed=True)
+   → Starts pipeline run and returns run_id
 
-Agent:
-Calls get_pipeline()
+5. Agent calls get_pipeline_run(run_id="<run-id>")
+   → Tracks task states; calls get_pipeline_logs() if any task fails
 ```
 
-An agent can use these tools to discover existing workflows and interact with pipeline executions without requiring the user to manually navigate different interfaces.
-
-> **TODO:** Add Pipelines Client demo screenshot or GIF.
-
-**Implementation:** [Issue #182](https://github.com/kubeflow/mcp-server/issues/182) | [PR #468](https://github.com/kubeflow/mcp-server/pull/468)
+**Implementation:** [Issue #182](https://github.com/kubeflow/mcp-server/issues/182) | [PR #468](https://github.com/kubeflow/mcp-server/pull/468) | [PR #561](https://github.com/kubeflow/mcp-server/pull/561)
 
 ---
 
-### 2. Spark Client
+### 2. Spark Client (5 Tools)
 
-The second major addition is the **Spark Client**.
+The **Spark Client** wraps `kubeflow.spark.SparkClient` (via `kubeflow-mcp[spark]`) to manage **SparkConnect** sessions on Kubernetes. It handles session provisioning and returns connection info so PySpark attaches directly without proxying Spark RPCs.
 
-Apache Spark is widely used for distributed data processing. Through the new Spark integration, AI agents can discover and manage Spark sessions using MCP tools.
-
-The Spark client introduces five tools:
-
-| Phase | Tool | Description |
+| Phase | Tools | What they do |
 |---|---|---|
-| Discovery | `list_spark_sessions` | List available Spark sessions |
-| Discovery | `get_spark_session` | Retrieve Spark session details |
-| Sessions | `create_spark_session` | Create a Spark session |
-| Sessions | `delete_spark_session` | Delete a Spark session |
-| Monitoring | `get_spark_session_logs` | Retrieve Spark session logs |
-
-These capabilities provide a conversational interface for Spark session management.
+| **Discovery** | `list_spark_sessions`, `get_spark_session` | Browse SparkConnect sessions, driver pods, and connect info |
+| **Sessions** | `create_spark_session`, `delete_spark_session` | Provision and tear down MCP-managed SparkConnect sessions |
+| **Monitoring** | `get_spark_session_logs` | Read bounded Spark driver-pod logs |
 
 **Example interaction:**
 
 ```text
-User:
-"Show me the currently available Spark sessions."
+User: "Show me the currently available Spark sessions and check the logs for spark-etl-dev."
 
-Agent:
-Calls list_spark_sessions()
+1. Agent calls list_spark_sessions()
+   → Returns active SparkConnect sessions and states (Ready / Provisioning / Failed)
 
-MCP Server:
-Retrieves Spark session information.
+2. Agent calls get_spark_session(name="spark-etl-dev")
+   → Returns driver pod status, service name, and SparkConnect endpoint
 
-Agent:
-Summarizes the available sessions.
-
-User:
-"Show me the logs for this session."
-
-Agent:
-Calls get_spark_session_logs()
+3. Agent calls get_spark_session_logs(name="spark-etl-dev", tail_lines=100)
+   → Returns bounded driver logs for diagnostics
 ```
 
-The integration follows the same client-oriented approach as the other Kubeflow integrations.
-
-> **TODO:** Add Spark Client workflow diagram or demo screenshot.
-
-**Implementation:** [Issue #51](https://github.com/kubeflow/mcp-server/issues/51)
+**Implementation:** [Issue #5](https://github.com/kubeflow/mcp-server/issues/5) | [PR #51](https://github.com/kubeflow/mcp-server/pull/51)
 
 ---
 
-### 3. Optimizer (Katib) Client
+### 3. Optimizer (Katib) Client (17 Tools)
 
-The third addition is the **Optimizer (Katib) Client**.
+The **Optimizer (Katib) Client** brings end-to-end hyperparameter optimization (HPO) workflows to AI agents and ships in the base install (`kubeflow-katib-api>=0.19.0`).
 
-Kubeflow Katib enables hyperparameter optimization for machine learning workloads. Through the new Optimizer integration, AI agents can create, monitor, and analyze hyperparameter optimization jobs using MCP tools.
-
-The Optimizer client introduces eight tools:
-
-| Phase | Tool | Description |
+| Phase | Tools | What they do |
 |---|---|---|
-| Discovery | `list_optimization_jobs` | List optimization jobs |
-| Discovery | `get_optimization_job` | Retrieve optimization job details |
-| Monitoring | `get_optimization_logs` | Retrieve optimization job logs |
-| Monitoring | `get_optimization_events` | Retrieve optimization job events |
-| Monitoring | `wait_for_optimization` | Wait for an optimization job to complete |
-| Create | `create_optimization_job` | Create a hyperparameter optimization job |
-| Results | `get_best_hyperparameters` | Retrieve the best hyperparameters found |
-| Lifecycle | `delete_optimization_job` | Delete an optimization job |
+| **Planning** | `katib_pre_flight` | Verify Katib CRD, controller readiness, and Trainer availability |
+| **Discovery** | `list_hpo_experiments`, `get_hpo_experiment`, `get_hpo_experiment_status`, `get_trial`, `get_successful_trials`, `list_suggestions` | Browse experiments, trials, successful results, and suggestions |
+| **Optimization** | `create_hpo_experiment`, `create_hpo_experiment_from_spec` | Create HPO experiments from flat parameters or a raw `V1beta1Experiment` spec |
+| **Monitoring** | `get_hpo_experiment_trials`, `get_best_trial`, `get_suggestion`, `wait_for_hpo_experiment`, `get_hpo_experiment_trial_logs`, `get_hpo_experiment_events` | Track trials, fetch optimal hyperparameters, and inspect trial logs and events |
+| **Lifecycle** | `update_hpo_experiment`, `delete_hpo_experiment` | Adjust trial budgets/parallelism or delete MCP-managed experiments |
 
-These capabilities provide a conversational interface for hyperparameter optimization.
+- **Flexible HPO creation:** `create_hpo_experiment` supports 7 built-in search algorithms (`random`, `grid`, `tpe`, `cmaes`, `sobol`, Bayesian, multivariate TPE); use `create_hpo_experiment_from_spec` for Hyperband, early stopping, or NAS.
+- **Safe scaling:** Katib has no pause—lowering `parallel_trial_count` deletes active trials—so `update_hpo_experiment` is marked `[DESTRUCTIVE]`, restricted to `ml-engineer+`, and previews affected trials before confirmation.
+- **Prerequisite:** Requires Katib `v0.19` and namespace label `katib.kubeflow.org/metrics-collector-injection=enabled`.
 
 **Example interaction:**
 
 ```text
-User:
-"Optimize the learning rate and batch size for my model."
+User: "Tune learning rate and batch size for my training job using TPE."
 
-Agent:
-Calls create_optimization_job()
+1. Agent calls katib_pre_flight()
+   → Verifies Katib Experiment CRD and controller health
 
-MCP Server:
-Creates the optimization job and returns its details.
+2. Agent calls create_hpo_experiment(name="lr-bs-sweep",
+                                     algorithm="tpe",
+                                     ...,
+                                     confirmed=False)
+   → Returns experiment preview with search space, objective, and trial budget
 
-Agent:
-Presents the optimization job to the user.
+3. User: "Approved, start the sweep."
+   Agent calls create_hpo_experiment(..., confirmed=True)
+   → Creates Katib Experiment "lr-bs-sweep"
 
-User:
-"Which hyperparameters performed best?"
+4. Agent calls wait_for_hpo_experiment("lr-bs-sweep")
+   → Waits for the experiment to complete (or polls with get_hpo_experiment_status())
 
-Agent:
-Calls get_best_hyperparameters()
+5. Agent calls get_best_trial("lr-bs-sweep")
+   → Returns best hyperparameters and objective metric (ready to feed into fine_tune())
 ```
 
-An agent can use these tools to launch hyperparameter searches and compare results without manually inspecting individual trials.
-
-> **TODO:** Add Optimizer Client demo screenshot or GIF.
-
-> **TODO:** Add implementation issue and PR links.
+**Implementation:** [Issue #34](https://github.com/kubeflow/mcp-server/issues/34) | [PR #105](https://github.com/kubeflow/mcp-server/pull/105)
 
 ---
 
-### 4. Hub (Model Registry) Client
+### 4. Trainer Improvements, Core Upgrades & Observability
 
-The fourth addition is the **Hub (Model Registry) Client**.
+Alongside the three new clients, v0.2 upgrades the Trainer client and core server platform:
 
-The Model Registry enables users to register, discover, and manage machine learning models and their versions. Through the new Hub integration, AI agents can perform model management operations using MCP tools.
-
-The Hub client introduces seven tools:
-
-| Phase | Tool | Description |
-|---|---|---|
-| Discovery | `list_models` | List registered models |
-| Discovery | `get_model` | Retrieve model details |
-| Discovery | `list_model_versions` | List versions of a model |
-| Discovery | `get_model_version` | Retrieve model version details |
-| Discovery | `get_model_artifact` | Retrieve model artifact details |
-| Create | `register_model` | Register a new model |
-| Lifecycle | `update_model` | Update model metadata |
-
-These capabilities provide a conversational interface for model management.
-
-**Example interaction:**
-
-```text
-User:
-"Register my newly trained model in the Model Registry."
-
-Agent:
-Calls register_model()
-
-MCP Server:
-Registers the model and returns its details.
-
-Agent:
-Confirms the registration to the user.
-
-User:
-"Show me the versions of this model."
-
-Agent:
-Calls list_model_versions()
-```
-
-The integration follows the same client-oriented approach as the other Kubeflow integrations.
-
-> **TODO:** Add Hub Client demo screenshot or GIF.
-
-> **TODO:** Add implementation issue and PR links.
+- **Trainer monitoring & previews:** GPU allocation vs. capacity reporting, per-step job status, pod scheduling blockers, `since_line` cursor log polling, job pagination with creation timestamps, and download-ranked Hugging Face model suggestions.
+- **Complete confirm-gate coverage:** `update_training_job` now enforces two-phase confirmation (`confirmed=False/True`), aligning every mutating tool on one safety model.
+- **FastMCP 4 & MCP SDK v2:** Supports both sessionless (`2026-07-28`) and session-based (`2025-11-25`) MCP protocols, with `isError: true` protocol error signaling.
+- **Kubeflow SDK 0.5.0:** Bumped SDK dependency to `kubeflow>=0.5.0,<0.6.0` (aligning with Kubeflow Trainer `>=2.3.0,<2.4.0`).
+- **Observability & deployment profiles:** Building on the OpenTelemetry tracing introduced in v0.1 (`--otel-endpoint`), v0.2 adds trace-ID log correlation plus ready-to-deploy [`examples/`](https://github.com/kubeflow/mcp-server/tree/main/examples) for Kubernetes, KAgent, Agentgateway, OTel Collector, and Grafana dashboards.
+- **Agent Skills catalog skeleton:** Added Claude Code and Codex marketplace manifests (`plugins/`) for independently released Kubeflow skill plugins.
+- **Automated safety & E2E gates:** Tier 1 rule-based safety judges for confirm gates/personas, MCP tool schema snapshots, and live Kubernetes E2E CI suites.
 
 ---
 
-### 5. Guided Tool Workflows
+### 5. Guided Tool Workflows & Token-Efficient Modes
 
-As the number of available tools grows, helping AI agents select the right tool becomes increasingly important.
+Every client organizes its tools into logical workflow phases and injects `_meta.phase` and `_meta.next` workflow hints (automatically withheld when blockers or preview gates are returned):
 
-The MCP Server organizes tools into logical workflow phases.
-
-For example, the Trainer client follows:
-
-1. **Planning:** Validate the environment and estimate resources.
-2. **Discovery:** Find existing training jobs and available runtimes.
-3. **Training:** Submit training and fine-tuning workloads.
-4. **Monitoring:** Retrieve logs, events, and workload status.
-5. **Lifecycle:** Manage existing training jobs.
-6. **Platform:** Inspect and manage platform resources.
-
-The Pipelines, Spark, Optimizer, and Hub clients follow similar phase-based organization.
-
-| Client | Workflow phases |
+| Client | Workflow Phases |
 |---|---|
-| Trainer | Planning, Discovery, Training, Monitoring, Lifecycle, Platform |
-| Pipelines | Discovery, Monitoring, Create, Lifecycle |
-| Spark | Discovery, Sessions, Monitoring |
-| Optimizer (Katib) | Discovery, Monitoring, Create, Results, Lifecycle |
-| Hub (Model Registry) | Discovery, Create, Lifecycle |
+| **Trainer** | Planning, Discovery, Training, Monitoring, Lifecycle, Platform *(+ server-level Health)* |
+| **Pipelines** | Discovery, Authoring, Monitoring, Runs, Lifecycle |
+| **Spark** | Discovery, Sessions, Monitoring |
+| **Optimizer (Katib)** | Planning, Discovery, Optimization, Monitoring, Lifecycle |
 
-This organization gives agents clearer guidance about which operations to perform and when.
+**Read first. Mutate later.** Planning, discovery, and monitoring tools establish cluster readiness and current state before any mutating operation is previewed or executed.
 
-**Read first. Mutate later.**
+When enabling multiple clients together, use **progressive** or **semantic** tool loading modes to keep token usage compact:
 
-Discovery and monitoring operations provide the starting point, while operations that change infrastructure are handled separately.
+| Mode | Tools Exposed Up Front | How It Works |
+|---|---:|---|
+| `full` *(default)* | Up to 59 | Registers every allowed tool directly |
+| `progressive` | 3 | Hierarchical discovery via `list_tools`, `describe_tools`, `execute_tool` |
+| `semantic` | 2 | Natural-language search via `find_tools` and `execute_tool` |
 
-> **TODO:** Add updated multi-client workflow diagram.
+Both dynamic modes preserve full argument validation, per-tool circuit breakers, and `_meta.next` workflow hints.
 
 ---
 
 ### 6. Safety-First Operations
 
-An MCP Server that can interact with machine learning infrastructure must provide clear boundaries around what an agent can do.
-
-The project follows a safety-focused design in which operations that modify resources require additional safeguards.
-
 #### Two-Phase Confirmation
 
-Mutating operations use a preview-and-confirm approach.
+Every mutating tool across Trainer, Pipelines, Spark, and Optimizer uses a preview-and-confirm pattern:
 
-The agent first requests a preview with `confirmed=False`. The server returns the proposed operation for review. The operation proceeds only after explicit confirmation.
+```text
+1. Agent calls mutating tool with confirmed=False (default)
+   → Server runs persona, input validation, namespace policy, and ownership checks
+   → Returns PreviewResponse describing exact changes (and any affected resources)
 
-```python
-# First: Preview the operation
-result = await tool(
-    confirmed=False
-)
+2. User reviews the preview and explicitly approves
 
-# Review the proposed operation.
-
-# Second: Execute after approval
-result = await tool(
-    confirmed=True
-)
+3. Agent calls the same tool with confirmed=True
+   → Server executes the operation, logs an audited entry, and returns the result
 ```
 
-Destructive operations, such as deleting resources, require particular care and are identified accordingly.
+All 8 destructive tools carry `destructiveHint: True`, a `[DESTRUCTIVE]` prefix, and can be denied together in `~/.kf-mcp-policy.yaml` via `risk:destructive`.
 
-> **TODO:** Add updated confirmation workflow diagram.
+#### Personas & Access Boundaries
 
-#### Security and Access Boundaries
+Four built-in personas filter tool visibility progressively (custom personas and `allow`/`deny` rules can also be defined in `~/.kf-mcp-policy.yaml`):
 
-The project also incorporates security-oriented mechanisms:
+| Persona | Tools *(all 4 clients)* | Scope |
+|---|---:|---|
+| `readonly` *(default)* | 34 | Planning, discovery, logs, events, and health checks only |
+| `data-scientist` | 45 | + training/HPO/pipeline runs, Spark sessions, deleting own MCP-managed jobs/experiments/sessions |
+| `ml-engineer` | 54 | + container training, job suspend/resume, pipeline authoring & stop/retry, HPO spec/update, CRD/controller inspection |
+| `platform-admin` | 59 | Full access, including runtime administration and deleting KFP pipelines/experiments |
 
-- Read-only as the default persona.
-- Namespace-based access policies.
-- Credential redaction in logs.
-- Input validation.
-- Correlation IDs for request tracking.
-- Explicit authorization for mutating operations.
+Additional safeguards built into v0.2:
 
-The goal is to ensure that AI agents can interact with infrastructure while keeping users in control.
+- **Fail-closed config & policy:** Malformed `~/.kf-mcp-policy.yaml` or `~/.kubeflow-mcp.yaml` files stop startup instead of silently dropping restrictions.
+- **Namespace & ownership guards:** Policy allowlists restrict target namespaces, and non-admin personas can only modify MCP-managed resources.
+- **Hardened HTTP auth:** Bearer tokens for dev/staging, strict JWT/JWKS verification (`issuer`, `audience`, `exp`) for production, plus DNS rebinding protection.
+- **Validation, redaction & resilience:** K8s input/AST validation, credential redaction in logs, correlation IDs, rate limiting, and per-tool circuit breakers.
 
-For additional details, see the project's [SECURITY.md](https://github.com/kubeflow/mcp-server/blob/main/SECURITY.md).
+For the full authorization model and threat analysis, see [`docs/design/mutation-safety.md`](https://github.com/kubeflow/mcp-server/blob/main/docs/design/mutation-safety.md) and [`SECURITY.md`](https://github.com/kubeflow/mcp-server/blob/main/SECURITY.md).
 
 ---
 
 ## What's Next?
 
-The v0.2 release expands the foundation, but the broader vision is to provide AI agents with access to more of the Kubeflow ecosystem.
+With Trainer, Pipelines, Spark, and Optimizer (Katib) available in v0.2, upcoming development focuses on broadening ecosystem coverage and enterprise readiness:
 
-With Trainer, Pipelines, Spark, Optimizer, and Hub clients available, upcoming development will focus on deepening these integrations and evolving the platform around them.
+- **Hub (Model Registry) Client ([Issue #181](https://github.com/kubeflow/mcp-server/issues/181)):** Completing the currently stubbed Model Registry module (7 planned tools for model registration, discovery, versions, and artifacts).
+- **Additional Ecosystem Clients:** Feast feature store integration and Spark batch (`SparkApplication`) lifecycle support.
+- **Expanded Observability:** Building on the existing OpenTelemetry tracing support with richer operational metrics, Prometheus dashboards, and end-to-end agent-session tracing.
+- **Agent Skills Plugins:** Populating the GitHub-hosted Agent Skills catalog with installable Kubeflow workflow skill packages and `skill://` resources.
+- **Multi-Provider Agent Runtime (Phase 3):** Pluggable LLM backends (`ollama`, `litellm`) behind a common `AgentProvider` protocol.
+- **Enterprise & In-Cluster Features (Phase 4):** Native OIDC/OAuth 2.1 discovery, per-caller Kubernetes RBAC (`SubjectAccessReview`), MCP Server Card (`/.well-known/mcp.json`), Agent-to-Agent (A2A) delegation endpoint (`/a2a`), and native MCP elicitation (`ctx.elicit()`).
 
-### Other Areas of Development
-
-Beyond client integrations, the project is also exploring:
-
-- Agent-to-Agent (A2A) support.
-- Agent Skills integration.
-- OpenTelemetry and Prometheus-based observability.
-- Improved runtime monitoring and operational metrics.
-
-These items are roadmap directions and should not be interpreted as completed v0.2 functionality.
-
-For the latest development status, see the [Kubeflow MCP Server ROADMAP](https://github.com/kubeflow/mcp-server/blob/main/ROADMAP.md).
+For the full phased plan, see the [Kubeflow MCP Server ROADMAP](https://github.com/kubeflow/mcp-server/blob/main/ROADMAP.md).
 
 ---
 
 ## Get Started
 
-The Kubeflow MCP Server is distributed as a Python package.
+### Compatibility & Prerequisites
+
+| Component | Requirement |
+|---|---|
+| **Python** | `3.10 – 3.12` *(Python 3.13 is not yet supported)* |
+| **Kubernetes** | `>= 1.27` with configured `kubeconfig` or in-cluster ServiceAccount |
+| **Kubeflow SDK** | `>= 0.5.0, < 0.6.0` *(bundled)* |
+| **Kubeflow Trainer** | `>= 2.3.0, < 2.4.0` *(for `trainer` client)* |
+| **Katib** | `v0.19` + namespace label `katib.kubeflow.org/metrics-collector-injection=enabled` *(for `optimizer` client)* |
+| **Kubeflow Pipelines / Spark** | Respective Kubeflow components installed on cluster *(for `pipelines` / `spark` clients)* |
+
+### Install
+
+The default install includes **Trainer** and **Optimizer (Katib)**. Install optional extras for **Pipelines** and **Spark**:
 
 ```bash
+# Base install (Trainer + Optimizer)
 pip install kubeflow-mcp
+
+# Optional client extras
+pip install "kubeflow-mcp[pipelines]"   # Kubeflow Pipelines (kfp)
+pip install "kubeflow-mcp[spark]"       # SparkConnect sessions
+pip install "kubeflow-mcp[all]"         # All client extras
 ```
 
-**Prerequisites:**
+### Start the Multi-Client Server
 
-- Python 3.10–3.12.
-- Kubernetes cluster.
-- The relevant Kubeflow components installed for the clients you intend to use.
-- Appropriate Kubernetes credentials and permissions.
+Enable the clients you need with `--clients` and choose a persona (`readonly` is the default; use `data-scientist` or higher to submit workloads):
 
-> **TODO:** Verify v0.2 installation requirements and supported SDK versions.
+```bash
+# Multi-client server (stdio transport)
+kubeflow-mcp serve \
+  --clients trainer,pipelines,spark,optimizer \
+  --persona data-scientist
 
-### Configure the MCP Server
-
-The MCP Server can be configured through its CLI.
-
-Previous releases support configuration options for client selection, persona, transport, authentication, and tool exposure modes.
-
-> **TODO:** Add verified v0.2 multi-client configuration command.
+# Optional: use progressive mode to expose 3 meta-tools instead of all 59 tools
+kubeflow-mcp serve \
+  --clients trainer,pipelines,spark,optimizer \
+  --persona data-scientist \
+  --mode progressive
+```
 
 ### Connect Your AI Agent
 
-The server is designed to work with MCP-compatible clients and AI agents.
+For example, configure **Cursor** in `.cursor/mcp.json`:
 
-Examples of integrations documented in the previous release include:
+```json
+{
+  "mcpServers": {
+    "kubeflow": {
+      "command": "kubeflow-mcp",
+      "args": [
+        "serve",
+        "--clients", "trainer,pipelines,spark,optimizer",
+        "--persona", "data-scientist"
+      ]
+    }
+  }
+}
+```
 
-- Cursor IDE
-- Claude Code
-- Custom MCP clients
+Or register directly with **Claude Code**:
 
-> **TODO:** Update connection examples for the v0.2 release and verify all supported configurations.
+```bash
+claude mcp add kubeflow -- kubeflow-mcp serve \
+  --clients trainer,pipelines,spark,optimizer \
+  --persona data-scientist
+```
 
-For installation and configuration details, refer to the [GitHub repository](https://github.com/kubeflow/mcp-server).
-
----
-
-## Breaking Changes and Upgrade Notes
-
-This section will document any changes that affect users upgrading from v0.1 to v0.2.
-
-> **TODO:** Verify the final release diff and document:
-
-1. Changes to CLI arguments and client configuration.
-2. Dependency and SDK version updates.
-3. Changes to tool names, arguments, and return structures.
-4. Changes to authentication, personas, and authorization.
-5. Migration steps for existing MCP client configurations.
-
-Until the final release scope is confirmed, this section remains provisional.
+For Docker/HTTP deployments, cluster verification, RBAC YAML, and troubleshooting, see the [Quickstart & Troubleshooting Guide](https://github.com/kubeflow/mcp-server/blob/main/docs/quickstart.md). See the full [v0.2.1 release notes](https://github.com/kubeflow/mcp-server/releases/tag/0.2.1) for the complete changelog.
 
 ---
 
 ## Contribute to Kubeflow MCP Server
 
-Kubeflow MCP Server is an open-source project under the Kubeflow ecosystem.
-
-The expansion of the MCP Server is driven by community contributions, collaboration, and feedback.
-
-Whether you are interested in building new client integrations, improving existing tools, testing workflows, or contributing documentation, there are opportunities to get involved.
+Kubeflow MCP Server is an open-source project under the Kubeflow ecosystem, driven by community contributions across client modules, safety tests, documentation, and agent skills.
 
 **Resources:**
 
 - [GitHub Repository](https://github.com/kubeflow/mcp-server)
-- [Documentation](https://github.com/kubeflow/mcp-server/blob/main/README.md)
+- [v0.2.1 Release Notes](https://github.com/kubeflow/mcp-server/releases/tag/0.2.1)
+- [Quickstart & Troubleshooting Guide](https://github.com/kubeflow/mcp-server/blob/main/docs/quickstart.md)
+- [Architecture Overview](https://github.com/kubeflow/mcp-server/blob/main/ARCHITECTURE.md)
+- [Client Module Conventions](https://github.com/kubeflow/mcp-server/blob/main/docs/CONVENTIONS.md)
 - [Development Roadmap](https://github.com/kubeflow/mcp-server/blob/main/ROADMAP.md)
-- [Kubeflow Community](https://www.kubeflow.org/docs/about/community/)
 
-Join the `#kubeflow-ml-experience` channel on [CNCF Slack](https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels) to connect with contributors and participate in discussions.
+**Connect with the Community:**
+
+- Join [#kubeflow-mcp-server](https://app.slack.com/client/T08PSQ7BQ/C0BSRBPNDHP) and [#kubeflow-wg-agents](https://app.slack.com/client/T08PSQ7BQ/C0BQQRSPK6Z) on [CNCF Slack](https://www.kubeflow.org/docs/about/community/#kubeflow-slack-channels).
+- Follow the [Kubeflow WG Agents Meeting Notes](https://bit.ly/kubeflow-mcp-wg-notes).
 
 We welcome feedback, ideas, and contributions from the community.
 
@@ -465,13 +389,16 @@ We welcome feedback, ideas, and contributions from the community.
 ## References
 
 1. [Kubeflow MCP Server GitHub Repository](https://github.com/kubeflow/mcp-server)
-2. [Kubeflow MCP Server v0.2 Release Tracker – Issue #342](https://github.com/kubeflow/mcp-server/issues/342)
-3. [Kubeflow Pipelines Client – PR #468](https://github.com/kubeflow/mcp-server/pull/468)
-4. [Kubeflow Spark Integration – Issue #51](https://github.com/kubeflow/mcp-server/issues/51)
-5. [Model Context Protocol Documentation](https://modelcontextprotocol.io/)
-6. [Kubeflow Documentation](https://www.kubeflow.org/docs/)
-7. [Previous Announcement: Introducing Kubeflow MCP](https://blog.kubeflow.org/introducing-kubeflow-mcp/)
+2. [Kubeflow MCP Server v0.2.1 Release](https://github.com/kubeflow/mcp-server/releases/tag/0.2.1)
+3. [Kubeflow MCP Server v0.2 Release Tracker – Issue #342](https://github.com/kubeflow/mcp-server/issues/342)
+4. [Kubeflow Pipelines Client – Issue #182](https://github.com/kubeflow/mcp-server/issues/182), [PR #468](https://github.com/kubeflow/mcp-server/pull/468), and [PR #561](https://github.com/kubeflow/mcp-server/pull/561)
+5. [Kubeflow Spark Integration – Issue #5](https://github.com/kubeflow/mcp-server/issues/5) and [PR #51](https://github.com/kubeflow/mcp-server/pull/51)
+6. [Kubeflow Optimizer (Katib) Client – Issue #34](https://github.com/kubeflow/mcp-server/issues/34) and [PR #105](https://github.com/kubeflow/mcp-server/pull/105)
+7. [Mutation Authorization and Safety Model](https://github.com/kubeflow/mcp-server/blob/main/docs/design/mutation-safety.md)
+8. [Model Context Protocol Documentation](https://modelcontextprotocol.io/)
+9. [Kubeflow Documentation](https://www.kubeflow.org/docs/)
+10. [Previous Announcement: Introducing Kubeflow MCP](https://blog.kubeflow.org/introducing-kubeflow-mcp/)
 
 ---
 
-*The Kubeflow MCP Server is an Apache 2.0 open-source project under the Kubeflow umbrella, a CNCF Graduated project.*
+*The Kubeflow MCP Server is an Apache 2.0 open-source project under the [Kubeflow](https://www.kubeflow.org/) umbrella, a CNCF Graduated project.*

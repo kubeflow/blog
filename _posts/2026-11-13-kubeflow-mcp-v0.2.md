@@ -53,7 +53,7 @@ The v0.2 architecture centers on a single MCP Server process (`kubeflow-mcp serv
 
 ### Kubeflow Pipelines Client (14 Tools)
 
-The **Kubeflow Pipelines Client** wraps `kubeflow.pipelines.PipelinesClient` (Kubeflow SDK `>=0.5.0`, backed by `kfp` via `kubeflow-mcp[pipelines]`). Beyond discovering and running existing pipelines, v0.2 includes **pipeline authoring** and **experiment management** so agents can go from prompt to registered pipeline to tracked run.
+The **Kubeflow Pipelines Client** wraps `kubeflow.pipelines.PipelinesClient` (`kubeflow-mcp[pipelines]`). Beyond discovering and running existing pipelines, v0.2 includes **pipeline authoring** and **experiment management** so agents can go from prompt to registered pipeline to tracked run.
 
 | Phase | Tools | What they do |
 |---|---|---|

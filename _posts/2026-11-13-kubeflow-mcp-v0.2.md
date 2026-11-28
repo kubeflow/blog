@@ -284,16 +284,14 @@ For the full authorization model and threat analysis, see [`docs/design/mutation
 
 ## What's Next?
 
-With Trainer, Pipelines, Spark, and Optimizer (Katib) available in v0.2, upcoming development focuses on broadening ecosystem coverage and enterprise readiness:
+With four component clients available, the next opportunity is to make Kubeflow workflows easier to discover, reuse, and operate across AI assistants. Proposed directions include:
 
-- **Hub (Model Registry) Client ([Issue #181](https://github.com/kubeflow/mcp-server/issues/181)):** Completing the currently stubbed Model Registry module (7 planned tools for model registration, discovery, versions, and artifacts).
-- **Additional Ecosystem Clients:** Feast feature store integration and Spark batch (`SparkApplication`) lifecycle support.
-- **Expanded Observability:** Building on the existing OpenTelemetry tracing support with richer operational metrics, Prometheus dashboards, and end-to-end agent-session tracing.
-- **Agent Skills Plugins:** Populating the GitHub-hosted Agent Skills catalog with installable Kubeflow workflow skill packages and `skill://` resources.
-- **Multi-Provider Agent Runtime (Phase 3):** Pluggable LLM backends (`ollama`, `litellm`) behind a common `AgentProvider` protocol.
-- **Enterprise & In-Cluster Features (Phase 4):** Native OIDC/OAuth 2.1 discovery, per-caller Kubernetes RBAC (`SubjectAccessReview`), MCP Server Card (`/.well-known/mcp.json`), Agent-to-Agent (A2A) delegation endpoint (`/a2a`), and native MCP elicitation (`ctx.elicit()`).
+- **Alignment with open agent standards:** Follow relevant [AAIF initiatives](https://aaif.io/about) under the Linux Foundation and contribute Kubeflow use cases to the MCP community.
+- **Reusable workflow skills:** Build on the skills catalog foundation and explore the published [Skills over MCP extension](https://modelcontextprotocol.io/community/working-groups/skills-over-mcp), so compatible assistants can discover workflow guidance alongside tools.
+- **Broader workflow coverage:** Extend support toward model registration, feature management, and Spark batch workloads, guided by community demand.
+- **Stronger operational support:** Improve workload diagnostics, observability, and authorization for shared deployments.
 
-For the full phased plan, see the [Kubeflow MCP Server ROADMAP](https://github.com/kubeflow/mcp-server/blob/main/ROADMAP.md).
+These are areas for community discussion rather than commitments for the next release. Follow the [Kubeflow MCP Server ROADMAP](https://github.com/kubeflow/mcp-server/blob/main/ROADMAP.md) and the Kubeflow AI Agents Working Group to help shape priorities.
 
 ---
 
@@ -369,6 +367,19 @@ claude mcp add kubeflow -- kubeflow-mcp serve \
 ```
 
 For Docker/HTTP deployments, cluster verification, RBAC YAML, and troubleshooting, see the [Quickstart & Troubleshooting Guide](https://github.com/kubeflow/mcp-server/blob/main/docs/quickstart.md). See the full [v0.2.1 release notes](https://github.com/kubeflow/mcp-server/releases/tag/0.2.1) for the complete changelog.
+
+---
+
+### From Your Workstation to Your Cluster
+
+Start locally with an MCP-compatible assistant, or use the deployment examples to bring Kubeflow MCP into your cluster:
+
+- **Kubernetes:** Run the server as an HTTP service with a ServiceAccount and Trainer RBAC.
+- **kagent:** Register the server with kagent to discover and invoke Kubeflow tools through an agent interface.
+- **agentgateway:** Route MCP traffic through a shared gateway with network controls, rate limits, and timeouts.
+- **Observability:** Add OpenTelemetry collection and Grafana dashboards to inspect requests and operational signals.
+
+Follow the [integration examples](https://github.com/kubeflow/mcp-server/tree/0.2.1/examples) for prerequisites and configuration.
 
 ---
 

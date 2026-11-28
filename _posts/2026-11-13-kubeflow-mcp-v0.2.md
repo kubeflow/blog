@@ -19,7 +19,7 @@ With **v0.2**, the server expands from a Trainer-focused integration into a **mu
 - **Modern protocol core:** Upgraded to **FastMCP 4**, **MCP SDK v2**, and **Kubeflow SDK 0.5.0**.
 - **Hardened safety & ecosystem:** Strict JWT auth, fail-closed policies, deployment/observability profiles, and a GitHub-hosted **Agent Skills catalog** skeleton.
 
-![Kubeflow MCP v0.2: from manual workflows to conversational ML](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-v0.2-intro.png)
+![Kubeflow MCP v0.2: from manual workflows to conversational ML](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-v0.2-intro.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
 
 One MCP server, multiple Kubeflow clients, and a unified interface for AI agents. Let's walk through what's new and how to get started.
 
@@ -63,7 +63,7 @@ The **Kubeflow Pipelines Client** wraps `kubeflow.pipelines.PipelinesClient` (`k
 | **Runs** | `create_pipeline_run`, `create_experiment` | Start pipeline runs and create experiments |
 | **Lifecycle** | `stop_pipeline_run`, `retry_pipeline_run`, `delete_experiment`, `delete_pipeline` | Stop or retry runs, or delete experiments and pipelines |
 
-![Kubeflow MCP Pipelines workflow](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-pipelines-workflow.png)
+![Kubeflow MCP Pipelines workflow](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-pipelines-workflow.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
 
 - **Sandboxed authoring:** `create_pipeline` AST-validates KFP v2 Python code and compiles it in an isolated `python -I` subprocess before uploading.
 - **Role-based guards:** Since KFP does not support MCP ownership labels, authoring and stop/retry require `ml-engineer`, while deletes require `platform-admin`.
@@ -104,7 +104,7 @@ The **Spark Client** wraps `kubeflow.spark.SparkClient` (via `kubeflow-mcp[spark
 | **Sessions** | `create_spark_session`, `delete_spark_session` | Provision and tear down MCP-managed SparkConnect sessions |
 | **Monitoring** | `get_spark_session_logs` | Read bounded Spark driver-pod logs |
 
-![Kubeflow MCP Spark session workflow](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-spark-workflow.png)
+![Kubeflow MCP Spark session workflow](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-spark-workflow.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
 
 **Example interaction:**
 
@@ -135,7 +135,7 @@ The **Optimizer (Katib) Client** wraps `kubeflow.optimizer.OptimizerClient` (inc
 | **Monitoring** | `get_hpo_experiment_trials`, `get_best_trial`, `get_suggestion`, `wait_for_hpo_experiment`, `get_hpo_experiment_trial_logs`, `get_hpo_experiment_events` | Track trials, fetch optimal hyperparameters, and inspect trial logs and events |
 | **Lifecycle** | `update_hpo_experiment`, `delete_hpo_experiment` | Adjust trial budgets/parallelism or delete MCP-managed experiments |
 
-![Kubeflow MCP Katib optimization workflow](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-katib-workflow.png)
+![Kubeflow MCP Katib optimization workflow](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-katib-workflow.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
 
 - **Flexible HPO creation:** `create_hpo_experiment` supports 7 built-in search algorithms (`random`, `grid`, `tpe`, `cmaes`, `sobol`, Bayesian, multivariate TPE); use `create_hpo_experiment_from_spec` for Hyperband, early stopping, or NAS.
 - **Safe scaling:** Katib has no pause—lowering `parallel_trial_count` deletes active trials—so `update_hpo_experiment` is marked `[DESTRUCTIVE]`, restricted to `ml-engineer+`, and previews affected trials before confirmation.
@@ -168,17 +168,15 @@ User: "Tune learning rate and batch size for my training job using TPE."
 
 ---
 
-### Trainer & Core Platform Upgrades
+### Beyond New Clients: A Stronger Kubeflow MCP
 
-Alongside the three new clients, v0.2 upgrades the Trainer client and core server platform:
+Beyond the new integrations, v0.2 improves how agents interact with Kubeflow and how teams deploy and operate the server:
 
-- **Trainer monitoring & previews:** GPU allocation vs. capacity reporting, per-step job status, pod scheduling blockers, `since_line` cursor log polling, job pagination with creation timestamps, and download-ranked Hugging Face model suggestions.
-- **Complete confirm-gate coverage:** `update_training_job` now enforces two-phase confirmation (`confirmed=False/True`), aligning every mutating tool on one safety model.
-- **FastMCP 4 & MCP SDK v2:** Supports both sessionless (`2026-07-28`) and session-based (`2025-11-25`) MCP protocols, with `isError: true` protocol error signaling.
-- **Kubeflow SDK 0.5.0:** Bumped SDK dependency to `kubeflow>=0.5.0,<0.6.0` (aligning with Kubeflow Trainer `>=2.3.0,<2.4.0`).
-- **Observability & deployment profiles:** Building on the OpenTelemetry tracing introduced in v0.1 (`--otel-endpoint`), v0.2 adds trace-ID log correlation plus ready-to-deploy [`examples/`](https://github.com/kubeflow/mcp-server/tree/main/examples) for Kubernetes, KAgent, Agentgateway, OTel Collector, and Grafana dashboards.
-- **Agent Skills catalog skeleton:** Added Claude Code and Codex marketplace manifests (`plugins/`) for independently released Kubeflow skill plugins.
-- **Automated safety & E2E gates:** Tier 1 rule-based safety judges for confirm gates/personas, MCP tool schema snapshots, and live Kubernetes E2E CI suites.
+- **Consistent controls across clients:** Preview-and-confirm behavior covers mutating operations, while stricter JWT validation and fail-closed configuration help preserve access boundaries.
+- **Better workload visibility:** Trainer adds GPU allocation reporting, per-step status, scheduling diagnostics, and incremental log retrieval. Trace-ID correlation helps operators follow requests through server logs and traces.
+- **Updated protocol and SDK support:** FastMCP 4, MCP SDK v2, and Kubeflow SDK 0.5.0 update the server's integration foundation.
+- **More deployment options:** Kubernetes, kagent, and agentgateway examples provide starting points for cluster deployments, with optional OpenTelemetry collection and Grafana dashboards.
+- **A foundation for reusable skills:** The GitHub-hosted catalog establishes packaging for future Kubeflow workflow skills.
 
 ---
 
@@ -209,42 +207,18 @@ Both dynamic modes preserve full argument validation, per-tool circuit breakers,
 
 ### Safety & Access Control
 
-**Two-Phase Confirmation**
+Every mutating tool follows a **two-phase confirmation** flow (`confirmed=False` returns a preview after validation, namespace, and ownership checks; `confirmed=True` executes). Destructive operations carry `destructiveHint: True` and can be blocked together via `risk:destructive` in `~/.kf-mcp-policy.yaml`.
 
-Every mutating tool across Trainer, Pipelines, Spark, and Optimizer uses a preview-and-confirm pattern:
-
-```text
-1. Agent calls mutating tool with confirmed=False (default)
-   → Server runs persona, input validation, namespace policy, and ownership checks
-   → Returns PreviewResponse describing exact changes (and any affected resources)
-
-2. User reviews the preview and explicitly approves
-
-3. Agent calls the same tool with confirmed=True
-   → Server executes the operation, logs an audited entry, and returns the result
-```
-
-All 8 destructive tools carry `destructiveHint: True`, a `[DESTRUCTIVE]` prefix, and can be denied together in `~/.kf-mcp-policy.yaml` via `risk:destructive`.
-
-**Personas & Access Boundaries**
-
-Four built-in personas filter tool visibility progressively (custom personas and `allow`/`deny` rules can also be defined in `~/.kf-mcp-policy.yaml`):
+Four built-in personas progressively scope tool access (custom personas and namespace allowlists are supported via policy files):
 
 | Persona | Tools *(all 4 clients)* | Scope |
 |---|---:|---|
-| `readonly` *(default)* | 34 | Planning, discovery, logs, events, and health checks only |
-| `data-scientist` | 45 | + training/HPO/pipeline runs, Spark sessions, deleting own MCP-managed jobs/experiments/sessions |
-| `ml-engineer` | 54 | + container training, job suspend/resume, pipeline authoring & stop/retry, HPO spec/update, CRD/controller inspection |
-| `platform-admin` | 59 | Full access, including runtime administration and deleting KFP pipelines/experiments |
+| `readonly` *(default)* | 34 | Planning, discovery, logs, events, and health checks |
+| `data-scientist` | 45 | + submitting runs/sessions and deleting own MCP-managed resources |
+| `ml-engineer` | 54 | + container training, suspend/resume, pipeline authoring, HPO spec/update, CRD inspection |
+| `platform-admin` | 59 | Full access, including runtime and pipeline/experiment administration |
 
-Additional safeguards built into v0.2:
-
-- **Fail-closed config & policy:** Malformed `~/.kf-mcp-policy.yaml` or `~/.kubeflow-mcp.yaml` files stop startup instead of silently dropping restrictions.
-- **Namespace & ownership guards:** Policy allowlists restrict target namespaces, and non-admin personas can only modify MCP-managed resources.
-- **Hardened HTTP auth:** Bearer tokens for dev/staging, strict JWT/JWKS verification (`issuer`, `audience`, `exp`) for production, plus DNS rebinding protection.
-- **Validation, redaction & resilience:** K8s input/AST validation, credential redaction in logs, correlation IDs, rate limiting, and per-tool circuit breakers.
-
-For the full authorization model and threat analysis, see [`docs/design/mutation-safety.md`](https://github.com/kubeflow/mcp-server/blob/main/docs/design/mutation-safety.md) and [`SECURITY.md`](https://github.com/kubeflow/mcp-server/blob/main/SECURITY.md).
+Built-in safeguards include fail-closed policy/config loading, strict Bearer/JWT HTTP auth, DNS rebinding protection, input/AST validation, log redaction, rate limits, and per-tool circuit breakers. See [`docs/design/mutation-safety.md`](https://github.com/kubeflow/mcp-server/blob/main/docs/design/mutation-safety.md) and [`SECURITY.md`](https://github.com/kubeflow/mcp-server/blob/main/SECURITY.md) for details.
 
 ---
 

@@ -20,7 +20,7 @@ With **v0.2**, the server expands from a Trainer-focused integration into a **mu
 - **Cluster deployment examples:** Ready-to-use manifests for Kubernetes, kagent, and agentgateway with optional observability—see [From Your Workstation to Your Cluster](#from-your-workstation-to-your-cluster).
 - **Hardened safety & skills foundation:** Strict JWT auth, fail-closed policies, and a GitHub-hosted **Agent Skills catalog** skeleton.
 
-![Kubeflow MCP v0.2: from manual workflows to conversational ML](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-v0.2-intro.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
+![Kubeflow MCP v0.2: from manual workflows to conversational ML](/images/2026-11-27-kubeflow-mcp-v0.2/mcp-v0.2-intro.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
 
 One MCP server, multiple Kubeflow clients, and a unified interface for AI agents. Let's walk through what's new and how to get started.
 
@@ -56,7 +56,7 @@ The v0.2 architecture centers on a single MCP Server process (`kubeflow-mcp serv
 
 The **Kubeflow Pipelines Client** wraps `kubeflow.pipelines.PipelinesClient` (`kubeflow-mcp[pipelines]`). Beyond discovering and running existing pipelines, v0.2 includes **pipeline authoring** and **experiment management** across 14 tools spanning discovery, authoring, runs, monitoring, and lifecycle (see the [available tools documentation](https://github.com/kubeflow/mcp-server/blob/0.2.1/README.md#available-tools) for the full list).
 
-![Kubeflow MCP Pipelines workflow](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-pipelines-workflow.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
+![Kubeflow MCP Pipelines workflow](/images/2026-11-27-kubeflow-mcp-v0.2/mcp-pipelines-workflow.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
 
 - **Sandboxed authoring:** `create_pipeline` AST-validates KFP v2 Python code and compiles it in an isolated `python -I` subprocess before uploading.
 - **Role-based guards:** Since KFP does not support MCP ownership labels, authoring and stop/retry require `ml-engineer`, while deletes require `platform-admin`.
@@ -91,7 +91,7 @@ User: "List our pipelines and start a run of the customer-churn pipeline."
 
 The **Spark Client** wraps `kubeflow.spark.SparkClient` (via `kubeflow-mcp[spark]`) to manage **SparkConnect** sessions on Kubernetes across 5 tools covering discovery, session lifecycle, and driver logs—returning connection info so PySpark attaches directly without proxying Spark RPCs (see the [available tools documentation](https://github.com/kubeflow/mcp-server/blob/0.2.1/README.md#available-tools)).
 
-![Kubeflow MCP Spark session workflow](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-spark-workflow.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
+![Kubeflow MCP Spark session workflow](/images/2026-11-27-kubeflow-mcp-v0.2/mcp-spark-workflow.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
 
 **Example interaction:**
 
@@ -114,7 +114,7 @@ User: "Show me the currently available Spark sessions and check the logs for spa
 
 The **Optimizer (Katib) Client** wraps `kubeflow.optimizer.OptimizerClient` (included in the base `kubeflow-mcp` install) to bring end-to-end hyperparameter optimization (HPO) workflows to AI agents across 17 tools covering pre-flight checks, discovery, experiment creation, trial monitoring, and lifecycle (see the [available tools documentation](https://github.com/kubeflow/mcp-server/blob/0.2.1/README.md#available-tools)).
 
-![Kubeflow MCP Katib optimization workflow](/images/2026-11-13-kubeflow-mcp-v0.2/mcp-katib-workflow.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
+![Kubeflow MCP Katib optimization workflow](/images/2026-11-27-kubeflow-mcp-v0.2/mcp-katib-workflow.png){: style="border: 1.5px solid #334155; border-radius: 8px;" }
 
 - **Flexible HPO creation:** `create_hpo_experiment` supports 7 built-in search algorithms (`random`, `grid`, `tpe`, `cmaes`, `sobol`, Bayesian, multivariate TPE); use `create_hpo_experiment_from_spec` for Hyperband, early stopping, or NAS.
 - **Safe scaling:** Katib has no pause—lowering `parallel_trial_count` deletes active trials—so `update_hpo_experiment` is marked `[DESTRUCTIVE]`, restricted to `ml-engineer+`, and previews affected trials before confirmation.
